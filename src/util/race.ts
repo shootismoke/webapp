@@ -7,6 +7,8 @@ import {
 import { aqicn, openaq } from '@shootismoke/dataproviders/lib/promise';
 import promiseAny, { AggregateError } from 'p-any';
 
+export type Frequency = 'daily' | 'weekly' | 'monthly';
+
 /**
  * Api is basically the normalized data from '@shootismoke/dataproviders',
  * where we make sure to add cigarette conversion

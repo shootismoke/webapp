@@ -18,7 +18,7 @@ import { LatLng } from '@shootismoke/dataproviders';
 import React, { useEffect, useState } from 'react';
 
 import { Api, raceApiPromise } from '../util/race';
-import { Cigarettes } from '../components';
+import { CigaretteBlock } from '../components';
 
 interface City {
 	gps: LatLng;
@@ -47,7 +47,12 @@ export default function City({ pageContext }: CityProps): React.ReactElement {
 	return (
 		<div>
 			Name: {city.name}
-			{api && <Cigarettes cigarettes={api.shootismoke.dailyCigarettes} />}
+			{api && (
+				<CigaretteBlock
+					cigarettes={api.shootismoke.dailyCigarettes}
+					t={(a) => a}
+				/>
+			)}
 		</div>
 	);
 }

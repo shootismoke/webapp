@@ -21,11 +21,11 @@
 		"gatsby-plugin-postcss": "^2.3.2",
 		"gatsby-plugin-react-native-web": "^3.1.0",
 		"gatsby-plugin-typescript": "^2.4.3",
+		"lottie-react-native": "^3.4.0",
 		"p-any": "^3.0.0",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
-		"react-native-size-matters": "^0.3.0",
 		"react-native-web": "^0.12.2",
 		"tailwindcss": "^1.4.6"
 	},

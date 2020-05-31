@@ -17,25 +17,28 @@
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ViewProps } from 'react-native';
-import { scale } from 'react-native-size-matters';
 
-import { t } from '../../localization';
-import { Frequency } from '../../stores';
+import { Frequency } from '../../util/race';
 import * as theme from '../../util/theme';
-import { Cigarettes, CIGARETTES_HEIGHT } from '../Cigarettes';
+import { Cigarettes } from '../Cigarettes';
 import loadingAnimation from './animation.json';
-import swearWords from './swearWords';
+import { swearWords } from './swearWords';
+
+export type Translate = (
+	keyword: string,
+	replace?: Record<string, string>
+) => string;
 
 interface CigaretteBlockProps extends ViewProps {
 	cigarettes: number;
 	frequency?: Frequency;
 	loading?: boolean;
+	t: Translate;
 }
 
 const styles = StyleSheet.create({
 	animationContainer: {
 		display: 'flex',
-		height: scale(CIGARETTES_HEIGHT),
 		justifyContent: 'flex-end',
 	},
 	cigarettesCount: {
@@ -45,16 +48,16 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.backgroundColor,
 	},
 	shit: {
-		...theme.shitText,
-		marginTop: theme.spacing.normal,
+		// ...theme.shitText,
+		// marginTop: theme.spacing.normal,
 	},
 });
 
-function getSwearWord(cigaretteCount: number): string {
+function getSwearWord(cigaretteCount: number, t: Translate): string {
 	if (cigaretteCount <= 1) return t('home_cigarettes_oh');
 
 	// Return a random swear word
-	return swearWords[Math.floor(Math.random() * swearWords.length)];
+	return swearWords(t)[Math.floor(Math.random() * swearWords.length)];
 }
 
 function renderAnimation(): React.ReactElement {
@@ -71,13 +74,13 @@ function renderAnimation(): React.ReactElement {
 }
 
 export function CigaretteBlock(props: CigaretteBlockProps): React.ReactElement {
-	const { cigarettes, frequency, loading, style, ...rest } = props;
+	const { cigarettes, frequency, loading, style, t, ...rest } = props;
 
 	// Decide on a swear word. The effect says that the swear word only changes
 	// when the cigarettes count changes.
-	const [swearWord, setSwearWord] = useState(getSwearWord(cigarettes));
+	const [swearWord, setSwearWord] = useState(getSwearWord(cigarettes, t));
 	useEffect(() => {
-		setSwearWord(getSwearWord(cigarettes));
+		setSwearWord(getSwearWord(cigarettes, t));
 	}, [cigarettes]);
 
 	const renderCigarettesText = (): React.ReactElement => {
@@ -93,31 +96,25 @@ export function CigaretteBlock(props: CigaretteBlockProps): React.ReactElement {
 		// Round to 1 decimal
 		const cigarettesRounded = Math.round(cigarettes * 10) / 10;
 
-		const text = t('home_cigarettes_smoked_cigarette_title', {
-			swearWord,
-			presentPast: t('home_cigarettes_you_smoke'),
-			singularPlural:
-				cigarettesRounded === 1
-					? t('home_cigarettes_cigarette').toLowerCase()
-					: t('home_cigarettes_cigarettes').toLowerCase(),
-			cigarettes: cigarettesRounded,
-		});
-
-		const [firstPartText, secondPartText] = text.split('<');
-
 		return (
 			<Text style={styles.shit}>
-				{firstPartText}
+				{t('home_cigarettes_smoked_pastPresent')}
 				<Text style={styles.cigarettesCount}>
-					{secondPartText.split('>')[0]}
+					{t('home_cigarettes_count', {
+						cigarettes: `${cigarettesRounded}`,
+						singularPlural:
+							cigarettesRounded === 1
+								? t('home_cigarettes_cigarette').toLowerCase()
+								: t('home_cigarettes_cigarettes').toLowerCase(),
+					})}
 				</Text>
-				{secondPartText.split('>')[1]} {frequency}
+				{frequency}
 			</Text>
 		);
 	};
 
 	return (
-		<View style={[theme.withPadding, style]} {...rest}>
+		<View style={style} {...rest}>
 			{loading ? (
 				renderAnimation()
 			) : (
