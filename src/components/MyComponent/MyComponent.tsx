@@ -1,5 +1,5 @@
 // Sh**t! I Smoke
-// Copyright (C) 2018-2019  Marcelo S. Coelho, Amaury Martiny
+// Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
 // Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,19 +17,19 @@
 import * as React from 'react';
 
 export interface MyComponentProps {
-  title: string;
+	title: string;
 }
 
 export function MyComponent({ title }: MyComponentProps): React.ReactElement {
-  return (
-    <button
-      className="
+	return (
+		<button
+			className="
         font-bold text-white
         p-3
         bg-gray-800 hover:opacity-75
       "
-    >
-      {title}
-    </button>
-  );
+		>
+			{title}
+		</button>
+	);
 }

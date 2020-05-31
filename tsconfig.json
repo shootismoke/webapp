@@ -1,6 +1,7 @@
 {
-  "compilerOptions": {
-    "jsx": "react",
-    "strict": true
-  }
+	"compilerOptions": {
+		"jsx": "react",
+		"skipLibCheck": true
+	},
+	"extends": "./node_modules/@amaurymartiny/tsconfig/tsconfig"
 }
