@@ -14,15 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-
-import { MyComponent } from '../components';
+import { Link } from 'gatsby';
+import React from 'react';
 
 export default function Index(): React.ReactElement {
 	return (
 		<>
-			<h1>Hello</h1>
-			<MyComponent title="World" />
+			<h1>Hello2</h1>
+			<Link to="/cities/paris">Paris</Link>
 		</>
 	);
 }
