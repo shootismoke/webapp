@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Platform, ViewStyle } from 'react-native';
-
 export type ShadowPosition = 'top' | 'bottom';
 
 export const backgroundColor = '#FAFAFC';
@@ -25,7 +23,3 @@ export const gotham = 'gotham-book';
 export const primaryColor = '#F8A65D';
 export const textColor = '#44464A';
 export const secondaryTextColor = '#8B909A';
-
-
-
-

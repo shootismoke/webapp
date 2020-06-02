@@ -17,8 +17,8 @@
 import { LatLng } from '@shootismoke/dataproviders';
 import React, { useEffect, useState } from 'react';
 
-import { Api, raceApiPromise } from '../util/race';
 import { CigaretteBlock } from '../components';
+import { Api, raceApiPromise } from '../util/race';
 
 interface City {
 	gps: LatLng;
@@ -42,7 +42,7 @@ export default function City({ pageContext }: CityProps): React.ReactElement {
 		})
 			.then(setApi)
 			.catch(console.error);
-	}, []);
+	}, [city.gps]);
 
 	return (
 		<div>

@@ -16,3 +16,6 @@
 
 export * from './Cigarettes';
 export * from './CigarettesBlock';
+export * from './Featured';
+export * from './Footer';
+export * from './Nav';

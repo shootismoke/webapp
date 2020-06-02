@@ -14,19 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export type Translate = (
-	keyword: string,
-	replace?: Record<string, string>
-) => string;
+import React from 'react';
 
-export function swearWords(t: Translate): string[] {
-	return [
-		t('home_swear_word_shoot'),
-		t('home_swear_word_dang'),
-		t('home_swear_word_darn'),
-		t('home_swear_word_geez'),
-		t('home_swear_word_omg'),
-		t('home_swear_word_crap'),
-		t('home_swear_word_arrgh'),
-	];
+export function Footer(): React.ReactElement {
+	return (
+		<footer>Proudly created by Marcelo S. Coelho and Amaury Martiny</footer>
+	);
 }

@@ -17,11 +17,16 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
+import { Footer, Nav, Featured } from '../components';
+
 export default function Index(): React.ReactElement {
 	return (
 		<>
+			<Nav />
 			<h1>Hello2</h1>
 			<Link to="/cities/paris">Paris</Link>
+			<Featured />
+			<Footer />
 		</>
 	);
 }

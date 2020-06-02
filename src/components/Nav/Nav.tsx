@@ -14,19 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export type Translate = (
-	keyword: string,
-	replace?: Record<string, string>
-) => string;
+import { Link } from 'gatsby';
+import React from 'react';
 
-export function swearWords(t: Translate): string[] {
-	return [
-		t('home_swear_word_shoot'),
-		t('home_swear_word_dang'),
-		t('home_swear_word_darn'),
-		t('home_swear_word_geez'),
-		t('home_swear_word_omg'),
-		t('home_swear_word_crap'),
-		t('home_swear_word_arrgh'),
-	];
+import logo from '../../../assets/logos/transparent/transparent.png';
+
+export function Nav(): React.ReactElement {
+	return (
+		<header>
+			<nav className="flex justify-between items-center">
+				<Link className="flex items-center" to="/">
+					<img alt="logo" className="w-12" src={logo} />
+					<h1>Sh**t! I Smoke</h1>
+				</Link>
+				<div className="flex">
+					<p className="ml-4">Mobile</p>
+					<p className="ml-4">Share</p>
+					<p className="ml-4">F.A.Q.</p>
+				</div>
+			</nav>
+		</header>
+	);
 }

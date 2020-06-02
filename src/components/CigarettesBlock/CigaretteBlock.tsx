@@ -81,7 +81,7 @@ export function CigaretteBlock(props: CigaretteBlockProps): React.ReactElement {
 	const [swearWord, setSwearWord] = useState(getSwearWord(cigarettes, t));
 	useEffect(() => {
 		setSwearWord(getSwearWord(cigarettes, t));
-	}, [cigarettes]);
+	}, [cigarettes, t]);
 
 	const renderCigarettesText = (): React.ReactElement => {
 		if (loading) {
