@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export * from './Button';
-export * from './Cigarettes';
-export * from './CigarettesBlock';
 export * from './Featured';
 export * from './Footer';
 export * from './Nav';

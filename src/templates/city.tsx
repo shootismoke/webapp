@@ -15,10 +15,10 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { LatLng } from '@shootismoke/dataproviders';
+import { Api, CigaretteBlock, raceApiPromise } from '@shootismoke/ui';
 import React, { useEffect, useState } from 'react';
 
-import { CigaretteBlock } from '../components';
-import { Api, raceApiPromise } from '../util/race';
+import { Nav } from '../components';
 
 interface City {
 	gps: LatLng;
@@ -45,14 +45,15 @@ export default function City({ pageContext }: CityProps): React.ReactElement {
 	}, [city.gps]);
 
 	return (
-		<div>
+		<>
+			<Nav />
 			Name: {city.name}
 			{api && (
 				<CigaretteBlock
 					cigarettes={api.shootismoke.dailyCigarettes}
-					t={(a) => a}
+					t={(a): string => a}
 				/>
 			)}
-		</div>
+		</>
 	);
 }

@@ -1232,16 +1232,16 @@
     "@babel/preset-env" "^7.4.4"
     "@babel/preset-typescript" "^7.3.3"
 
-"@expo/config@3.2.8":
-  version "3.2.8"
-  resolved "https://registry.yarnpkg.com/@expo/config/-/config-3.2.8.tgz#2ee9bd1eec2ce4c44f423919818fc74b84fcacf3"
-  integrity sha512-ioFQBUQckX6M8Xm9f45XlvOfxpFd0Xxws7JwBEhGrML98ykXza9yitRcrhvQfyIs4RU2eSW+6g+xKhAVz/jZ1A==
+"@expo/config@3.2.9":
+  version "3.2.9"
+  resolved "https://registry.yarnpkg.com/@expo/config/-/config-3.2.9.tgz#c85c9a6e3fb03516438a6fdfd66931213161fa3e"
+  integrity sha512-9prMxwOjlGJMhF8T2RpJA+YNmZGbvgZ/2XWmOdCrfebgrQxYhfw+bE4Vxt5bXuv3WqeaSF0gM8MgO9JY8sy47g==
   dependencies:
     "@babel/register" "^7.8.3"
     "@expo/babel-preset-cli" "0.2.16"
-    "@expo/json-file" "8.2.20"
+    "@expo/json-file" "8.2.21"
     "@expo/plist" "0.0.8"
-    fs-extra "^7.0.1"
+    fs-extra "9.0.0"
     glob "7.1.6"
     globby "^11.0.0"
     invariant "^2.2.4"
@@ -1251,13 +1251,13 @@
     xcode "^2.1.0"
     xml2js "^0.4.23"
 
-"@expo/image-utils@0.2.28":
-  version "0.2.28"
-  resolved "https://registry.yarnpkg.com/@expo/image-utils/-/image-utils-0.2.28.tgz#9a78489635cdc4a70e885bde255e37aa0d3b8459"
-  integrity sha512-cP+NQiRGhuEBz8TS8p5Z6kO1H9GovtFaSyOVnYO6PnpPdKHnsZR+ncTjRa5Bl2Vdla+6tCPakpuzs+zxGyShOA==
+"@expo/image-utils@0.2.29":
+  version "0.2.29"
+  resolved "https://registry.yarnpkg.com/@expo/image-utils/-/image-utils-0.2.29.tgz#7794932e025050578dd76c3fd366916be3ae2f01"
+  integrity sha512-MwfdAdSwyoMkGagchafPnesTbkMXvHEFhIfw1MbTqxkbv6jKAfFSFRRRenYDMc3ZeG5xWTFJVMsa1dT5vzbS/w==
   dependencies:
     "@expo/spawn-async" "1.5.0"
-    fs-extra "^9.0.0"
+    fs-extra "9.0.0"
     jimp "^0.9.6"
     mime "^2.4.4"
     node-fetch "^2.6.0"
@@ -1266,13 +1266,13 @@
     semver "6.1.1"
     tempy "0.3.0"
 
-"@expo/json-file@8.2.20":
-  version "8.2.20"
-  resolved "https://registry.yarnpkg.com/@expo/json-file/-/json-file-8.2.20.tgz#1eb69a606d4a0d601721221b1323df91ca55cbd2"
-  integrity sha512-UOfMgA0Rj8Sa1siRCwsrYheSQhVPaAgs4sJrLvsreHR1EYe3d0tNSyvQvNmyMAoCG6OdSUpq2ytmb/wcExEjhA==
+"@expo/json-file@8.2.21":
+  version "8.2.21"
+  resolved "https://registry.yarnpkg.com/@expo/json-file/-/json-file-8.2.21.tgz#b2e702d43262a03bea56ccfe60bdd6ee4d35bf6a"
+  integrity sha512-/WFk2s9Vjj4LObssu5lN7M4wW7MmRZL5+fG4SfhvPU0yE2nohwoyoKW0RJk0hfAmYdrzQmQ9gHhx+sSjnVuIng==
   dependencies:
     "@babel/code-frame" "^7.0.0-beta.44"
-    fs-extra "^8.0.1"
+    fs-extra "9.0.0"
     json5 "^1.0.1"
     lodash "^4.17.15"
     write-file-atomic "^2.3.0"
@@ -1301,19 +1301,19 @@
     lodash "^4.17.4"
 
 "@expo/webpack-config@>=0.11":
-  version "0.12.11"
-  resolved "https://registry.yarnpkg.com/@expo/webpack-config/-/webpack-config-0.12.11.tgz#b3170e6d77068906cfbf3e06ab89511f722f5a9b"
-  integrity sha512-P5vQyycxbnTSyyZsn9KkpzCdAbz936xFDMLK5gnFLGb/kjec/ONFqd52XcQYf4X5dcaNKBV5rpuXMfKq+IaVnA==
+  version "0.12.12"
+  resolved "https://registry.yarnpkg.com/@expo/webpack-config/-/webpack-config-0.12.12.tgz#29a8e739b8a2da56f19a32e004d39986f614d780"
+  integrity sha512-mBw9YAd9bFMUkHWx26IuhGc3ab8ftUUnDvvyOE38QKMNK/nO6LLhUYpQf4jw2IL3TmpQB7aoDUYoPclA5ifl3A==
   dependencies:
     "@babel/core" "7.9.0"
     "@babel/runtime" "7.9.0"
-    "@expo/config" "3.2.8"
+    "@expo/config" "3.2.9"
     babel-loader "8.1.0"
     chalk "^4.0.0"
     clean-webpack-plugin "^3.0.0"
     copy-webpack-plugin "5.0.0"
     css-loader "^2.1.1"
-    expo-pwa "0.0.19"
+    expo-pwa "0.0.20"
     file-loader "4.2.0"
     find-yarn-workspace-root "^1.2.1"
     getenv "^0.7.0"
@@ -2316,22 +2316,35 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
-"@shootismoke/convert@^0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.2.8.tgz#328eb9d32aff370020f1ba17c1badc340c102300"
-  integrity sha512-fa8PdUZOCbEjrRAgteXBIywMNMaXriFcaiy+2PTqBLZKBhi/EkHm4BsdTO1WyYEQwj61YgGzkMYRrlA+1yX4kw==
+"@shootismoke/convert@^0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.2.24.tgz#7b9f37d9316ebd2f3fe2ab9ac1bf6768bd0e149c"
+  integrity sha512-CwJukQz2oOA7pWf51GXauLdDZ9pUQzfKW/gCpskmWwNCtXC8g23l44wIa+DiOSW4m+6hAJMljzSKrX/j9v0USw==
 
-"@shootismoke/dataproviders@^0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.2.23.tgz#b563826c0093552bb517e8e21ff1d7627adb244d"
-  integrity sha512-0Gy4WVhLw/xPwrq43Nkksa2FwkXzFTohVx6umQYhf9feF/2vQhmji76jjHQ6dIl+8cMdHGvhkXo94EtcWKYCOQ==
+"@shootismoke/dataproviders@^0.2.25":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.2.24.tgz#4f99ab0d6a62dc1c2985e181207ae88f8e5d96df"
+  integrity sha512-6rT4I9kVyeY2mBqOm3aMQLAjpAlJDRWej0HH7tcl8QIJ1Z29b5PtGywXWMrp0EVKuhvrq5G7k3Ec0HSeQlXAQw==
   dependencies:
-    "@shootismoke/convert" "^0.2.8"
+    "@shootismoke/convert" "^0.2.24"
     axios "^0.19.0"
     date-fns "^2.8.1"
     date-fns-tz "^1.0.9"
     fp-ts "^2.1.1"
     io-ts "^2.0.1"
+
+"@shootismoke/ui@^0.2.25":
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.2.25.tgz#9c804d42b92faf0be8a9619b38f0d66be0363645"
+  integrity sha512-DJViW283lpRpt1Qpe/uKBJmSleGLxtisiY6W+lNG4zVIsAmxqCdCjcauZhxi6TnSOIuUOnUye4NVSJczRn5T4w==
+  dependencies:
+    "@expo/vector-icons" "^10.2.0"
+    "@shootismoke/dataproviders" "^0.2.25"
+    "@types/p-any" "^1.1.3"
+    expo-constants "^9.0.0"
+    lottie-react-native "^3.4.0"
+    p-any "^3.0.0"
+    react-native-web "^0.12.2"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -2857,7 +2870,17 @@
   resolved "https://registry.yarnpkg.com/@types/yoga-layout/-/yoga-layout-1.9.2.tgz#efaf9e991a7390dc081a0b679185979a83a9639a"
   integrity sha512-S9q47ByT2pPvD65IvrWp7qppVMpk9WGMbVq9wbWZOHg6tnXSD4vyhao6nOSBwwfDdV2p3Kx9evA9vI+XWTfDvw==
 
-"@typescript-eslint/eslint-plugin@^2.24.0", "@typescript-eslint/eslint-plugin@^2.28.0", "@typescript-eslint/eslint-plugin@^3.0.2":
+"@typescript-eslint/eslint-plugin@^2.24.0", "@typescript-eslint/eslint-plugin@^2.28.0":
+  version "2.34.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-2.34.0.tgz#6f8ce8a46c7dea4a6f1d171d2bb8fbae6dac2be9"
+  integrity sha512-4zY3Z88rEE99+CNvTbXSyovv2z9PNOVffTWD2W8QF5s2prBQtwN2zadqERcrHpcR7O/+KMI3fcTAmUUhK/iQcQ==
+  dependencies:
+    "@typescript-eslint/experimental-utils" "2.34.0"
+    functional-red-black-tree "^1.0.1"
+    regexpp "^3.0.0"
+    tsutils "^3.17.1"
+
+"@typescript-eslint/eslint-plugin@^3.0.2":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-3.1.0.tgz#4ac00ecca3bbea740c577f1843bc54fa69c3def2"
   integrity sha512-D52KwdgkjYc+fmTZKW7CZpH5ZBJREJKZXRrveMiRCmlzZ+Rw9wRVJ1JAmHQ9b/+Ehy1ZeaylofDB9wwXUt83wg==
@@ -2867,6 +2890,16 @@
     regexpp "^3.0.0"
     semver "^7.3.2"
     tsutils "^3.17.1"
+
+"@typescript-eslint/experimental-utils@2.34.0":
+  version "2.34.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-2.34.0.tgz#d3524b644cdb40eebceca67f8cf3e4cc9c8f980f"
+  integrity sha512-eS6FTkq+wuMJ+sgtuNTtcqavWXqsflWcfBnlYhg/nS4aZ1leewkXGbvBhaapn1q6qf4M71bsR1tez5JTRMuqwA==
+  dependencies:
+    "@types/json-schema" "^7.0.3"
+    "@typescript-eslint/typescript-estree" "2.34.0"
+    eslint-scope "^5.0.0"
+    eslint-utils "^2.0.0"
 
 "@typescript-eslint/experimental-utils@3.1.0":
   version "3.1.0"
@@ -2878,7 +2911,17 @@
     eslint-scope "^5.0.0"
     eslint-utils "^2.0.0"
 
-"@typescript-eslint/parser@^2.24.0", "@typescript-eslint/parser@^2.28.0", "@typescript-eslint/parser@^3.0.2":
+"@typescript-eslint/parser@^2.24.0", "@typescript-eslint/parser@^2.28.0":
+  version "2.34.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-2.34.0.tgz#50252630ca319685420e9a39ca05fe185a256bc8"
+  integrity sha512-03ilO0ucSD0EPTw2X4PntSIRFtDPWjrVq7C3/Z3VQHRC7+13YB55rcJI3Jt+YgeHbjUdJPcPa7b23rXCBokuyA==
+  dependencies:
+    "@types/eslint-visitor-keys" "^1.0.0"
+    "@typescript-eslint/experimental-utils" "2.34.0"
+    "@typescript-eslint/typescript-estree" "2.34.0"
+    eslint-visitor-keys "^1.1.0"
+
+"@typescript-eslint/parser@^3.0.2":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-3.1.0.tgz#9c02ba5d88ad2355672f39e6cd4176f172dd47f8"
   integrity sha512-NcDSJK8qTA2tPfyGiPes9HtVKLbksmuYjlgGAUs7Ld2K0swdWibnCq9IJx9kJN8JJdgUJSorFiGaPHBgH81F/Q==
@@ -2887,6 +2930,19 @@
     "@typescript-eslint/experimental-utils" "3.1.0"
     "@typescript-eslint/typescript-estree" "3.1.0"
     eslint-visitor-keys "^1.1.0"
+
+"@typescript-eslint/typescript-estree@2.34.0":
+  version "2.34.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.34.0.tgz#14aeb6353b39ef0732cc7f1b8285294937cf37d5"
+  integrity sha512-OMAr+nJWKdlVM9LOqCqh3pQQPwxHAN7Du8DR6dmwCrAmxtiXQnhHJ6tBNtf+cggqfo51SG/FCwnKhXCIM7hnVg==
+  dependencies:
+    debug "^4.1.1"
+    eslint-visitor-keys "^1.1.0"
+    glob "^7.1.6"
+    is-glob "^4.0.1"
+    lodash "^4.17.15"
+    semver "^7.3.2"
+    tsutils "^3.17.1"
 
 "@typescript-eslint/typescript-estree@3.1.0":
   version "3.1.0"
@@ -6816,7 +6872,7 @@ expo-asset@~8.1.5:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
-expo-constants@~9.0.0:
+expo-constants@^9.0.0, expo-constants@~9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.0.0.tgz#35c600079ee91d38fe4f56375caae6e90f122fdd"
   integrity sha512-1kqZMM8Ez5JT3sTEx8I69fP6NYFLOJjeM6Z63dD/m2NiwvzSADiO5+BhghnWNGN1L3bxbgOjXS6EHtS7CdSfxA==
@@ -6833,7 +6889,7 @@ expo-file-system@~8.1.0:
   dependencies:
     uuid "^3.4.0"
 
-expo-font@^8.1.1, expo-font@~8.1.0:
+expo-font@~8.1.0:
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-8.1.1.tgz#40de629d7332887bdafae4756741f6979fc0043e"
   integrity sha512-z6008K7YSA7wpJ1mNyG2eSYUhEoFVjdL2uAbwaHFpsqwxDS4tcdKHoWkanIUiEnsjtHK7Uk0ywKJ8MRzmCaklw==
@@ -6872,17 +6928,17 @@ expo-permissions@~8.1.0:
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-8.1.0.tgz#a7f2ee91ba76ce3a467e7b10adaa9ca5201b226f"
   integrity sha512-QBHD+1J9+sGFnhoEGzMRchPweeEE0OJ9ehG/0l1BMRBA7qsLS9vRC1FTJ55NwjI0Kr4RTha9r6ZX1kZHT09f/w==
 
-expo-pwa@0.0.19:
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/expo-pwa/-/expo-pwa-0.0.19.tgz#2090527e11f3e2d30abbde489208d4c3dc2689e8"
-  integrity sha512-D8UEjgsh/UIN7/dVNjzfprOXya9dYhhAfsUAemBSHBs94eDB2iFKeB4gaI5a/Vr0gR9ryXrD8J717J5IbD6Nqw==
+expo-pwa@0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/expo-pwa/-/expo-pwa-0.0.20.tgz#a42751547e2b2413669c5fdc5d6a7f37240f59fd"
+  integrity sha512-S4saiAcIKKdU2AkPpDBhrCJasK45MKV39ICaK6b1NW84HS8lce18RojLnEshFDL3WgY7Fb2GaKTZt1qzLEKauw==
   dependencies:
-    "@expo/config" "3.2.8"
-    "@expo/image-utils" "0.2.28"
-    "@expo/json-file" "8.2.20"
+    "@expo/config" "3.2.9"
+    "@expo/image-utils" "0.2.29"
+    "@expo/json-file" "8.2.21"
     chalk "^4.0.0"
     commander "2.20.0"
-    fs-extra "^9.0.0"
+    fs-extra "9.0.0"
     update-check "1.5.3"
 
 expo-sqlite@~8.1.0:
@@ -7554,7 +7610,7 @@ fs-extra@^7.0.0, fs-extra@^7.0.1:
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
-fs-extra@^8.0.0, fs-extra@^8.0.1, fs-extra@^8.1.0:
+fs-extra@^8.0.0, fs-extra@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
   integrity sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
@@ -7756,7 +7812,7 @@ gatsby-plugin-page-creator@^2.3.8:
     lodash "^4.17.15"
     micromatch "^3.1.10"
 
-gatsby-plugin-postcss@^2.3.2:
+gatsby-plugin-postcss@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-postcss/-/gatsby-plugin-postcss-2.3.3.tgz#af6d2b6761948b73998ab3c447a4886c6eb4d5eb"
   integrity sha512-WCmcQ4FYvGCTXsjICzv9YIaPaQ/zIT2RN6L+FJEhwS/I/uroivLDdMUPDI+HSyuIlo3P2V9f2N93Ay+tT8EqmA==
@@ -7782,7 +7838,7 @@ gatsby-plugin-react-native-web@^3.1.0:
     babel-plugin-remove-graphql-queries ">=2.8.1"
     babel-preset-expo "^8.1.0"
 
-gatsby-plugin-typescript@^2.4.3, gatsby-plugin-typescript@^2.4.4:
+gatsby-plugin-typescript@^2.4.4:
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-typescript/-/gatsby-plugin-typescript-2.4.4.tgz#481ba616b608d55ccf3aa869bdfbd2731d68fc1d"
   integrity sha512-BWTqUEQ70DrqXQIEE5hl+0NK19ggDLksGZdt4OYJF3cFUmYn6sNhYu9cvKLcj4DLSxFVe1fJl7vK9n0HLdCwRA==
@@ -12752,10 +12808,19 @@ postcss@^6.0.1, postcss@^6.0.23, postcss@^6.0.9:
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.14, postcss@^7.0.18, postcss@^7.0.21, postcss@^7.0.26, postcss@^7.0.27, postcss@^7.0.30, postcss@^7.0.5, postcss@^7.0.6:
+postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.18, postcss@^7.0.21, postcss@^7.0.26, postcss@^7.0.27, postcss@^7.0.30:
   version "7.0.31"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.31.tgz#332af45cb73e26c0ee2614d7c7fb02dfcc2bd6dd"
   integrity sha512-a937VDHE1ftkjk+8/7nj/mrjtmkn69xxzJgRETXdAUU+IgOYPQNJF17haGWbeDxSyk++HA14UA98FurvPyBJOA==
+  dependencies:
+    chalk "^2.4.2"
+    source-map "^0.6.1"
+    supports-color "^6.1.0"
+
+postcss@^7.0.14, postcss@^7.0.5, postcss@^7.0.6:
+  version "7.0.32"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.32.tgz#4310d6ee347053da3433db2be492883d62cec59d"
+  integrity sha512-03eXong5NLnNCD05xscnGKGDZ98CyzoqPSMjOe6SuoQY7Z2hIj0Ld1g/O/UQRuOle2aRtiIRDg9tDcTGAkLfKw==
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
