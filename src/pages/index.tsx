@@ -17,7 +17,7 @@
 import { Button } from '@shootismoke/ui';
 import React from 'react';
 
-import { Featured, Footer, Nav } from '../components';
+import { Featured, Footer, Nav, SearchBar } from '../components';
 
 export default function Index(): React.ReactElement {
 	return (
@@ -31,13 +31,14 @@ export default function Index(): React.ReactElement {
 					<br />
 					urban air?
 				</h1>
-				<input
-					className="border w-full"
-					placeholder="Search any location"
-					type="text"
-				/>
+				<SearchBar />
 				<p className="text-center">or</p>
 				<Button>Show my current city</Button>
+			</section>
+
+			<section className="container mx-auto my-12 px-24">
+				<h2>How is the number calculated?</h2>
+				<p>Box</p>
 			</section>
 
 			<Featured />

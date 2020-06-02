@@ -20,8 +20,8 @@ import bbc from '../../../assets/images/media/bbc.png';
 import circa from '../../../assets/images/media/circa.png';
 import citylab from '../../../assets/images/media/citylab.png';
 import huffpost from '../../../assets/images/media/huffpost.png';
-import slate from '../../../assets/images/media/slate.png';
 import lifehacker from '../../../assets/images/media/lifehacker.png';
+import slate from '../../../assets/images/media/slate.png';
 import usbek from '../../../assets/images/media/usbek.png';
 
 const medias = [
@@ -81,7 +81,7 @@ export function Featured(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img alt={media.slug} src={media.image as string} />
+						<img alt={media.slug} src={media.image} />
 					</a>
 				))}
 			</div>

@@ -16,11 +16,13 @@
 	"dependencies": {
 		"@shootismoke/ui": "^0.2.25",
 		"@types/react-native": "^0.62.12",
+		"@types/react-select": "^3.0.13",
 		"expo": "^37.0.12",
 		"gatsby": "^2.22.15",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
+		"react-select": "^3.1.0",
 		"tailwindcss": "^1.4.6"
 	},
 	"devDependencies": {
