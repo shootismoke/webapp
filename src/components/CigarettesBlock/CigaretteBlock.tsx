@@ -19,7 +19,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ViewProps } from 'react-native';
 
 import { Frequency } from '../../util/race';
-import * as theme from '../../util/theme';
+import { theme } from '../../util/theme';
 import { Cigarettes } from '../Cigarettes';
 import loadingAnimation from './animation.json';
 import { swearWords } from './swearWords';
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.backgroundColor,
 	},
 	shit: {
-		// ...theme.shitText,
-		// marginTop: theme.spacing.normal,
+		...theme.shitText,
+		marginTop: theme.spacing.normal,
 	},
 });
 

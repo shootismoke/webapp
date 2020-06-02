@@ -15,7 +15,14 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+	Image,
+	StyleProp,
+	StyleSheet,
+	View,
+	ViewStyle,
+	ImageSourcePropType,
+} from 'react-native';
 
 import buttVertical from '../../../../assets/images/butt-vertical.png';
 import butt from '../../../../assets/images/butt.png';
@@ -145,7 +152,11 @@ function renderCigarette(
 				]}
 			>
 				<Image
-					source={orientation === 'vertical' ? buttVertical : butt}
+					source={
+						(orientation === 'vertical'
+							? buttVertical
+							: butt) as ImageSourcePropType
+					}
 					style={[
 						styles.butt,
 						orientation === 'horizontal'
@@ -160,7 +171,11 @@ function renderCigarette(
 					]}
 				/>
 				<Image
-					source={orientation === 'vertical' ? headVertical : head}
+					source={
+						(orientation === 'vertical'
+							? headVertical
+							: head) as ImageSourcePropType
+					}
 					style={[
 						styles.head,
 						orientation === 'horizontal'

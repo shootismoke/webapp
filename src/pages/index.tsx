@@ -14,17 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Link } from 'gatsby';
 import React from 'react';
 
-import { Footer, Nav, Featured } from '../components';
+import { Footer, Nav, Featured, Button } from '../components';
 
 export default function Index(): React.ReactElement {
 	return (
 		<>
 			<Nav />
-			<h1>Hello2</h1>
-			<Link to="/cities/paris">Paris</Link>
+			<section className="container mx-auto my-12 px-24">
+				<h1>
+					How much am I
+					<br />
+					smoking by breathing
+					<br />
+					urban air?
+				</h1>
+				<input
+					className="border w-full"
+					placeholder="Search any location"
+					type="text"
+				/>
+				<p className="text-center">or</p>
+				<Button>Show my current city</Button>
+			</section>
+
 			<Featured />
 			<Footer />
 		</>

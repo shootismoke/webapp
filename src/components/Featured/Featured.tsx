@@ -70,7 +70,7 @@ const medias = [
 
 export function Featured(): React.ReactElement {
 	return (
-		<section className="container mx-auto">
+		<section className="container mx-auto my-12">
 			<h2>Featured at</h2>
 			<div className="flex justify-around items-center flex-wrap">
 				{medias.map((media) => (
@@ -81,7 +81,7 @@ export function Featured(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img alt={media.slug} src={media.image} />
+						<img alt={media.slug} src={media.image as string} />
 					</a>
 				))}
 			</div>

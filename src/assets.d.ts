@@ -15,7 +15,9 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 declare module '*.png' {
-	const img: string;
+	import { ImageSourcePropType } from 'react-native'
+
+	const img: string | ImageSourcePropType;
 
 	export default img;
 }
