@@ -14,34 +14,4 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-
-import { Featured, Footer, GpsButton, Nav, SearchBar } from '../components';
-
-export default function Index(): React.ReactElement {
-	return (
-		<>
-			<Nav />
-			<section className="container mx-auto my-12 px-24">
-				<h1>
-					How much am I
-					<br />
-					smoking by breathing
-					<br />
-					urban air?
-				</h1>
-				<SearchBar />
-				<p className="text-center">or</p>
-				<GpsButton />
-			</section>
-
-			<section className="container mx-auto my-12 px-24">
-				<h2>How is the number calculated?</h2>
-				<p>Box</p>
-			</section>
-
-			<Featured />
-			<Footer />
-		</>
-	);
-}
+export * from './GpsButton';

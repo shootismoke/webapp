@@ -16,5 +16,6 @@
 
 export * from './Featured';
 export * from './Footer';
+export * from './GpsButton';
 export * from './Nav';
 export * from './SearchBar';
