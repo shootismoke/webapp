@@ -14,27 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import logo from '@shootismoke/ui/assets/logos/transparent/transparent.png';
-import { Link } from 'gatsby';
-import React from 'react';
+import enUs from './languages/en.json';
 
-export function Nav(): React.ReactElement {
-	return (
-		<header>
-			<nav className="flex justify-between items-center">
-				<div className="flex w-1/2">
-					<Link className="flex flex-grow items-center" to="/">
-						<img alt="logo" className="w-12" src={logo} />
-						<h1 className="font-gotham-black">Sh**t! I Smoke</h1>
-					</Link>
-				</div>
-
-				<div className="flex">
-					<p className="ml-4">Mobile</p>
-					<p className="ml-4">Share</p>
-					<p className="ml-4">F.A.Q.</p>
-				</div>
-			</nav>
-		</header>
-	);
-}
+export const translations = {
+	'en-US': enUs,
+};

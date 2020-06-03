@@ -15,10 +15,18 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { LatLng } from '@shootismoke/dataproviders';
-import { Api, CigaretteBlock, raceApiPromise } from '@shootismoke/ui';
-import React, { useEffect, useState } from 'react';
+import {
+	Api,
+	BoxButton,
+	Cigarettes,
+	CigarettesText,
+	FrequencyContext,
+	raceApiPromise,
+} from '@shootismoke/ui';
+import React, { useContext, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 
-import { Featured, Footer, HowSection, Nav } from '../components';
+import { Featured, Footer, HowSection, Nav, SearchBar } from '../components';
 
 export interface City {
 	gps: LatLng;
@@ -32,7 +40,24 @@ interface CityProps {
 	};
 }
 
+/**
+ * Depending on how many we show, decide on the size of one cigarette.
+ *
+ * @param cigarettes - The cigarettes count.
+ */
+function fullCigaretteLength(cigarettes: number): number {
+	if (cigarettes <= 4) {
+		return 200;
+	} else if (cigarettes <= 15) {
+		return 150;
+	} else {
+		return 100;
+	}
+}
+
 export default function CityTemplate(props: CityProps): React.ReactElement {
+	const { frequency, setFrequency } = useContext(FrequencyContext);
+	const { formatMessage: t } = useIntl();
 	const {
 		pageContext: { city },
 	} = props;
@@ -46,25 +71,64 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			.catch(console.error);
 	}, [city.gps]);
 
+	const cigarettes = api
+		? api.shootismoke.dailyCigarettes *
+		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
+		: undefined;
+
 	return (
 		<>
-			<Nav showSearchBar />
+			<Nav />
 			<section className="container mx-auto my-12 px-24">
-				<h1>Name: {city.name}</h1>
-				{api ? (
-					<div className="w-1/3">
-						<CigaretteBlock
-							cigarettes={api.shootismoke.dailyCigarettes}
-							fullCigaretteLength={200}
-							t={(a): string => a}
+				<SearchBar />
+			</section>
+
+			<section className="container mx-auto my-12 px-24">
+				<h1 className="mb-12 text-xl">
+					<span className="text-orange">Location:</span> {city.name}
+				</h1>
+				{cigarettes ? (
+					<div className="flex items-center">
+						<Cigarettes
+							cigarettes={cigarettes}
+							fullCigaretteLength={fullCigaretteLength(
+								cigarettes
+							)}
+							showMaxCigarettes={60}
+							style={{ width: 300 }}
 						/>
+						<div className="flex-1 ml-12">
+							<CigarettesText
+								cigarettes={cigarettes}
+								t={(id, replace): string => t({ id }, replace)}
+							/>
+							<div className="flex">
+								{(['daily', 'weekly', 'monthly'] as const).map(
+									(f) => (
+										<div
+											className="mx-2 w-1/4 cursor-pointer"
+											key={f}
+										>
+											<BoxButton
+												active={frequency === f}
+												onPress={(): void =>
+													setFrequency(f)
+												}
+											>
+												{f}
+											</BoxButton>
+										</div>
+									)
+								)}
+							</div>
+						</div>
 					</div>
 				) : (
 					<p>Loading...</p>
 				)}
 			</section>
 
-			<section className="container mx-auto my-12 px-24">
+			<section className="container mx-auto my-12 px-24 text-center">
 				<div>
 					<h2 className="text-xl">
 						The main pollutant is{' '}

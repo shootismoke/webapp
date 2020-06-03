@@ -1349,6 +1349,39 @@
     pouchdb-collections "^1.0.1"
     tiny-queue "^0.2.1"
 
+"@formatjs/intl-displaynames@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-displaynames/-/intl-displaynames-2.2.2.tgz#7aababc5c7da151e84f2603245b7c1043e7a823c"
+  integrity sha512-CpA8gUTegEQevjJiCoOHBM/EAR46tqz4XMNYhciZ2Mbi2kw4qVmHGyUiBSGB5QzcV6ydg0lpGvF5HLhOnY1BNA==
+  dependencies:
+    "@formatjs/intl-utils" "^3.2.0"
+
+"@formatjs/intl-listformat@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-listformat/-/intl-listformat-2.2.2.tgz#336165eb283ae8e0caf0376a4aa8ed8dcd8148d0"
+  integrity sha512-M6pRt4MtLRyflxdbhb+4R37nJ3yuhQigzwEviIba2cXWX75O3GshoIyG3Q+GBl5aJ7t+OTRgk1aSgifnEJSNQQ==
+  dependencies:
+    "@formatjs/intl-utils" "^3.2.0"
+
+"@formatjs/intl-numberformat@^4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-numberformat/-/intl-numberformat-4.2.2.tgz#a5eb349c0d17500c48ad2b60a29f399330ae57a2"
+  integrity sha512-zhCU3Cz+sMQ5dKGwmsuzB0I2+xqbRJqFvgGq1fHALdg7jjDg+NaGYD6M5bU1bSjppLEopAE3rmBoVh+iHjjatw==
+  dependencies:
+    "@formatjs/intl-utils" "^3.2.0"
+
+"@formatjs/intl-relativetimeformat@^5.2.2":
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-relativetimeformat/-/intl-relativetimeformat-5.2.2.tgz#c5ba556c5be2fee28a4bc56b577956480fb51331"
+  integrity sha512-3SvhUJ825OZ6kmA4ZvKRb0+1FrZHHgPTdLSw/XI9OmC7xJy3Bjten8vyz2k6qtC68dt75BBhNQp1A++S/ui6NA==
+  dependencies:
+    "@formatjs/intl-utils" "^3.2.0"
+
+"@formatjs/intl-utils@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-utils/-/intl-utils-3.2.0.tgz#637093cedb68f1aeb7cc4af9ee5a736e7af9620c"
+  integrity sha512-mMbu+V65bJO2WyIQM2gEfaiOSsHdCbf0YGxHFTDfFBqvQp4DLIV0K4OAeoPUxgluJxLlL/VbWJRZfNpeGUWwsw==
+
 "@fullhuman/postcss-purgecss@^2.1.2":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@fullhuman/postcss-purgecss/-/postcss-purgecss-2.2.0.tgz#2b3699287163ff515f25ccdae5b96a244eebb41a"
@@ -2316,17 +2349,17 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
-"@shootismoke/convert@^0.2.24":
-  version "0.2.24"
-  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.2.24.tgz#7b9f37d9316ebd2f3fe2ab9ac1bf6768bd0e149c"
-  integrity sha512-CwJukQz2oOA7pWf51GXauLdDZ9pUQzfKW/gCpskmWwNCtXC8g23l44wIa+DiOSW4m+6hAJMljzSKrX/j9v0USw==
+"@shootismoke/convert@^0.2.25":
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.2.25.tgz#2c7f1be6fd1015d00c99ed4cd89271a84c2ede65"
+  integrity sha512-Qn4z0vRZm2f3iV1tbesnjwlaUdpmK6nfsMVZ4U1ojMdyKuxJnQWaqiG5NybX0xKEtwRanKqx0QkUpQG0MyWj4A==
 
 "@shootismoke/dataproviders@^0.2.25":
-  version "0.2.24"
-  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.2.24.tgz#4f99ab0d6a62dc1c2985e181207ae88f8e5d96df"
-  integrity sha512-6rT4I9kVyeY2mBqOm3aMQLAjpAlJDRWej0HH7tcl8QIJ1Z29b5PtGywXWMrp0EVKuhvrq5G7k3Ec0HSeQlXAQw==
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.2.25.tgz#5cf11ce5597a8dc21788da7e9b92480bbee5ff6c"
+  integrity sha512-rtzDzzKmCFq50LgGzlFEdb/TD7I+REDQW0xzy4YuGR5g4mEyLSP3Nt61x5T2QBDjVZJyqOl/Qb9IftGTMo7+kw==
   dependencies:
-    "@shootismoke/convert" "^0.2.24"
+    "@shootismoke/convert" "^0.2.25"
     axios "^0.19.0"
     date-fns "^2.8.1"
     date-fns-tz "^1.0.9"
@@ -2587,6 +2620,14 @@
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.6.tgz#ed8fc802c45b8e8f54419c2d054e55c9ea344356"
   integrity sha512-GRTZLeLJ8ia00ZH8mxMO8t0aC9M1N9bN461Z2eaRurJo6Fpa+utgCwLzI4jQHcrdzuzp5WPN9jRwpsCQ1VhJ5w==
 
+"@types/hoist-non-react-statics@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
+  integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
+  dependencies:
+    "@types/react" "*"
+    hoist-non-react-statics "^3.3.0"
+
 "@types/http-proxy@^1.17.4":
   version "1.17.4"
   resolved "https://registry.yarnpkg.com/@types/http-proxy/-/http-proxy-1.17.4.tgz#e7c92e3dbe3e13aa799440ff42e6d3a17a9d045b"
@@ -2594,7 +2635,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/invariant@^2.2.29":
+"@types/invariant@^2.2.29", "@types/invariant@^2.2.31":
   version "2.2.33"
   resolved "https://registry.yarnpkg.com/@types/invariant/-/invariant-2.2.33.tgz#ec5eec29c63bf5e4ca164e9feb3ef7337cdcbadb"
   integrity sha512-/jUNmS8d4bCKdqslfxW6dg/9Gksfzxz67IYfqApHn+HvHlMVXwYv2zpTDnS/yaK9BB0i0GlBTaYci0EFE62Hmw==
@@ -8832,7 +8873,7 @@ hoek@4.x.x:
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.1.tgz#9634502aa12c445dd5a7c5734b572bb8738aacbb"
   integrity sha512-QLg82fGkfnJ/4iy1xZ81/9SIJiq1NGFUMGs6ParyjBZr6jW2Ufj/snDqTHixNlHdPNwN2RLVD0Pi3igeK9+JfA==
 
-hoist-non-react-statics@^3.3.0:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -9351,6 +9392,26 @@ internal-slot@^1.0.2:
     es-abstract "^1.17.0-next.1"
     has "^1.0.3"
     side-channel "^1.0.2"
+
+intl-format-cache@^4.2.34:
+  version "4.2.34"
+  resolved "https://registry.yarnpkg.com/intl-format-cache/-/intl-format-cache-4.2.34.tgz#67dfd0fb88a39a34223b9ad32f79858fdd02ba2b"
+  integrity sha512-WNqj3hLG1Z9mpJPGLajslBDGYkinxNcyChHbIgGoDexrN2841d7gpinpsI5UzvH+qzV++NgnEaDNTdrRLcDnTw==
+
+intl-messageformat-parser@^5.0.12:
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-5.0.12.tgz#e3c74055e753f2fe91a29701e1fbbc629967085d"
+  integrity sha512-jWsfY8Bq1rPoR/gHcpkC3quJFmR6Gp7Iq80+pIuaWyPOgXrpCw7rVPG0wowP8Mw0Qd9/MIsm0FEpSqS7d2dtWA==
+  dependencies:
+    "@formatjs/intl-numberformat" "^4.2.2"
+
+intl-messageformat@^8.3.19:
+  version "8.3.19"
+  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-8.3.19.tgz#3d86dca1bf3af91389055fdbfec184779d2a9dc9"
+  integrity sha512-43kN5K5Eg1X2gcGgvGtImroGsO4aozFaUKv0/JedTfwNYfCSBG5mhGCe3aaVbJoVc/lEDgb7PzOrRSrBulAWMQ==
+  dependencies:
+    intl-format-cache "^4.2.34"
+    intl-messageformat-parser "^5.0.12"
 
 into-stream@^3.1.0:
   version "3.1.0"
@@ -13384,6 +13445,24 @@ react-input-autosize@^2.2.2:
   dependencies:
     prop-types "^15.5.8"
 
+react-intl@^4.6.4:
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-4.6.4.tgz#67b7e3f2c05f530c35ddf21893eb9792a993bd12"
+  integrity sha512-KaswlCXFw8qsgUCP5aTz6xzLSV8G9Jz4XTt9kmQ/YootiMKozPiL70Ymcmly3hm/7QvxM5izCRmoGAIRoHp5ow==
+  dependencies:
+    "@formatjs/intl-displaynames" "^2.2.2"
+    "@formatjs/intl-listformat" "^2.2.2"
+    "@formatjs/intl-numberformat" "^4.2.2"
+    "@formatjs/intl-relativetimeformat" "^5.2.2"
+    "@formatjs/intl-utils" "^3.2.0"
+    "@types/hoist-non-react-statics" "^3.3.1"
+    "@types/invariant" "^2.2.31"
+    hoist-non-react-statics "^3.3.2"
+    intl-format-cache "^4.2.34"
+    intl-messageformat "^8.3.19"
+    intl-messageformat-parser "^5.0.12"
+    shallow-equal "^1.2.1"
+
 react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -14396,6 +14475,11 @@ shallow-compare@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/shallow-compare/-/shallow-compare-1.2.2.tgz#fa4794627bf455a47c4f56881d8a6132d581ffdb"
   integrity sha512-LUMFi+RppPlrHzbqmFnINTrazo0lPNwhcgzuAXVVcfy/mqPDrQmHAyz5bvV0gDAuRFrk804V0HpQ6u9sZ0tBeg==
+
+shallow-equal@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/shallow-equal/-/shallow-equal-1.2.1.tgz#4c16abfa56043aa20d050324efa68940b0da79da"
+  integrity sha512-S4vJDjHHMBaiZuT9NPb616CSmLf618jawtv3sufLl6ivK8WocjAo58cXwbRV1cgqxH0Qbv+iUt6m05eqEa2IRA==
 
 shallowequal@^1.1.0:
   version "1.1.0"
