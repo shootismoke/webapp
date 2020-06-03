@@ -60,7 +60,6 @@ export default function City(
 					city: {
 						gps: { latitude: +parsed.lat, longitude: +parsed.lng },
 						name: (location?.state as Record<string, string>)?.name,
-						slug: `${parsed.lat},${parsed.lng}`,
 					},
 				}}
 			/>

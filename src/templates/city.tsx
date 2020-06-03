@@ -105,15 +105,6 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			.catch(setError);
 	}, [city.gps]);
 
-	// We use this template is two cases:
-	// - /city, with gps as query params
-	// - /city/{slug}, in which case we extract the slug
-	const pathname = location.pathname.split('/');
-	const slug =
-		location.pathname === '/city'
-			? undefined
-			: pathname[pathname.length - 1];
-
 	const cigarettes = api
 		? api.shootismoke.dailyCigarettes *
 		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
@@ -121,7 +112,9 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	return (
 		<>
-			<Seo title={getSeoTitle(api?.shootismoke.dailyCigarettes, slug)} />
+			<Seo
+				title={getSeoTitle(api?.shootismoke.dailyCigarettes, city.slug)}
+			/>
 
 			<Nav />
 			<Section>

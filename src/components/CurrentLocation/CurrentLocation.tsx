@@ -21,7 +21,10 @@ import React, { useEffect, useState } from 'react';
 export interface City {
 	gps: LatLng;
 	name?: string;
-	slug: string;
+	/**
+	 * City slug in URL, only available when it's a hardcoded city.
+	 */
+	slug?: string;
 }
 
 interface CurrentLocationProps {
