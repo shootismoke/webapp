@@ -52,10 +52,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<section className="container mx-auto my-12 px-24">
 				<h1>Name: {city.name}</h1>
 				{api ? (
-					<CigaretteBlock
-						cigarettes={api.shootismoke.dailyCigarettes}
-						t={(a): string => a}
-					/>
+					<div className="w-1/3">
+						<CigaretteBlock
+							cigarettes={api.shootismoke.dailyCigarettes}
+							fullCigaretteLength={200}
+							t={(a): string => a}
+						/>
+					</div>
 				) : (
 					<p>Loading...</p>
 				)}
