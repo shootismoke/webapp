@@ -34,6 +34,7 @@ import {
 	Nav,
 	SearchBar,
 	Section,
+	Seo,
 } from '../components';
 
 interface CityProps {
@@ -58,6 +59,33 @@ function fullCigaretteLength(cigarettes: number): number {
 	}
 }
 
+/**
+ * Capitalize a string.
+ *
+ * @param s - The string to capitalize
+ */
+function capitalize(s: string): string {
+	return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/**
+ * Decide on a SEO title for the page.
+ */
+function getSeoTitle(cigarettes?: number, slug?: string): string {
+	if (!cigarettes) {
+		return slug
+			? `${capitalize(slug)} Air Pollution`
+			: 'City Air Pollution';
+	}
+
+	// Round to 1 decimal
+	const cigarettesRounded = Math.round(cigarettes * 10) / 10;
+
+	return slug
+		? `${capitalize(slug)} Air Pollution: ${cigarettesRounded} cigarettes`
+		: `City Air Pollution: ${cigarettesRounded} cigarettes`;
+}
+
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
 	const { formatMessage: t } = useIntl();
@@ -65,14 +93,26 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		pageContext: { api: baseApi, city },
 	} = props;
 	const [api, setApi] = useState<Api | undefined>(baseApi);
+	const [error, setError] = useState<Error>();
 
 	useEffect(() => {
+		setError(undefined);
+
 		raceApiPromise(city.gps, {
 			aqicnToken: '',
 		})
 			.then(setApi)
-			.catch(console.error);
+			.catch(setError);
 	}, [city.gps]);
+
+	// We use this template is two cases:
+	// - /city, with gps as query params
+	// - /city/{slug}, in which case we extract the slug
+	const pathname = location.pathname.split('/');
+	const slug =
+		location.pathname === '/city'
+			? undefined
+			: pathname[pathname.length - 1];
 
 	const cigarettes = api
 		? api.shootismoke.dailyCigarettes *
@@ -81,6 +121,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	return (
 		<>
+			<Seo title={getSeoTitle(api?.shootismoke.dailyCigarettes, slug)} />
+
 			<Nav />
 			<Section>
 				<SearchBar />
@@ -141,6 +183,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							</div>
 						</div>
 					</div>
+				) : error ? (
+					<p className="text-red">ERROR: {error.message}</p>
 				) : (
 					<p>Loading...</p>
 				)}

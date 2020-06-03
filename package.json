@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@shootismoke/ui": "^0.2.26",
 		"@types/classnames": "^2.2.10",
+		"@types/react-helmet": "^6.0.0",
 		"@types/react-native": "^0.62.12",
 		"@types/react-select": "^3.0.13",
 		"classnames": "^2.2.6",
@@ -23,6 +24,7 @@
 		"gatsby": "^2.22.15",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
+		"react-helmet": "^6.0.0",
 		"react-intl": "^4.6.4",
 		"react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
 		"react-select": "^3.1.0",

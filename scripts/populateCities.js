@@ -18,18 +18,33 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const { raceApiPromise } = require('@shootismoke/ui/lib/util/race');
+const pRetry = require('p-retry');
+const pAny = require('p-any');
 
 const cities = require('../src/util/cities.json');
 
 /**
+ * Populate one city.
+ */
+function populateCity(city) {
+	return pAny([
+		pRetry(
+			() =>
+				raceApiPromise(city.gps, {}).then((api) => ({
+					city,
+					api,
+				})),
+			{ retries: 5 }
+		).catch(() => ({
+			// If it fails after retrying, then we don't return `api`.
+			city,
+		})),
+		// We abort after 10s.
+		new Promise((resolve) => setTimeout(() => resolve({ city }), 10000)),
+	]);
+}
+
+/**
  * For each hardcoded city, populate at build time its API value.
  */
-exports.populateCities = () =>
-	Promise.all(
-		Object.values(cities).map((city) =>
-			raceApiPromise(city.gps, {}).then((api) => ({
-				city,
-				api,
-			}))
-		)
-	);
+exports.populateCities = () => Promise.all(cities.map(populateCity));

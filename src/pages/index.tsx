@@ -25,11 +25,13 @@ import {
 	Nav,
 	SearchBar,
 	Section,
+	Seo,
 } from '../components';
 
 export default function Index(): React.ReactElement {
 	return (
 		<>
+			<Seo title="Air Quality Data, in plain English" />
 			<Nav />
 			<Section>
 				<h1 className="font-gotham-black text-5xl">
@@ -47,6 +49,9 @@ export default function Index(): React.ReactElement {
 			<Section>
 				<h2 className="text-xl">Ranking of cities</h2>
 				<ul>
+					<li>
+						<Link to="/city/berlin">Berlin</Link>
+					</li>
 					<li>
 						<Link to="/city/paris">Paris</Link>
 					</li>

@@ -14,12 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export * from './CurrentLocation';
-export * from './FeaturedSection';
-export * from './Footer';
-export * from './GpsButton';
-export * from './HowSection';
-export * from './Nav';
-export * from './SearchBar';
-export * from './Section';
-export * from './Seo';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+
+interface SeoProps {
+	title: string;
+}
+
+export function Seo(props: SeoProps): React.ReactElement {
+	const { title } = props;
+
+	return (
+		<Helmet>
+			<meta charSet="utf-8" />
+			<meta
+				name="description"
+				content="FIXME Some description about the app"
+			/>
+			<title>{title} - Sh**! I Smoke</title>
+		</Helmet>
+	);
+}

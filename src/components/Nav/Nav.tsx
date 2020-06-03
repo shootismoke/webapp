@@ -25,7 +25,7 @@ export function Nav(): React.ReactElement {
 				<div className="flex w-1/2">
 					<Link className="flex flex-grow items-center" to="/">
 						<img alt="logo" className="w-12" src={logo} />
-						<h1 className="font-gotham-black">Sh**t! I Smoke</h1>
+						<h2 className="font-gotham-black">Sh**t! I Smoke</h2>
 					</Link>
 				</div>
 

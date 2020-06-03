@@ -41,7 +41,14 @@ export async function reverseGeocode(gps: LatLng): Promise<string> {
 		`${REVERSE_API}&latitude=${gps.latitude}&longitude=${gps.longitude}`
 	);
 
-	return `${data.locality}, ${data.city}, ${data.countryName}`;
+	return [
+		data.locality,
+		data.city,
+		data.principalSubdivision,
+		data.countryName,
+	]
+		.filter((x) => !!x)
+		.join(', ');
 }
 
 export function CurrentLocation(
@@ -57,7 +64,7 @@ export function CurrentLocation(
 	return (
 		<>
 			<h1 className="mb-12 text-xl">
-				<span className="text-orange">Location:</span> {name}
+				<span className="text-orange">Air Pollution in:</span> {name}
 			</h1>
 		</>
 	);
