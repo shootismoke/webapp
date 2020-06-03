@@ -90,14 +90,22 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<CurrentLocation city={city} />
 				{cigarettes ? (
 					<div className="lg:flex lg:items-center">
-						<div className="flex lg:w-1/4 lg:justify-end">
+						<div className="flex">
 							<Cigarettes
 								cigarettes={cigarettes}
 								fullCigaretteLength={fullCigaretteLength(
 									cigarettes
 								)}
 								showMaxCigarettes={60}
-								style={{ maxWidth: 300 }}
+								style={{
+									// If only we could add `className="lg:justify-end"`...
+									justifyContent:
+										window.innerWidth >= 1024
+											? ('flex-end' as const)
+											: undefined,
+									// This is so that horizontal cigarettes wrap correctly.
+									maxWidth: 300,
+								}}
 							/>
 						</div>
 

@@ -22,6 +22,7 @@ import { Section } from '../Section';
 
 export function HowSection(): React.ReactElement {
 	const { formatMessage: t } = useIntl();
+
 	return (
 		<Section>
 			<h2 className="text-xl">How is the number calculated?</h2>
@@ -38,10 +39,11 @@ export function HowSection(): React.ReactElement {
 						href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
 						rel="noreferrer"
 						target="_blank"
-					></a>
-					Berkeley Earth’s findings about the equivalence between air
-					pollution and cigarette smoking. Some more SEO optimized
-					text here.
+					>
+						Berkeley Earth’s
+					</a>
+					findings about the equivalence between air pollution and
+					cigarette smoking. Some more SEO optimized text here.
 				</p>
 			</div>
 		</Section>
