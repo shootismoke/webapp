@@ -20,9 +20,9 @@ import React, { useEffect, useState } from 'react';
 
 import { Nav } from '../components';
 
-interface City {
+export interface City {
 	gps: LatLng;
-	name: string;
+	name?: string;
 	slug: string;
 }
 
@@ -32,8 +32,10 @@ interface CityProps {
 	};
 }
 
-export default function City({ pageContext }: CityProps): React.ReactElement {
-	const { city } = pageContext;
+export default function CityTemplate(props: CityProps): React.ReactElement {
+	const {
+		pageContext: { city },
+	} = props;
 	const [api, setApi] = useState<Api | undefined>();
 
 	useEffect(() => {

@@ -8,7 +8,7 @@ exports.createPages = async ({ actions }) => {
 
 	Object.values(cities).forEach((city) => {
 		createPage({
-			path: `/cities/${city.slug}`,
+			path: `/city/${city.slug}`,
 			component: cityTemplate,
 			context: {
 				city,

@@ -18,17 +18,28 @@ import { fetchAlgolia } from '@shootismoke/ui/lib/util/fetchAlgolia';
 import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
+import { navigate } from 'gatsby';
 import React from 'react';
 import { OptionsType, OptionTypeBase } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
+export interface SearchLocationState {
+	name: string;
+}
+
 function loadOptions(inputValue: string): Promise<OptionsType<OptionTypeBase>> {
-	console.log('LOAD');
 	return pipe(
 		fetchAlgolia(inputValue),
 		TE.map((items) =>
 			items.map((item) => ({
-				label: item.city,
+				label: [
+					item.locale_names[0],
+					item.city,
+					item.county && item.county.length ? item.county[0] : null,
+					item.country,
+				]
+					.filter((_) => _)
+					.join(', '),
 				value: item._geoloc,
 			}))
 		),
@@ -46,6 +57,18 @@ export function SearchBar(): React.ReactElement {
 			<AsyncSelect
 				className="border w-full"
 				loadOptions={loadOptions}
+				noOptionsMessage={(): string =>
+					'Type something to look for a city...'
+				}
+				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// @ts-ignore FIXME How to fix this?
+				onChange={({ label, value }): void => {
+					navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
+						state: {
+							name: label,
+						},
+					});
+				}}
 				placeholder="Search any location"
 			/>
 		</>
