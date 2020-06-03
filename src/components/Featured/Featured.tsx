@@ -70,8 +70,8 @@ const medias = [
 
 export function Featured(): React.ReactElement {
 	return (
-		<section className="container mx-auto my-12">
-			<h2>Featured at</h2>
+		<section className="container mx-auto my-12 px-24">
+			<h2 className="text-xl">Featured at</h2>
 			<div className="flex justify-around items-center flex-wrap">
 				{medias.map((media) => (
 					<a

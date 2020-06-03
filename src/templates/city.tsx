@@ -18,7 +18,7 @@ import { LatLng } from '@shootismoke/dataproviders';
 import { Api, CigaretteBlock, raceApiPromise } from '@shootismoke/ui';
 import React, { useEffect, useState } from 'react';
 
-import { Nav } from '../components';
+import { Featured, Footer, HowSection, Nav } from '../components';
 
 export interface City {
 	gps: LatLng;
@@ -49,13 +49,42 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	return (
 		<>
 			<Nav showSearchBar />
-			Name: {city.name}
-			{api && (
-				<CigaretteBlock
-					cigarettes={api.shootismoke.dailyCigarettes}
-					t={(a): string => a}
-				/>
-			)}
+			<section className="container mx-auto my-12 px-24">
+				<h1>Name: {city.name}</h1>
+				{api ? (
+					<CigaretteBlock
+						cigarettes={api.shootismoke.dailyCigarettes}
+						t={(a): string => a}
+					/>
+				) : (
+					<p>Loading...</p>
+				)}
+			</section>
+
+			<section className="container mx-auto my-12 px-24">
+				<div>
+					<h2 className="text-xl">
+						The main pollutant is{' '}
+						<strong>
+							{
+								api?.normalized.sort(
+									(a, b) => a.value - b.value
+								)[0].parameter
+							}
+						</strong>
+						.
+					</h2>
+					It&apos;s unhealthy because of reasons.
+				</div>
+				<div>
+					<h2 className="text-xl">You should wear a mask.</h2>
+					It&apos;s better.
+				</div>
+			</section>
+
+			<HowSection />
+			<Featured />
+			<Footer />
 		</>
 	);
 }

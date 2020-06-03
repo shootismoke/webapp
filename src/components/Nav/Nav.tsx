@@ -30,12 +30,12 @@ export function Nav(props: NavProps): React.ReactElement {
 	return (
 		<header>
 			<nav className="flex justify-between items-center">
-				<div className="flex">
-					<Link className="flex items-center" to="/">
+				<div className="flex w-1/2">
+					<Link className="flex flex-grow items-center" to="/">
 						<img alt="logo" className="w-12" src={logo} />
 						<h1 className="font-gotham-black">Sh**t! I Smoke</h1>
 					</Link>
-					{showSearchBar && <SearchBar className="w-24" />}
+					{showSearchBar && <SearchBar />}
 				</div>
 
 				<div className="flex">
