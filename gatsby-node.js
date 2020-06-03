@@ -1,20 +1,22 @@
-const path = require('path');
+const { resolve } = require('path');
 
-const cities = require('./src/util/populateCities');
+const { populateCities } = require('./scripts/populateCities');
 
+/**
+ * For each hardcoded city, we create a static page.
+ * Example: For Paris, we create `/city/paris`
+ */
 exports.createPages = async ({ actions }) => {
 	const { createPage } = actions;
-	const cityTemplate = path.resolve(`src/templates/city.tsx`);
+	const cityTemplate = resolve(`src/templates/city.tsx`);
 
-	const populatedCities = populateCities(cities);
+	const populatedCities = await populateCities();
 
-	Object.values(cities).forEach((city) => {
+	populatedCities.forEach((populated) => {
 		createPage({
-			path: `/city/${city.slug}`,
+			path: `/city/${populated.city.slug}`,
 			component: cityTemplate,
-			context: {
-				city,
-			},
+			context: populated,
 		});
 	});
 };

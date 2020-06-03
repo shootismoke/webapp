@@ -100,6 +100,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 								style={{
 									// If only we could add `className="lg:justify-end"`...
 									justifyContent:
+										typeof window !== 'undefined' &&
 										window.innerWidth >= 1024
 											? ('flex-end' as const)
 											: undefined,
