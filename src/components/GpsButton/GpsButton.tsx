@@ -30,9 +30,6 @@ export function GpsButton(): React.ReactElement {
 					setText(
 						'Geolocation is not supported for this Browser/OS.'
 					);
-					console.warn(
-						'Geolocation is not supported for this Browser/OS.'
-					);
 				} else {
 					navigator.geolocation.getCurrentPosition(
 						(position) => {
@@ -42,7 +39,6 @@ export function GpsButton(): React.ReactElement {
 						},
 						(err) => {
 							setText(err.message);
-							console.error(err);
 						}
 					);
 				}

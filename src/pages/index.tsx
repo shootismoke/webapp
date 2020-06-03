@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { Link } from 'gatsby';
 import React from 'react';
 
 import { Featured, Footer, GpsButton, Nav, SearchBar } from '../components';
@@ -33,6 +34,15 @@ export default function Index(): React.ReactElement {
 				<SearchBar />
 				<p className="text-center">or</p>
 				<GpsButton />
+			</section>
+
+			<section className="container mx-auto my-12 px-24">
+				<h2>Ranking of cities</h2>
+				<ul>
+					<li>
+						<Link to="/city/paris">Paris</Link>
+					</li>
+				</ul>
 			</section>
 
 			<section className="container mx-auto my-12 px-24">

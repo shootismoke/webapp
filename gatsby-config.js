@@ -1,5 +1,14 @@
 module.exports = {
 	plugins: [
+		{
+			resolve: 'gatsby-plugin-web-font-loader',
+			options: {
+				custom: {
+					families: ['gotham-black, gotham-book'],
+					urls: ['/fonts/fonts.css'],
+				},
+			},
+		},
 		'gatsby-plugin-postcss',
 		'gatsby-plugin-typescript',
 		'gatsby-plugin-react-native-web',

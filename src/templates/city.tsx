@@ -48,7 +48,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	return (
 		<>
-			<Nav />
+			<Nav showSearchBar />
 			Name: {city.name}
 			{api && (
 				<CigaretteBlock

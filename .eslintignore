@@ -1,6 +1,7 @@
 .eslintrc.js
 babel.config.js
 gatsby-*.js
+postcss.config.js
 **/.cache/*
 **/.expo/*
 **/node_modules/*

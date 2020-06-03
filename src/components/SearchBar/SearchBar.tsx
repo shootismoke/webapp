@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { fetchAlgolia } from '@shootismoke/ui/lib/util/fetchAlgolia';
+import c from 'classnames';
 import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
@@ -23,10 +24,13 @@ import React from 'react';
 import { OptionsType, OptionTypeBase } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-export interface SearchLocationState {
-	name: string;
+interface SearchBarProps {
+	className?: string;
 }
 
+/**
+ * Populate the search bar results with user's input.
+ */
 function loadOptions(inputValue: string): Promise<OptionsType<OptionTypeBase>> {
 	return pipe(
 		fetchAlgolia(inputValue),
@@ -51,11 +55,13 @@ function loadOptions(inputValue: string): Promise<OptionsType<OptionTypeBase>> {
 	)();
 }
 
-export function SearchBar(): React.ReactElement {
+export function SearchBar(props: SearchBarProps): React.ReactElement {
+	const { className } = props;
+
 	return (
 		<>
 			<AsyncSelect
-				className="border w-full"
+				className={c('border w-full', className)}
 				loadOptions={loadOptions}
 				noOptionsMessage={(): string =>
 					'Type something to look for a city...'
