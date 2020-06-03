@@ -1,8 +1,8 @@
 {
 	"paris": {
 		"gps": {
-			"latitude": 48.856614,
-			"longitude": 2.3522219
+			"latitude": 48.8546,
+			"longitude": 2.34771
 		},
 		"name": "Paris",
 		"slug": "paris"

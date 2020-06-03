@@ -15,9 +15,3 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 export * from './CurrentLocation';
-export * from './Featured';
-export * from './Footer';
-export * from './GpsButton';
-export * from './HowSection';
-export * from './Nav';
-export * from './SearchBar';

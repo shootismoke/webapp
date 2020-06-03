@@ -31,10 +31,10 @@ export default function Index(): React.ReactElement {
 		<>
 			<Nav />
 			<section className="container mx-auto my-12 px-24">
-				<h1>
+				<h1 className="font-gotham-black text-5xl">
 					How much am I
 					<br />
-					smoking by breathing
+					<span className="text-orange">smoking</span> by breathing
 					<br />
 					urban air?
 				</h1>

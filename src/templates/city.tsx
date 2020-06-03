@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { LatLng } from '@shootismoke/dataproviders';
 import {
 	Api,
 	BoxButton,
@@ -26,16 +25,19 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { Featured, Footer, HowSection, Nav, SearchBar } from '../components';
-
-export interface City {
-	gps: LatLng;
-	name?: string;
-	slug: string;
-}
+import {
+	City,
+	CurrentLocation,
+	Featured,
+	Footer,
+	HowSection,
+	Nav,
+	SearchBar,
+} from '../components';
 
 interface CityProps {
 	pageContext: {
+		api?: Api;
 		city: City;
 	};
 }
@@ -59,9 +61,9 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
 	const { formatMessage: t } = useIntl();
 	const {
-		pageContext: { city },
+		pageContext: { api: baseApi, city },
 	} = props;
-	const [api, setApi] = useState<Api | undefined>();
+	const [api, setApi] = useState<Api | undefined>(baseApi);
 
 	useEffect(() => {
 		raceApiPromise(city.gps, {
@@ -84,9 +86,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			</section>
 
 			<section className="container mx-auto my-12 px-24">
-				<h1 className="mb-12 text-xl">
-					<span className="text-orange">Location:</span> {city.name}
-				</h1>
+				<CurrentLocation city={city} />
 				{cigarettes ? (
 					<div className="flex items-center">
 						<Cigarettes
