@@ -18,19 +18,20 @@ import { Link } from 'gatsby';
 import React from 'react';
 
 import {
-	Featured,
+	FeaturedSection,
 	Footer,
 	GpsButton,
 	HowSection,
 	Nav,
 	SearchBar,
+	Section,
 } from '../components';
 
 export default function Index(): React.ReactElement {
 	return (
 		<>
 			<Nav />
-			<section className="container mx-auto my-12 px-24">
+			<Section>
 				<h1 className="font-gotham-black text-5xl">
 					How much am I
 					<br />
@@ -41,19 +42,19 @@ export default function Index(): React.ReactElement {
 				<SearchBar />
 				<p className="text-center">or</p>
 				<GpsButton />
-			</section>
+			</Section>
 
-			<section className="container mx-auto my-12 px-24">
+			<Section>
 				<h2 className="text-xl">Ranking of cities</h2>
 				<ul>
 					<li>
 						<Link to="/city/paris">Paris</Link>
 					</li>
 				</ul>
-			</section>
+			</Section>
 
 			<HowSection />
-			<Featured />
+			<FeaturedSection />
 			<Footer />
 		</>
 	);

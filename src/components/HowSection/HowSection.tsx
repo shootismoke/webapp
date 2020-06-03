@@ -14,13 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { ConversionBox } from '@shootismoke/ui';
 import React from 'react';
+import { useIntl } from 'react-intl';
+
+import { Section } from '../Section';
 
 export function HowSection(): React.ReactElement {
+	const { formatMessage: t } = useIntl();
 	return (
-		<section className="container mx-auto my-12 px-24">
+		<Section>
 			<h2 className="text-xl">How is the number calculated?</h2>
-			<p>Box</p>
-		</section>
+			<div className="lg:flex lg:items-center">
+				<div className="lg:mr-4 lg:w-1/2">
+					<ConversionBox
+						style={{ paddingVertical: 24 }}
+						t={(id, replace): string => t({ id }, replace)}
+					/>
+				</div>
+				<p className="lg:ml-4 lg:w-1/2">
+					Based on{' '}
+					<a
+						href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
+						rel="noreferrer"
+						target="_blank"
+					></a>
+					Berkeley Earth’s findings about the equivalence between air
+					pollution and cigarette smoking. Some more SEO optimized
+					text here.
+				</p>
+			</div>
+		</Section>
 	);
 }

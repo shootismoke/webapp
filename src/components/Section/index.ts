@@ -14,11 +14,4 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export * from './CurrentLocation';
-export * from './FeaturedSection';
-export * from './Footer';
-export * from './GpsButton';
-export * from './HowSection';
-export * from './Nav';
-export * from './SearchBar';
 export * from './Section';

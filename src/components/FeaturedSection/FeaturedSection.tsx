@@ -23,6 +23,7 @@ import huffpost from '../../../assets/images/media/huffpost.png';
 import lifehacker from '../../../assets/images/media/lifehacker.png';
 import slate from '../../../assets/images/media/slate.png';
 import usbek from '../../../assets/images/media/usbek.png';
+import { Section } from '../Section';
 
 const medias = [
 	{
@@ -68,9 +69,9 @@ const medias = [
 	},
 ];
 
-export function Featured(): React.ReactElement {
+export function FeaturedSection(): React.ReactElement {
 	return (
-		<section className="container mx-auto my-12 px-24">
+		<Section>
 			<h2 className="text-xl">Featured at</h2>
 			<div className="flex justify-around items-center flex-wrap">
 				{medias.map((media) => (
@@ -85,6 +86,6 @@ export function Featured(): React.ReactElement {
 					</a>
 				))}
 			</div>
-		</section>
+		</Section>
 	);
 }

@@ -28,11 +28,12 @@ import { useIntl } from 'react-intl';
 import {
 	City,
 	CurrentLocation,
-	Featured,
+	FeaturedSection,
 	Footer,
 	HowSection,
 	Nav,
 	SearchBar,
+	Section,
 } from '../components';
 
 interface CityProps {
@@ -81,32 +82,40 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	return (
 		<>
 			<Nav />
-			<section className="container mx-auto my-12 px-24">
+			<Section>
 				<SearchBar />
-			</section>
+			</Section>
 
-			<section className="container mx-auto my-12 px-24">
+			<Section>
 				<CurrentLocation city={city} />
 				{cigarettes ? (
-					<div className="flex items-center">
-						<Cigarettes
-							cigarettes={cigarettes}
-							fullCigaretteLength={fullCigaretteLength(
-								cigarettes
-							)}
-							showMaxCigarettes={60}
-							style={{ width: 300 }}
-						/>
-						<div className="flex-1 ml-12">
-							<CigarettesText
+					<div className="lg:flex lg:items-center">
+						<div className="flex lg:w-1/4 lg:justify-end">
+							<Cigarettes
 								cigarettes={cigarettes}
-								t={(id, replace): string => t({ id }, replace)}
+								fullCigaretteLength={fullCigaretteLength(
+									cigarettes
+								)}
+								showMaxCigarettes={60}
+								style={{ maxWidth: 300 }}
 							/>
-							<div className="flex">
+						</div>
+
+						<div className="lg:flex-1 lg:ml-12">
+							<div>
+								<CigarettesText
+									cigarettes={cigarettes}
+									t={(id, replace): string =>
+										t({ id }, replace)
+									}
+								/>
+							</div>
+
+							<div className="mt-4 flex">
 								{(['daily', 'weekly', 'monthly'] as const).map(
 									(f) => (
 										<div
-											className="mx-2 w-1/4 cursor-pointer"
+											className="mx-2 cursor-pointer"
 											key={f}
 										>
 											<BoxButton
@@ -126,31 +135,32 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				) : (
 					<p>Loading...</p>
 				)}
-			</section>
+			</Section>
 
-			<section className="container mx-auto my-12 px-24 text-center">
+			<Section className="text-center">
 				<div>
-					<h2 className="text-xl">
+					<h2 className="font-gotham-black text-3xl">
 						The main pollutant is{' '}
-						<strong>
-							{
-								api?.normalized.sort(
-									(a, b) => a.value - b.value
-								)[0].parameter
-							}
+						<strong className="text-orange">
+							{api?.normalized
+								.sort((a, b) => a.value - b.value)[0]
+								.parameter.toUpperCase()}
 						</strong>
 						.
 					</h2>
 					It&apos;s unhealthy because of reasons.
 				</div>
 				<div>
-					<h2 className="text-xl">You should wear a mask.</h2>
+					<h2 className="font-gotham-black text-3xl">
+						You should{' '}
+						<span className="text-orange">wear a mask</span>.
+					</h2>
 					It&apos;s better.
 				</div>
-			</section>
+			</Section>
 
 			<HowSection />
-			<Featured />
+			<FeaturedSection />
 			<Footer />
 		</>
 	);

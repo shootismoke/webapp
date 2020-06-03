@@ -2366,18 +2366,21 @@
     fp-ts "^2.1.1"
     io-ts "^2.0.1"
 
-"@shootismoke/ui@^0.2.25":
-  version "0.2.25"
-  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.2.25.tgz#9c804d42b92faf0be8a9619b38f0d66be0363645"
-  integrity sha512-DJViW283lpRpt1Qpe/uKBJmSleGLxtisiY6W+lNG4zVIsAmxqCdCjcauZhxi6TnSOIuUOnUye4NVSJczRn5T4w==
+"@shootismoke/ui@^0.2.26":
+  version "0.2.26"
+  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.2.26.tgz#5d189058d0592766bf38bd9cd772fa8811570a89"
+  integrity sha512-IB9iCDrRoMbnNvWk+1V3vQHIdFomI4Ychvj1Qh9bo6qRdBmqPeXOE5WZsAuhpQbVK/4rni5kNQoPInG4ILhCNA==
   dependencies:
     "@expo/vector-icons" "^10.2.0"
     "@shootismoke/dataproviders" "^0.2.25"
+    "@types/haversine" "^1.1.4"
     "@types/p-any" "^1.1.3"
     expo-constants "^9.0.0"
+    haversine "^1.1.1"
     lottie-react-native "^3.4.0"
     p-any "^3.0.0"
     react-native-web "^0.12.2"
+    retry-ts "^0.1.2"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -2614,6 +2617,11 @@
     "@types/events" "*"
     "@types/minimatch" "*"
     "@types/node" "*"
+
+"@types/haversine@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@types/haversine/-/haversine-1.1.4.tgz#6566d49470f44a0ab99c6b5c4f81478b3be02a9d"
+  integrity sha512-Lcz1bIWVwuLeNVbNwMOSyQwf/F+2qW18lrEgJjp6Xh0iquZQuG25mgogP7RdUELq0uw2TKjZirw27ojybRMnuw==
 
 "@types/history@*":
   version "4.7.6"
