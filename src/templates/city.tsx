@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { convert } from '@shootismoke/convert';
 import {
 	Api,
 	BoxButton,
@@ -30,8 +31,10 @@ import {
 	CurrentLocation,
 	FeaturedSection,
 	Footer,
+	HealthSection,
 	HowSection,
 	Nav,
+	PollutantSection,
 	SearchBar,
 	Section,
 	Seo,
@@ -125,7 +128,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<CurrentLocation city={city} />
 				{cigarettes ? (
 					<div className="lg:flex lg:items-center">
-						<div className="flex">
+						<div className="flex lg:flex-auto lg:justify-end">
 							<Cigarettes
 								cigarettes={cigarettes}
 								fullCigaretteLength={fullCigaretteLength(
@@ -136,7 +139,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 									// If only we could add `className="lg:justify-end"`...
 									justifyContent:
 										typeof window !== 'undefined' &&
-										window.innerWidth >= 1024
+										window.innerWidth >= 1024 &&
+										cigarettes <= 14
 											? ('flex-end' as const)
 											: undefined,
 									// This is so that horizontal cigarettes wrap correctly.
@@ -145,7 +149,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							/>
 						</div>
 
-						<div className="lg:flex-1 lg:ml-12">
+						<div className="lg:flex-auto lg:ml-12">
 							<div>
 								<CigarettesText
 									cigarettes={cigarettes}
@@ -183,27 +187,35 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				)}
 			</Section>
 
-			<Section className="text-center">
-				<div>
-					<h2 className="font-gotham-black text-3xl">
-						The main pollutant is{' '}
-						<strong className="text-orange">
-							{api?.normalized
-								.sort((a, b) => a.value - b.value)[0]
-								.parameter.toUpperCase()}
-						</strong>
-						.
-					</h2>
-					It&apos;s unhealthy because of reasons.
-				</div>
-				<div>
-					<h2 className="font-gotham-black text-3xl">
-						You should{' '}
-						<span className="text-orange">wear a mask</span>.
-					</h2>
-					It&apos;s better.
-				</div>
-			</Section>
+			{api && (
+				<PollutantSection
+					pollutant={
+						api.normalized
+							.map(({ parameter, value }) => ({
+								parameter,
+								value: convert(
+									parameter,
+									'raw',
+									'usaEpa',
+									value
+								),
+							}))
+							.sort((a, b) => a.value - b.value)[0].parameter
+					}
+				/>
+			)}
+
+			{api && (
+				<HealthSection
+					aqi={
+						api.normalized
+							.map(({ parameter, value }) =>
+								convert(parameter, 'raw', 'usaEpa', value)
+							)
+							.sort((a, b) => a - b)[0]
+					}
+				/>
+			)}
 
 			<HowSection />
 			<FeaturedSection />

@@ -14,29 +14,4 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import c from 'classnames';
-import React from 'react';
-
-interface SectionProps {
-	children:
-		| React.ReactElement
-		| undefined
-		| (React.ReactElement | undefined)[];
-	className?: string;
-}
-
-export function Section({
-	children,
-	className,
-}: SectionProps): React.ReactElement {
-	return (
-		<section
-			className={c(
-				'container mx-auto my-12 px-6 sm:px-12 md:px-24',
-				className
-			)}
-		>
-			{children}
-		</section>
-	);
-}
+export * from './PollutantSection';
