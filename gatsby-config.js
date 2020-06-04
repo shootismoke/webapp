@@ -10,8 +10,9 @@ module.exports = {
 			},
 		},
 		'gatsby-plugin-postcss',
-		'gatsby-plugin-typescript',
+		'gatsby-plugin-react-helmet',
 		'gatsby-plugin-react-native-web',
+		'gatsby-plugin-typescript',
 		{
 			resolve: 'gatsby-plugin-purgecss',
 			options: {
