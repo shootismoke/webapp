@@ -31,8 +31,8 @@ function populateCity(city) {
 		pRetry(
 			() =>
 				raceApiPromise(city.gps, {}).then((api) => ({
-					city,
 					api,
+					city,
 				})),
 			{ retries: 5 }
 		).catch(() => ({

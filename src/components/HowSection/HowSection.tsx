@@ -36,12 +36,13 @@ export function HowSection(): React.ReactElement {
 				<p className="lg:ml-4 lg:w-1/2">
 					Based on{' '}
 					<a
+						className="underline"
 						href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
 						rel="noreferrer"
 						target="_blank"
 					>
 						Berkeley Earth’s
-					</a>
+					</a>{' '}
 					findings about the equivalence between air pollution and
 					cigarette smoking. Some more SEO optimized text here.
 				</p>
