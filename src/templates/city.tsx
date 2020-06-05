@@ -42,7 +42,6 @@ import {
 
 interface CityProps {
 	pageContext: {
-		api?: Api;
 		city: City;
 	};
 }
@@ -93,9 +92,9 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
 	const { formatMessage: t } = useIntl();
 	const {
-		pageContext: { api: baseApi, city },
+		pageContext: { city },
 	} = props;
-	const [api, setApi] = useState<Api | undefined>(baseApi);
+	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
 
 	useEffect(() => {

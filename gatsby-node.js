@@ -1,6 +1,5 @@
+const fetch = require('node-fetch');
 const { resolve } = require('path');
-
-const { populateCities } = require('./scripts/populateCities');
 
 /**
  * For each hardcoded city, we create a static page.
@@ -10,13 +9,17 @@ exports.createPages = async ({ actions }) => {
 	const { createPage } = actions;
 	const cityTemplate = resolve(`src/templates/city.tsx`);
 
-	const populatedCities = await populateCities();
+	const populatedCities = await fetch(
+		'https://raw.githubusercontent.com/shootismoke/cities/master/all.json'
+	).then((r) => r.json());
 
-	populatedCities.forEach((populated) => {
+	populatedCities.forEach((city) => {
 		createPage({
-			path: `/city/${populated.city.slug}`,
+			path: `/city/${city.slug}`,
 			component: cityTemplate,
-			context: populated,
+			context: {
+				city,
+			},
 		});
 	});
 };
