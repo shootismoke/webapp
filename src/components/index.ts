@@ -1,5 +1,5 @@
 // Sh**t! I Smoke
-// Copyright (C) 2018-2019  Marcelo S. Coelho, Amaury Martiny
+// Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
 // Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,4 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export * from './MyComponent';
+export * from './CurrentLocation';
+export * from './FeaturedSection';
+export * from './Footer';
+export * from './GpsButton';
+export * from './HealthSection';
+export * from './HowSection';
+export * from './Nav';
+export * from './PollutantSection';
+export * from './SearchBar';
+export * from './Section';
+export * from './Seo';

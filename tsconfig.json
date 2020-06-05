@@ -1,6 +1,9 @@
 {
-  "compilerOptions": {
-    "jsx": "react",
-    "strict": true
-  }
+	"compilerOptions": {
+		"downlevelIteration": true,
+		"jsx": "react",
+		"resolveJsonModule": true,
+		"skipLibCheck": true
+	},
+	"extends": "./node_modules/@amaurymartiny/tsconfig/tsconfig"
 }

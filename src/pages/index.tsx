@@ -1,5 +1,5 @@
 // Sh**t! I Smoke
-// Copyright (C) 2018-2019  Marcelo S. Coelho, Amaury Martiny
+// Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
 // Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,15 +14,53 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import { Link } from 'gatsby';
+import React from 'react';
 
-import { MyComponent } from '../components';
+import {
+	FeaturedSection,
+	Footer,
+	GpsButton,
+	HowSection,
+	Nav,
+	SearchBar,
+	Section,
+	Seo,
+} from '../components';
 
 export default function Index(): React.ReactElement {
-  return (
-    <>
-      <h1>Hello</h1>
-      <MyComponent title="World" />
-    </>
-  );
+	return (
+		<>
+			<Seo title="Air Quality Data, in plain English" />
+			<Nav />
+			<Section>
+				<h1 className="font-gotham-black text-5xl">
+					How much am I
+					<br />
+					<span className="text-orange">smoking</span> by breathing
+					<br />
+					urban air?
+				</h1>
+				<SearchBar />
+				<p className="text-center">or</p>
+				<GpsButton />
+			</Section>
+
+			<Section>
+				<h2 className="text-xl">Ranking of cities</h2>
+				<ul>
+					<li>
+						<Link to="/city/berlin">Berlin</Link>
+					</li>
+					<li>
+						<Link to="/city/paris">Paris</Link>
+					</li>
+				</ul>
+			</Section>
+
+			<HowSection />
+			<FeaturedSection />
+			<Footer />
+		</>
+	);
 }

@@ -1,6 +1,6 @@
-# Sh**t! I Smoke Web Application
+# Sh\*\*t! I Smoke Web Application
 
-This repo holds the development of the web version of Sh**t! I Smoke
+This repo holds the development of the web version of Sh\*\*t! I Smoke
 
 ## Getting Started
 

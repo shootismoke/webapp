@@ -1,0 +1,9 @@
+.eslintrc.js
+babel.config.js
+gatsby-*.js
+postcss.config.js
+tailwindcss.config.js
+**/.cache/*
+**/.expo/*
+**/node_modules/*
+**/public/*
