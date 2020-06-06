@@ -2349,30 +2349,33 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
-"@shootismoke/convert@^0.2.25":
-  version "0.2.25"
-  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.2.25.tgz#2c7f1be6fd1015d00c99ed4cd89271a84c2ede65"
-  integrity sha512-Qn4z0vRZm2f3iV1tbesnjwlaUdpmK6nfsMVZ4U1ojMdyKuxJnQWaqiG5NybX0xKEtwRanKqx0QkUpQG0MyWj4A==
-
-"@shootismoke/dataproviders@^0.2.27":
-  version "0.2.27"
-  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.2.27.tgz#5e1127b8d87eda8e03637e2c17728341421053d6"
-  integrity sha512-Oi4XMbLC5JCL2BbCIPMdPFbPg0H71P8i1U3fFW3w1I/wp/ebx/KQ1fc9pAjI9HXW9gDiWa5AOUjDgv8NNORfoQ==
+"@shootismoke/convert@^0.2.28":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.2.28.tgz#5d60b5d61a0e9c97c9314b4357f01f5157a4e857"
+  integrity sha512-xHUYw1TBN/yZ7GcZiAfrmyEGFYes32tpSoPHLbpZ8dnuJHrVkH45PLkWODqY19kGnUqOp8RoCpTtGigcCgNDuA==
   dependencies:
-    "@shootismoke/convert" "^0.2.25"
+    "@types/debug" "^4.1.5"
+    debug "^4.1.1"
+
+"@shootismoke/dataproviders@^0.2.28":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.2.28.tgz#e58c1b8828d2ac3fee6a6a762c9c94dc831445e1"
+  integrity sha512-zKzccOQbO+bTJA/y7oUFBvsUDYFyqOXZ+80WODrdJD5iarW+/HgTd6n8Zbja1sh3xasRMFxuZRh82DaWVQKp1A==
+  dependencies:
+    "@shootismoke/convert" "^0.2.28"
     axios "^0.19.0"
     date-fns "^2.8.1"
     date-fns-tz "^1.0.9"
     fp-ts "^2.1.1"
     io-ts "^2.0.1"
 
-"@shootismoke/ui@^0.2.27":
-  version "0.2.27"
-  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.2.27.tgz#b9b60772aaa18f6e20d8781abe28b6b7372bfe48"
-  integrity sha512-GPWG4dQPBPd8z5KFBXRHUgOqMz7H/Mqo6dlrS5M+XZqTKSfCCd60rLqs76nvXMVN/r6/AfMfqu4A5v4A+D/Ytg==
+"@shootismoke/ui@^0.2.28":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.2.28.tgz#68a7c071ac108a04501026de1adf6ee1707e6164"
+  integrity sha512-SIxjHDs8BagvL4n/zUsEW6V44hK1V5p838TBGzgvTMrAKR6u2M9wSolyhTGbNtuhwv89qhAGzVYgyWi/YmXN3A==
   dependencies:
     "@expo/vector-icons" "^10.2.0"
-    "@shootismoke/dataproviders" "^0.2.27"
+    "@shootismoke/dataproviders" "^0.2.28"
     "@types/haversine" "^1.1.4"
     "@types/p-any" "^1.1.3"
     expo-constants "^9.0.0"
@@ -2579,6 +2582,11 @@
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.30.tgz#dc1e40f7af3b9c815013a7860e6252f6352a84df"
   integrity sha512-orGL5LXERPYsLov6CWs3Fh6203+dXzJkR7OnddIr2514Hsecwc8xRpzCapshBbKFImCsvS/mk6+FWiN5LyZJAQ==
+
+"@types/debug@^4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
+  integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"

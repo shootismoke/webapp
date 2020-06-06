@@ -31,6 +31,10 @@ export function Seo(props: SeoProps): React.ReactElement {
 				name="description"
 				content="FIXME Some description about the app"
 			/>
+
+			<link rel="preconnect" href="https://api.bigdatacloud.net" />
+			<link rel="preconnect" href="http://api.waqi.info" />
+			<link rel="preconnect" href="https://api.openaq.org" />
 			<title>{title} - Sh**! I Smoke</title>
 		</Helmet>
 	);

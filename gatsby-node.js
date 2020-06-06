@@ -1,22 +1,87 @@
-const { resolve } = require('path');
+const fetch = require('node-fetch');
+const path = require('path');
 
-const { populateCities } = require('./scripts/populateCities');
+exports.sourceNodes = async ({
+	actions,
+	createContentDigest,
+	createNodeId,
+}) => {
+	// Download cities data from our remote API.
+	const populatedCities = await fetch(
+		'https://raw.githubusercontent.com/shootismoke/cities/master/all.json'
+	).then((r) => r.json());
+
+	populatedCities.forEach((city) => {
+		const node = {
+			...city,
+			id: createNodeId(`shootismoke-city-${city.slug}`),
+			internal: {
+				type: `ShootismokeCity`,
+				contentDigest: createContentDigest(city),
+			},
+		};
+		actions.createNode(node);
+	});
+
+	return;
+};
 
 /**
- * For each hardcoded city, we create a static page.
- * Example: For Paris, we create `/city/paris`
+ * For each hardcoded city, we create a static page. Example: For Paris, we
+ * create `/city/paris`
  */
-exports.createPages = async ({ actions }) => {
+exports.createPages = ({ graphql, actions }) => {
 	const { createPage } = actions;
-	const cityTemplate = resolve(`src/templates/city.tsx`);
 
-	const populatedCities = await populateCities();
-
-	populatedCities.forEach((populated) => {
-		createPage({
-			path: `/city/${populated.city.slug}`,
-			component: cityTemplate,
-			context: populated,
+	// Query all cities and all their data.
+	return graphql(`
+		query AllCitiesQuery {
+			allShootismokeCity {
+				nodes {
+					api {
+						normalized {
+							parameter
+							value
+							lastUpdated
+							unit
+							sourceName
+							city
+							country
+							location
+						}
+						pm25 {
+							parameter
+							value
+							lastUpdated
+							unit
+							sourceName
+							city
+							country
+							location
+						}
+						shootismoke {
+							dailyCigarettes
+						}
+					}
+					country
+					gps {
+						latitude
+						longitude
+					}
+					name
+					slug
+				}
+			}
+		}
+	`).then((result) => {
+		result.data.allShootismokeCity.nodes.forEach((city) => {
+			createPage({
+				path: `/city/${city.slug}`,
+				component: path.resolve(`./src/templates/city.tsx`),
+				context: {
+					city,
+				},
+			});
 		});
 	});
 };

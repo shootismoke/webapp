@@ -15,11 +15,20 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { LatLng } from '@shootismoke/dataproviders';
+import { Api } from '@shootismoke/ui';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 export interface City {
+	api?: Api;
+	/**
+	 * City country, only available when it's a hardcoded city.
+	 */
+	country?: string;
 	gps: LatLng;
+	/**
+	 * City name, only available when it's a hardcoded city.
+	 */
 	name?: string;
 	/**
 	 * City slug in URL, only available when it's a hardcoded city.
