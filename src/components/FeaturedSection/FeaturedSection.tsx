@@ -16,13 +16,13 @@
 
 import React from 'react';
 
-import bbc from '../../../assets/images/media/bbc.png';
-import circa from '../../../assets/images/media/circa.png';
-import citylab from '../../../assets/images/media/citylab.png';
-import huffpost from '../../../assets/images/media/huffpost.png';
-import lifehacker from '../../../assets/images/media/lifehacker.png';
-import slate from '../../../assets/images/media/slate.png';
-import usbek from '../../../assets/images/media/usbek.png';
+import bbc from '../../../assets/images/media/bbc@3x.png';
+import circa from '../../../assets/images/media/circa@3x.png';
+import citylab from '../../../assets/images/media/citylab@3x.png';
+import huffpost from '../../../assets/images/media/huffpost@3x.png';
+import lifehacker from '../../../assets/images/media/lifehacker@3x.png';
+import slate from '../../../assets/images/media/slate@3x.png';
+import usbek from '../../../assets/images/media/usbek@3x.png';
 import { Section } from '../Section';
 
 const medias = [
@@ -82,7 +82,11 @@ export function FeaturedSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img alt={media.slug} src={media.image} />
+						<img
+							alt={media.slug}
+							className="w-24"
+							src={media.image}
+						/>
 					</a>
 				))}
 			</div>
