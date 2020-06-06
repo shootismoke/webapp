@@ -21,6 +21,7 @@ import React, { useEffect, useState } from 'react';
 
 export interface City {
 	api?: Api;
+	country: string;
 	gps: LatLng;
 	name?: string;
 	/**
