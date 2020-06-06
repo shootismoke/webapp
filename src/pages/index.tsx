@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Link } from 'gatsby';
 import React from 'react';
 
 import {
@@ -23,6 +22,7 @@ import {
 	GpsButton,
 	HowSection,
 	Nav,
+	RankingSection,
 	SearchBar,
 	Section,
 	Seo,
@@ -46,18 +46,7 @@ export default function Index(): React.ReactElement {
 				<GpsButton />
 			</Section>
 
-			<Section>
-				<h2 className="text-xl">Ranking of cities</h2>
-				<ul>
-					<li>
-						<Link to="/city/berlin">Berlin</Link>
-					</li>
-					<li>
-						<Link to="/city/paris">Paris</Link>
-					</li>
-				</ul>
-			</Section>
-
+			<RankingSection />
 			<HowSection />
 			<FeaturedSection />
 			<Footer />
