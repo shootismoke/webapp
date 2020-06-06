@@ -101,7 +101,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		setError(undefined);
 
 		raceApiPromise(city.gps, {
-			aqicnToken: '',
+			aqicnToken: process.env.AQICN_TOKEN as string,
 		})
 			.then(setApi)
 			.catch(setError);

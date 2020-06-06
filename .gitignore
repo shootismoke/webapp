@@ -33,3 +33,7 @@ yarn-error.log
 .pnp/
 .pnp.js
 .yarn-integrity
+
+# Secrets
+.env.development
+.env.production
