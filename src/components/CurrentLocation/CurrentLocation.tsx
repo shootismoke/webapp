@@ -21,8 +21,14 @@ import React, { useEffect, useState } from 'react';
 
 export interface City {
 	api?: Api;
-	country: string;
+	/**
+	 * City country, only available when it's a hardcoded city.
+	 */
+	country?: string;
 	gps: LatLng;
+	/**
+	 * City name, only available when it's a hardcoded city.
+	 */
 	name?: string;
 	/**
 	 * City slug in URL, only available when it's a hardcoded city.
