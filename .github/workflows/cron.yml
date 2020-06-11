@@ -1,0 +1,11 @@
+name: cron
+
+on:
+    schedule:
+        - cron: '0 * * * *' # Run every hour
+
+jobs:
+    cron:
+        runs-on: ubuntu-latest
+        steps:
+            - run: curl ${{ secrets.REBUILD_MASTER_HOOK }} # Vercel Github hook
