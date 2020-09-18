@@ -16,7 +16,9 @@
 
 import React from 'react';
 
+import mask from '../../../assets/images/icons/mask.svg';
 import { Section } from '../Section';
+import { Tip } from '../Tip';
 
 interface HealthSectionProps {
 	/**
@@ -31,7 +33,7 @@ interface HealthSectionProps {
  * @param aqi - Air Quality Index.
  * @see https://taqm.epa.gov.tw/taqm/en/b0201.html
  */
-function impact(aqi: number): string {
+export function impact(aqi: number): string {
 	if (aqi <= 50) {
 		return 'Air quality is considered satisfactory, and air pollution poses little or no risk.';
 	} else if (aqi <= 100) {
@@ -56,73 +58,96 @@ function impact(aqi: number): string {
 function tips(aqi: number): React.ReactElement[] {
 	if (aqi <= 50) {
 		return [
-			<p key={1}>
-				<span className="text-orange">Enjoy</span> your usual outdoor
-				activities.
-			</p>,
+			<Tip imgAlt="mask" imgSrc={mask} key={1}>
+				<h2 className="font-gotham-black text-xl">
+					<span className="text-orange">Enjoy</span> your usual
+					outdoor activities.
+				</h2>
+			</Tip>,
 		];
 	} else if (aqi <= 100) {
 		return [
-			<p key={1}>
-				<span className="text-orange">Enjoy</span> your usual outdoor
-				activities.
-			</p>,
+			<Tip imgAlt="mask" imgSrc={mask} key={1}>
+				<h2 className="font-gotham-black text-xl">
+					<span className="text-orange">Enjoy</span> your usual
+					outdoor activities.
+				</h2>
+			</Tip>,
 		];
 	} else if (aqi <= 150) {
 		return [
-			<p key={1}>
-				Everyone experiencing discomfort such as sore eyes, cough or
-				sore throat{' '}
-				<span className="text-orange">should consider reducing</span>{' '}
-				outdoor activities.
-			</p>,
-			<p key={2}>
-				For students, it’s ok to be active outside, but are{' '}
-				<span className="text-orange">recommended to reduce</span>{' '}
-				prolonged strenuous exercise.
-			</p>,
+			<Tip imgAlt="mask" imgSrc={mask} key={1}>
+				<h2 className="font-gotham-black text-xl">
+					Everyone experiencing discomfort such as sore eyes, cough or
+					sore throat{' '}
+					<span className="text-orange">
+						should consider reducing
+					</span>{' '}
+					outdoor activities.
+				</h2>
+			</Tip>,
+			<Tip imgAlt="mask" imgSrc={mask} key={2}>
+				<h2 className="font-gotham-black text-xl">
+					For students, it’s ok to be active outside, but are{' '}
+					<span className="text-orange">recommended to reduce</span>{' '}
+					prolonged strenuous exercise.
+				</h2>
+			</Tip>,
 		];
 	} else if (aqi <= 200) {
 		return [
-			<p key={1}>
-				Everyone experiencing discomfort such as sore eyes, cough or
-				sore throat <span className="text-orange">should reduce</span>{' '}
-				physical exertion, particularly outdoors.
-			</p>,
-			<p key={2}>
-				Students should avoid prolonged strenuous exercise, and{' '}
-				<span className="text-orange">take more breaks</span> during
-				outdoor activities.
-			</p>,
+			<Tip imgAlt="mask" imgSrc={mask} key={1}>
+				<h2 className="font-gotham-black text-xl">
+					Everyone experiencing discomfort such as sore eyes, cough or
+					sore throat{' '}
+					<span className="text-orange">should reduce</span> physical
+					exertion, particularly outdoors.
+				</h2>
+			</Tip>,
+			<Tip imgAlt="mask" imgSrc={mask} key={2}>
+				<h2 className="font-gotham-black text-xl">
+					Students should avoid prolonged strenuous exercise, and{' '}
+					<span className="text-orange">take more breaks</span> during
+					outdoor activities.
+				</h2>
+			</Tip>,
 		];
 	} else if (aqi <= 300) {
 		return [
-			<p key={1}>
-				Everyone <span className="text-orange">should reduce</span>{' '}
-				outdoor activities.
-			</p>,
-			<p key={2}>
-				Students{' '}
-				<span className="text-orange">
-					should stop outdoor activities
-				</span>{' '}
-				and move all activities and classes indoors.
-			</p>,
+			<Tip imgAlt="mask" imgSrc={mask} key={1}>
+				<h2 className="font-gotham-black text-xl">
+					Everyone <span className="text-orange">should reduce</span>{' '}
+					outdoor activities.
+				</h2>
+			</Tip>,
+			<Tip imgAlt="mask" imgSrc={mask} key={2}>
+				<h2 className="font-gotham-black text-xl">
+					Students{' '}
+					<span className="text-orange">
+						should stop outdoor activities
+					</span>{' '}
+					and move all activities and classes indoors.
+				</h2>
+			</Tip>,
 		];
 	} else {
 		return [
-			<p key={1}>
-				Everyone <span className="text-orange">should avoid</span>{' '}
-				outdoor activities and keep doors and windows closed. If it is
-				necessary to go out, please wear a mask.
-			</p>,
-			<p key={2}>
-				Students{' '}
-				<span className="text-orange">
-					should stop outdoor activities
-				</span>{' '}
-				and move all activities and classes indoors.
-			</p>,
+			<Tip imgAlt="mask" imgSrc={mask} key={1}>
+				<h2 className="font-gotham-black text-xl">
+					Everyone <span className="text-orange">should avoid</span>{' '}
+					outdoor activities and keep doors and windows closed. If it
+					is necessary to go out, please wear a mask.
+				</h2>
+			</Tip>,
+			<Tip imgAlt="mask" imgSrc={mask} key={2}>
+				<h2 className="font-gotham-black text-xl">
+					Students{' '}
+					<span className="text-orange">
+						should stop outdoor activities
+					</span>{' '}
+					and move all activities and classes indoors.
+				</h2>
+			</Tip>,
 		];
 	}
 }
@@ -130,10 +155,5 @@ function tips(aqi: number): React.ReactElement[] {
 export function HealthSection(props: HealthSectionProps): React.ReactElement {
 	const { aqi } = props;
 
-	return (
-		<Section className="lg:w-2/3 text-center">
-			<h2 className="font-gotham-black text-3xl">{tips(aqi)[0]}</h2>
-			<p>{impact(aqi)}</p>
-		</Section>
-	);
+	return <Section className="lg:w-2/3">{tips(aqi)}</Section>;
 }

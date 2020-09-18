@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 export * from './CurrentLocation';
+export * from './DownloadSection';
 export * from './FeaturedSection';
 export * from './Footer';
 export * from './GpsButton';
@@ -25,4 +26,6 @@ export * from './PollutantSection';
 export * from './RankingSection';
 export * from './SearchBar';
 export * from './Section';
+export * from './SectionDivider';
 export * from './Seo';
+export * from './Tip';

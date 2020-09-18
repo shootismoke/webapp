@@ -1,9 +1,11 @@
 module.exports = {
 	theme: {
 		colors: {
-			black: '#44464A',
-			gray: '#8B909A',
+			'gray-200': '#CCCFD5',
+			'gray-600': '#777D89',
+			'gray-700': '#44464A',
 			orange: '#F8A65D',
+			white: '#FFFFFF',
 		},
 		fontFamily: {
 			'gotham-black': ['gotham-black', 'Montserrat', 'Arial'],

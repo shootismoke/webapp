@@ -20,23 +20,28 @@ import {
 	BoxButton,
 	Cigarettes,
 	CigarettesText,
+	distanceToStation,
 	FrequencyContext,
 	raceApiPromise,
 } from '@shootismoke/ui';
+import c from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import {
 	City,
-	CurrentLocation,
+	DownloadSection,
 	FeaturedSection,
 	Footer,
 	HealthSection,
 	HowSection,
 	Nav,
 	PollutantSection,
+	reverseGeocode,
 	SearchBar,
 	Section,
+	SectionDivider,
+	sectionHorizontalPadding,
 	Seo,
 } from '../components';
 
@@ -53,11 +58,11 @@ interface CityProps {
  */
 function fullCigaretteLength(cigarettes: number): number {
 	if (cigarettes <= 4) {
-		return 200;
-	} else if (cigarettes <= 15) {
 		return 150;
+	} else if (cigarettes <= 15) {
+		return 120;
 	} else {
-		return 100;
+		return 50;
 	}
 }
 
@@ -73,11 +78,15 @@ function capitalize(s: string): string {
 /**
  * Decide on a SEO title for the page.
  */
-function getSeoTitle(cigarettes?: number, slug?: string): string {
+function getSeoTitle(
+	cigarettes?: number,
+	slug?: string,
+	name?: string
+): string {
 	if (!cigarettes) {
 		return slug
 			? `${capitalize(slug)} Air Pollution`
-			: 'City Air Pollution';
+			: `City Air Pollution`;
 	}
 
 	// Round to 1 decimal
@@ -85,7 +94,7 @@ function getSeoTitle(cigarettes?: number, slug?: string): string {
 
 	return slug
 		? `${capitalize(slug)} Air Pollution: ${cigarettesRounded} cigarettes`
-		: `City Air Pollution: ${cigarettesRounded} cigarettes`;
+		: `${name} Air Pollution: ${cigarettesRounded} cigarettes`;
 }
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
@@ -96,6 +105,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	} = props;
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
+	const [name, setName] = useState(city.name);
 
 	useEffect(() => {
 		setError(undefined);
@@ -107,6 +117,10 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			.catch(setError);
 	}, [city.gps]);
 
+	useEffect(() => {
+		reverseGeocode(city.gps).then(setName).catch(console.error);
+	}, [city.gps]);
+
 	const cigarettes = api
 		? api.shootismoke.dailyCigarettes *
 		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
@@ -115,19 +129,33 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	return (
 		<>
 			<Seo
-				title={getSeoTitle(api?.shootismoke.dailyCigarettes, city.slug)}
+				title={getSeoTitle(
+					api?.shootismoke.dailyCigarettes,
+					city.slug,
+					name
+				)}
 			/>
 
 			<Nav />
 			<Section>
 				<SearchBar />
+				{api && (
+					<p className="mt-2 text-gray-600 text-xs">
+						Air Quality Station: {distanceToStation(city.gps, api)}
+						km away
+					</p>
+				)}
 			</Section>
 
-			<Section>
-				<CurrentLocation city={city} />
+			<Section noPadding>
 				{cigarettes ? (
-					<div className="lg:flex lg:items-center">
-						<div className="flex lg:flex-auto lg:justify-end">
+					<div className="'lg:flex lg:items-center'">
+						<div
+							className={c(
+								sectionHorizontalPadding,
+								'flex lg:flex-auto lg:justify-end h-32'
+							)}
+						>
 							<Cigarettes
 								cigarettes={cigarettes}
 								fullCigaretteLength={fullCigaretteLength(
@@ -149,7 +177,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						</div>
 
 						<div className="lg:flex-auto lg:ml-12">
-							<div>
+							<div className={sectionHorizontalPadding}>
 								<CigarettesText
 									cigarettes={cigarettes}
 									t={(id, replace): string =>
@@ -158,11 +186,12 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 								/>
 							</div>
 
-							<div className="mt-4 flex">
+							{/** Same as sectionHorizontalPadding, but only left. */}
+							<div className="mt-4 ml-6 sm:ml-12 md:pm-24 pb-2 w-full overflow-auto flex">
 								{(['daily', 'weekly', 'monthly'] as const).map(
 									(f) => (
 										<div
-											className="mx-2 cursor-pointer"
+											className="mr-3 cursor-pointer"
 											key={f}
 										>
 											<BoxButton
@@ -180,9 +209,11 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						</div>
 					</div>
 				) : error ? (
-					<p className="text-red">ERROR: {error.message}</p>
+					<p className={c(sectionHorizontalPadding, 'text-red')}>
+						ERROR: {error.message}
+					</p>
 				) : (
-					<p>Loading...</p>
+					<p className={c(sectionHorizontalPadding)}>Loading...</p>
 				)}
 			</Section>
 
@@ -216,8 +247,11 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				/>
 			)}
 
+			<SectionDivider title="Most cigarettes near you" />
+
 			<HowSection />
 			<FeaturedSection />
+			<DownloadSection />
 			<Footer />
 		</>
 	);

@@ -17,7 +17,10 @@
 import { Pollutant } from '@shootismoke/convert';
 import React from 'react';
 
+import skull from '../../../assets/images/icons/skull.svg';
 import { Section } from '../Section';
+import { SectionDivider } from '../SectionDivider';
+import { Tip } from '../Tip';
 
 interface PollutantSectionProps {
 	pollutant: Pollutant;
@@ -33,7 +36,8 @@ const pollutantData: Partial<Record<
 	{ effects: string; name: string }
 >> = {
 	c6h6: {
-		effects: 'Primary pollutants that produce photochemical smog.',
+		effects:
+			'Hydrocarbons are the primary pollutants that produce photochemical smog.',
 		name: 'Hydrocarbons',
 	},
 	// FIXME Add ch4
@@ -43,7 +47,7 @@ const pollutantData: Partial<Record<
 	// },
 	co: {
 		effects:
-			'Reduces the oxygen-carrying capacity of the blood by combining with haemoglobin, thus deprives tissues of O2.',
+			'Carbon monoxide reduces the oxygen-carrying capacity of the blood by combining with haemoglobin, thus deprives tissues of O2.',
 		name: 'Carbon monoxide',
 	},
 	// FIXME Add co2
@@ -52,30 +56,32 @@ const pollutantData: Partial<Record<
 	// },
 	no: {
 		effects:
-			'Cause eye, throat, and lung irritation. Primary pollutants that produce photochemical smog and acid rain, destroy ozone at the stratosphere.',
+			'Nitrogen oxides cause eye, throat, and lung irritation. Primary pollutants that produce photochemical smog and acid rain, destroy ozone at the stratosphere.',
 		name: 'Nitrogen oxides',
 	},
 	no2: {
 		effects:
-			'Cause eye, throat, and lung irritation. Primary pollutants that produce photochemical smog and acid rain, destroy ozone at the stratosphere.',
+			'Nitrogen oxides cause eye, throat, and lung irritation. Primary pollutants that produce photochemical smog and acid rain, destroy ozone at the stratosphere.',
 		name: 'Nitrogen oxides',
 	},
 	o3: {
 		effects:
-			'Causes eye, throat, and lung irritation, impairs lung function.',
+			'Ozone causes eye, throat, and lung irritation, impairs lung function.',
 		name: 'Ozone',
 	},
 	pm10: {
-		effects: 'May cause breathing difficulties.',
+		effects:
+			'Particulate matters under 10μm (PM10) ,ay cause breathing difficulties.',
 		name: 'Particulates',
 	},
 	pm25: {
-		effects: 'May cause breathing difficulties.',
+		effects:
+			'Particulate matters under 2.5μm (PM2.5) ,ay cause breathing difficulties.',
 		name: 'Particulates',
 	},
 	so2: {
 		effects:
-			'Causes eye, throat, and lung irritation. Primary pollutants that produce acid rain.',
+			'Sulfur dioxide causes eye, throat, and lung irritation. Primary pollutants that produce acid rain.',
 		name: 'Sulfur dioxide',
 	},
 };
@@ -85,28 +91,27 @@ export function PollutantSection(
 ): React.ReactElement {
 	const { pollutant } = props;
 
+	const polData = pollutantData[pollutant];
+
+	if (!polData) {
+		throw new Error('All pollutants are in pollutantData. qed.');
+	}
+
 	return (
-		<Section className="lg:w-2/3">
-			<h2 className="text-center font-gotham-black text-3xl">
-				The main pollutant is{' '}
-				<strong className="text-orange">
-					{pollutant.toUpperCase()}
-				</strong>
-			</h2>
-			{pollutantData[pollutant] && (
-				<>
-					<p>
-						<span className="text-orange">What is it? </span>
-						{pollutantData[pollutant]!.name}
-					</p>
-					<p>
+		<>
+			<SectionDivider title="Today's tips" />
+			<Section className="lg:w-2/3">
+				<Tip imgAlt="skull" imgSrc={skull}>
+					<h2 className="font-gotham-black text-xl">
+						Your primary pollutant is{' '}
 						<span className="text-orange">
-							Why does it matter?{' '}
+							{polData.name} ({pollutant.toUpperCase()})*
 						</span>
-						{pollutantData[pollutant]!.effects}
-					</p>
-				</>
-			)}
-		</Section>
+					</h2>
+				</Tip>
+
+				<p className="text-gray-600 text-xs">*{polData.effects}</p>
+			</Section>
+		</>
 	);
 }

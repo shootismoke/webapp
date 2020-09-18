@@ -21,7 +21,7 @@ import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
 import { navigate } from 'gatsby';
 import React from 'react';
-import { OptionsType, OptionTypeBase } from 'react-select';
+import { OptionsType, OptionTypeBase, StylesConfig } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
 interface SearchBarProps {
@@ -55,13 +55,31 @@ function loadOptions(inputValue: string): Promise<OptionsType<OptionTypeBase>> {
 	)();
 }
 
+const customStyles: StylesConfig = {
+	control: (provided) => ({
+		...provided,
+		borderRadius: '10px',
+		borderWidth: 1,
+		padding: '5px',
+	}),
+	indicatorsContainer: (provided) => ({
+		...provided,
+		display: 'none',
+	}),
+
+	singleValue: (provided) => ({
+		...provided,
+		width: '80%',
+	}),
+};
+
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const { className } = props;
 
 	return (
 		<>
 			<AsyncSelect
-				className={c('border w-full', className)}
+				className={c('w-full rounded', className)}
 				loadOptions={loadOptions}
 				noOptionsMessage={(): string =>
 					'Type something to look for a city...'
@@ -76,6 +94,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 					});
 				}}
 				placeholder="Search any location"
+				styles={customStyles}
 			/>
 		</>
 	);

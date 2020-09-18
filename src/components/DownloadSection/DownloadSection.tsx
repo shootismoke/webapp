@@ -14,41 +14,35 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { ConversionBox } from '@shootismoke/ui';
 import React from 'react';
-import { useIntl } from 'react-intl';
 
+import apple from '../../../assets/images/app-store@3x.png';
+import play from '../../../assets/images/play-store@3x.png';
 import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 
-export function HowSection(): React.ReactElement {
-	const { formatMessage: t } = useIntl();
-
+export function DownloadSection(): React.ReactElement {
 	return (
 		<>
-			<SectionDivider title="Know more about air pollution" />
-
+			<SectionDivider title="App available on" />
 			<Section>
-				<div className="lg:flex lg:items-center">
-					<div className="lg:mr-4 lg:w-1/2">
-						<ConversionBox
-							style={{ paddingVertical: 24 }}
-							t={(id, replace): string => t({ id }, replace)}
-						/>
-					</div>
-					<p className="lg:ml-4 lg:w-1/2 text-gray-600 text-xs">
-						*Based on{' '}
-						<a
-							className="underline"
-							href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
-							rel="noreferrer"
-							target="_blank"
-						>
-							Berkeley Earth’s
-						</a>{' '}
-						findings about the equivalence between air pollution and
-						cigarette smoking.
-					</p>
+				<div className="flex flex-row justify-center">
+					<a
+						className="mx-2"
+						href="https://itunes.apple.com/us/app/s-i-smoke/id1365605567?mt=8"
+						rel="noreferrer"
+						target="_blank"
+					>
+						<img alt="download on Apple Store" src={apple} />
+					</a>
+					<a
+						className="mx-2"
+						href="https://play.google.com/store/apps/details?id=com.shitismoke.app"
+						rel="noreferrer"
+						target="_blank"
+					>
+						<img alt="download on Play Store" src={play} />
+					</a>
 				</div>
 			</Section>
 		</>

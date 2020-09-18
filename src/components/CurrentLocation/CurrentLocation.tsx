@@ -17,7 +17,6 @@
 import { LatLng } from '@shootismoke/dataproviders';
 import { Api } from '@shootismoke/ui';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 
 export interface City {
 	api?: Api;
@@ -61,23 +60,4 @@ export async function reverseGeocode(gps: LatLng): Promise<string> {
 	]
 		.filter((x) => !!x)
 		.join(', ');
-}
-
-export function CurrentLocation(
-	props: CurrentLocationProps
-): React.ReactElement {
-	const { city } = props;
-	const [name, setName] = useState(city.name);
-
-	useEffect(() => {
-		reverseGeocode(city.gps).then(setName).catch(console.error);
-	}, [city.gps]);
-
-	return (
-		<>
-			<h1 className="mb-12 text-xl">
-				<span className="text-orange">Air Pollution in:</span> {name}
-			</h1>
-		</>
-	);
 }

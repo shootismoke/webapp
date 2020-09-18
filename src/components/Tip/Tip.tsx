@@ -17,31 +17,37 @@
 import c from 'classnames';
 import React from 'react';
 
-interface SectionProps {
+interface TipProps {
 	children:
 		| React.ReactElement
 		| undefined
 		| (React.ReactElement | undefined)[];
 	className?: string;
-	noPadding?: boolean;
+	imgAlt: string;
+	imgSrc: string;
 }
 
-export const sectionHorizontalPadding = 'px-6 sm:px-12 md:px-24';
-
-export function Section({
+export function Tip({
 	children,
 	className,
-	noPadding,
-}: SectionProps): React.ReactElement {
+	imgAlt,
+	imgSrc,
+}: TipProps): React.ReactElement {
 	return (
-		<section
+		<div
 			className={c(
-				'container mx-auto my-8',
-				!noPadding && sectionHorizontalPadding,
+				'flex flex-row items-center justify-between',
 				className
 			)}
 		>
+			<img
+				alt={imgAlt}
+				className="mr-4"
+				src={imgSrc}
+				style={{ minWidth: '42px' }}
+			></img>
+
 			{children}
-		</section>
+		</div>
 	);
 }

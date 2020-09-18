@@ -20,19 +20,17 @@ import React from 'react';
 
 export function Nav(): React.ReactElement {
 	return (
-		<header>
+		<header className="mx-2 mt-4">
 			<nav className="flex justify-between items-center">
 				<div className="flex w-1/2">
-					<Link className="flex flex-grow items-center" to="/">
-						<img alt="logo" className="w-12" src={logo} />
-						<h2 className="font-gotham-black">Sh**t! I Smoke</h2>
+					{/** Should be `items-center`, but `items-end` looks better */}
+					<Link className="flex flex-grow items-end" to="/">
+						<img alt="logo" className="pr-2 w-12" src={logo} />
+						<h2 className="font-gotham-black leading-4">
+							<span className="text-orange">Shoot!</span>
+							<br />I Smoke
+						</h2>
 					</Link>
-				</div>
-
-				<div className="flex">
-					<p className="ml-4">Mobile</p>
-					<p className="ml-4">Share</p>
-					<p className="ml-4">F.A.Q.</p>
 				</div>
 			</nav>
 		</header>

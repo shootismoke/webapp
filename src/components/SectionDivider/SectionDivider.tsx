@@ -14,34 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import c from 'classnames';
 import React from 'react';
 
-interface SectionProps {
-	children:
-		| React.ReactElement
-		| undefined
-		| (React.ReactElement | undefined)[];
+import { Section } from '../Section';
+
+interface SectionDividerProps {
 	className?: string;
-	noPadding?: boolean;
+	title: string;
 }
 
-export const sectionHorizontalPadding = 'px-6 sm:px-12 md:px-24';
-
-export function Section({
-	children,
+export function SectionDivider({
 	className,
-	noPadding,
-}: SectionProps): React.ReactElement {
+	title,
+}: SectionDividerProps): React.ReactElement {
 	return (
-		<section
-			className={c(
-				'container mx-auto my-8',
-				!noPadding && sectionHorizontalPadding,
-				className
-			)}
-		>
-			{children}
-		</section>
+		<Section className={className}>
+			<div className="pt-8 flex flex-row items-center">
+				<hr className="flex-grow border-t border-gray-200" />
+				<p className="mx-4 text-xs font-gotham-black uppercase">
+					{title}
+				</p>
+				<hr className="flex-grow border-gray-200" />
+			</div>
+		</Section>
 	);
 }
