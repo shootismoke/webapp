@@ -187,7 +187,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							</div>
 
 							{/** Same as sectionHorizontalPadding, but only left. */}
-							<div className="mt-4 ml-6 sm:ml-12 md:pm-24 pb-2 w-full overflow-auto flex">
+							<div className="mt-4 ml-6 sm:ml-12 md:pm-24 pb-2 overflow-auto flex">
 								{(['daily', 'weekly', 'monthly'] as const).map(
 									(f) => (
 										<div
