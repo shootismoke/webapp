@@ -1,12 +1,12 @@
-// Sh**t! I Smoke
+// Shoot! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Sh**t! I Smoke is free software: you can redistribute it and/or modify
+// Shoot! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Sh**t! I Smoke is distributed in the hope that it will be useful,
+// Shoot! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
