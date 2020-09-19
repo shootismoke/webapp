@@ -20,7 +20,6 @@ import {
 	DownloadSection,
 	FeaturedSection,
 	Footer,
-	GpsButton,
 	HowSection,
 	Nav,
 	RankingSection,
@@ -35,16 +34,14 @@ export default function Index(): React.ReactElement {
 			<Seo title="Air Quality Data, in plain English" />
 			<Nav />
 			<Section>
-				<h1 className="font-gotham-black text-5xl">
+				<h1 className="font-gotham-black lg:text-5xl md:text-4xl text-3xl">
 					How much am I
 					<br />
 					<span className="text-orange">smoking</span> by breathing
 					<br />
 					urban air?
 				</h1>
-				<SearchBar />
-				<p className="text-center">or</p>
-				<GpsButton />
+				<SearchBar className="mt-4" />
 			</Section>
 
 			<RankingSection />

@@ -20,7 +20,7 @@ import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
 import { navigate } from 'gatsby';
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	OptionsType,
 	OptionTypeBase,
@@ -28,6 +28,8 @@ import {
 	StylesConfig,
 } from 'react-select';
 import AsyncSelect from 'react-select/async';
+
+import location from '../../../assets/images/icons/location.svg';
 
 interface SearchBarProps extends SelectProps {
 	className?: string;
@@ -88,28 +90,64 @@ export interface SearchLocationState {
 	cityName: string;
 }
 
+const DEFAULT_PLACEHOLDER = 'Check the air quality of your city...';
+
 export function SearchBar(props: SearchBarProps): React.ReactElement {
-	const { className, loadOptions: _loadOptions, ...rest } = props;
+	const { className, ...rest } = props;
+
+	const [placeholder, setPlaceholder] = useState(DEFAULT_PLACEHOLDER);
 
 	return (
-		<AsyncSelect
-			className={c('w-full rounded', className)}
-			loadOptions={algoliaLoadOptions}
-			noOptionsMessage={(): string =>
-				'Type something to look for a city...'
-			}
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-			// @ts-ignore FIXME How to fix this?
-			onChange={({ label, value }): void => {
-				navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
-					state: {
-						cityName: label,
-					} as SearchLocationState,
-				});
-			}}
-			placeholder="Search any location"
-			styles={customStyles}
-			{...rest}
-		/>
+		<div className="relative">
+			<AsyncSelect
+				className={c('w-full rounded', className)}
+				loadOptions={algoliaLoadOptions}
+				noOptionsMessage={(): string => 'Type something...'}
+				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// @ts-ignore FIXME How to fix this?
+				onChange={({ label, value }): void => {
+					navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
+						state: {
+							cityName: label,
+						} as SearchLocationState,
+					});
+				}}
+				placeholder={placeholder}
+				styles={customStyles}
+				{...rest}
+			/>
+			<img
+				alt="location"
+				className="absolute top-0 mt-3 mr-3 right-0 w-6 cursor-pointer"
+				onClick={(): void => {
+					setPlaceholder("Fetching browser's GPS location...");
+					if (!navigator.geolocation) {
+						setPlaceholder(
+							'Error: Geolocation is not supported for this Browser/OS.'
+						);
+						setTimeout(
+							() => setPlaceholder(DEFAULT_PLACEHOLDER),
+							1500
+						);
+					} else {
+						navigator.geolocation.getCurrentPosition(
+							(position) => {
+								navigate(
+									`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
+								);
+							},
+							(err) => {
+								setPlaceholder(`Error: ${err.message}`);
+								setTimeout(
+									() => setPlaceholder(DEFAULT_PLACEHOLDER),
+									1500
+								);
+							}
+						);
+					}
+				}}
+				src={location}
+			/>
+		</div>
 	);
 }

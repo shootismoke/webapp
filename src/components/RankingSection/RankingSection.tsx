@@ -20,6 +20,7 @@ import React from 'react';
 
 import { City } from '../CurrentLocation';
 import { Section } from '../Section';
+import { SectionDivider } from '../SectionDivider';
 
 export function RankingSection(): React.ReactElement {
 	const cities = useStaticQuery(graphql`
@@ -39,19 +40,25 @@ export function RankingSection(): React.ReactElement {
 	`);
 
 	return (
-		<Section>
-			<h2 className="text-xl">Ranking of cities:</h2>
-			<ul>
-				{cities.allShootismokeCity.nodes.map((city: City) => (
-					<li key={city.slug}>
-						<Link className="underline" to={`/city/${city.slug}`}>
-							{city.name}
-						</Link>
-						: {round(city.api?.shootismoke.dailyCigarettes || 0)}{' '}
-						cigarettes
-					</li>
-				))}
-			</ul>
-		</Section>
+		<>
+			<SectionDivider title="City ranking" />
+			<Section>
+				<ul>
+					{cities.allShootismokeCity.nodes.map((city: City) => (
+						<li key={city.slug}>
+							<Link
+								className="underline"
+								to={`/city/${city.slug}`}
+							>
+								{city.name}
+							</Link>
+							:{' '}
+							{round(city.api?.shootismoke.dailyCigarettes || 0)}{' '}
+							cigarettes
+						</li>
+					))}
+				</ul>
+			</Section>
+		</>
 	);
 }
