@@ -17,6 +17,7 @@
 import React from 'react';
 
 import {
+	DownloadSection,
 	FeaturedSection,
 	Footer,
 	GpsButton,
@@ -49,6 +50,7 @@ export default function Index(): React.ReactElement {
 			<RankingSection />
 			<HowSection />
 			<FeaturedSection />
+			<DownloadSection />
 			<Footer />
 		</>
 	);

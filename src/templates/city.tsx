@@ -60,9 +60,12 @@ interface CityProps {
  * @param cigarettes - The cigarettes count.
  */
 function fullCigaretteLength(cigarettes: number): number {
-	if (cigarettes <= 4) {
+	if (cigarettes <= 1) {
 		return 150;
-	} else if (cigarettes <= 15) {
+	} else if (cigarettes <= 4) {
+		return 200;
+	} else if (cigarettes <= 59) {
+		// Empirically, 59 cigarettes of length 120 fit into 1 line.
 		return 120;
 	} else {
 		return 50;
@@ -172,25 +175,36 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 								fullCigaretteLength={fullCigaretteLength(
 									cigarettes
 								)}
-								showMaxCigarettes={60}
+								showMaxCigarettes={200}
 								style={{
-									// If only we could add `className="lg:justify-end"`...
-									justifyContent:
-										typeof window !== 'undefined' &&
-										window.innerWidth >= 1024 &&
-										cigarettes <= 14
-											? ('flex-end' as const)
-											: undefined,
+									maxHeight: '128px',
 									// This is so that horizontal cigarettes wrap correctly.
-									maxWidth: 300,
+									maxWidth:
+										cigarettes <= 4 ? '300px' : '100%',
+									overflow: 'hidden',
 								}}
 							/>
 						</div>
 
-						<div className={sectionHorizontalPadding}>
+						<div
+							className={c(
+								sectionHorizontalPadding,
+								'mt-8 text-3xl'
+							)}
+						>
 							<CigarettesText
 								cigarettes={cigarettes}
 								t={(id, replace): string => t({ id }, replace)}
+								style={{
+									// If only we could add `className="lg:text-3xl"`...
+									// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+									// @ts-ignore
+									fontSize:
+										typeof window !== 'undefined' &&
+										window.innerWidth >= 1024
+											? '3rem'
+											: '2.25rem',
+								}}
 							/>
 						</div>
 
