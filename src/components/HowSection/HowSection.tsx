@@ -28,28 +28,26 @@ export function HowSection(): React.ReactElement {
 		<>
 			<SectionDivider title="Know more about air pollution" />
 
-			<Section>
-				<div className="lg:flex lg:items-center">
-					<div className="lg:mr-4 lg:w-1/2">
-						<ConversionBox
-							style={{ paddingVertical: 24 }}
-							t={(id, replace): string => t({ id }, replace)}
-						/>
-					</div>
-					<p className="lg:ml-4 lg:w-1/2 text-gray-600 text-xs">
-						*Based on{' '}
-						<a
-							className="underline"
-							href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
-							rel="noreferrer"
-							target="_blank"
-						>
-							Berkeley Earth’s
-						</a>{' '}
-						findings about the equivalence between air pollution and
-						cigarette smoking.
-					</p>
+			<Section className="flex flex-col items-center">
+				<div className="lg:mr-4 lg:w-1/2">
+					<ConversionBox
+						style={{ paddingVertical: 24 }}
+						t={(id, replace): string => t({ id }, replace)}
+					/>
 				</div>
+				<p className="lg:ml-4 lg:w-1/2 text-gray-600 text-xs">
+					*Based on{' '}
+					<a
+						className="underline"
+						href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
+						rel="noreferrer"
+						target="_blank"
+					>
+						Berkeley Earth’s
+					</a>{' '}
+					findings about the equivalence between air pollution and
+					cigarette smoking.
+				</p>
 			</Section>
 		</>
 	);

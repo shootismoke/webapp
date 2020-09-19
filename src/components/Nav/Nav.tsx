@@ -20,7 +20,7 @@ import React from 'react';
 
 export function Nav(): React.ReactElement {
 	return (
-		<header className="mx-2 mt-4">
+		<header className="xl:mx-4 lg:mx-4 mx-2 mt-4">
 			<nav className="flex justify-between items-center">
 				<div className="flex w-1/2">
 					{/** Should be `items-center`, but `items-end` looks better */}

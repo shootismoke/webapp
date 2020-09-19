@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { NavigateOptions } from '@reach/router';
 import { convert } from '@shootismoke/convert';
 import {
 	Api,
@@ -39,6 +40,7 @@ import {
 	PollutantSection,
 	reverseGeocode,
 	SearchBar,
+	SearchLocationState,
 	Section,
 	SectionDivider,
 	sectionHorizontalPadding,
@@ -46,6 +48,7 @@ import {
 } from '../components';
 
 interface CityProps {
+	location?: NavigateOptions<SearchLocationState>;
 	pageContext: {
 		city: City;
 	};
@@ -81,7 +84,7 @@ function capitalize(s: string): string {
 function getSeoTitle(
 	cigarettes?: number,
 	slug?: string,
-	name?: string
+	reverseGeoName?: string
 ): string {
 	if (!cigarettes) {
 		return slug
@@ -94,18 +97,19 @@ function getSeoTitle(
 
 	return slug
 		? `${capitalize(slug)} Air Pollution: ${cigarettesRounded} cigarettes`
-		: `${name} Air Pollution: ${cigarettesRounded} cigarettes`;
+		: `${reverseGeoName} Air Pollution: ${cigarettesRounded} cigarettes`;
 }
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
 	const { formatMessage: t } = useIntl();
 	const {
+		location: routerLocation,
 		pageContext: { city },
 	} = props;
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
-	const [name, setName] = useState(city.name);
+	const [reverseGeoName, setReverseGeoName] = useState(city.name);
 
 	useEffect(() => {
 		setError(undefined);
@@ -118,7 +122,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	}, [city.gps]);
 
 	useEffect(() => {
-		reverseGeocode(city.gps).then(setName).catch(console.error);
+		reverseGeocode(city.gps).then(setReverseGeoName).catch(console.error);
 	}, [city.gps]);
 
 	const cigarettes = api
@@ -132,13 +136,20 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				title={getSeoTitle(
 					api?.shootismoke.dailyCigarettes,
 					city.slug,
-					name
+					reverseGeoName
 				)}
 			/>
 
 			<Nav />
 			<Section>
-				<SearchBar />
+				<SearchBar
+					placeholder={
+						city.name ||
+						routerLocation?.state?.cityName ||
+						reverseGeoName ||
+						'Search for any city'
+					}
+				/>
 				{api && (
 					<p className="mt-2 text-gray-600 text-xs">
 						Air Quality Station: {distanceToStation(city.gps, api)}
@@ -153,7 +164,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						<div
 							className={c(
 								sectionHorizontalPadding,
-								'flex lg:flex-auto lg:justify-end h-32'
+								'flex lg:justify-start h-32'
 							)}
 						>
 							<Cigarettes
@@ -176,36 +187,32 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							/>
 						</div>
 
-						<div className="lg:flex-auto lg:ml-12">
-							<div className={sectionHorizontalPadding}>
-								<CigarettesText
-									cigarettes={cigarettes}
-									t={(id, replace): string =>
-										t({ id }, replace)
-									}
-								/>
-							</div>
+						<div className={sectionHorizontalPadding}>
+							<CigarettesText
+								cigarettes={cigarettes}
+								t={(id, replace): string => t({ id }, replace)}
+							/>
+						</div>
 
-							{/** Same as sectionHorizontalPadding, but only left. */}
-							<div className="mt-4 ml-6 sm:ml-12 md:pm-24 pb-2 overflow-auto flex">
-								{(['daily', 'weekly', 'monthly'] as const).map(
-									(f) => (
-										<div
-											className="mr-3 cursor-pointer"
-											key={f}
+						{/** Same as sectionHorizontalPadding, but only left. */}
+						<div className="mt-4 ml-6 sm:ml-12 md:ml-24 pb-2 overflow-auto flex">
+							{(['daily', 'weekly', 'monthly'] as const).map(
+								(f) => (
+									<div
+										className="mr-3 cursor-pointer"
+										key={f}
+									>
+										<BoxButton
+											active={frequency === f}
+											onPress={(): void =>
+												setFrequency(f)
+											}
 										>
-											<BoxButton
-												active={frequency === f}
-												onPress={(): void =>
-													setFrequency(f)
-												}
-											>
-												{f}
-											</BoxButton>
-										</div>
-									)
-								)}
-							</div>
+											{f}
+										</BoxButton>
+									</div>
+								)
+							)}
 						</div>
 					</div>
 				) : error ? (

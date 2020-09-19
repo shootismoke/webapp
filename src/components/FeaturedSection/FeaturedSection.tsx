@@ -100,7 +100,7 @@ export function FeaturedSection(): React.ReactElement {
 						>
 							<img
 								alt={media.slug}
-								className="w-full"
+								className="w-32"
 								src={media.image}
 							/>
 						</a>

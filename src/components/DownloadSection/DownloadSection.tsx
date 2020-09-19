@@ -25,10 +25,10 @@ export function DownloadSection(): React.ReactElement {
 	return (
 		<>
 			<SectionDivider title="App available on" />
-			<Section>
+			<Section className="xl:py-6 lg:py-6">
 				<div className="flex flex-row justify-center">
 					<a
-						className="mx-2"
+						className="mx-2 w-64"
 						href="https://itunes.apple.com/us/app/s-i-smoke/id1365605567?mt=8"
 						rel="noreferrer"
 						target="_blank"
@@ -36,7 +36,7 @@ export function DownloadSection(): React.ReactElement {
 						<img alt="download on Apple Store" src={apple} />
 					</a>
 					<a
-						className="mx-2"
+						className="mx-2 w-64"
 						href="https://play.google.com/store/apps/details?id=com.shitismoke.app"
 						rel="noreferrer"
 						target="_blank"

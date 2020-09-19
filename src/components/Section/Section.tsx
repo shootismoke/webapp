@@ -36,7 +36,7 @@ export function Section({
 	return (
 		<section
 			className={c(
-				'container mx-auto my-8',
+				'container mx-auto my-8 max-w-5xl',
 				!noPadding && sectionHorizontalPadding,
 				className
 			)}

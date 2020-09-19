@@ -35,10 +35,6 @@ export interface City {
 	slug?: string;
 }
 
-interface CurrentLocationProps {
-	city: City;
-}
-
 const REVERSE_API =
 	'https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=en';
 

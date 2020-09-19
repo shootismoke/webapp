@@ -21,17 +21,24 @@ import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
 import { navigate } from 'gatsby';
 import React from 'react';
-import { OptionsType, OptionTypeBase, StylesConfig } from 'react-select';
+import {
+	OptionsType,
+	OptionTypeBase,
+	Props as SelectProps,
+	StylesConfig,
+} from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-interface SearchBarProps {
+interface SearchBarProps extends SelectProps {
 	className?: string;
 }
 
 /**
  * Populate the search bar results with user's input.
  */
-function loadOptions(inputValue: string): Promise<OptionsType<OptionTypeBase>> {
+function algoliaLoadOptions(
+	inputValue: string
+): Promise<OptionsType<OptionTypeBase>> {
 	return pipe(
 		fetchAlgolia(inputValue),
 		TE.map((items) =>
@@ -73,29 +80,36 @@ const customStyles: StylesConfig = {
 	}),
 };
 
+/**
+ * Interface that is used for passing data through state in @reach/router
+ * transitions.
+ */
+export interface SearchLocationState {
+	cityName: string;
+}
+
 export function SearchBar(props: SearchBarProps): React.ReactElement {
-	const { className } = props;
+	const { className, loadOptions: _loadOptions, ...rest } = props;
 
 	return (
-		<>
-			<AsyncSelect
-				className={c('w-full rounded', className)}
-				loadOptions={loadOptions}
-				noOptionsMessage={(): string =>
-					'Type something to look for a city...'
-				}
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-				// @ts-ignore FIXME How to fix this?
-				onChange={({ label, value }): void => {
-					navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
-						state: {
-							name: label,
-						},
-					});
-				}}
-				placeholder="Search any location"
-				styles={customStyles}
-			/>
-		</>
+		<AsyncSelect
+			className={c('w-full rounded', className)}
+			loadOptions={algoliaLoadOptions}
+			noOptionsMessage={(): string =>
+				'Type something to look for a city...'
+			}
+			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+			// @ts-ignore FIXME How to fix this?
+			onChange={({ label, value }): void => {
+				navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
+					state: {
+						cityName: label,
+					} as SearchLocationState,
+				});
+			}}
+			placeholder="Search any location"
+			styles={customStyles}
+			{...rest}
+		/>
 	);
 }
