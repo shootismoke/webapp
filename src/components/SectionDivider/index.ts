@@ -14,10 +14,4 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-declare module '*.png' {
-	export default img as string;
-}
-
-declare module '*.svg' {
-	export default img as string;
-}
+export * from './SectionDivider';

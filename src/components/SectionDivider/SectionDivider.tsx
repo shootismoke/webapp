@@ -14,10 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-declare module '*.png' {
-	export default img as string;
+import React from 'react';
+
+import { Section } from '../Section';
+
+interface SectionDividerProps {
+	className?: string;
+	title: string;
 }
 
-declare module '*.svg' {
-	export default img as string;
+export function SectionDivider({
+	className,
+	title,
+}: SectionDividerProps): React.ReactElement {
+	return (
+		<Section className={className}>
+			<div className="pt-8 flex flex-row items-center">
+				<hr className="flex-grow border-t border-gray-200" />
+				<p className="mx-4 text-xs font-gotham-black uppercase">
+					{title}
+				</p>
+				<hr className="flex-grow border-gray-200" />
+			</div>
+		</Section>
+	);
 }

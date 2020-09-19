@@ -1,29 +1,32 @@
-// Sh**t! I Smoke
+// Shoot! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Sh**t! I Smoke is free software: you can redistribute it and/or modify
+// Shoot! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Sh**t! I Smoke is distributed in the hope that it will be useful,
+// Shoot! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+// along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
 
 import bbc from '../../../assets/images/media/bbc@3x.png';
 import circa from '../../../assets/images/media/circa@3x.png';
 import citylab from '../../../assets/images/media/citylab@3x.png';
+import hindustantimes from '../../../assets/images/media/hindustantimes@3x.png';
 import huffpost from '../../../assets/images/media/huffpost@3x.png';
 import lifehacker from '../../../assets/images/media/lifehacker@3x.png';
+import rtbf from '../../../assets/images/media/rtbf@3x.png';
 import slate from '../../../assets/images/media/slate@3x.png';
 import usbek from '../../../assets/images/media/usbek@3x.png';
 import { Section } from '../Section';
+import { SectionDivider } from '../SectionDivider';
 
 const medias = [
 	{
@@ -67,29 +70,43 @@ const medias = [
 		image: circa,
 		slug: 'circa',
 	},
+	{
+		href:
+			'https://www.rtbf.be/info/medias/detail_respirer-l-air-de-bruxelles-c-est-comme-fumer-2-5-cigarettes-jour-dit-cette-appli?id=9903635',
+		image: rtbf,
+		slug: 'rtbf',
+	},
+	{
+		href:
+			'https://www.hindustantimes.com/pune-news/planning-to-take-a-smoke-break-just-breathe-in-pune-s-air-which-equals-9-1-cigarettes-a-day/story-cAfTW4IKF2OmZ2lMgCVxFL.html',
+		image: hindustantimes,
+		slug: 'hindustantimes',
+	},
 ];
 
 export function FeaturedSection(): React.ReactElement {
 	return (
-		<Section>
-			<h2 className="text-xl">Featured at</h2>
-			<div className="flex justify-around items-center flex-wrap">
-				{medias.map((media) => (
-					<a
-						className="mx-8 my-4"
-						href={media.href}
-						key={media.slug}
-						rel="noreferrer"
-						target="_blank"
-					>
-						<img
-							alt={media.slug}
-							className="w-24"
-							src={media.image}
-						/>
-					</a>
-				))}
-			</div>
-		</Section>
+		<>
+			<SectionDivider title="Featured at" />
+			<Section>
+				<div className="grid grid-flow-row grid-cols-3 grid-rows-3 gap-4">
+					{medias.map((media) => (
+						<a
+							className="mx-3 my-3 flex flex-row justify-center items-center"
+							href={media.href}
+							key={media.slug}
+							rel="noreferrer"
+							target="_blank"
+						>
+							<img
+								alt={media.slug}
+								className="w-32"
+								src={media.image}
+							/>
+						</a>
+					))}
+				</div>
+			</Section>
+		</>
 	);
 }

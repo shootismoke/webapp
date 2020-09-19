@@ -14,10 +14,37 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-declare module '*.png' {
-	export default img as string;
+import c from 'classnames';
+import React from 'react';
+
+interface TipProps {
+	children:
+		| React.ReactElement
+		| undefined
+		| (React.ReactElement | undefined)[];
+	className?: string;
+	imgAlt: string;
+	imgSrc: string;
 }
 
-declare module '*.svg' {
-	export default img as string;
+export function Tip({
+	children,
+	className,
+	imgAlt,
+	imgSrc,
+}: TipProps): React.ReactElement {
+	return (
+		<div
+			className={c('flex flex-row items-center justify-start', className)}
+		>
+			<img
+				alt={imgAlt}
+				className="mr-4"
+				src={imgSrc}
+				style={{ minWidth: '42px' }}
+			></img>
+
+			{children}
+		</div>
+	);
 }
