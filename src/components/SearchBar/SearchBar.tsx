@@ -75,7 +75,10 @@ const customStyles: StylesConfig = {
 		...provided,
 		display: 'none',
 	}),
-
+	placeholder: (provided) => ({
+		...provided,
+		maxHeight: '1.2rem',
+	}),
 	singleValue: (provided) => ({
 		...provided,
 		width: '80%',
