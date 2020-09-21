@@ -28,7 +28,7 @@ import {
 	Seo,
 } from '../components';
 
-export default function Index(): React.ReactElement {
+export default function NotFound(): React.ReactElement {
 	return (
 		<>
 			<Seo title="Air Quality Data, in plain English" />

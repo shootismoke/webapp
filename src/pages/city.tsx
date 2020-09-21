@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { MatchRenderProps, Redirect } from '@reach/router';
+import { MatchRenderProps } from '@reach/router';
 import React from 'react';
 
 import CityTemplate from '../templates/city';
@@ -45,7 +45,7 @@ export default function City(
 	const parsed = parseQuery(location.search);
 
 	if (isNaN(+parsed.lat) || isNaN(+parsed.lng)) {
-		return <Redirect to="" />;
+		return <p>TODO</p>;
 	} else {
 		return (
 			<CityTemplate
