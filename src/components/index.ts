@@ -14,15 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+export * from './Cigarettes';
 export * from './CurrentLocation';
 export * from './DownloadSection';
 export * from './FeaturedSection';
 export * from './Footer';
 export * from './HealthSection';
 export * from './HowSection';
+export * from './Loading';
 export * from './Nav';
 export * from './PollutantSection';
 export * from './RankingSection';
+export * from './SadFace';
 export * from './SearchBar';
 export * from './Section';
 export * from './SectionDivider';

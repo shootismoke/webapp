@@ -13,3 +13,40 @@
 
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+
+import React from 'react';
+
+import {
+	DownloadSection,
+	FeaturedSection,
+	Footer,
+	HowSection,
+	Nav,
+	RankingSection,
+	SearchBar,
+	Section,
+	Seo,
+} from '../components';
+
+export default function Index(): React.ReactElement {
+	return (
+		<>
+			<Seo title="Air Quality Data, in plain English" />
+			<Nav />
+			<Section>
+				<h1 className="font-gotham-black leading-12 lg:text-5xl text-3xl">
+					404!
+					<br />
+					<span className="text-orange">Something went wrong...</span>
+				</h1>
+				<SearchBar className="mt-4" />
+			</Section>
+
+			<RankingSection />
+			<HowSection />
+			<FeaturedSection />
+			<DownloadSection />
+			<Footer />
+		</>
+	);
+}

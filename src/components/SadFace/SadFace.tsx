@@ -13,3 +13,26 @@
 
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+
+import sadFace from '@shootismoke/ui/assets/images/error@3x.png';
+import React from 'react';
+
+interface SadFaceProps {
+	className?: string;
+	message?: string;
+}
+
+export function SadFace(props: SadFaceProps): React.ReactElement {
+	const { className, message } = props;
+
+	return (
+		<div className={className}>
+			<img alt="error" className="h-32" src={sadFace} />
+			<h2 className="mt-8 font-gotham-black leading-12 lg:text-5xl text-3xl">
+				Cannot load<br></br>
+				<span className="text-orange">your cigarettes</span>
+			</h2>
+			<p className="mt-8 text-gray-600 text-xs">{message}</p>
+		</div>
+	);
+}

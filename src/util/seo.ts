@@ -13,3 +13,36 @@
 
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Capitalize a string.
+ *
+ * @param s - The string to capitalize
+ */
+function capitalize(s: string): string {
+	return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/**
+ * Decide on a SEO title for the page.
+ */
+export function getSeoTitle(
+	cigarettes?: number,
+	slug?: string,
+	reverseGeoName?: string
+): string {
+	if (!cigarettes) {
+		return slug
+			? `${capitalize(slug)} Air Pollution`
+			: `City Air Pollution`;
+	}
+
+	// Round to 1 decimal
+	const cigarettesRounded = Math.round(cigarettes * 10) / 10;
+
+	return slug
+		? `${capitalize(
+				slug
+		  )} Air Pollution: ${cigarettesRounded} cigarettes per day`
+		: `${reverseGeoName} Air Pollution: ${cigarettesRounded} cigarettes per day`;
+}

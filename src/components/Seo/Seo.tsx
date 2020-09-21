@@ -35,7 +35,9 @@ export function Seo(props: SeoProps): React.ReactElement {
 			<link rel="preconnect" href="https://api.bigdatacloud.net" />
 			<link rel="preconnect" href="http://api.waqi.info" />
 			<link rel="preconnect" href="https://api.openaq.org" />
-			<title>{title} - Sh**! I Smoke</title>
+
+			<link rel="canonical" href="https://shootismoke.app" />
+			<title>{title} - Shoot! I Smoke</title>
 		</Helmet>
 	);
 }

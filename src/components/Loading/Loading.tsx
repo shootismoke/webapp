@@ -13,3 +13,26 @@
 
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+
+import React from 'react';
+
+import { Cigarettes } from '../Cigarettes';
+
+interface LoadingProps {
+	className?: string;
+}
+
+export function Loading(props: LoadingProps): React.ReactElement {
+	const { className } = props;
+
+	return (
+		<div className={className}>
+			<Cigarettes cigarettes={1} />
+			<h2 className="mt-8 font-gotham-black leading-12 lg:text-5xl text-3xl">
+				Loading
+				<br />
+				<span className="text-orange">cough... cough...</span>
+			</h2>
+		</div>
+	);
+}

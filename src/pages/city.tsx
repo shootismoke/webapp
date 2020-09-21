@@ -14,8 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { MatchRenderProps } from '@reach/router';
-import { Link } from 'gatsby';
+import { MatchRenderProps, Redirect } from '@reach/router';
 import React from 'react';
 
 import CityTemplate from '../templates/city';
@@ -46,13 +45,7 @@ export default function City(
 	const parsed = parseQuery(location.search);
 
 	if (isNaN(+parsed.lat) || isNaN(+parsed.lng)) {
-		// FIXME Better UX.
-		return (
-			<>
-				<p>WRONG query params</p>
-				<Link to="/">Back to home</Link>
-			</>
-		);
+		return <Redirect to="" />;
 	} else {
 		return (
 			<CityTemplate

@@ -86,7 +86,7 @@ function tips(aqi: number): React.ReactElement[] {
 					outdoor activities.
 				</h2>
 			</Tip>,
-			<Tip imgAlt="mask" imgSrc={mask} key={2}>
+			<Tip className="mt-4" imgAlt="mask" imgSrc={mask} key={2}>
 				<h2 className="font-gotham-black text-xl">
 					For students, it’s ok to be active outside, but are{' '}
 					<span className="text-orange">recommended to reduce</span>{' '}
@@ -104,7 +104,7 @@ function tips(aqi: number): React.ReactElement[] {
 					exertion, particularly outdoors.
 				</h2>
 			</Tip>,
-			<Tip imgAlt="mask" imgSrc={mask} key={2}>
+			<Tip className="mt-4" imgAlt="mask" imgSrc={mask} key={2}>
 				<h2 className="font-gotham-black text-xl">
 					Students should avoid prolonged strenuous exercise, and{' '}
 					<span className="text-orange">take more breaks</span> during
@@ -120,7 +120,7 @@ function tips(aqi: number): React.ReactElement[] {
 					outdoor activities.
 				</h2>
 			</Tip>,
-			<Tip imgAlt="mask" imgSrc={mask} key={2}>
+			<Tip className="mt-4" imgAlt="mask" imgSrc={mask} key={2}>
 				<h2 className="font-gotham-black text-xl">
 					Students{' '}
 					<span className="text-orange">
@@ -139,7 +139,7 @@ function tips(aqi: number): React.ReactElement[] {
 					is necessary to go out, please wear a mask.
 				</h2>
 			</Tip>,
-			<Tip imgAlt="mask" imgSrc={mask} key={2}>
+			<Tip className="mt-6" imgAlt="mask" imgSrc={mask} key={2}>
 				<h2 className="font-gotham-black text-xl">
 					Students{' '}
 					<span className="text-orange">
