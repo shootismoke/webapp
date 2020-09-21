@@ -28,18 +28,16 @@ import {
 	Seo,
 } from '../components';
 
-export default function Index(): React.ReactElement {
+export default function NotFound(): React.ReactElement {
 	return (
 		<>
 			<Seo title="Air Quality Data, in plain English" />
 			<Nav />
 			<Section>
 				<h1 className="font-gotham-black leading-12 lg:text-5xl text-3xl">
-					How much am I
+					404!
 					<br />
-					<span className="text-orange">smoking</span> by breathing
-					<br />
-					urban air?
+					<span className="text-orange">Something went wrong...</span>
 				</h1>
 				<SearchBar className="mt-4" />
 			</Section>

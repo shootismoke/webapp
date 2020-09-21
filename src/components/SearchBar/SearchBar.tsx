@@ -93,12 +93,18 @@ export interface SearchLocationState {
 	cityName: string;
 }
 
-const DEFAULT_PLACEHOLDER = 'Check the air quality of your city...';
-
 export function SearchBar(props: SearchBarProps): React.ReactElement {
-	const { className, ...rest } = props;
+	const {
+		className,
+		placeholder = 'Check the air quality of your city...',
+		...rest
+	} = props;
 
-	const [placeholder, setPlaceholder] = useState(DEFAULT_PLACEHOLDER);
+	// If we have a more important message to show in the placeholder, we put
+	// it here.
+	const [overridePlaceholder, setOverridePlaceholder] = useState<
+		string | undefined
+	>(undefined);
 
 	return (
 		<div className="relative">
@@ -115,7 +121,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 						} as SearchLocationState,
 					});
 				}}
-				placeholder={placeholder}
+				placeholder={overridePlaceholder || placeholder}
 				styles={customStyles}
 				{...rest}
 			/>
@@ -123,13 +129,15 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				alt="location"
 				className="absolute top-0 mt-3 mr-3 right-0 w-6 cursor-pointer"
 				onClick={(): void => {
-					setPlaceholder("Fetching browser's GPS location...");
+					setOverridePlaceholder(
+						"Fetching browser's GPS location..."
+					);
 					if (!navigator.geolocation) {
-						setPlaceholder(
+						setOverridePlaceholder(
 							'Error: Geolocation is not supported for this Browser/OS.'
 						);
 						setTimeout(
-							() => setPlaceholder(DEFAULT_PLACEHOLDER),
+							() => setOverridePlaceholder(undefined),
 							1500
 						);
 					} else {
@@ -140,9 +148,9 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 								);
 							},
 							(err) => {
-								setPlaceholder(`Error: ${err.message}`);
+								setOverridePlaceholder(`Error: ${err.message}`);
 								setTimeout(
-									() => setPlaceholder(DEFAULT_PLACEHOLDER),
+									() => setOverridePlaceholder(undefined),
 									1500
 								);
 							}

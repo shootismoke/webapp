@@ -5,3 +5,7 @@
 html {
 	color: #44464a;
 }
+
+.leading-12 {
+	line-height: 3rem;
+}

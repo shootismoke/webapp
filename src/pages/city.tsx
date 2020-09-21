@@ -15,7 +15,6 @@
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { MatchRenderProps } from '@reach/router';
-import { Link } from 'gatsby';
 import React from 'react';
 
 import CityTemplate from '../templates/city';
@@ -46,13 +45,7 @@ export default function City(
 	const parsed = parseQuery(location.search);
 
 	if (isNaN(+parsed.lat) || isNaN(+parsed.lng)) {
-		// FIXME Better UX.
-		return (
-			<>
-				<p>WRONG query params</p>
-				<Link to="/">Back to home</Link>
-			</>
-		);
+		return <p>TODO</p>;
 	} else {
 		return (
 			<CityTemplate

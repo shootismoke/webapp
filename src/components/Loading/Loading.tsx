@@ -16,39 +16,23 @@
 
 import React from 'react';
 
-import {
-	DownloadSection,
-	FeaturedSection,
-	Footer,
-	HowSection,
-	Nav,
-	RankingSection,
-	SearchBar,
-	Section,
-	Seo,
-} from '../components';
+import { Cigarettes } from '../Cigarettes';
 
-export default function Index(): React.ReactElement {
+interface LoadingProps {
+	className?: string;
+}
+
+export function Loading(props: LoadingProps): React.ReactElement {
+	const { className } = props;
+
 	return (
-		<>
-			<Seo title="Air Quality Data, in plain English" />
-			<Nav />
-			<Section>
-				<h1 className="font-gotham-black leading-12 lg:text-5xl text-3xl">
-					How much am I
-					<br />
-					<span className="text-orange">smoking</span> by breathing
-					<br />
-					urban air?
-				</h1>
-				<SearchBar className="mt-4" />
-			</Section>
-
-			<RankingSection />
-			<HowSection />
-			<FeaturedSection />
-			<DownloadSection />
-			<Footer />
-		</>
+		<div className={className}>
+			<Cigarettes cigarettes={1} />
+			<h2 className="mt-8 font-gotham-black leading-12 lg:text-5xl text-3xl">
+				Loading
+				<br />
+				<span className="text-orange">cough... cough...</span>
+			</h2>
+		</div>
 	);
 }

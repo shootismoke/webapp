@@ -19,7 +19,6 @@ import { convert } from '@shootismoke/convert';
 import {
 	Api,
 	BoxButton,
-	Cigarettes,
 	CigarettesText,
 	distanceToStation,
 	FrequencyContext,
@@ -30,15 +29,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import {
-	City,
+	Cigarettes,
 	DownloadSection,
 	FeaturedSection,
 	Footer,
 	HealthSection,
 	HowSection,
+	Loading,
 	Nav,
 	PollutantSection,
-	reverseGeocode,
+	SadFace,
 	SearchBar,
 	SearchLocationState,
 	Section,
@@ -46,61 +46,13 @@ import {
 	sectionHorizontalPadding,
 	Seo,
 } from '../components';
+import { City, getSeoTitle, reverseGeocode } from '../util';
 
 interface CityProps {
 	location?: NavigateOptions<SearchLocationState>;
 	pageContext: {
 		city: City;
 	};
-}
-
-/**
- * Depending on how many we show, decide on the size of one cigarette.
- *
- * @param cigarettes - The cigarettes count.
- */
-function fullCigaretteLength(cigarettes: number): number {
-	if (cigarettes <= 1) {
-		return 150;
-	} else if (cigarettes <= 4) {
-		return 200;
-	} else if (cigarettes <= 59) {
-		// Empirically, 59 cigarettes of length 120 fit into 1 line.
-		return 120;
-	} else {
-		return 50;
-	}
-}
-
-/**
- * Capitalize a string.
- *
- * @param s - The string to capitalize
- */
-function capitalize(s: string): string {
-	return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-/**
- * Decide on a SEO title for the page.
- */
-function getSeoTitle(
-	cigarettes?: number,
-	slug?: string,
-	reverseGeoName?: string
-): string {
-	if (!cigarettes) {
-		return slug
-			? `${capitalize(slug)} Air Pollution`
-			: `City Air Pollution`;
-	}
-
-	// Round to 1 decimal
-	const cigarettesRounded = Math.round(cigarettes * 10) / 10;
-
-	return slug
-		? `${capitalize(slug)} Air Pollution: ${cigarettesRounded} cigarettes`
-		: `${reverseGeoName} Air Pollution: ${cigarettesRounded} cigarettes`;
 }
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
@@ -114,20 +66,22 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
 
+	// Evertime we change city, reset, and fetch new values.
 	useEffect(() => {
+		setApi(undefined);
 		setError(undefined);
+		setReverseGeoName(undefined);
+
+		reverseGeocode(city.gps).then(setReverseGeoName).catch(console.error);
 
 		raceApiPromise(city.gps, {
-			aqicnToken: process.env.AQICN_TOKEN as string,
+			aqicnToken: process.env.GATSBY_AQICN_TOKEN as string,
 		})
 			.then(setApi)
 			.catch(setError);
 	}, [city.gps]);
 
-	useEffect(() => {
-		reverseGeocode(city.gps).then(setReverseGeoName).catch(console.error);
-	}, [city.gps]);
-
+	// Number of cigarettes to display.
 	const cigarettes = api
 		? api.shootismoke.dailyCigarettes *
 		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
@@ -153,37 +107,21 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						'Search for any city'
 					}
 				/>
-				{api && (
-					<p className="mt-2 text-gray-600 text-xs">
-						Air Quality Station: {distanceToStation(city.gps, api)}
-						km away
-					</p>
-				)}
+				<p className="mt-2 text-gray-600 text-xs h-2">
+					{api
+						? `Air Quality Station: ${distanceToStation(
+								city.gps,
+								api
+						  )} km away`
+						: null}
+				</p>
 			</Section>
 
-			<Section noPadding>
+			<Section className="pt-6" noPadding>
 				{cigarettes ? (
-					<div className="'lg:flex lg:items-center'">
-						<div
-							className={c(
-								sectionHorizontalPadding,
-								'flex lg:justify-start h-32'
-							)}
-						>
-							<Cigarettes
-								cigarettes={cigarettes}
-								fullCigaretteLength={fullCigaretteLength(
-									cigarettes
-								)}
-								showMaxCigarettes={200}
-								style={{
-									maxHeight: '128px',
-									// This is so that horizontal cigarettes wrap correctly.
-									maxWidth:
-										cigarettes <= 4 ? '300px' : '100%',
-									overflow: 'hidden',
-								}}
-							/>
+					<>
+						<div className={c(sectionHorizontalPadding, 'h-32')}>
+							<Cigarettes cigarettes={cigarettes} />
 						</div>
 
 						<div
@@ -228,13 +166,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 								)
 							)}
 						</div>
-					</div>
+					</>
 				) : error ? (
-					<p className={c(sectionHorizontalPadding, 'text-red')}>
-						ERROR: {error.message}
-					</p>
+					<SadFace
+						className={sectionHorizontalPadding}
+						message={error.message}
+					/>
 				) : (
-					<p className={c(sectionHorizontalPadding)}>Loading...</p>
+					<Loading className={sectionHorizontalPadding} />
 				)}
 			</Section>
 
@@ -263,7 +202,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							.map(({ parameter, value }) =>
 								convert(parameter, 'raw', 'usaEpa', value)
 							)
-							.sort((a, b) => a - b)[0]
+							.sort((a, b) => b - a)[0]
 					}
 				/>
 			)}

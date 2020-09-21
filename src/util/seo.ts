@@ -14,41 +14,35 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+/**
+ * Capitalize a string.
+ *
+ * @param s - The string to capitalize
+ */
+function capitalize(s: string): string {
+	return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
-import {
-	DownloadSection,
-	FeaturedSection,
-	Footer,
-	HowSection,
-	Nav,
-	RankingSection,
-	SearchBar,
-	Section,
-	Seo,
-} from '../components';
+/**
+ * Decide on a SEO title for the page.
+ */
+export function getSeoTitle(
+	cigarettes?: number,
+	slug?: string,
+	reverseGeoName?: string
+): string {
+	if (!cigarettes) {
+		return slug
+			? `${capitalize(slug)} Air Pollution`
+			: `City Air Pollution`;
+	}
 
-export default function Index(): React.ReactElement {
-	return (
-		<>
-			<Seo title="Air Quality Data, in plain English" />
-			<Nav />
-			<Section>
-				<h1 className="font-gotham-black leading-12 lg:text-5xl text-3xl">
-					How much am I
-					<br />
-					<span className="text-orange">smoking</span> by breathing
-					<br />
-					urban air?
-				</h1>
-				<SearchBar className="mt-4" />
-			</Section>
+	// Round to 1 decimal
+	const cigarettesRounded = Math.round(cigarettes * 10) / 10;
 
-			<RankingSection />
-			<HowSection />
-			<FeaturedSection />
-			<DownloadSection />
-			<Footer />
-		</>
-	);
+	return slug
+		? `${capitalize(
+				slug
+		  )} Air Pollution: ${cigarettesRounded} cigarettes per day`
+		: `${reverseGeoName} Air Pollution: ${cigarettesRounded} cigarettes per day`;
 }

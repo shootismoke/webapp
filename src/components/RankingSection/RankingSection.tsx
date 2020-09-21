@@ -18,7 +18,7 @@ import { round } from '@shootismoke/ui';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import React from 'react';
 
-import { City } from '../CurrentLocation';
+import { City } from '../../util';
 import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 
