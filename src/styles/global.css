@@ -9,3 +9,15 @@ html {
 .leading-12 {
 	line-height: 3rem;
 }
+
+.rounded-xl {
+	border-radius: 1rem;
+}
+
+.w-96 {
+	width: 24rem;
+}
+
+.w-128 {
+	width: 32rem;
+}
