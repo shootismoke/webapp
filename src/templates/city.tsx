@@ -38,6 +38,7 @@ import {
 	Loading,
 	Nav,
 	PollutantSection,
+	RankingSection,
 	SadFace,
 	SearchBar,
 	SearchLocationState,
@@ -207,8 +208,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				/>
 			)}
 
-			<SectionDivider title="Most cigarettes near you" />
-
+			<RankingSection />
 			<HowSection />
 			<FeaturedSection />
 			<DownloadSection />

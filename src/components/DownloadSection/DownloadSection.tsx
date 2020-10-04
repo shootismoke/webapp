@@ -23,7 +23,7 @@ import { SectionDivider } from '../SectionDivider';
 
 export function DownloadSection(): React.ReactElement {
 	return (
-		<>
+		<div className="pt-8">
 			<SectionDivider title="App available on" />
 			<Section className="xl:py-6 lg:py-6">
 				<div className="flex flex-row justify-center">
@@ -45,6 +45,6 @@ export function DownloadSection(): React.ReactElement {
 					</a>
 				</div>
 			</Section>
-		</>
+		</div>
 	);
 }

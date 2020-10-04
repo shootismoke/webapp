@@ -98,7 +98,7 @@ export function PollutantSection(
 	}
 
 	return (
-		<>
+		<div className="pt-8">
 			<SectionDivider title="Today's tips" />
 			<Section className="max-w-screen-sm">
 				<Tip imgAlt="skull" imgSrc={skull}>
@@ -113,6 +113,6 @@ export function PollutantSection(
 
 				<p className="text-gray-600 text-xs">*{polData.effects}</p>
 			</Section>
-		</>
+		</div>
 	);
 }

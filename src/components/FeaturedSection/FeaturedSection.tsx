@@ -86,7 +86,7 @@ const medias = [
 
 export function FeaturedSection(): React.ReactElement {
 	return (
-		<>
+		<div className="pt-8">
 			<SectionDivider title="Featured at" />
 			<Section>
 				<div className="grid grid-flow-row grid-cols-3 grid-rows-3 gap-4">
@@ -107,6 +107,6 @@ export function FeaturedSection(): React.ReactElement {
 					))}
 				</div>
 			</Section>
-		</>
+		</div>
 	);
 }

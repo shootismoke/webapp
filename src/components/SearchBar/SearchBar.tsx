@@ -33,6 +33,7 @@ import location from '../../../assets/images/icons/location.svg';
 
 interface SearchBarProps extends SelectProps {
 	className?: string;
+	showGps?: boolean;
 }
 
 /**
@@ -97,6 +98,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
 		className,
 		placeholder = 'Check the air quality of your city...',
+		showGps = true,
 		...rest
 	} = props;
 
@@ -125,40 +127,44 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				styles={customStyles}
 				{...rest}
 			/>
-			<img
-				alt="location"
-				className="absolute top-0 mt-3 mr-3 right-0 w-6 cursor-pointer"
-				onClick={(): void => {
-					setOverridePlaceholder(
-						"Fetching browser's GPS location..."
-					);
-					if (!navigator.geolocation) {
+			{showGps && (
+				<img
+					alt="location"
+					className="absolute top-0 mt-3 mr-3 right-0 w-6 cursor-pointer"
+					onClick={(): void => {
 						setOverridePlaceholder(
-							'Error: Geolocation is not supported for this Browser/OS.'
+							"Fetching browser's GPS location..."
 						);
-						setTimeout(
-							() => setOverridePlaceholder(undefined),
-							1500
-						);
-					} else {
-						navigator.geolocation.getCurrentPosition(
-							(position) => {
-								navigate(
-									`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
-								);
-							},
-							(err) => {
-								setOverridePlaceholder(`Error: ${err.message}`);
-								setTimeout(
-									() => setOverridePlaceholder(undefined),
-									1500
-								);
-							}
-						);
-					}
-				}}
-				src={location}
-			/>
+						if (!navigator.geolocation) {
+							setOverridePlaceholder(
+								'Error: Geolocation is not supported for this Browser/OS.'
+							);
+							setTimeout(
+								() => setOverridePlaceholder(undefined),
+								1500
+							);
+						} else {
+							navigator.geolocation.getCurrentPosition(
+								(position) => {
+									navigate(
+										`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
+									);
+								},
+								(err) => {
+									setOverridePlaceholder(
+										`Error: ${err.message}`
+									);
+									setTimeout(
+										() => setOverridePlaceholder(undefined),
+										1500
+									);
+								}
+							);
+						}
+					}}
+					src={location}
+				/>
+			)}
 		</div>
 	);
 }

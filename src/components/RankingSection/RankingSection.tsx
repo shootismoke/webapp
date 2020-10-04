@@ -58,7 +58,7 @@ export function RankingSection(): React.ReactElement {
 	`);
 
 	return (
-		<>
+		<div className="pt-8">
 			<SectionDivider title="Worldwide City ranking" />
 			<Section className="flex flex-col items-center">
 				<div className="max-w-6xl">
@@ -82,6 +82,6 @@ export function RankingSection(): React.ReactElement {
 					)}
 				</div>
 			</Section>
-		</>
+		</div>
 	);
 }

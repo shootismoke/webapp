@@ -29,7 +29,7 @@ export function SectionDivider({
 }: SectionDividerProps): React.ReactElement {
 	return (
 		<Section className={className}>
-			<div className="pt-8 flex flex-row items-center">
+			<div className="flex flex-row items-center">
 				<hr className="flex-grow border-t border-gray-200" />
 				<p className="mx-4 text-xs font-gotham-black uppercase">
 					{title}

@@ -15,6 +15,7 @@
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Button } from '@shootismoke/ui';
 
 import {
 	DownloadSection,
@@ -25,6 +26,7 @@ import {
 	RankingSection,
 	SearchBar,
 	Section,
+	SectionDivider,
 	Seo,
 } from '../components';
 
@@ -41,7 +43,9 @@ export default function Index(): React.ReactElement {
 					<br />
 					urban air?
 				</h1>
-				<SearchBar className="mt-4" />
+				<SearchBar className="mt-4" showGps={false} />
+				<SectionDivider title="or" />
+				<Button type="primary">HELLO</Button>
 			</Section>
 
 			<RankingSection />
