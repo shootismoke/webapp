@@ -28,11 +28,15 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 	return (
 		<div className={className}>
 			<img alt="error" className="h-32" src={sadFace} />
-			<h2 className="mt-8 font-gotham-black leading-12 lg:text-5xl text-3xl">
+			<h2 className="mt-8 font-extrabold leading-12 lg:text-5xl text-3xl">
 				Cannot load<br></br>
 				<span className="text-orange">your cigarettes</span>
 			</h2>
-			<p className="mt-8 text-gray-600 text-xs">{message}</p>
+			<p className="mt-8 text-gray-600 text-xs">
+				Please try to search for another city.
+				<br />
+				{message}
+			</p>
 		</div>
 	);
 }

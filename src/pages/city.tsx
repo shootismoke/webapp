@@ -20,13 +20,14 @@ import React from 'react';
 import CityTemplate from '../templates/city';
 
 /**
- * Parse query string.
+ * Parse query string for lat and lng.
  *
  * @see https://stackoverflow.com/questions/2090551/parse-query-string-in-javascript
  * @param queryString - The query string to parse.
  */
 function parseQuery(queryString: string): Record<string, string> {
 	const query: Record<string, string> = {};
+	queryString = queryString.split('#')[0];
 	const pairs = (queryString.startsWith('?')
 		? queryString.substr(1)
 		: queryString

@@ -31,10 +31,10 @@ import {
 export default function NotFound(): React.ReactElement {
 	return (
 		<>
-			<Seo title="Air Quality Data, in plain English" />
+			<Seo title="404" />
 			<Nav />
 			<Section>
-				<h1 className="font-gotham-black leading-12 lg:text-5xl text-3xl">
+				<h1 className="font-extrabold leading-12 lg:text-5xl text-3xl">
 					404!
 					<br />
 					<span className="text-orange">Something went wrong...</span>

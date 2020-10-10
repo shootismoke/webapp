@@ -2349,40 +2349,40 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
-"@shootismoke/convert@^0.2.28":
-  version "0.2.28"
-  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.2.28.tgz#5d60b5d61a0e9c97c9314b4357f01f5157a4e857"
-  integrity sha512-xHUYw1TBN/yZ7GcZiAfrmyEGFYes32tpSoPHLbpZ8dnuJHrVkH45PLkWODqY19kGnUqOp8RoCpTtGigcCgNDuA==
+"@shootismoke/convert@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.3.0.tgz#7f7b38167f6f35e4e849777f119c8d6ad6606187"
+  integrity sha512-5CDeSgCFxDnQGPa7ZOPYDxTZOFgFrBErkB6V372OAqhmrPXuQUawmCj3FBM7Q5pfnq8+1pCgl7K3oNIdL4I3yQ==
   dependencies:
     "@types/debug" "^4.1.5"
     debug "^4.1.1"
 
-"@shootismoke/dataproviders@^0.2.28":
-  version "0.2.28"
-  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.2.28.tgz#e58c1b8828d2ac3fee6a6a762c9c94dc831445e1"
-  integrity sha512-zKzccOQbO+bTJA/y7oUFBvsUDYFyqOXZ+80WODrdJD5iarW+/HgTd6n8Zbja1sh3xasRMFxuZRh82DaWVQKp1A==
+"@shootismoke/dataproviders@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.3.0.tgz#06472f4772e1d338a60f8d212095a4f8f3345724"
+  integrity sha512-p5oUyZ+MEQqMBNdVtS/RslvganJJkfi48qsCND2JcFu99ASbe2X0WDANvS2TJG8pk6e8Q0scTPqaxIrtZdOCCw==
   dependencies:
-    "@shootismoke/convert" "^0.2.28"
-    axios "^0.19.0"
+    "@shootismoke/convert" "^0.3.0"
+    axios "^0.20.0"
     date-fns "^2.8.1"
     date-fns-tz "^1.0.9"
     fp-ts "^2.1.1"
     io-ts "^2.0.1"
 
-"@shootismoke/ui@^0.2.28":
-  version "0.2.28"
-  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.2.28.tgz#68a7c071ac108a04501026de1adf6ee1707e6164"
-  integrity sha512-SIxjHDs8BagvL4n/zUsEW6V44hK1V5p838TBGzgvTMrAKR6u2M9wSolyhTGbNtuhwv89qhAGzVYgyWi/YmXN3A==
+"@shootismoke/ui@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.3.0.tgz#ac122df64a25232f17e9608699231081acc7093c"
+  integrity sha512-tCY0i8H+yGhMYCcWd2vj+8JlgwkCFFyF1VzbstXgX+yhXh7W2JZY6Hh8078FU9CeCfj3VodKAIMpOLbkGElS9g==
   dependencies:
     "@expo/vector-icons" "^10.2.0"
-    "@shootismoke/dataproviders" "^0.2.28"
+    "@shootismoke/dataproviders" "^0.3.0"
     "@types/haversine" "^1.1.4"
     "@types/p-any" "^1.1.3"
     expo-constants "^9.0.0"
     haversine "^1.1.1"
     lottie-react-native "^3.4.0"
     p-any "^3.0.0"
-    react-native-web "^0.12.2"
+    react-native-web "^0.13.0"
     retry-ts "^0.1.2"
 
 "@sindresorhus/is@^0.14.0":
@@ -3792,12 +3792,19 @@ autoprefixer@^9.4.5, autoprefixer@^9.8.0:
     postcss "^7.0.30"
     postcss-value-parser "^4.1.0"
 
-axios@^0.19.0, axios@^0.19.2:
+axios@^0.19.2:
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
   dependencies:
     follow-redirects "1.5.10"
+
+axios@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
+  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 axobject-query@^2.0.2:
   version "2.1.2"
@@ -5781,11 +5788,6 @@ de-indent@^1.0.2:
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
   integrity sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0=
 
-debounce@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
-  integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
-
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.6, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -7601,6 +7603,11 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "^3.0.0"
 
+follow-redirects@^1.10.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
+  integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
+
 fontfaceobserver@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/fontfaceobserver/-/fontfaceobserver-2.1.0.tgz#e2705d293e2c585a6531c2a722905657317a2991"
@@ -7967,14 +7974,6 @@ gatsby-plugin-typescript@^2.4.4:
     "@babel/preset-typescript" "^7.10.1"
     "@babel/runtime" "^7.10.2"
     babel-plugin-remove-graphql-queries "^2.9.3"
-
-gatsby-plugin-web-font-loader@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-web-font-loader/-/gatsby-plugin-web-font-loader-1.0.4.tgz#c50bdb0c1980110b3fd213a5be70feb2459514c3"
-  integrity sha512-3c39bX9CcsYJQFhhmTyjuMJSqpld2rX+HsTOxP9k1PKFR4Rvo3lpzBW4d1tVpmUesR8BNL6u9eHT7/XksS1iog==
-  dependencies:
-    babel-runtime "^6.26.0"
-    webfontloader "^1.6.28"
 
 gatsby-react-router-scroll@^3.0.2:
   version "3.0.2"
@@ -13537,14 +13536,13 @@ react-native-view-shot@3.1.2:
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz#8c8e84c67a4bc8b603e697dbbd59dbc9b4f84825"
   integrity sha512-9u9fPtp6a52UMoZ/UCPrCjKZk8tnkI9To0Eh6yYnLKFEGkRZ7Chm6DqwDJbYJHeZrheCCopaD5oEOnRqhF4L2Q==
 
-react-native-web@^0.12.2:
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.12.2.tgz#d0fe8739d222f412decc4f1de2e12f25e91e2f56"
-  integrity sha512-0YLDjwIm5LjQDOPUUregtuEBexH7oQph6x9FSAyzCM52QmM82TfrYRXXSwzI2eSdT1OzM2BTfP3zxmEL+coyhg==
+react-native-web@^0.13.0:
+  version "0.13.14"
+  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.13.14.tgz#6a9144ffd2bcae07116efee827b99b20c9a0623d"
+  integrity sha512-tadUswGcXbH7pNTIGR41I2uqN/YrqGMnRTHbVU/ENGk2lps1W75ty+SHtWsWBEdYF4e2zOw8Dd/AJeD5kbat0A==
   dependencies:
     array-find-index "^1.0.2"
     create-react-class "^15.6.2"
-    debounce "^1.2.0"
     deep-assign "^3.0.0"
     fbjs "^1.0.0"
     hyphenate-style-name "^1.0.3"
@@ -16481,11 +16479,6 @@ web-namespaces@^1.0.0, web-namespaces@^1.1.2:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/web-namespaces/-/web-namespaces-1.1.4.tgz#bc98a3de60dadd7faefc403d1076d529f5e030ec"
   integrity sha512-wYxSGajtmoP4WxfejAPIr4l0fVh+jeMXZb08wNc0tMg6xsfZXj3cECqIK0G7ZAqUq0PP8WlMDtaOGVBTAWztNw==
-
-webfontloader@^1.6.28:
-  version "1.6.28"
-  resolved "https://registry.yarnpkg.com/webfontloader/-/webfontloader-1.6.28.tgz#db786129253cb6e8eae54c2fb05f870af6675bae"
-  integrity sha1-23hhKSU8tujq5UwvsF+HCvZnW64=
 
 webpack-deep-scope-plugin@1.6.0:
   version "1.6.0"

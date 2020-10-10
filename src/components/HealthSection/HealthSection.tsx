@@ -59,94 +59,94 @@ function tips(aqi: number): React.ReactElement[] {
 	if (aqi <= 50) {
 		return [
 			<Tip imgAlt="mask" imgSrc={mask} key={1}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="leading-6 font-extrabold text-xl">
 					<span className="text-orange">Enjoy</span> your usual
 					outdoor activities.
-				</h2>
+				</p>
 			</Tip>,
 		];
 	} else if (aqi <= 100) {
 		return [
 			<Tip imgAlt="mask" imgSrc={mask} key={1}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					<span className="text-orange">Enjoy</span> your usual
 					outdoor activities.
-				</h2>
+				</p>
 			</Tip>,
 		];
 	} else if (aqi <= 150) {
 		return [
 			<Tip imgAlt="mask" imgSrc={mask} key={1}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					Everyone experiencing discomfort such as sore eyes, cough or
 					sore throat{' '}
 					<span className="text-orange">
 						should consider reducing
 					</span>{' '}
 					outdoor activities.
-				</h2>
+				</p>
 			</Tip>,
 			<Tip className="mt-4" imgAlt="mask" imgSrc={mask} key={2}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					For students, it’s ok to be active outside, but are{' '}
 					<span className="text-orange">recommended to reduce</span>{' '}
 					prolonged strenuous exercise.
-				</h2>
+				</p>
 			</Tip>,
 		];
 	} else if (aqi <= 200) {
 		return [
 			<Tip imgAlt="mask" imgSrc={mask} key={1}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					Everyone experiencing discomfort such as sore eyes, cough or
 					sore throat{' '}
 					<span className="text-orange">should reduce</span> physical
 					exertion, particularly outdoors.
-				</h2>
+				</p>
 			</Tip>,
 			<Tip className="mt-4" imgAlt="mask" imgSrc={mask} key={2}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					Students should avoid prolonged strenuous exercise, and{' '}
 					<span className="text-orange">take more breaks</span> during
 					outdoor activities.
-				</h2>
+				</p>
 			</Tip>,
 		];
 	} else if (aqi <= 300) {
 		return [
 			<Tip imgAlt="mask" imgSrc={mask} key={1}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					Everyone <span className="text-orange">should reduce</span>{' '}
 					outdoor activities.
-				</h2>
+				</p>
 			</Tip>,
 			<Tip className="mt-4" imgAlt="mask" imgSrc={mask} key={2}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					Students{' '}
 					<span className="text-orange">
 						should stop outdoor activities
 					</span>{' '}
 					and move all activities and classes indoors.
-				</h2>
+				</p>
 			</Tip>,
 		];
 	} else {
 		return [
 			<Tip imgAlt="mask" imgSrc={mask} key={1}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					Everyone <span className="text-orange">should avoid</span>{' '}
 					outdoor activities and keep doors and windows closed. If it
 					is necessary to go out, please wear a mask.
-				</h2>
+				</p>
 			</Tip>,
 			<Tip className="mt-6" imgAlt="mask" imgSrc={mask} key={2}>
-				<h2 className="font-gotham-black text-xl">
+				<p className="font-extrabold text-xl">
 					Students{' '}
 					<span className="text-orange">
 						should stop outdoor activities
 					</span>{' '}
 					and move all activities and classes indoors.
-				</h2>
+				</p>
 			</Tip>,
 		];
 	}

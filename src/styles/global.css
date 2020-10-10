@@ -4,8 +4,33 @@
 
 html {
 	color: #44464a;
+	font-family: Montserrat, Arial, sans-serif;
 }
 
-.leading-12 {
-	line-height: 3rem;
+@layer utilities {
+	@responsive {
+		.leading-16 {
+			line-height: 4rem;
+		}
+	}
+}
+
+.h-26 {
+	height: 6.5rem;
+}
+
+.rounded-xl {
+	border-radius: 1rem;
+}
+
+.w-26 {
+	width: 6.5rem;
+}
+
+.w-96 {
+	width: 24rem;
+}
+
+.w-128 {
+	width: 32rem;
 }

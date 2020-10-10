@@ -17,6 +17,15 @@
 import { Cigarettes as CigarettesBase } from '@shootismoke/ui';
 import React from 'react';
 
+// Total height of the box containing cigarettes.
+const BOX_HEIGHT = 128;
+
+// Empirically, 95 cigarettes of length 120 fit into 1 line.
+const N_CIGARETTES_1_LINE = 95;
+
+// Show vertical cigarettes after this amount.
+const SHOW_VERTICAL_AFTER = 4;
+
 /**
  * Depending on how many we show, decide on the size of one cigarette.
  *
@@ -24,14 +33,13 @@ import React from 'react';
  */
 function fullCigaretteLength(cigarettes: number): number {
 	if (cigarettes <= 1) {
-		return 150;
-	} else if (cigarettes <= 4) {
-		return 200;
-	} else if (cigarettes <= 59) {
-		// Empirically, 59 cigarettes of length 120 fit into 1 line.
-		return 120;
+		return BOX_HEIGHT - 2; // Empirically, without the -2, the cigarette is cut off.
+	} else if (cigarettes <= SHOW_VERTICAL_AFTER) {
+		return 250;
+	} else if (cigarettes <= N_CIGARETTES_1_LINE) {
+		return BOX_HEIGHT;
 	} else {
-		return 50;
+		return 44; // Note: 2*44 + 2*20 = BOX_HEIGHT.
 	}
 }
 
@@ -46,12 +54,25 @@ export function Cigarettes(props: CigarettesProps): React.ReactElement {
 		<CigarettesBase
 			cigarettes={cigarettes}
 			fullCigaretteLength={fullCigaretteLength(cigarettes)}
-			showMaxCigarettes={200}
+			showMaxCigarettes={N_CIGARETTES_1_LINE * 2}
+			showVerticalAfter={SHOW_VERTICAL_AFTER}
+			spacingHorizontal={cigarettes <= SHOW_VERTICAL_AFTER ? 15 : 5}
+			spacingVertical={cigarettes <= N_CIGARETTES_1_LINE ? 0 : 20}
 			style={{
-				maxHeight: '128px',
+				flexWrap:
+					SHOW_VERTICAL_AFTER < cigarettes &&
+					cigarettes <= N_CIGARETTES_1_LINE
+						? 'nowrap'
+						: 'wrap',
+				height: cigarettes <= 1 ? `${BOX_HEIGHT}px` : undefined,
+				maxHeight: `${BOX_HEIGHT}px`,
 				// This is so that horizontal cigarettes wrap correctly.
-				maxWidth: cigarettes <= 4 ? '300px' : '100%',
-				overflow: 'hidden',
+				maxWidth: cigarettes <= SHOW_VERTICAL_AFTER ? '300px' : '100%',
+				overflow:
+					SHOW_VERTICAL_AFTER < cigarettes &&
+					cigarettes <= N_CIGARETTES_1_LINE
+						? 'scroll'
+						: 'hidden',
 			}}
 		/>
 	);

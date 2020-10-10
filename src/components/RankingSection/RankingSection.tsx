@@ -21,11 +21,29 @@ import React from 'react';
 import { City } from '../../util';
 import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
+import { CityCard } from './CityCard';
+
+/**
+ * Convert a number to an ordinal, e.g. 1 to 1st.
+ * @param n - The number to convert to ordinal.
+ */
+function numberToOrdinal(n: number): string {
+	switch (n) {
+		case 1:
+			return '1st';
+		case 2:
+			return '2nd';
+		case 3:
+			return '3rd';
+		default:
+			return `${n}th`;
+	}
+}
 
 export function RankingSection(): React.ReactElement {
 	const cities = useStaticQuery(graphql`
 		query AllCitiesQuery {
-			allShootismokeCity(limit: 10) {
+			allShootismokeCity(limit: 6) {
 				nodes {
 					api {
 						shootismoke {
@@ -40,25 +58,26 @@ export function RankingSection(): React.ReactElement {
 	`);
 
 	return (
-		<>
-			<SectionDivider title="City ranking" />
-			<Section>
-				<ul>
-					{cities.allShootismokeCity.nodes.map((city: City) => (
-						<li key={city.slug}>
-							<Link
-								className="underline"
-								to={`/city/${city.slug}`}
-							>
-								{city.name}
+		<div className="pt-3">
+			<SectionDivider title="Worldwide City ranking" />
+			<Section className="flex flex-col items-center">
+				<div className="pt-2 grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
+					{cities.allShootismokeCity.nodes.map(
+						(city: City, index: number) => (
+							<Link key={city.slug} to={`/city/${city.slug}`}>
+								<CityCard
+									description={`${round(
+										city.api?.shootismoke.dailyCigarettes ||
+											0
+									)} cigarettes today`}
+									subtitle={city.name || ''}
+									title={`${numberToOrdinal(index + 1)}`}
+								/>
 							</Link>
-							:{' '}
-							{round(city.api?.shootismoke.dailyCigarettes || 0)}{' '}
-							cigarettes
-						</li>
-					))}
-				</ul>
+						)
+					)}
+				</div>
 			</Section>
-		</>
+		</div>
 	);
 }

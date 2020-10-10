@@ -20,7 +20,7 @@ import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
 import { navigate } from 'gatsby';
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import {
 	OptionsType,
 	OptionTypeBase,
@@ -29,10 +29,12 @@ import {
 } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-import location from '../../../assets/images/icons/location.svg';
+import location from '../../../assets/images/icons/location_orange.svg';
+import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
 	className?: string;
+	showGps?: boolean;
 }
 
 /**
@@ -64,6 +66,14 @@ function algoliaLoadOptions(
 	)();
 }
 
+function defaultCustomStyle<T>(provided: T): CSSProperties {
+	return {
+		...provided,
+		color: '#44464A',
+		fontSize: '0.9rem',
+	};
+}
+
 const customStyles: StylesConfig = {
 	control: (provided) => ({
 		...provided,
@@ -75,10 +85,11 @@ const customStyles: StylesConfig = {
 		...provided,
 		display: 'none',
 	}),
-	placeholder: (provided) => ({
-		...provided,
-		maxHeight: '1.2rem',
-	}),
+	input: defaultCustomStyle,
+	noOptionsMessage: defaultCustomStyle,
+	loadingMessage: defaultCustomStyle,
+	option: defaultCustomStyle,
+	placeholder: defaultCustomStyle,
 	singleValue: (provided) => ({
 		...provided,
 		width: '80%',
@@ -96,7 +107,8 @@ export interface SearchLocationState {
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
 		className,
-		placeholder = 'Check the air quality of your city...',
+		placeholder = 'Search a city or address',
+		showGps = true,
 		...rest
 	} = props;
 
@@ -109,7 +121,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 	return (
 		<div className="relative">
 			<AsyncSelect
-				className={c('w-full rounded', className)}
+				className={c('w-full rounded text-gray-700', className)}
 				loadOptions={algoliaLoadOptions}
 				noOptionsMessage={(): string => 'Type something...'}
 				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -125,40 +137,16 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				styles={customStyles}
 				{...rest}
 			/>
-			<img
-				alt="location"
-				className="absolute top-0 mt-3 mr-3 right-0 w-6 cursor-pointer"
-				onClick={(): void => {
-					setOverridePlaceholder(
-						"Fetching browser's GPS location..."
-					);
-					if (!navigator.geolocation) {
-						setOverridePlaceholder(
-							'Error: Geolocation is not supported for this Browser/OS.'
-						);
-						setTimeout(
-							() => setOverridePlaceholder(undefined),
-							1500
-						);
-					} else {
-						navigator.geolocation.getCurrentPosition(
-							(position) => {
-								navigate(
-									`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
-								);
-							},
-							(err) => {
-								setOverridePlaceholder(`Error: ${err.message}`);
-								setTimeout(
-									() => setOverridePlaceholder(undefined),
-									1500
-								);
-							}
-						);
+			{showGps && (
+				<img
+					alt="location"
+					className="absolute top-0 mt-4 mr-4 right-0 w-4 cursor-pointer"
+					onClick={(): void =>
+						onGpsButtonClick(setOverridePlaceholder)
 					}
-				}}
-				src={location}
-			/>
+					src={location}
+				/>
+			)}
 		</div>
 	);
 }

@@ -14,16 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import logo from '@shootismoke/ui/assets/logos/transparent/transparent.png';
+import logo from '@shootismoke/ui/assets/logos/logo.svg';
 import React from 'react';
 
 export function Footer(): React.ReactElement {
 	return (
-		<footer className="xl:py-12 lg:py-12 py-8 bg-gray-700 flex flex-col items-center">
-			<img alt="logo" className="w-12" src={logo}></img>
-			<p className="mt-2 text-sm text-center text-white">
-				Created with pride by
-				<br />
+		<footer className="px-10 py-8 lg:py-12 bg-gray-700 flex flex-col items-center">
+			<img alt="logo" className="w-10" src={logo}></img>
+			<p className="mt-3 text-sm text-center text-white">
+				Created with pride by{' '}
 				<a
 					className="text-orange"
 					href="https://www.marcelocoelho.cc"
@@ -43,7 +42,7 @@ export function Footer(): React.ReactElement {
 				</a>
 				.
 			</p>
-			<p className="mt-8 text-sm text-center text-white">
+			<p className="mt-8 text-xs text-center text-white">
 				<a
 					className="text-orange"
 					href="https://facebook.com/shootismoke"
@@ -51,8 +50,8 @@ export function Footer(): React.ReactElement {
 					target="_blank"
 				>
 					Facebook
-				</a>{' '}
-				|{' '}
+				</a>
+				<span className="mx-3">|</span>
 				<a
 					className="text-orange"
 					href="https://twitter.com/shootismoke"
@@ -60,8 +59,8 @@ export function Footer(): React.ReactElement {
 					target="_blank"
 				>
 					Twitter
-				</a>{' '}
-				|{' '}
+				</a>
+				<span className="mx-3">|</span>
 				<a
 					className="text-orange"
 					href="mailto:hi@shootismoke.app"
@@ -72,11 +71,21 @@ export function Footer(): React.ReactElement {
 				</a>{' '}
 			</p>
 
-			<p className="mt-6 text-sm text-center text-white">
+			<p className="mt-4 text-xs text-center text-white">
+				Learn more about the initiative in our{' '}
+				<a
+					className="text-orange"
+					href="https://github.com/shootismoke/webapp"
+					rel="noreferrer"
+					target="_blank"
+				>
+					F.A.Q.
+				</a>
+				<br />
 				Source code available on{' '}
 				<a
 					className="text-orange"
-					href="https://github.com/amaurymartiny/shoot-i-smoke"
+					href="https://github.com/shootismoke/webapp"
 					rel="noreferrer"
 					target="_blank"
 				>

@@ -14,31 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import c from 'classnames';
 import React from 'react';
 
-import { Cigarettes } from '../Cigarettes';
-import { H1 } from '../H1';
-
-interface LoadingProps {
+interface CardProps {
+	children?:
+		| React.ReactElement
+		| undefined
+		| (React.ReactElement | undefined)[];
 	className?: string;
 }
 
-export function Loading(props: LoadingProps): React.ReactElement {
-	const { className } = props;
+export function Card(props: CardProps): React.ReactElement {
+	const { className, children } = props;
 
 	return (
-		<div className={className}>
-			<div className="h-32">
-				<Cigarettes cigarettes={1.1} />
-			</div>
-
-			<H1 className="mt-4">
-				<>
-					Loading
-					<br />
-					<span className="text-orange">cough... cough...</span>
-				</>
-			</H1>
+		<div
+			className={c(
+				'overflow-hidden border rounded-xl border-gray-200',
+				className
+			)}
+		>
+			{children}
 		</div>
 	);
 }
