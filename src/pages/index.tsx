@@ -15,18 +15,17 @@
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button } from '@shootismoke/ui';
 
 import {
 	DownloadSection,
 	FeaturedSection,
 	Footer,
+	GpsButton,
 	HowSection,
 	Nav,
 	RankingSection,
 	SearchBar,
 	Section,
-	SectionDivider,
 	Seo,
 } from '../components';
 
@@ -36,16 +35,25 @@ export default function Index(): React.ReactElement {
 			<Seo title="Air Quality Data, in plain English" />
 			<Nav />
 			<Section>
-				<h1 className="font-gotham-black leading-12 lg:text-5xl text-3xl">
+				<h1 className="font-gotham-black leading-14 text-5xl">
 					How much am I
 					<br />
-					<span className="text-orange">smoking</span> by breathing
+					<span className="text-orange">
+						smoking by
+						<br />
+						breathing
+					</span>
 					<br />
 					urban air?
 				</h1>
 				<SearchBar className="mt-4" showGps={false} />
-				<SectionDivider title="or" />
-				<Button type="primary">HELLO</Button>
+
+				<div className="my-2 flex flex-row items-center">
+					<hr className="flex-grow border-t border-gray-200" />
+					<p className="mx-4 text-gray-600">or</p>
+					<hr className="flex-grow border-gray-200" />
+				</div>
+				<GpsButton />
 			</Section>
 
 			<RankingSection />

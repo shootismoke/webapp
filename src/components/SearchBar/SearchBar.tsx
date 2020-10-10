@@ -30,6 +30,7 @@ import {
 import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location.svg';
+import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
 	className?: string;
@@ -131,37 +132,9 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				<img
 					alt="location"
 					className="absolute top-0 mt-3 mr-3 right-0 w-6 cursor-pointer"
-					onClick={(): void => {
-						setOverridePlaceholder(
-							"Fetching browser's GPS location..."
-						);
-						if (!navigator.geolocation) {
-							setOverridePlaceholder(
-								'Error: Geolocation is not supported for this Browser/OS.'
-							);
-							setTimeout(
-								() => setOverridePlaceholder(undefined),
-								1500
-							);
-						} else {
-							navigator.geolocation.getCurrentPosition(
-								(position) => {
-									navigate(
-										`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
-									);
-								},
-								(err) => {
-									setOverridePlaceholder(
-										`Error: ${err.message}`
-									);
-									setTimeout(
-										() => setOverridePlaceholder(undefined),
-										1500
-									);
-								}
-							);
-						}
-					}}
+					onClick={(): void =>
+						onGpsButtonClick(setOverridePlaceholder)
+					}
 					src={location}
 				/>
 			)}
