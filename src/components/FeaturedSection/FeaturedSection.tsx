@@ -33,45 +33,27 @@ import { SectionDivider } from '../SectionDivider';
 
 const medias = [
 	{
-		href: 'https://vimeo.com/269420780',
-		image: bbc,
-		slug: 'bbc',
-	},
-	{
 		href:
 			'https://www.citylab.com/environment/2018/04/how-much-are-you-smoking-by-breathing-urban-air/558827/',
 		image: citylab,
 		slug: 'citylab',
 	},
 	{
-		href:
-			'https://usbeketrica.com/article/une-appli-calcule-le-nombre-de-cigarettes-qu-on-fume-a-notre-insu-a-cause-de-la-pollution-de-l-air',
-		image: usbek,
-		slug: 'usbek',
-	},
-	{
-		href:
-			'https://vitals.lifehacker.com/see-your-citys-air-pollution-measured-in-daily-cigarett-1825659774',
-		image: lifehacker,
-		slug: 'lifehacker',
-	},
-	{
-		href:
-			'http://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
-		image: slate,
-		slug: 'slate',
-	},
-	{
-		href:
-			'https://www.huffingtonpost.com/entry/how-much-are-you-smoking-by-breathing-urban-air_us_5ae332e0e4b02baed1b9ccbc',
-		image: huffpost,
-		slug: 'huffpost',
+		href: 'https://vimeo.com/269420780',
+		image: bbc,
+		slug: 'bbc',
 	},
 	{
 		href:
 			'https://www.circa.com/story/2018/05/03/science/an-app-tells-you-how-many-cigarettes-youre-smoking-when-you-breathe-the-polluted-air-in-your-city',
 		image: circa,
 		slug: 'circa',
+	},
+	{
+		href:
+			'http://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
+		image: slate,
+		slug: 'slate',
 	},
 	{
 		href:
@@ -91,14 +73,32 @@ const medias = [
 		slug: 'nexo',
 	},
 	{
+		href:
+			'https://vitals.lifehacker.com/see-your-citys-air-pollution-measured-in-daily-cigarett-1825659774',
+		image: lifehacker,
+		slug: 'lifehacker',
+	},
+	{
 		href: 'https://www.highsnobiety.com/p/smoking-pollution-air-app/',
 		image: highsnobiety,
 		slug: 'highsnobiety',
 	},
 	{
+		href:
+			'https://www.huffingtonpost.com/entry/how-much-are-you-smoking-by-breathing-urban-air_us_5ae332e0e4b02baed1b9ccbc',
+		image: huffpost,
+		slug: 'huffpost',
+	},
+	{
 		href: undefined,
 		image: pix,
 		slug: 'pix',
+	},
+	{
+		href:
+			'https://usbeketrica.com/article/une-appli-calcule-le-nombre-de-cigarettes-qu-on-fume-a-notre-insu-a-cause-de-la-pollution-de-l-air',
+		image: usbek,
+		slug: 'usbek',
 	},
 ];
 
@@ -107,7 +107,7 @@ export function FeaturedSection(): React.ReactElement {
 		<div className="pt-3">
 			<SectionDivider title="Featured at" />
 			<Section>
-				<div className="grid grid-flow-row grid-cols-3 grid-rows-4 lg:grid-cols-6 lg:grid-rows-2 gap-10">
+				<div className="pt-3 grid grid-flow-row grid-cols-3 grid-rows-4 gap-16 lg:grid-cols-6 lg:grid-rows-2">
 					{medias.map((media) => (
 						<a
 							className="flex flex-row justify-center items-center"
