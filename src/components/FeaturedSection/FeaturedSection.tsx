@@ -19,9 +19,12 @@ import React from 'react';
 import bbc from '../../../assets/images/media/bbc@3x.png';
 import circa from '../../../assets/images/media/circa@3x.png';
 import citylab from '../../../assets/images/media/citylab@3x.png';
+import highsnobiety from '../../../assets/images/media/highsnobiety@3x.png';
 import hindustantimes from '../../../assets/images/media/hindustantimes@3x.png';
 import huffpost from '../../../assets/images/media/huffpost@3x.png';
 import lifehacker from '../../../assets/images/media/lifehacker@3x.png';
+import nexo from '../../../assets/images/media/nexo@3x.png';
+import pix from '../../../assets/images/media/pix@3x.png';
 import rtbf from '../../../assets/images/media/rtbf@3x.png';
 import slate from '../../../assets/images/media/slate@3x.png';
 import usbek from '../../../assets/images/media/usbek@3x.png';
@@ -82,17 +85,32 @@ const medias = [
 		image: hindustantimes,
 		slug: 'hindustantimes',
 	},
+	{
+		href: undefined,
+		image: nexo,
+		slug: 'nexo',
+	},
+	{
+		href: 'https://www.highsnobiety.com/p/smoking-pollution-air-app/',
+		image: highsnobiety,
+		slug: 'highsnobiety',
+	},
+	{
+		href: undefined,
+		image: pix,
+		slug: 'pix',
+	},
 ];
 
 export function FeaturedSection(): React.ReactElement {
 	return (
-		<div className="pt-8">
+		<div className="pt-4">
 			<SectionDivider title="Featured at" />
 			<Section>
-				<div className="grid grid-flow-row grid-cols-3 grid-rows-3 gap-4">
+				<div className="grid grid-flow-row grid-cols-6 grid-rows-2 gap-10">
 					{medias.map((media) => (
 						<a
-							className="mx-3 my-3 flex flex-row justify-center items-center"
+							className="flex flex-row justify-center items-center"
 							href={media.href}
 							key={media.slug}
 							rel="noreferrer"

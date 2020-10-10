@@ -18,20 +18,23 @@ import logo from '@shootismoke/ui/assets/logos/transparent/transparent.png';
 import { Link } from 'gatsby';
 import React from 'react';
 
+import download from '../../../assets/images/icons/download.svg';
+
 export function Nav(): React.ReactElement {
 	return (
 		<header className="xl:mx-4 lg:mx-4 mx-2 mt-4">
-			<nav className="flex justify-between items-center">
-				<div className="flex w-1/2">
-					{/** Should be `items-center`, but `items-end` looks better */}
-					<Link className="flex flex-grow items-end" to="/">
-						<img alt="logo" className="pr-2 w-12" src={logo} />
-						<h2 className="font-extrabold leading-4">
-							<span className="text-orange">Shoot!</span>
-							<br />I Smoke
-						</h2>
-					</Link>
-				</div>
+			<nav className="flex flex-row justify-between">
+				{/** Should be `items-center`, but `items-end` looks better */}
+				<Link to="/">
+					<img alt="logo" className="pr-2 w-12" src={logo} />
+					<h2 className="font-extrabold leading-4">
+						<span className="text-orange">Shoot!</span>
+						<br />I Smoke
+					</h2>
+				</Link>
+				<Link className="font-extrabold text-orange" to="#download">
+					Download the app <img alt="download" src={download} />
+				</Link>
 			</nav>
 		</header>
 	);

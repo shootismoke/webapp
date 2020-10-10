@@ -23,9 +23,9 @@ import { SectionDivider } from '../SectionDivider';
 
 export function DownloadSection(): React.ReactElement {
 	return (
-		<div className="pt-8">
+		<div className="pt-4" id="download">
 			<SectionDivider title="App available on" />
-			<Section className="xl:py-6 lg:py-6">
+			<Section className="lg:py-4">
 				<div className="flex flex-row justify-center">
 					<a
 						className="mx-2 w-64"

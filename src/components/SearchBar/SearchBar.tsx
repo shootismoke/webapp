@@ -20,7 +20,7 @@ import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
 import { navigate } from 'gatsby';
-import React, { useState } from 'react';
+import React, { useState, CSSProperties } from 'react';
 import {
 	OptionsType,
 	OptionTypeBase,
@@ -29,7 +29,7 @@ import {
 } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-import location from '../../../assets/images/icons/location.svg';
+import location from '../../../assets/images/icons/location_orange.svg';
 import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
@@ -66,6 +66,13 @@ function algoliaLoadOptions(
 	)();
 }
 
+function defaultCustomStyle<T>(provided: T): CSSProperties {
+	return {
+		...provided,
+		fontSize: '0.9rem',
+	};
+}
+
 const customStyles: StylesConfig = {
 	control: (provided) => ({
 		...provided,
@@ -82,6 +89,9 @@ const customStyles: StylesConfig = {
 		color: '#44464A',
 		fontSize: '0.9rem',
 	}),
+	noOptionsMessage: defaultCustomStyle,
+	loadingMessage: defaultCustomStyle,
+	option: defaultCustomStyle,
 	placeholder: (provided) => ({
 		...provided,
 		color: '#777D89',

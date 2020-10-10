@@ -43,7 +43,7 @@ function numberToOrdinal(n: number): string {
 export function RankingSection(): React.ReactElement {
 	const cities = useStaticQuery(graphql`
 		query AllCitiesQuery {
-			allShootismokeCity(limit: 5) {
+			allShootismokeCity(limit: 6) {
 				nodes {
 					api {
 						shootismoke {
@@ -58,10 +58,10 @@ export function RankingSection(): React.ReactElement {
 	`);
 
 	return (
-		<div className="pt-8">
+		<div className="pt-4">
 			<SectionDivider title="Worldwide City ranking" />
-			<Section className="flex flex-col items-center">
-				<div className="max-w-6xl">
+			<Section>
+				<div className="pt-2 max-w-6xl grid grid-flow-row grid-cols-2 grid-rows-3 gap-4">
 					{cities.allShootismokeCity.nodes.map(
 						(city: City, index: number) => (
 							<Link

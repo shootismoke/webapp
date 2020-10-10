@@ -25,8 +25,8 @@ export function HowSection(): React.ReactElement {
 	const { formatMessage: t } = useIntl();
 
 	return (
-		<div className="pt-8">
-			<SectionDivider title="Know more about air pollution" />
+		<div className="pt-4">
+			<SectionDivider title="About Sh**t! I Smoke" />
 
 			<Section className="flex flex-col items-center">
 				<div className="lg:mr-4 lg:w-1/2">

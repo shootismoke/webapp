@@ -18,6 +18,8 @@ import React, { useState } from 'react';
 import { Button } from '@shootismoke/ui';
 import { navigate } from 'gatsby';
 
+import location from '../../../assets/images/icons/location_white.svg';
+
 interface GpsButtonProps {
 	className?: string;
 }
@@ -32,7 +34,9 @@ export function onGpsButtonClick(
 ): void {
 	setStatus("Fetching browser's GPS location...");
 	if (!navigator.geolocation) {
-		setStatus('Error: Geolocation is not supported for this Browser/OS.');
+		setStatus(
+			'❌ Error: Geolocation is not supported for this Browser/OS.'
+		);
 		setTimeout(() => setStatus(undefined), 1500);
 	} else {
 		navigator.geolocation.getCurrentPosition(
@@ -42,7 +46,7 @@ export function onGpsButtonClick(
 				);
 			},
 			(err) => {
-				setStatus(`Error: ${err.message}`);
+				setStatus(`❌ Error: ${err.message}`);
 				setTimeout(() => setStatus(undefined), 1500);
 			}
 		);
@@ -56,11 +60,12 @@ export function GpsButton(_props: GpsButtonProps): React.ReactElement {
 
 	return (
 		<Button type="full" onPress={(): void => onGpsButtonClick(setText)}>
-			<>
-				<p className="font-extrabold leading-6 text-sm text-white uppercase">
+			<div className="flex flex-row justify-center">
+				<img alt="location" src={location} />
+				<p className="ml-3 font-extrabold leading-6 tracking-widest text-xs text-white uppercase">
 					{text || DEFAULT_TEXT}
 				</p>
-			</>
+			</div>
 		</Button>
 	);
 }

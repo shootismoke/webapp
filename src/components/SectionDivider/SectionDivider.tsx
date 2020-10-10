@@ -31,7 +31,9 @@ export function SectionDivider({
 		<Section className={className}>
 			<div className="flex flex-row items-center">
 				<hr className="flex-grow border-t border-gray-200" />
-				<p className="mx-4 text-xs font-extrabold uppercase">{title}</p>
+				<h3 className="mx-4 tracking-wider text-xs font-extrabold uppercase">
+					{title}
+				</h3>
 				<hr className="flex-grow border-gray-200" />
 			</div>
 		</Section>
