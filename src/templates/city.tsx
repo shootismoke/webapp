@@ -29,6 +29,7 @@ import c from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
+import warning from '../../assets/images/icons/warning_red.svg';
 import {
 	Cigarettes,
 	DownloadSection,
@@ -49,8 +50,6 @@ import {
 	Seo,
 } from '../components';
 import { City, getSeoTitle, reverseGeocode } from '../util';
-import warning from '../../assets/images/icons/warning_red.svg';
-
 
 interface CityProps {
 	location?: NavigateOptions<SearchLocationState>;
@@ -116,13 +115,19 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<p
 					className={c(
 						'mt-2 text-gray-600 text-xs h-2',
-						distance > 15 && 'text-red' 
+						distance > 15 && 'text-red'
 					)}
 				>
 					{distance
 						? `Air Quality Station: ${distance}km away`
 						: null}
-					{distance >15 && <img alt="warning" className="ml-1 inline" src={warning}/>}
+					{distance > 15 && (
+						<img
+							alt="warning"
+							className="ml-1 inline"
+							src={warning}
+						/>
+					)}
 				</p>
 			</Section>
 
