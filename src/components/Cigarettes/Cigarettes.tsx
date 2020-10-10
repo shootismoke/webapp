@@ -39,7 +39,7 @@ function fullCigaretteLength(cigarettes: number): number {
 	} else if (cigarettes <= N_CIGARETTES_1_LINE) {
 		return BOX_HEIGHT;
 	} else {
-		return 50; // Note: 2*50 + 2*20 = BOX_HEIGHT.
+		return 44; // Note: 2*44 + 2*20 = BOX_HEIGHT.
 	}
 }
 
