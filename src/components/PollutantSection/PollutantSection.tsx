@@ -98,7 +98,7 @@ export function PollutantSection(
 	}
 
 	return (
-		<div className="pt-4">
+		<div className="pt-3">
 			<SectionDivider title="Today's tips" />
 			<Section className="max-w-screen-sm">
 				<Tip imgAlt="skull" imgSrc={skull}>

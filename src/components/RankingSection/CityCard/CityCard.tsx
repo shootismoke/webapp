@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
 import c from 'classnames';
+import React from 'react';
 
 import { Card } from '../../Card';
 
@@ -34,12 +34,12 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 
 	return (
 		<Card className={c('shadow-lg h-26 pr-2 flex flex-row', className)}>
-			<img className="mr-4 w-26 h-26" src={TMP_IMAGE} />
-			<div className="flex flex-col justify-center">
+			<img className="mr-4 w-26 h-26 flex-shrink-0" src={TMP_IMAGE} />
+			<div className="min-w-0 flex flex-col justify-center">
 				<h4 className="mb-1 text-xl font-extrabold text-orange">
 					{title}
 				</h4>
-				<h5 className="text-sm">{subtitle}</h5>
+				<p className="text-sm truncate">{subtitle}</p>
 				<p className="text-xs text-gray-600">{description}</p>
 			</div>
 		</Card>

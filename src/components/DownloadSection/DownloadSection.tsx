@@ -23,10 +23,17 @@ import { SectionDivider } from '../SectionDivider';
 
 export function DownloadSection(): React.ReactElement {
 	return (
-		<div className="pt-4" id="download">
+		<div className="pt-4 pb-8" id="download">
 			<SectionDivider title="App available on" />
 			<Section className="lg:py-4">
-				<div className="flex flex-row justify-center">
+				<h4 className="sm:mb-4 tracking-wider font-extrabold sm:text-xl text-center">
+					<span className="text-orange">Set notifications</span> on
+					your phone
+					<br />
+					and <span className="text-orange">share results</span> with
+					friends:
+				</h4>
+				<div className="mt-3 flex flex-row justify-center">
 					<a
 						className="mx-2 w-64"
 						href="https://itunes.apple.com/us/app/s-i-smoke/id1365605567?mt=8"

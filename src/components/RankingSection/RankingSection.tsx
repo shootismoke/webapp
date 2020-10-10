@@ -58,17 +58,13 @@ export function RankingSection(): React.ReactElement {
 	`);
 
 	return (
-		<div className="pt-4">
+		<div className="pt-3">
 			<SectionDivider title="Worldwide City ranking" />
-			<Section>
-				<div className="pt-2 max-w-6xl grid grid-flow-row grid-cols-2 grid-rows-3 gap-4">
+			<Section className="flex flex-col items-center">
+				<div className="pt-2 grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
 					{cities.allShootismokeCity.nodes.map(
 						(city: City, index: number) => (
-							<Link
-								className="w-full "
-								key={city.slug}
-								to={`/city/${city.slug}`}
-							>
+							<Link key={city.slug} to={`/city/${city.slug}`}>
 								<CityCard
 									description={`${round(
 										city.api?.shootismoke.dailyCigarettes ||

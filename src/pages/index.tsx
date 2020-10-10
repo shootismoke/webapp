@@ -35,11 +35,11 @@ export default function Index(): React.ReactElement {
 			<Seo title="Air Quality Data, in plain English" />
 			<Nav />
 			<Section>
-				<h1 className="font-extrabold leading-14 text-5xl">
+				<h1 className="pt-3 font-extrabold leading-10 sm:leading-14 text-4xl sm:text-5xl">
 					How much am I
 					<br />
-					<span className="text-orange">smoking by breathing</span>
-					<br />
+					<span className="text-orange">smoking by breathing </span>
+					<br className="hidden sm:block" />
 					urban air?
 				</h1>
 				<SearchBar className="mt-5" showGps={false} />

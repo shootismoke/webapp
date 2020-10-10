@@ -20,7 +20,7 @@ import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
 import { navigate } from 'gatsby';
-import React, { useState, CSSProperties } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import {
 	OptionsType,
 	OptionTypeBase,

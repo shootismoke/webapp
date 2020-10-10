@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useState } from 'react';
 import { Button } from '@shootismoke/ui';
 import { navigate } from 'gatsby';
+import React, { useState } from 'react';
 
 import location from '../../../assets/images/icons/location_white.svg';
 
@@ -60,9 +60,9 @@ export function GpsButton(_props: GpsButtonProps): React.ReactElement {
 
 	return (
 		<Button type="full" onPress={(): void => onGpsButtonClick(setText)}>
-			<div className="flex flex-row justify-center">
-				<img alt="location" src={location} />
-				<p className="ml-3 font-extrabold leading-6 tracking-widest text-xs text-white uppercase">
+			<div className="px-2 flex flex-row justify-center">
+				{!text && <img alt="location" src={location} />}
+				<p className="ml-3 font-extrabold leading-6 tracking-widest text-xs text-white uppercase truncate">
 					{text || DEFAULT_TEXT}
 				</p>
 			</div>

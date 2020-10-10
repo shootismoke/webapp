@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
 import c from 'classnames';
+import React from 'react';
 
 interface CardProps {
 	children?:

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import logo from '@shootismoke/ui/assets/logos/transparent/transparent.png';
+import logo from '@shootismoke/ui/assets/logos/logo_text_2lines.svg';
 import { Link } from 'gatsby';
 import React from 'react';
 
@@ -22,18 +22,23 @@ import download from '../../../assets/images/icons/download.svg';
 
 export function Nav(): React.ReactElement {
 	return (
-		<header className="xl:mx-4 lg:mx-4 mx-2 mt-4">
+		<header className="sm:mx-8 mx-3 mt-4">
 			<nav className="flex flex-row justify-between">
 				{/** Should be `items-center`, but `items-end` looks better */}
 				<Link to="/">
-					<img alt="logo" className="pr-2 w-12" src={logo} />
-					<h2 className="font-extrabold leading-4">
-						<span className="text-orange">Shoot!</span>
-						<br />I Smoke
-					</h2>
+					<img alt="logo" className="w-32" src={logo} />
 				</Link>
-				<Link className="font-extrabold text-orange" to="#download">
-					Download the app <img alt="download" src={download} />
+				<Link
+					className="flex items-center font-extrabold leading-4 text-xs sm:text-sm text-orange text-right uppercase"
+					to="#download"
+				>
+					Download <br className="sm:hidden" />
+					the app
+					<img
+						alt="download"
+						className="ml-2 sm:ml-4 h-6 sm:h-10"
+						src={download}
+					/>
 				</Link>
 			</nav>
 		</header>

@@ -104,10 +104,10 @@ const medias = [
 
 export function FeaturedSection(): React.ReactElement {
 	return (
-		<div className="pt-4">
+		<div className="pt-3">
 			<SectionDivider title="Featured at" />
 			<Section>
-				<div className="grid grid-flow-row grid-cols-6 grid-rows-2 gap-10">
+				<div className="grid grid-flow-row grid-cols-3 grid-rows-4 lg:grid-cols-6 lg:grid-rows-2 gap-10">
 					{medias.map((media) => (
 						<a
 							className="flex flex-row justify-center items-center"
