@@ -9,8 +9,8 @@ html {
 
 @layer utilities {
 	@responsive {
-		.leading-14 {
-			line-height: 3.5rem;
+		.leading-16 {
+			line-height: 4rem;
 		}
 	}
 }

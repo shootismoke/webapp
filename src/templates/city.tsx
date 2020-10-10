@@ -19,10 +19,11 @@ import { convert } from '@shootismoke/convert';
 import {
 	Api,
 	BoxButton,
-	CigarettesText,
 	distanceToStation,
 	FrequencyContext,
+	getSwearWord,
 	raceApiPromise,
+	round,
 } from '@shootismoke/ui';
 import c from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
@@ -33,6 +34,7 @@ import {
 	DownloadSection,
 	FeaturedSection,
 	Footer,
+	H1,
 	HealthSection,
 	HowSection,
 	Loading,
@@ -47,6 +49,8 @@ import {
 	Seo,
 } from '../components';
 import { City, getSeoTitle, reverseGeocode } from '../util';
+import warning from '../../assets/images/icons/warning_red.svg';
+
 
 interface CityProps {
 	location?: NavigateOptions<SearchLocationState>;
@@ -82,11 +86,12 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	}, [city.gps]);
 
 	// Number of cigarettes to display.
-	// const cigarettes = api
-	// 	? api.shootismoke.dailyCigarettes *
-	// 	  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
-	// 	: undefined;
-	const cigarettes = 1;
+	const cigarettes = api
+		? api.shootismoke.dailyCigarettes *
+		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
+		: undefined;
+
+	const distance = api ? distanceToStation(city.gps, api) : 0;
 
 	return (
 		<>
@@ -108,13 +113,16 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						'Search for any city'
 					}
 				/>
-				<p className="mt-2 text-gray-600 text-xs h-2">
-					{api
-						? `Air Quality Station: ${distanceToStation(
-								city.gps,
-								api
-						  )} km away`
+				<p
+					className={c(
+						'mt-2 text-gray-600 text-xs h-2',
+						distance > 15 && 'text-red' 
+					)}
+				>
+					{distance
+						? `Air Quality Station: ${distance}km away`
 						: null}
+					{distance >15 && <img alt="warning" className="ml-1 inline" src={warning}/>}
 				</p>
 			</Section>
 
@@ -125,26 +133,18 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							<Cigarettes cigarettes={cigarettes} />
 						</div>
 
-						<div
-							className={c(
-								sectionHorizontalPadding,
-								'mt-8 text-3xl'
-							)}
-						>
-							<CigarettesText
-								cigarettes={cigarettes}
-								t={(id, replace): string => t({ id }, replace)}
-								style={{
-									// If only we could add `className="lg:text-3xl"`...
-									// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-									// @ts-ignore
-									fontSize:
-										typeof window !== 'undefined' &&
-										window.innerWidth >= 1024
-											? '3rem'
-											: '2.25rem',
-								}}
-							/>
+						<div className={c(sectionHorizontalPadding, 'mt-4')}>
+							<H1>
+								<>
+									{t({ id: getSwearWord(cigarettes) })}! You
+									smoke
+									<br />
+									<span className="text-orange">
+										{round(cigarettes)} cigarette
+										{cigarettes === 1 ? '' : 's'}
+									</span>
+								</>
+							</H1>
 						</div>
 
 						{/** Same as sectionHorizontalPadding, but only left. */}
@@ -156,12 +156,19 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										key={f}
 									>
 										<BoxButton
-											active={frequency === f}
 											onPress={(): void =>
 												setFrequency(f)
 											}
 										>
-											{f}
+											<p
+												className={c(
+													'font-extrabold text-4xl',
+													f !== frequency &&
+														'text-gray-200'
+												)}
+											>
+												{f}
+											</p>
 										</BoxButton>
 									</div>
 								)

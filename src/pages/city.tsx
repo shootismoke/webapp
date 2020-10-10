@@ -27,6 +27,7 @@ import CityTemplate from '../templates/city';
  */
 function parseQuery(queryString: string): Record<string, string> {
 	const query: Record<string, string> = {};
+	queryString = queryString.split('#')[0];
 	const pairs = (queryString.startsWith('?')
 		? queryString.substr(1)
 		: queryString

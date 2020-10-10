@@ -32,7 +32,11 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 				Cannot load<br></br>
 				<span className="text-orange">your cigarettes</span>
 			</h2>
-			<p className="mt-8 text-gray-600 text-xs">{message}</p>
+			<p className="mt-8 text-gray-600 text-xs">
+				Please try to search for another city.
+				<br />
+				{message}
+			</p>
 		</div>
 	);
 }

@@ -59,7 +59,7 @@ function tips(aqi: number): React.ReactElement[] {
 	if (aqi <= 50) {
 		return [
 			<Tip imgAlt="mask" imgSrc={mask} key={1}>
-				<p className="font-extrabold text-xl">
+				<p className="leading-6 font-extrabold text-xl">
 					<span className="text-orange">Enjoy</span> your usual
 					outdoor activities.
 				</p>

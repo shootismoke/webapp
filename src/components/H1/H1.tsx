@@ -14,31 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import c from 'classnames';
 import React from 'react';
 
-import { Cigarettes } from '../Cigarettes';
-import { H1 } from '../H1';
-
-interface LoadingProps {
+interface H1Props {
+	children?: string | JSX.Element;
 	className?: string;
 }
 
-export function Loading(props: LoadingProps): React.ReactElement {
-	const { className } = props;
+export function H1(props: H1Props): React.ReactElement {
+	const { children, className } = props;
 
 	return (
-		<div className={className}>
-			<div className="h-32">
-				<Cigarettes cigarettes={1.1} />
-			</div>
-
-			<H1 className="mt-4">
-				<>
-					Loading
-					<br />
-					<span className="text-orange">cough... cough...</span>
-				</>
-			</H1>
-		</div>
+		<h1
+			className={c(
+				'font-extrabold leading-10 sm:leading-16 text-4xl sm:text-5xl',
+				className
+			)}
+		>
+			{children}
+		</h1>
 	);
 }
