@@ -31,7 +31,7 @@ import {
 export default function NotFound(): React.ReactElement {
 	return (
 		<>
-			<Seo title="Air Quality Data, in plain English" />
+			<Seo title="404" />
 			<Nav />
 			<Section>
 				<h1 className="font-extrabold leading-12 lg:text-5xl text-3xl">

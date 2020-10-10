@@ -75,7 +75,7 @@ export function Footer(): React.ReactElement {
 				Learn more about the initiative in our{' '}
 				<a
 					className="text-orange"
-					href="https://github.com/amaurymartiny/shoot-i-smoke"
+					href="https://github.com/shootismoke/webapp"
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -85,7 +85,7 @@ export function Footer(): React.ReactElement {
 				Source code available on{' '}
 				<a
 					className="text-orange"
-					href="https://github.com/amaurymartiny/shoot-i-smoke"
+					href="https://github.com/shootismoke/webapp"
 					rel="noreferrer"
 					target="_blank"
 				>

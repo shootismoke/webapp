@@ -43,7 +43,6 @@ import {
 	SearchBar,
 	SearchLocationState,
 	Section,
-	SectionDivider,
 	sectionHorizontalPadding,
 	Seo,
 } from '../components';
@@ -83,10 +82,11 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	}, [city.gps]);
 
 	// Number of cigarettes to display.
-	const cigarettes = api
-		? api.shootismoke.dailyCigarettes *
-		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
-		: undefined;
+	// const cigarettes = api
+	// 	? api.shootismoke.dailyCigarettes *
+	// 	  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
+	// 	: undefined;
+	const cigarettes = 1;
 
 	return (
 		<>

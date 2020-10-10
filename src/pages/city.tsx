@@ -20,7 +20,7 @@ import React from 'react';
 import CityTemplate from '../templates/city';
 
 /**
- * Parse query string.
+ * Parse query string for lat and lng.
  *
  * @see https://stackoverflow.com/questions/2090551/parse-query-string-in-javascript
  * @param queryString - The query string to parse.

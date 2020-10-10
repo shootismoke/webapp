@@ -107,10 +107,10 @@ export function FeaturedSection(): React.ReactElement {
 		<div className="pt-3">
 			<SectionDivider title="Featured at" />
 			<Section>
-				<div className="pt-3 grid grid-flow-row grid-cols-3 grid-rows-4 gap-16 lg:grid-cols-6 lg:grid-rows-2">
+				<div className="lg:pt-3 grid grid-flow-row grid-cols-3 grid-rows-4 row-gap-6 col-gap-2 lg:grid-cols-6 lg:grid-rows-2 lg:col-gap-6">
 					{medias.map((media) => (
 						<a
-							className="flex flex-row justify-center items-center"
+							className="px-4 flex flex-row justify-center items-center"
 							href={media.href}
 							key={media.slug}
 							rel="noreferrer"

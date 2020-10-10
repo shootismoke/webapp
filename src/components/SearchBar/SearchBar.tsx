@@ -69,6 +69,7 @@ function algoliaLoadOptions(
 function defaultCustomStyle<T>(provided: T): CSSProperties {
 	return {
 		...provided,
+		color: '#44464A',
 		fontSize: '0.9rem',
 	};
 }
@@ -84,19 +85,11 @@ const customStyles: StylesConfig = {
 		...provided,
 		display: 'none',
 	}),
-	input: (provided) => ({
-		...provided,
-		color: '#44464A',
-		fontSize: '0.9rem',
-	}),
+	input: defaultCustomStyle,
 	noOptionsMessage: defaultCustomStyle,
 	loadingMessage: defaultCustomStyle,
 	option: defaultCustomStyle,
-	placeholder: (provided) => ({
-		...provided,
-		color: '#777D89',
-		fontSize: '0.9rem',
-	}),
+	placeholder: defaultCustomStyle,
 	singleValue: (provided) => ({
 		...provided,
 		width: '80%',
@@ -147,7 +140,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 			{showGps && (
 				<img
 					alt="location"
-					className="absolute top-0 mt-3 mr-3 right-0 w-6 cursor-pointer"
+					className="absolute top-0 mt-4 mr-4 right-0 w-4 cursor-pointer"
 					onClick={(): void =>
 						onGpsButtonClick(setOverridePlaceholder)
 					}
