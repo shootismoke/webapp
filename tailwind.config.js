@@ -7,11 +7,5 @@ module.exports = {
 			orange: '#F8A65D',
 			white: '#FFFFFF',
 		},
-		fontFamily: {
-			'gotham-black': ['gotham-black', 'Montserrat', 'Arial'],
-			'gotham-book': ['gotham-book', 'Montserrat', 'Arial'],
-			sans: ['gotham-book'],
-			serif: ['gotham-book'],
-		},
 	},
 };

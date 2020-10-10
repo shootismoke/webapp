@@ -28,7 +28,7 @@ export function Loading(props: LoadingProps): React.ReactElement {
 	return (
 		<div className={className}>
 			<Cigarettes cigarettes={1} />
-			<h2 className="mt-8 font-gotham-black leading-12 lg:text-5xl text-3xl">
+			<h2 className="mt-8 font-extrabold leading-12 lg:text-5xl text-3xl">
 				Loading
 				<br />
 				<span className="text-orange">cough... cough...</span>

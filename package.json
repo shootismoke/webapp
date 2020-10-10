@@ -14,7 +14,7 @@
 		"test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \""
 	},
 	"dependencies": {
-		"@shootismoke/ui": "^0.2.31",
+		"@shootismoke/ui": "^0.2.32",
 		"@types/classnames": "^2.2.10",
 		"@types/react-helmet": "^6.0.0",
 		"@types/react-native": "^0.62.12",
@@ -40,7 +40,6 @@
 		"gatsby-plugin-purgecss": "^5.0.0",
 		"gatsby-plugin-react-native-web": "^3.1.0",
 		"gatsby-plugin-typescript": "^2.4.4",
-		"gatsby-plugin-web-font-loader": "^1.0.4",
 		"node-fetch": "^2.6.1",
 		"typescript": "^3.9.3"
 	}

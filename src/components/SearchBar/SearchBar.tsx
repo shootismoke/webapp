@@ -77,9 +77,15 @@ const customStyles: StylesConfig = {
 		...provided,
 		display: 'none',
 	}),
+	input: (provided) => ({
+		...provided,
+		color: '#44464A',
+		fontSize: '0.9rem',
+	}),
 	placeholder: (provided) => ({
 		...provided,
-		maxHeight: '1.2rem',
+		color: '#777D89',
+		fontSize: '0.9rem',
 	}),
 	singleValue: (provided) => ({
 		...provided,
@@ -98,7 +104,7 @@ export interface SearchLocationState {
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
 		className,
-		placeholder = 'Check the air quality of your city...',
+		placeholder = 'Search a city or address',
 		showGps = true,
 		...rest
 	} = props;
@@ -112,7 +118,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 	return (
 		<div className="relative">
 			<AsyncSelect
-				className={c('w-full rounded', className)}
+				className={c('w-full rounded text-gray-700', className)}
 				loadOptions={algoliaLoadOptions}
 				noOptionsMessage={(): string => 'Type something...'}
 				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore

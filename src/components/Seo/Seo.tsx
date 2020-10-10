@@ -37,6 +37,14 @@ export function Seo(props: SeoProps): React.ReactElement {
 			<link rel="preconnect" href="https://api.openaq.org" />
 
 			<link rel="canonical" href="https://shootismoke.app" />
+
+			<link
+				href={
+					'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&display=swap'
+				}
+				rel="stylesheet"
+			/>
+
 			<title>{title} - Shoot! I Smoke</title>
 		</Helmet>
 	);

@@ -2369,10 +2369,10 @@
     fp-ts "^2.1.1"
     io-ts "^2.0.1"
 
-"@shootismoke/ui@^0.2.31":
-  version "0.2.31"
-  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.2.31.tgz#b42694dd9eb1afc004721ca37425aec80c5c6425"
-  integrity sha512-lj6iNcIhj1HTf+5GTWgJu5rMTo176X/5Gi1zXbuYeob2zOaptRqu4NLYyYKO2kLr5zioIOiJnu6bfaOEtysNYQ==
+"@shootismoke/ui@^0.2.32":
+  version "0.2.32"
+  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.2.32.tgz#7ef458e3e514520df3ea7bb407073066ffdfe816"
+  integrity sha512-9CtxQI/i9K0AGIPcN1xYMhsAEmMmVx/6al42JVhwWldzFCpR2cw8zzUdPASbHCxX1ccGTdKp7LPGlZXkRCsMmQ==
   dependencies:
     "@expo/vector-icons" "^10.2.0"
     "@shootismoke/dataproviders" "^0.2.31"
@@ -7974,14 +7974,6 @@ gatsby-plugin-typescript@^2.4.4:
     "@babel/preset-typescript" "^7.10.1"
     "@babel/runtime" "^7.10.2"
     babel-plugin-remove-graphql-queries "^2.9.3"
-
-gatsby-plugin-web-font-loader@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-web-font-loader/-/gatsby-plugin-web-font-loader-1.0.4.tgz#c50bdb0c1980110b3fd213a5be70feb2459514c3"
-  integrity sha512-3c39bX9CcsYJQFhhmTyjuMJSqpld2rX+HsTOxP9k1PKFR4Rvo3lpzBW4d1tVpmUesR8BNL6u9eHT7/XksS1iog==
-  dependencies:
-    babel-runtime "^6.26.0"
-    webfontloader "^1.6.28"
 
 gatsby-react-router-scroll@^3.0.2:
   version "3.0.2"
@@ -16487,11 +16479,6 @@ web-namespaces@^1.0.0, web-namespaces@^1.1.2:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/web-namespaces/-/web-namespaces-1.1.4.tgz#bc98a3de60dadd7faefc403d1076d529f5e030ec"
   integrity sha512-wYxSGajtmoP4WxfejAPIr4l0fVh+jeMXZb08wNc0tMg6xsfZXj3cECqIK0G7ZAqUq0PP8WlMDtaOGVBTAWztNw==
-
-webfontloader@^1.6.28:
-  version "1.6.28"
-  resolved "https://registry.yarnpkg.com/webfontloader/-/webfontloader-1.6.28.tgz#db786129253cb6e8eae54c2fb05f870af6675bae"
-  integrity sha1-23hhKSU8tujq5UwvsF+HCvZnW64=
 
 webpack-deep-scope-plugin@1.6.0:
   version "1.6.0"

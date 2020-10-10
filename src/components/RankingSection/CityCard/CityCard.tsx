@@ -38,7 +38,7 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 		>
 			<img className="mr-4 w-24 h-24" src={TMP_IMAGE} />
 			<div className="flex flex-col justify-center">
-				<h4 className="mb-1 text-xl font-gotham-black text-orange">
+				<h4 className="mb-1 text-xl font-extrabold text-orange">
 					{title}
 				</h4>
 				<h5 className="text-sm">{subtitle}</h5>

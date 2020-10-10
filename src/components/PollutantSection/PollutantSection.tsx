@@ -102,7 +102,7 @@ export function PollutantSection(
 			<SectionDivider title="Today's tips" />
 			<Section className="max-w-screen-sm">
 				<Tip imgAlt="skull" imgSrc={skull}>
-					<h2 className="font-gotham-black text-xl">
+					<h2 className="font-extrabold text-xl">
 						Your primary pollutant is
 						<br />
 						<span className="text-orange">

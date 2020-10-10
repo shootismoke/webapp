@@ -55,9 +55,9 @@ export function GpsButton(_props: GpsButtonProps): React.ReactElement {
 	const [text, setText] = useState<string>();
 
 	return (
-		<Button type="full" onPress={() => onGpsButtonClick(setText)}>
+		<Button type="full" onPress={(): void => onGpsButtonClick(setText)}>
 			<>
-				<p className="font-gotham-black leading-6 text-sm text-white uppercase">
+				<p className="font-extrabold leading-6 text-sm text-white uppercase">
 					{text || DEFAULT_TEXT}
 				</p>
 			</>

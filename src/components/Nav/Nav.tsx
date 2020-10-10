@@ -26,7 +26,7 @@ export function Nav(): React.ReactElement {
 					{/** Should be `items-center`, but `items-end` looks better */}
 					<Link className="flex flex-grow items-end" to="/">
 						<img alt="logo" className="pr-2 w-12" src={logo} />
-						<h2 className="font-gotham-black leading-4">
+						<h2 className="font-extrabold leading-4">
 							<span className="text-orange">Shoot!</span>
 							<br />I Smoke
 						</h2>
