@@ -38,6 +38,7 @@ exports.createPages = ({ graphql, actions }) => {
 		query AllCitiesQuery {
 			allShootismokeCity {
 				nodes {
+					adminName
 					api {
 						normalized {
 							parameter
@@ -64,11 +65,13 @@ exports.createPages = ({ graphql, actions }) => {
 						}
 					}
 					country
+					closestCities
 					gps {
 						latitude
 						longitude
 					}
 					name
+					photoUrl
 					slug
 				}
 			}

@@ -15,7 +15,6 @@
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
-import { convert } from '@shootismoke/convert';
 import {
 	Api,
 	BoxButton,
@@ -49,7 +48,13 @@ import {
 	sectionHorizontalPadding,
 	Seo,
 } from '../components';
-import { City, getSeoTitle, reverseGeocode } from '../util';
+import {
+	City,
+	getAQI,
+	getSeoTitle,
+	primaryPollutant,
+	reverseGeocode,
+} from '../util';
 
 interface CityProps {
 	location?: NavigateOptions<SearchLocationState>;
@@ -91,6 +96,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		: undefined;
 
 	const distance = api ? distanceToStation(city.gps, api) : 0;
+	const primaryPol = api && primaryPollutant(api.normalized);
+	const aqi = api && getAQI(api.normalized);
 
 	return (
 		<>
@@ -106,10 +113,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Section>
 				<SearchBar
 					placeholder={
-						city.name ||
-						routerLocation?.state?.cityName ||
-						reverseGeoName ||
-						'Search for any city'
+						city.name
+							? [city.name, city.adminName, city.country]
+									.filter((x) => !!x)
+									.join(', ')
+							: routerLocation?.state?.cityName ||
+							  reverseGeoName ||
+							  'Search for any city'
 					}
 				/>
 				<p
@@ -190,37 +200,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				)}
 			</Section>
 
-			{api && (
-				<PollutantSection
-					pollutant={
-						api.normalized
-							.map(({ parameter, value }) => ({
-								parameter,
-								value: convert(
-									parameter,
-									'raw',
-									'usaEpa',
-									value
-								),
-							}))
-							.sort((a, b) => a.value - b.value)[0].parameter
-					}
-				/>
+			{primaryPol && (
+				<PollutantSection pollutant={primaryPol.parameter} />
 			)}
 
-			{api && (
-				<HealthSection
-					aqi={
-						api.normalized
-							.map(({ parameter, value }) =>
-								convert(parameter, 'raw', 'usaEpa', value)
-							)
-							.sort((a, b) => b - a)[0]
-					}
-				/>
-			)}
+			{aqi && <HealthSection aqi={aqi} />}
 
-			<RankingSection />
+			<RankingSection currentCity={city} />
 			<HowSection />
 			<FeaturedSection />
 			<DownloadSection />

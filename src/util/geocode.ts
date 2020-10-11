@@ -19,7 +19,15 @@ import { Api } from '@shootismoke/ui';
 import axios from 'axios';
 
 export interface City {
+	/**
+	 * Name of the administration of the city.
+	 */
+	adminName?: string;
 	api?: Api;
+	/**
+	 * Array of slugs of the 5 closest cities to this city.
+	 */
+	closestCities?: string[];
 	/**
 	 * City country, only available when it's a hardcoded city.
 	 */
@@ -29,6 +37,10 @@ export interface City {
 	 * City name, only available when it's a hardcoded city.
 	 */
 	name?: string;
+	/**
+	 * Url of a photo of the city.
+	 */
+	photoUrl?: string;
 	/**
 	 * City slug in URL, only available when it's a hardcoded city.
 	 */

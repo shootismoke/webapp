@@ -35,6 +35,11 @@ const pollutantData: Partial<Record<
 	Pollutant,
 	{ effects: string; name: string }
 >> = {
+	bc: {
+		effects:
+			'Black carbon is a potent climate-warming component of particulate matter formed by the incomplete combustion of fossil fuels, wood and other fuels.',
+		name: 'Black Carbon',
+	},
 	c6h6: {
 		effects:
 			'Hydrocarbons are the primary pollutants that produce photochemical smog.',
