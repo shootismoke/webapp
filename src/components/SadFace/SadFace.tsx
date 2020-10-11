@@ -35,6 +35,7 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 			<p className="mt-8 text-gray-600 text-xs">
 				Please try to search for another city.
 				<br />
+				<br />
 				{message}
 			</p>
 		</div>

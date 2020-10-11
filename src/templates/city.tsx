@@ -76,7 +76,16 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	// Evertime we change city, reset, and fetch new values.
 	useEffect(() => {
-		setApi(undefined);
+		// If we already loaded the city's cigarettes, don't load it again.
+		// For example, if the city's api is loaded statically, then we don;t
+		// show "Loading..." again.
+		if (
+			city?.api?.shootismoke.dailyCigarettes !==
+			api?.shootismoke.dailyCigarettes
+		) {
+			setApi(undefined);
+		}
+
 		setError(undefined);
 		setReverseGeoName(undefined);
 
@@ -87,7 +96,9 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		})
 			.then(setApi)
 			.catch(setError);
-	}, [city.gps]);
+	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	console.log(api);
 
 	// Number of cigarettes to display.
 	const cigarettes = api

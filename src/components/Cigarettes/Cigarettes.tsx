@@ -20,8 +20,8 @@ import React from 'react';
 // Total height of the box containing cigarettes.
 const BOX_HEIGHT = 128;
 
-// Empirically, 95 cigarettes of length 120 fit into 1 line.
-const N_CIGARETTES_1_LINE = 95;
+// Empirically, 100 cigarettes of length 120 fit into 1 line.
+const N_CIGARETTES_1_LINE = 100;
 
 // Show vertical cigarettes after this amount.
 const SHOW_VERTICAL_AFTER = 4;
