@@ -22,7 +22,7 @@ export interface City {
 	/**
 	 * Name of the administration of the city.
 	 */
-	admin?: string;
+	adminName?: string;
 	api?: Api;
 	/**
 	 * Array of slugs of the 5 closest cities to this city.

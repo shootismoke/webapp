@@ -51,7 +51,7 @@ export function RankingSection(
 		query WorldCitiesQuery {
 			allShootismokeCity(limit: 6) {
 				nodes {
-					admin
+					adminName
 					api {
 						shootismoke {
 							dailyCigarettes
@@ -87,7 +87,11 @@ export function RankingSection(
 								photoUrl={city.photoUrl}
 								subtitle={
 									city.name
-										? [city.name, city.admin, city.country]
+										? [
+												city.name,
+												city.adminName,
+												city.country,
+										  ]
 												.filter((x) => !!x)
 												.join(', ')
 										: 'Loading city...'

@@ -114,7 +114,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<SearchBar
 					placeholder={
 						city.name
-							? [city.name, city.admin, city.country]
+							? [city.name, city.adminName, city.country]
 									.filter((x) => !!x)
 									.join(', ')
 							: routerLocation?.state?.cityName ||
