@@ -64,11 +64,13 @@ exports.createPages = ({ graphql, actions }) => {
 						}
 					}
 					country
+					closestCities
 					gps {
 						latitude
 						longitude
 					}
 					name
+					photoUrl
 					slug
 				}
 			}

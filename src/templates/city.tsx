@@ -106,10 +106,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Section>
 				<SearchBar
 					placeholder={
-						city.name ||
-						routerLocation?.state?.cityName ||
-						reverseGeoName ||
-						'Search for any city'
+						city.name
+							? [city.name, city.admin, city.country]
+									.filter((x) => !!x)
+									.join(', ')
+							: routerLocation?.state?.cityName ||
+							  reverseGeoName ||
+							  'Search for any city'
 					}
 				/>
 				<p
@@ -220,7 +223,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				/>
 			)}
 
-			<RankingSection />
+			<RankingSection currentCity={city} />
 			<HowSection />
 			<FeaturedSection />
 			<DownloadSection />

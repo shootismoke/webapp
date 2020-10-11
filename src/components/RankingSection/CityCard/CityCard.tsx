@@ -19,22 +19,29 @@ import React from 'react';
 
 import { Card } from '../../Card';
 
-const TMP_IMAGE =
+const FALLBACK_IMAGE =
 	'https://images.pexels.com/photos/1563256/pexels-photo-1563256.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';
 
 interface CityCardProps {
 	description?: string;
 	className?: string;
+	photoUrl?: string;
 	subtitle: string;
 	title: string;
 }
 
 export function CityCard(props: CityCardProps): React.ReactElement {
-	const { className, description, subtitle, title } = props;
+	const { className, description, photoUrl, subtitle, title } = props;
 
 	return (
 		<Card className={c('shadow-lg h-26 pr-2 flex flex-row', className)}>
-			<img className="mr-4 w-26 h-26 flex-shrink-0" src={TMP_IMAGE} />
+			<div className="mr-4 w-26 h-26 flex-shrink-0">
+				<img
+					className="h-full object-cover"
+					src={photoUrl || FALLBACK_IMAGE}
+				/>
+			</div>
+
 			<div className="min-w-0 flex flex-col justify-center">
 				<h4 className="mb-1 text-lg font-extrabold text-orange">
 					{title}

@@ -40,9 +40,15 @@ function numberToOrdinal(n: number): string {
 	}
 }
 
-export function RankingSection(): React.ReactElement {
-	const cities = useStaticQuery(graphql`
-		query AllCitiesQuery {
+interface RankingSectionProps {
+	currentCity?: City;
+}
+
+export function RankingSection(
+	_props: RankingSectionProps
+): React.ReactElement {
+	const worldCities = useStaticQuery(graphql`
+		query WorldCitiesQuery {
 			allShootismokeCity(limit: 6) {
 				nodes {
 					api {
@@ -51,31 +57,37 @@ export function RankingSection(): React.ReactElement {
 						}
 					}
 					name
+					photoUrl
 					slug
 				}
 			}
 		}
-	`);
+	`).allShootismokeCity.nodes as City[];
+
+	// The cities we want to show are:
+	// - either the closest cities to the current city,
+	// - or cities in the same country as the current city,
+	// - or just the world most polluted cities.
+	// TODO For now we only show the world cities.
+	const cities = worldCities;
 
 	return (
 		<div className="pt-3">
 			<SectionDivider title="Worldwide City ranking" />
 			<Section className="flex flex-col items-center">
 				<div className="pt-2 grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
-					{cities.allShootismokeCity.nodes.map(
-						(city: City, index: number) => (
-							<Link key={city.slug} to={`/city/${city.slug}`}>
-								<CityCard
-									description={`${round(
-										city.api?.shootismoke.dailyCigarettes ||
-											0
-									)} cigarettes today`}
-									subtitle={city.name || ''}
-									title={`${numberToOrdinal(index + 1)}`}
-								/>
-							</Link>
-						)
-					)}
+					{cities.map((city, index) => (
+						<Link key={city.slug} to={`/city/${city.slug}`}>
+							<CityCard
+								description={`${round(
+									city.api?.shootismoke.dailyCigarettes || 0
+								)} cigarettes today`}
+								photoUrl={city.photoUrl}
+								subtitle={city.name || ''}
+								title={`${numberToOrdinal(index + 1)}`}
+							/>
+						</Link>
+					))}
 				</div>
 			</Section>
 		</div>
