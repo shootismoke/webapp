@@ -15,7 +15,6 @@
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
-import { convert } from '@shootismoke/convert';
 import {
 	Api,
 	BoxButton,
@@ -49,7 +48,13 @@ import {
 	sectionHorizontalPadding,
 	Seo,
 } from '../components';
-import { City, getSeoTitle, reverseGeocode } from '../util';
+import {
+	City,
+	getAQI,
+	getSeoTitle,
+	primaryPollutant,
+	reverseGeocode,
+} from '../util';
 
 interface CityProps {
 	location?: NavigateOptions<SearchLocationState>;
@@ -91,6 +96,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		: undefined;
 
 	const distance = api ? distanceToStation(city.gps, api) : 0;
+	const primaryPol = api && primaryPollutant(api.normalized);
+	const aqi = api && getAQI(api.normalized);
 
 	return (
 		<>
@@ -193,50 +200,11 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				)}
 			</Section>
 
-			{api && (
-				<PollutantSection
-					pollutant={
-						// Sort all pollutants by AQI.
-						(
-							api.normalized
-								.filter(({ parameter }) =>
-									// Only these pollutants can be converted to usaEpa
-									[
-										'o3',
-										'pm10',
-										'pm25',
-										'co',
-										'so2',
-										'no2',
-									].includes(parameter)
-								)
-								.map(({ parameter, value }) => ({
-									parameter,
-									value: convert(
-										parameter,
-										'raw',
-										'usaEpa',
-										value
-									),
-								}))
-								.sort((a, b) => a.value - b.value)[0] ||
-							api.normalized[0]
-						).parameter
-					}
-				/>
+			{primaryPol && (
+				<PollutantSection pollutant={primaryPol.parameter} />
 			)}
 
-			{api && (
-				<HealthSection
-					aqi={
-						api.normalized
-							.map(({ parameter, value }) =>
-								convert(parameter, 'raw', 'usaEpa', value)
-							)
-							.sort((a, b) => b - a)[0]
-					}
-				/>
-			)}
+			{aqi && <HealthSection aqi={aqi} />}
 
 			<RankingSection currentCity={city} />
 			<HowSection />
