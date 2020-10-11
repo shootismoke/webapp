@@ -51,11 +51,13 @@ export function RankingSection(
 		query WorldCitiesQuery {
 			allShootismokeCity(limit: 6) {
 				nodes {
+					admin
 					api {
 						shootismoke {
 							dailyCigarettes
 						}
 					}
+					country
 					name
 					photoUrl
 					slug
@@ -75,7 +77,7 @@ export function RankingSection(
 		<div className="pt-3">
 			<SectionDivider title="Worldwide City ranking" />
 			<Section className="flex flex-col items-center">
-				<div className="pt-2 grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
+				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
 					{cities.map((city, index) => (
 						<Link key={city.slug} to={`/city/${city.slug}`}>
 							<CityCard
@@ -83,7 +85,13 @@ export function RankingSection(
 									city.api?.shootismoke.dailyCigarettes || 0
 								)} cigarettes today`}
 								photoUrl={city.photoUrl}
-								subtitle={city.name || ''}
+								subtitle={
+									city.name
+										? [city.name, city.admin, city.country]
+												.filter((x) => !!x)
+												.join(', ')
+										: 'Loading city...'
+								}
 								title={`${numberToOrdinal(index + 1)}`}
 							/>
 						</Link>

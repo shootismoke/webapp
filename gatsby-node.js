@@ -38,6 +38,7 @@ exports.createPages = ({ graphql, actions }) => {
 		query AllCitiesQuery {
 			allShootismokeCity {
 				nodes {
+					admin
 					api {
 						normalized {
 							parameter
