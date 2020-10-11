@@ -196,17 +196,32 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			{api && (
 				<PollutantSection
 					pollutant={
-						api.normalized
-							.map(({ parameter, value }) => ({
-								parameter,
-								value: convert(
+						// Sort all pollutants by AQI.
+						(
+							api.normalized
+								.filter(({ parameter }) =>
+									// Only these pollutants can be converted to usaEpa
+									[
+										'o3',
+										'pm10',
+										'pm25',
+										'co',
+										'so2',
+										'no2',
+									].includes(parameter)
+								)
+								.map(({ parameter, value }) => ({
 									parameter,
-									'raw',
-									'usaEpa',
-									value
-								),
-							}))
-							.sort((a, b) => a.value - b.value)[0].parameter
+									value: convert(
+										parameter,
+										'raw',
+										'usaEpa',
+										value
+									),
+								}))
+								.sort((a, b) => a.value - b.value)[0] ||
+							api.normalized[0]
+						).parameter
 					}
 				/>
 			)}
