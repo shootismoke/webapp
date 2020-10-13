@@ -65,7 +65,6 @@ exports.createPages = ({ graphql, actions }) => {
 						}
 					}
 					country
-					closestCities
 					gps {
 						latitude
 						longitude

@@ -91,14 +91,19 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 		reverseGeocode(city.gps).then(setReverseGeoName).catch(console.error);
 
+		const sixHoursAgo = new Date();
+		sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
 		raceApiPromise(city.gps, {
-			aqicnToken: process.env.GATSBY_AQICN_TOKEN as string,
+			aqicn: {
+				aqicnToken: process.env.GATSBY_AQICN_TOKEN as string,
+			},
+			openaq: {
+				dateFrom: sixHoursAgo,
+			},
 		})
 			.then(setApi)
 			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	console.log(api);
 
 	// Number of cigarettes to display.
 	const cigarettes = api

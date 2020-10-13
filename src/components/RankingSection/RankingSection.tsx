@@ -16,7 +16,8 @@
 
 import { round } from '@shootismoke/ui';
 import { graphql, Link, useStaticQuery } from 'gatsby';
-import React from 'react';
+import haversine from 'haversine';
+import React, { useEffect, useState } from 'react';
 
 import { City } from '../../util';
 import { Section } from '../Section';
@@ -44,12 +45,11 @@ interface RankingSectionProps {
 	currentCity?: City;
 }
 
-export function RankingSection(
-	_props: RankingSectionProps
-): React.ReactElement {
+export function RankingSection(props: RankingSectionProps): React.ReactElement {
+	const { currentCity } = props;
 	const worldCities = useStaticQuery(graphql`
 		query WorldCitiesQuery {
-			allShootismokeCity(limit: 6) {
+			allShootismokeCity {
 				nodes {
 					adminName
 					api {
@@ -58,6 +58,10 @@ export function RankingSection(
 						}
 					}
 					country
+					gps {
+						latitude
+						longitude
+					}
 					name
 					photoUrl
 					slug
@@ -65,17 +69,45 @@ export function RankingSection(
 			}
 		}
 	`).allShootismokeCity.nodes as City[];
+	const [closestCities, setClosestCities] = useState<City[]>([]);
+
+	// Each time we change city, find the closest cities.
+	useEffect(() => {
+		setClosestCities([]);
+		if (!currentCity) {
+			return;
+		}
+
+		// We naively calculate the distance from our current city to all the
+		// other cities in the database.
+		const distances = worldCities
+			.map((city) => ({
+				city,
+				distance: haversine(currentCity.gps, city.gps),
+			}))
+			.filter(({ distance }) => distance !== 0);
+
+		// We then sort the distances.
+		distances.sort((a, b) => a.distance - b.distance);
+
+		setClosestCities(distances.map(({ city }) => city));
+	}, [currentCity, worldCities]);
 
 	// The cities we want to show are:
 	// - either the closest cities to the current city,
-	// - or cities in the same country as the current city,
 	// - or just the world most polluted cities.
-	// TODO For now we only show the world cities.
-	const cities = worldCities;
+	const hasClosestCities = !!closestCities.length;
+	const cities = (hasClosestCities ? closestCities : worldCities).slice(0, 6);
 
 	return (
 		<div className="pt-3">
-			<SectionDivider title="Worldwide City ranking" />
+			<SectionDivider
+				title={
+					hasClosestCities
+						? 'Top Cigarettes near You'
+						: 'Worldwide City ranking'
+				}
+			/>
 			<Section className="flex flex-col items-center">
 				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
 					{cities.map((city, index) => (
