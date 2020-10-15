@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { round } from '@shootismoke/ui';
+import { isStationTooFar, round } from '@shootismoke/ui';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import haversine from 'haversine';
 import React, { useEffect, useState } from 'react';
@@ -45,6 +45,11 @@ interface RankingSectionProps {
 	currentCity?: City;
 }
 
+/**
+ * Number of cities to show in the ranking.
+ */
+const CITIES_TO_SHOW = 6;
+
 export function RankingSection(props: RankingSectionProps): React.ReactElement {
 	const { currentCity } = props;
 	const worldCities = useStaticQuery(graphql`
@@ -53,6 +58,12 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 				nodes {
 					adminName
 					api {
+						pm25 {
+							coordinates {
+								latitude
+								longitude
+							}
+						}
 						shootismoke {
 							dailyCigarettes
 						}
@@ -85,19 +96,41 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 				city,
 				distance: haversine(currentCity.gps, city.gps),
 			}))
-			.filter(({ distance }) => distance !== 0);
+			.filter(({ distance }) => distance !== 0) // Remove current city.
+			.filter(
+				({ city }) => city.api && !isStationTooFar(city.gps, city.api) // Filter out cities with inaccurate API.
+			);
 
 		// We then sort the distances.
 		distances.sort((a, b) => a.distance - b.distance);
 
-		setClosestCities(distances.map(({ city }) => city));
+		// We take the CITIES_TO_SHOW first cities.
+		const citiesToShow = distances
+			.slice(0, CITIES_TO_SHOW)
+			.map(({ city }) => city);
+
+		// We sort these cities again, this time by cigarettes.
+		citiesToShow.sort((a, b) => {
+			if (!a.api || !b.api) {
+				throw new Error(
+					'We already filtered out the Apis that were not undefined. qed.'
+				);
+			}
+
+			return (
+				b.api?.shootismoke.dailyCigarettes -
+				a.api?.shootismoke.dailyCigarettes
+			);
+		});
+
+		setClosestCities(citiesToShow);
 	}, [currentCity, worldCities]);
 
 	// The cities we want to show are:
 	// - either the closest cities to the current city,
 	// - or just the world most polluted cities.
 	const hasClosestCities = !!closestCities.length;
-	const cities = (hasClosestCities ? closestCities : worldCities).slice(0, 6);
+	const cities = hasClosestCities ? closestCities : worldCities;
 
 	return (
 		<div className="pt-3">
