@@ -24,6 +24,7 @@ import {
 	raceApiPromise,
 	round,
 } from '@shootismoke/ui';
+import { MAX_DISTANCE_TO_STATION } from '@shootismoke/ui/lib/util/station';
 import c from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -80,7 +81,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		// For example, if the city's api is loaded statically, then we don;t
 		// show "Loading..." again.
 		if (
-			city?.api?.shootismoke.dailyCigarettes !==
+			city.api?.shootismoke.dailyCigarettes !==
 			api?.shootismoke.dailyCigarettes
 		) {
 			setApi(undefined);
@@ -111,7 +112,21 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
 		: undefined;
 
+	// Decide on a swear word. The effect says that the swear word only changes
+	// when the cigarettes count changes.
+	const [swearWord, setSwearWord] = useState(
+		cigarettes && getSwearWord(cigarettes)
+	);
+	useEffect(() => {
+		if (!cigarettes) {
+			return;
+		}
+
+		setSwearWord(getSwearWord(cigarettes));
+	}, [cigarettes]);
+
 	const distance = api ? distanceToStation(city.gps, api) : 0;
+
 	const primaryPol = api && primaryPollutant(api.normalized);
 	const aqi = api && getAQI(api.normalized);
 
@@ -141,13 +156,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<p
 					className={c(
 						'mt-2 text-gray-600 text-xs h-2',
-						distance > 15 && 'text-red'
+						distance > MAX_DISTANCE_TO_STATION && 'text-red'
 					)}
 				>
 					{distance
 						? `Air Quality Station: ${distance}km away`
 						: null}
-					{distance > 15 && (
+					{distance > MAX_DISTANCE_TO_STATION && (
 						<img
 							alt="warning"
 							className="ml-1 inline"
@@ -167,8 +182,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						<div className={c(sectionHorizontalPadding, 'mt-4')}>
 							<H1>
 								<>
-									{t({ id: getSwearWord(cigarettes) })}! You
-									smoke
+									{t({ id: swearWord })}! You smoke
 									<br />
 									<span className="text-orange">
 										{round(cigarettes)} cigarette
