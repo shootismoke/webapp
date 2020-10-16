@@ -14,22 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export * from './Cigarettes';
-export * from './DownloadSection';
-export * from './FeaturedSection';
-export * from './Footer';
-export * from './GpsButton';
-export * from './H1';
-export * from './HealthSection';
-export * from './HeroLayout';
-export * from './HowSection';
-export * from './Loading';
-export * from './Nav';
-export * from './PollutantSection';
-export * from './RankingSection';
-export * from './SadFace';
-export * from './SearchBar';
-export * from './Section';
-export * from './SectionDivider';
-export * from './Seo';
-export * from './Tip';
+import c from 'classnames';
+import React from 'react';
+
+interface HeroLayoutrops {
+	cover?: React.ReactElement;
+	coverClassName?: string;
+	title?: React.ReactElement;
+	titleClassname?: string;
+}
+
+export function HeroLayout(props: HeroLayoutrops): React.ReactElement {
+	const { cover, coverClassName, title, titleClassname } = props;
+
+	return (
+		<>
+			<div className={c('h-32', coverClassName)}>{cover}</div>
+			<div className={c('mt-4', titleClassname)}>{title}</div>
+		</>
+	);
+}

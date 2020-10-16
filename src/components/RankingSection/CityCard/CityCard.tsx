@@ -37,7 +37,7 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 		<Card className={c('shadow-lg h-26 pr-2 flex flex-row', className)}>
 			<div className="mr-4 w-26 h-26 flex-shrink-0">
 				<img
-					className="h-full object-cover"
+					className="h-full w-full object-cover"
 					src={photoUrl || FALLBACK_IMAGE}
 				/>
 			</div>

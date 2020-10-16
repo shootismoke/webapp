@@ -41,6 +41,10 @@ exports.createPages = ({ graphql, actions }) => {
 					adminName
 					api {
 						normalized {
+							coordinates {
+								latitude
+								longitude
+							}
 							parameter
 							value
 							lastUpdated
@@ -51,6 +55,10 @@ exports.createPages = ({ graphql, actions }) => {
 							location
 						}
 						pm25 {
+							coordinates {
+								latitude
+								longitude
+							}
 							parameter
 							value
 							lastUpdated
@@ -62,10 +70,10 @@ exports.createPages = ({ graphql, actions }) => {
 						}
 						shootismoke {
 							dailyCigarettes
+							isAccurate
 						}
 					}
 					country
-					closestCities
 					gps {
 						latitude
 						longitude

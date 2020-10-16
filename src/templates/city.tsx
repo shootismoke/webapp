@@ -36,6 +36,7 @@ import {
 	Footer,
 	H1,
 	HealthSection,
+	HeroLayout,
 	HowSection,
 	Loading,
 	Nav,
@@ -76,18 +77,34 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	// Evertime we change city, reset, and fetch new values.
 	useEffect(() => {
-		setApi(undefined);
+		// If we already loaded the city's cigarettes, don't load it again.
+		// For example, if the city's api is loaded statically, then we don;t
+		// show "Loading..." again.
+		if (
+			city.api?.shootismoke.dailyCigarettes !==
+			api?.shootismoke.dailyCigarettes
+		) {
+			setApi(undefined);
+		}
+
 		setError(undefined);
 		setReverseGeoName(undefined);
 
 		reverseGeocode(city.gps).then(setReverseGeoName).catch(console.error);
 
+		const sixHoursAgo = new Date();
+		sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
 		raceApiPromise(city.gps, {
-			aqicnToken: process.env.GATSBY_AQICN_TOKEN as string,
+			aqicn: {
+				aqicnToken: process.env.GATSBY_AQICN_TOKEN as string,
+			},
+			openaq: {
+				dateFrom: sixHoursAgo,
+			},
 		})
 			.then(setApi)
 			.catch(setError);
-	}, [city.gps]);
+	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// Number of cigarettes to display.
 	const cigarettes = api
@@ -95,7 +112,21 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
 		: undefined;
 
-	const distance = api ? distanceToStation(city.gps, api) : 0;
+	// Decide on a swear word. The effect says that the swear word only changes
+	// when the cigarettes count changes.
+	const [swearWord, setSwearWord] = useState<string | undefined>(
+		cigarettes ? getSwearWord(cigarettes) : undefined
+	);
+	useEffect(() => {
+		if (!cigarettes) {
+			return;
+		}
+
+		setSwearWord(getSwearWord(cigarettes));
+	}, [cigarettes]);
+
+	const distance = api ? distanceToStation(city.gps, api.pm25) : undefined;
+
 	const primaryPol = api && primaryPollutant(api.normalized);
 	const aqi = api && getAQI(api.normalized);
 
@@ -125,13 +156,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<p
 					className={c(
 						'mt-2 text-gray-600 text-xs h-2',
-						distance > 15 && 'text-red'
+						api?.shootismoke.isAccurate === false && 'text-red'
 					)}
 				>
 					{distance
 						? `Air Quality Station: ${distance}km away`
 						: null}
-					{distance > 15 && (
+					{api?.shootismoke.isAccurate === false && (
 						<img
 							alt="warning"
 							className="ml-1 inline"
@@ -142,24 +173,24 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			</Section>
 
 			<Section className="pt-6" noPadding>
-				{cigarettes ? (
+				{cigarettes && swearWord ? (
 					<>
-						<div className={c(sectionHorizontalPadding, 'h-32')}>
-							<Cigarettes cigarettes={cigarettes} />
-						</div>
-
-						<div className={c(sectionHorizontalPadding, 'mt-4')}>
-							<H1>
-								<>
-									{t({ id: getSwearWord(cigarettes) })}! You
-									smoke
-									<br />
-									<span className="text-orange">
-										{round(cigarettes)} cigarette
-										{cigarettes === 1 ? '' : 's'}
-									</span>
-								</>
-							</H1>
+						<div className={sectionHorizontalPadding}>
+							<HeroLayout
+								cover={<Cigarettes cigarettes={cigarettes} />}
+								title={
+									<H1>
+										<>
+											{t({ id: swearWord })}! You smoke
+											<br />
+											<span className="text-orange">
+												{round(cigarettes)} cigarette
+												{cigarettes === 1 ? '' : 's'}
+											</span>
+										</>
+									</H1>
+								}
+							/>
 						</div>
 
 						{/** Same as sectionHorizontalPadding, but only left. */}

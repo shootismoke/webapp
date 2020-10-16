@@ -17,6 +17,9 @@
 import sadFace from '@shootismoke/ui/assets/images/error@3x.png';
 import React from 'react';
 
+import { H1 } from '../H1';
+import { HeroLayout } from '../HeroLayout';
+
 interface SadFaceProps {
 	className?: string;
 	message?: string;
@@ -27,13 +30,21 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 
 	return (
 		<div className={className}>
-			<img alt="error" className="h-32" src={sadFace} />
-			<h2 className="mt-8 font-extrabold leading-12 lg:text-5xl text-3xl">
-				Cannot load<br></br>
-				<span className="text-orange">your cigarettes</span>
-			</h2>
+			<HeroLayout
+				cover={<img alt="error" className="h-32" src={sadFace} />}
+				title={
+					<H1>
+						<>
+							Cannot load<br></br>
+							<span className="text-orange">your cigarettes</span>
+						</>
+					</H1>
+				}
+			/>
+
 			<p className="mt-8 text-gray-600 text-xs">
 				Please try to search for another city.
+				<br />
 				<br />
 				{message}
 			</p>
