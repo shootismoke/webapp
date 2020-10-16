@@ -14,7 +14,7 @@
 		"test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \""
 	},
 	"dependencies": {
-		"@shootismoke/ui": "^0.4.0",
+		"@shootismoke/ui": "^0.5.1",
 		"@types/classnames": "^2.2.10",
 		"@types/react-helmet": "^6.0.0",
 		"@types/react-native": "^0.62.12",

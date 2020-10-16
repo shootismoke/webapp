@@ -70,6 +70,7 @@ exports.createPages = ({ graphql, actions }) => {
 						}
 						shootismoke {
 							dailyCigarettes
+							isAccurate
 						}
 					}
 					country

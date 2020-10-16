@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { isStationTooFar, round } from '@shootismoke/ui';
+import { round } from '@shootismoke/ui';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import haversine from 'haversine';
 import React, { useEffect, useState } from 'react';
@@ -58,14 +58,9 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 				nodes {
 					adminName
 					api {
-						pm25 {
-							coordinates {
-								latitude
-								longitude
-							}
-						}
 						shootismoke {
 							dailyCigarettes
+							isAccurate
 						}
 					}
 					country
@@ -98,7 +93,7 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 			}))
 			.filter(({ distance }) => distance !== 0) // Remove current city.
 			.filter(
-				({ city }) => city.api && !isStationTooFar(city.gps, city.api) // Filter out cities with inaccurate API.
+				({ city }) => city.api && city.api.shootismoke.isAccurate // Filter out cities with inaccurate API.
 			);
 
 		// We then sort the distances.
@@ -130,7 +125,9 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 	// - either the closest cities to the current city,
 	// - or just the world most polluted cities.
 	const hasClosestCities = !!closestCities.length;
-	const cities = hasClosestCities ? closestCities : worldCities;
+	const cities = hasClosestCities
+		? closestCities
+		: worldCities.slice(0, CITIES_TO_SHOW);
 
 	return (
 		<div className="pt-3">
@@ -146,9 +143,14 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 					{cities.map((city, index) => (
 						<Link key={city.slug} to={`/city/${city.slug}`}>
 							<CityCard
-								description={`${round(
-									city.api?.shootismoke.dailyCigarettes || 0
-								)} cigarettes today`}
+								description={
+									city.api?.shootismoke.dailyCigarettes
+										? `${round(
+												city.api.shootismoke
+													.dailyCigarettes
+										  )} cigarettes today`
+										: 'Loading cigarettes...'
+								}
 								photoUrl={city.photoUrl}
 								subtitle={
 									city.name

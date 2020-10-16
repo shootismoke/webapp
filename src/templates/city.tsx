@@ -24,7 +24,6 @@ import {
 	raceApiPromise,
 	round,
 } from '@shootismoke/ui';
-import { MAX_DISTANCE_TO_STATION } from '@shootismoke/ui/lib/util/station';
 import c from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -37,6 +36,7 @@ import {
 	Footer,
 	H1,
 	HealthSection,
+	HeroLayout,
 	HowSection,
 	Loading,
 	Nav,
@@ -114,8 +114,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	// Decide on a swear word. The effect says that the swear word only changes
 	// when the cigarettes count changes.
-	const [swearWord, setSwearWord] = useState(
-		cigarettes && getSwearWord(cigarettes)
+	const [swearWord, setSwearWord] = useState<string | undefined>(
+		cigarettes ? getSwearWord(cigarettes) : undefined
 	);
 	useEffect(() => {
 		if (!cigarettes) {
@@ -125,7 +125,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		setSwearWord(getSwearWord(cigarettes));
 	}, [cigarettes]);
 
-	const distance = api ? distanceToStation(city.gps, api) : 0;
+	const distance = api ? distanceToStation(city.gps, api.pm25) : undefined;
 
 	const primaryPol = api && primaryPollutant(api.normalized);
 	const aqi = api && getAQI(api.normalized);
@@ -156,13 +156,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<p
 					className={c(
 						'mt-2 text-gray-600 text-xs h-2',
-						distance > MAX_DISTANCE_TO_STATION && 'text-red'
+						api?.shootismoke.isAccurate === false && 'text-red'
 					)}
 				>
 					{distance
 						? `Air Quality Station: ${distance}km away`
 						: null}
-					{distance > MAX_DISTANCE_TO_STATION && (
+					{api?.shootismoke.isAccurate === false && (
 						<img
 							alt="warning"
 							className="ml-1 inline"
@@ -173,23 +173,24 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			</Section>
 
 			<Section className="pt-6" noPadding>
-				{cigarettes ? (
+				{cigarettes && swearWord ? (
 					<>
-						<div className={c(sectionHorizontalPadding, 'h-32')}>
-							<Cigarettes cigarettes={cigarettes} />
-						</div>
-
-						<div className={c(sectionHorizontalPadding, 'mt-4')}>
-							<H1>
-								<>
-									{t({ id: swearWord })}! You smoke
-									<br />
-									<span className="text-orange">
-										{round(cigarettes)} cigarette
-										{cigarettes === 1 ? '' : 's'}
-									</span>
-								</>
-							</H1>
+						<div className={sectionHorizontalPadding}>
+							<HeroLayout
+								cover={<Cigarettes cigarettes={cigarettes} />}
+								title={
+									<H1>
+										<>
+											{t({ id: swearWord })}! You smoke
+											<br />
+											<span className="text-orange">
+												{round(cigarettes)} cigarette
+												{cigarettes === 1 ? '' : 's'}
+											</span>
+										</>
+									</H1>
+								}
+							/>
 						</div>
 
 						{/** Same as sectionHorizontalPadding, but only left. */}

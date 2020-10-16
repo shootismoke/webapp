@@ -2349,33 +2349,33 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
-"@shootismoke/convert@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.4.0.tgz#1d2866b54c9a82aa8cf1ea2b21f4fb3c8f2fc0c7"
-  integrity sha512-fNQTGTDsK8wSzJCgriEQ2vyZ9/8c29NuM5gAfhT3/zwSWqaVt292lHy3POiiobwMF11YV3IxDKoRVg9hzEbuVQ==
+"@shootismoke/convert@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.5.1.tgz#d9ccc67a20948f2bdd792b54dd9a48bce349d31b"
+  integrity sha512-KsXxWSBQttCOpQdsBHoeaLMjPRIRA+JMJZOUmQCHo2aryagNWmhZDRaLNNDKQuJr3qDxbt0T3eficoplJfnXFQ==
   dependencies:
     "@types/debug" "^4.1.5"
     debug "^4.1.1"
 
-"@shootismoke/dataproviders@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.4.0.tgz#20acfee69c2fa42a9e08919b06fcfe7d58006cf9"
-  integrity sha512-XZ7p+FjVs7kAs/F/oj4DpAHyNquTmYueKZzhgG4J/pbVCTuOnyra3Y9yaiKdXK/NqKLbcpwkW0NeCoGHDcIz+A==
+"@shootismoke/dataproviders@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.5.1.tgz#93d43ce39b06d79ffb7009c47b56059894d0c184"
+  integrity sha512-1tbxM48zU1KYxunUdZoJ1ICBwOZtOb1qTpE4r/lJF2HPKHfvbUahG9Q7KtDVaO04+0WXYw5SPwxUR4mdunVVpg==
   dependencies:
-    "@shootismoke/convert" "^0.4.0"
+    "@shootismoke/convert" "^0.5.1"
     axios "^0.20.0"
     date-fns "^2.8.1"
     date-fns-tz "^1.0.9"
     fp-ts "^2.1.1"
     io-ts "^2.0.1"
 
-"@shootismoke/ui@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.4.0.tgz#204c3422dbbcbecf897706397e604a177ca082af"
-  integrity sha512-lVsAMVJU1W4+boPLa/WnjxKC/SH7+Hm6n7esFbDDnztBJOOlnm4Au4S32eIMaQb+TDMyQa7rPSGCkzRVYkr3vQ==
+"@shootismoke/ui@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.5.1.tgz#d832ed5db8cfa6404ff723bc7564698ebc579754"
+  integrity sha512-z9rHPdCUv78AV+GPRfpTB4U4AqiXZQXxeCBDnpYxTD5Xs7s8M6kD213uWgdPaBH8b9Qq+5JGKNCPiOXghIVngQ==
   dependencies:
     "@expo/vector-icons" "^10.2.0"
-    "@shootismoke/dataproviders" "^0.4.0"
+    "@shootismoke/dataproviders" "^0.5.1"
     "@types/haversine" "^1.1.4"
     "@types/p-any" "^1.1.3"
     expo-constants "^9.0.0"
