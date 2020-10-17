@@ -23,32 +23,33 @@ import { SectionDivider } from '../SectionDivider';
 
 export function DownloadSection(): React.ReactElement {
 	return (
-		<div className="pt-4 pb-8" id="download">
+		<div className="pb-8" id="download">
 			<SectionDivider title="App available on" />
-			<Section className="lg:py-4">
-				<h4 className="sm:mb-4 tracking-wider font-extrabold sm:text-xl text-center">
-					<span className="text-orange">Set notifications</span> on
-					your phone
-					<br />
-					and <span className="text-orange">share results</span> with
-					friends:
+			<Section className="flex flex-row items-center">
+				<h4 className="mr-18 text-4xl leading-10 tracking-wider font-extrabold">
+					<>
+						<span className="text-orange">Set notifications</span>{' '}
+						on your phone and{' '}
+						<span className="text-orange">share results</span> with
+						friends:
+					</>
 				</h4>
-				<div className="mt-3 flex flex-row justify-center">
+				<div className="mt-3 flex lg:flex-col justify-center">
 					<a
-						className="mx-2 w-64"
-						href="https://itunes.apple.com/us/app/s-i-smoke/id1365605567?mt=8"
-						rel="noreferrer"
-						target="_blank"
-					>
-						<img alt="download on Apple Store" src={apple} />
-					</a>
-					<a
-						className="mx-2 w-64"
+						className="mb-4 w-56"
 						href="https://play.google.com/store/apps/details?id=com.shitismoke.app"
 						rel="noreferrer"
 						target="_blank"
 					>
 						<img alt="download on Play Store" src={play} />
+					</a>
+					<a
+						className="w-56"
+						href="https://itunes.apple.com/us/app/s-i-smoke/id1365605567?mt=8"
+						rel="noreferrer"
+						target="_blank"
+					>
+						<img alt="download on Apple Store" src={apple} />
 					</a>
 				</div>
 			</Section>

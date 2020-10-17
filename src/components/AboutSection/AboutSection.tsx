@@ -22,7 +22,7 @@ import { SectionDivider } from '../SectionDivider';
 
 export function AboutSection(): React.ReactElement {
 	return (
-		<div className="pt-4">
+		<>
 			<SectionDivider title="About Sh**t! I Smoke" />
 			<Section className="grid grid-flow-col grid-cols-1 grid-rows-2 lg:grid-cols-2 lg:grid-rows-1 gap-4">
 				<p className="text-xs text-gray-600 leading-5 tracking-wider">
@@ -58,6 +58,6 @@ export function AboutSection(): React.ReactElement {
 					from TV shows in California to newspapers in China.
 				</p>
 			</Section>
-		</div>
+		</>
 	);
 }

@@ -28,7 +28,7 @@ export function H1(props: H1Props): React.ReactElement {
 	return (
 		<h1
 			className={c(
-				'font-extrabold leading-10 sm:leading-16 text-4xl sm:text-5xl',
+				'font-extrabold leading-10 sm:leading-14 text-4xl sm:text-5xl',
 				className
 			)}
 		>

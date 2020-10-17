@@ -130,7 +130,7 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 		: worldCities.slice(0, CITIES_TO_SHOW);
 
 	return (
-		<div className="pt-3">
+		<>
 			<SectionDivider
 				title={
 					hasClosestCities
@@ -169,6 +169,6 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 					))}
 				</div>
 			</Section>
-		</div>
+		</>
 	);
 }
