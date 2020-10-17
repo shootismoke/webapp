@@ -16,6 +16,7 @@
 
 export * from './AboutSection';
 export * from './AdSection';
+export * from './BlogSection';
 export * from './Cigarettes';
 export * from './DownloadSection';
 export * from './FeaturedSection';
@@ -26,7 +27,6 @@ export * from './HealthSection';
 export * from './HeroLayout';
 export * from './Loading';
 export * from './Nav';
-export * from './BlogSection';
 export * from './PollutantSection';
 export * from './RankingSection';
 export * from './SadFace';

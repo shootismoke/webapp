@@ -115,7 +115,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
 		raceApiPromise(city.gps, {
 			aqicn: {
-				aqicnToken: process.env.GATSBY_AQICN_TOKEN as string,
+				token: process.env.GATSBY_AQICN_TOKEN as string,
 			},
 			openaq: {
 				dateFrom: sixHoursAgo,
