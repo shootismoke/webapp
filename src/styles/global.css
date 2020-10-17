@@ -23,16 +23,37 @@ html {
 	right: -1.5rem;
 }
 
+.line-clamp-2 {
+	display: -webkit-box;
+	line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
 .h-26 {
 	height: 6.5rem;
 }
 
-.h-72 {
-	height: 18rem;
+.h-42 {
+	height: 10.5rem;
 }
 
-.h-76 {
-	height: 19rem;
+.h-52 {
+	height: 13rem;
+}
+
+.h-66 {
+	height: 16.5rem;
+}
+
+.h-68 {
+	height: 17rem;
+}
+
+.h-78 {
+	height: 19.5rem;
 }
 
 .rounded-xl {

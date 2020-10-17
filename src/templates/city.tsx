@@ -31,6 +31,8 @@ import { useIntl } from 'react-intl';
 import warning from '../../assets/images/icons/warning_red.svg';
 import {
 	AboutSection,
+	AdSection,
+	BlogSection,
 	Cigarettes,
 	DownloadSection,
 	FeaturedSection,
@@ -241,7 +243,9 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 			<RankingSection currentCity={city} />
 			<AboutSection />
+			<AdSection />
 			<FeaturedSection />
+			<BlogSection />
 			<DownloadSection />
 			<Footer />
 		</>

@@ -14,71 +14,52 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Button } from '@shootismoke/ui';
 import c from 'classnames';
 import React from 'react';
 
-import humidifier from '../../../assets/images/ads/humidifier@3x.png';
+import humidifier from '../../../assets/images/blogs/blog@3x.png';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
 import { Section, sectionHorizontalPadding } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 
-interface Ad {
+interface Blog {
 	image: string;
+	subtitle: string;
 	title: string;
 	url: string;
 }
 
-const ads: Ad[] = [
+const blogs: Blog[] = [
 	{
 		image: humidifier,
-		title: 'Coway AP-1512HH Mighty1',
+		subtitle: 'LifeHacker',
+		title: 'Related 2 line blog title1',
 		url: 'https://example.com',
 	},
 	{
 		image: humidifier,
-		title: 'Coway AP-1512HH Mighty2',
+		subtitle: 'LifeHacker',
+		title:
+			'Related 2 line blog title very very very very very very very long',
 		url: 'https://example.com',
 	},
 	{
 		image: humidifier,
-		title: 'Coway AP-1512HH Mighty3',
+		subtitle: 'LifeHacker',
+		title: 'Related 2 line blog title3',
 		url: 'https://example.com',
 	},
 	{
 		image: humidifier,
-		title: 'Coway AP-1512HH Mighty4',
+		subtitle: 'LifeHacker',
+		title: 'Related 2 line blog title4',
 		url: 'https://example.com',
 	},
 	{
 		image: humidifier,
-		title: 'Coway AP-1512HH Mighty5',
-		url: 'https://example.com',
-	},
-	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty6',
-		url: 'https://example.com',
-	},
-	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty7',
-		url: 'https://example.com',
-	},
-	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty8',
-		url: 'https://example.com',
-	},
-	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty9',
-		url: 'https://example.com',
-	},
-	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty10',
+		subtitle: 'LifeHacker',
+		title: 'Related 2 line blog title5',
 		url: 'https://example.com',
 	},
 ];
@@ -88,49 +69,45 @@ const ads: Ad[] = [
  */
 const leftSectionPadding = sectionHorizontalPadding.replace(/px/g, 'pl');
 
-export function AdSection(): React.ReactElement {
+export function BlogSection(): React.ReactElement {
 	return (
 		<>
-			<SectionDivider title="10 best air purifiers" />
+			<SectionDivider title="Latest Stories" />
 			<Section
 				className={c(leftSectionPadding, 'lg:pr-24 pt-4')}
 				noPadding={true}
 			>
 				<Carousel>
-					{ads.map((ad) => (
+					{blogs.map((blog) => (
 						<Card
 							className="
-							mr-3 w-40 h-64 p-3
+							mr-3 w-40 h-64
 							lg:mr-5 lg:p-8 lg:w-48 lg:h-74
 							flex-shrink-0"
-							key={ad.title}
+							key={blog.title}
 						>
 							<img
-								alt={ad.title}
-								className="px-2"
-								src={ad.image}
+								alt={blog.title}
+								className="h-42 lg:h-52"
+								src={blog.image}
 							/>
-							<h4 className="mt-4 mb-3 text-sm text-center">
-								{ad.title}
-							</h4>
-							<a href={ad.url} rel="noreferrer" target="_blank">
-								<Button
-									style={{
-										paddingHorizontal: '0.75rem',
-										paddingVertical: '0.25rem',
-										width: 'max-content',
-									}}
-								>
-									VIEW PRICE
-								</Button>
+
+							<a
+								className="hover:underline"
+								href={blog.url}
+								rel="noreferrer"
+								target="_blank"
+							>
+								<h4 className="mt-3 mx-3 text-sm line-clamp-2">
+									{blog.title}
+								</h4>
 							</a>
+							<p className="mt-1 mx-3 text-xs text-gray-600">
+								{blog.subtitle}
+							</p>
 						</Card>
 					))}
 				</Carousel>
-				<p className="mt-4 text-xs text-center text-gray-600">
-					All revenue from affiliate commisions is shared publicly
-					here and used for website maintenance.
-				</p>
 			</Section>
 		</>
 	);

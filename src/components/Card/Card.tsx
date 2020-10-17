@@ -31,7 +31,7 @@ export function Card(props: CardProps): React.ReactElement {
 	return (
 		<div
 			className={c(
-				'border rounded-xl border-gray-200 shadow-lg',
+				'overflow-hidden border rounded-xl border-gray-200 shadow-lg',
 				className
 			)}
 		>

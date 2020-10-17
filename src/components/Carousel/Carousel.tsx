@@ -60,7 +60,7 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 				src={pageRight}
 			/>
 			<div
-				className="w-full h-76 overflow-x-auto scroll-smooth flex flex-row"
+				className="w-full h-68 lg:h-78 overflow-x-auto scroll-smooth flex flex-row"
 				ref={scrollDiv}
 			>
 				{children}

@@ -18,6 +18,8 @@ import React from 'react';
 
 import {
 	AboutSection,
+	AdSection,
+	BlogSection,
 	DownloadSection,
 	FeaturedSection,
 	Footer,
@@ -49,7 +51,9 @@ export default function NotFound(): React.ReactElement {
 
 			<RankingSection />
 			<AboutSection />
+			<AdSection />
 			<FeaturedSection />
+			<BlogSection />
 			<DownloadSection />
 			<Footer />
 		</>

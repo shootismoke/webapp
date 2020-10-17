@@ -17,18 +17,19 @@
 import React from 'react';
 
 import {
+	AboutSection,
+	AdSection,
+	BlogSection,
 	DownloadSection,
 	FeaturedSection,
 	Footer,
 	GpsButton,
 	H1,
-	AboutSection,
 	Nav,
 	RankingSection,
 	SearchBar,
 	Section,
 	Seo,
-	AdSection,
 } from '../components';
 
 export default function Index(): React.ReactElement {
@@ -62,6 +63,7 @@ export default function Index(): React.ReactElement {
 			<AboutSection />
 			<AdSection />
 			<FeaturedSection />
+			<BlogSection />
 			<DownloadSection />
 			<Footer />
 		</>

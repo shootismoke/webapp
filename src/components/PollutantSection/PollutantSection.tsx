@@ -76,12 +76,12 @@ const pollutantData: Partial<Record<
 	},
 	pm10: {
 		effects:
-			'Particulate matters under 10μm (PM10) ,ay cause breathing difficulties.',
+			'Particulate matters under 10μm (PM10), may cause breathing difficulties.',
 		name: 'Particulates',
 	},
 	pm25: {
 		effects:
-			'Particulate matters under 2.5μm (PM2.5) ,ay cause breathing difficulties.',
+			'Particulate matters under 2.5μm (PM2.5), may cause breathing difficulties.',
 		name: 'Particulates',
 	},
 	so2: {
