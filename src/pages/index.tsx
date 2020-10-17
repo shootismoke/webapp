@@ -28,6 +28,7 @@ import {
 	SearchBar,
 	Section,
 	Seo,
+	AdSection,
 } from '../components';
 
 export default function Index(): React.ReactElement {
@@ -59,6 +60,7 @@ export default function Index(): React.ReactElement {
 
 			<RankingSection />
 			<AboutSection />
+			<AdSection />
 			<FeaturedSection />
 			<DownloadSection />
 			<Footer />

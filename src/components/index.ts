@@ -15,6 +15,7 @@
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 export * from './AboutSection';
+export * from './AdSection';
 export * from './Cigarettes';
 export * from './DownloadSection';
 export * from './FeaturedSection';

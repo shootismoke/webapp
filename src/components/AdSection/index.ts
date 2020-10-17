@@ -14,29 +14,4 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import c from 'classnames';
-import React from 'react';
-
-import { Section } from '../Section';
-
-interface SectionDividerProps {
-	className?: string;
-	title: string;
-}
-
-export function SectionDivider({
-	className,
-	title,
-}: SectionDividerProps): React.ReactElement {
-	return (
-		<Section className={c('pt-12', className)}>
-			<div className="flex flex-row items-center">
-				<hr className="flex-grow border-t border-gray-200" />
-				<h2 className="mx-4 tracking-wider text-xs font-extrabold uppercase">
-					{title}
-				</h2>
-				<hr className="flex-grow border-gray-200" />
-			</div>
-		</Section>
-	);
-}
+export * from './AdSection';

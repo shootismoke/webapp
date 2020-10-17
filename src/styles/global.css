@@ -15,12 +15,32 @@ html {
 	}
 }
 
+.-left-6 {
+	left: -1.5rem;
+}
+
+.-right-6 {
+	right: -1.5rem;
+}
+
 .h-26 {
 	height: 6.5rem;
 }
 
+.h-72 {
+	height: 18rem;
+}
+
+.h-76 {
+	height: 19rem;
+}
+
 .rounded-xl {
 	border-radius: 1rem;
+}
+
+.scroll-smooth {
+	scroll-behavior: smooth;
 }
 
 .w-26 {

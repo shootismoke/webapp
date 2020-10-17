@@ -34,7 +34,7 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 	const { className, description, photoUrl, subtitle, title } = props;
 
 	return (
-		<Card className={c('shadow-lg h-26 pr-2 flex flex-row', className)}>
+		<Card className={c('h-26 pr-2 flex flex-row', className)}>
 			<div className="mr-4 w-26 h-26 flex-shrink-0">
 				<img
 					className="h-full w-full object-cover"

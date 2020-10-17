@@ -64,6 +64,11 @@ interface CityProps {
 	};
 }
 
+/**
+ * Same padding as the Section component, but only applied to left.
+ */
+export const leftSectionPadding = sectionHorizontalPadding.replace(/px/g, 'ml');
+
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
 	const { formatMessage: t } = useIntl();
@@ -186,8 +191,12 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							/>
 						</div>
 
-						{/** Same as sectionHorizontalPadding, but only left. */}
-						<div className="mt-4 ml-6 sm:ml-12 md:ml-24 pb-2 overflow-auto flex">
+						<div
+							className={c(
+								leftSectionPadding,
+								'mt-4 pb-2 overflow-auto flex'
+							)}
+						>
 							{(['daily', 'weekly', 'monthly'] as const).map(
 								(f) => (
 									<div

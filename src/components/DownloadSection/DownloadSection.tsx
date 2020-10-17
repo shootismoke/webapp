@@ -26,14 +26,14 @@ export function DownloadSection(): React.ReactElement {
 		<div className="pb-8" id="download">
 			<SectionDivider title="App available on" />
 			<Section className="flex flex-row items-center">
-				<h4 className="mr-18 text-4xl leading-10 tracking-wider font-extrabold">
+				<h3 className="mr-18 text-4xl leading-10 tracking-wider font-extrabold">
 					<>
 						<span className="text-orange">Set notifications</span>{' '}
 						on your phone and{' '}
 						<span className="text-orange">share results</span> with
 						friends:
 					</>
-				</h4>
+				</h3>
 				<div className="mt-3 flex lg:flex-col justify-center">
 					<a
 						className="mb-4 w-56"
