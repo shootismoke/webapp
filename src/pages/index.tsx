@@ -22,7 +22,7 @@ import {
 	Footer,
 	GpsButton,
 	H1,
-	HowSection,
+	AboutSection,
 	Nav,
 	RankingSection,
 	SearchBar,
@@ -58,7 +58,7 @@ export default function Index(): React.ReactElement {
 			</Section>
 
 			<RankingSection />
-			<HowSection />
+			<AboutSection />
 			<FeaturedSection />
 			<DownloadSection />
 			<Footer />

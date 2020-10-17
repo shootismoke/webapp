@@ -30,6 +30,7 @@ import { useIntl } from 'react-intl';
 
 import warning from '../../assets/images/icons/warning_red.svg';
 import {
+	AboutSection,
 	Cigarettes,
 	DownloadSection,
 	FeaturedSection,
@@ -37,7 +38,6 @@ import {
 	H1,
 	HealthSection,
 	HeroLayout,
-	HowSection,
 	Loading,
 	Nav,
 	PollutantSection,
@@ -75,17 +75,29 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
 
+	// Number of cigarettes to display.
+	const cigarettes = api
+		? api.shootismoke.dailyCigarettes *
+		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
+		: undefined;
+
+	// Decide on a swear word. The effect says that the swear word only changes
+	// when the cigarettes count changes.
+	const [swearWord, setSwearWord] = useState<string | undefined>(
+		cigarettes ? getSwearWord(cigarettes) : undefined
+	);
+	useEffect(() => {
+		if (!cigarettes) {
+			return;
+		}
+
+		setSwearWord(getSwearWord(cigarettes));
+	}, [cigarettes]);
+
 	// Evertime we change city, reset, and fetch new values.
 	useEffect(() => {
-		// If we already loaded the city's cigarettes, don't load it again.
-		// For example, if the city's api is loaded statically, then we don;t
-		// show "Loading..." again.
-		if (
-			city.api?.shootismoke.dailyCigarettes !==
-			api?.shootismoke.dailyCigarettes
-		) {
-			setApi(undefined);
-		}
+		setApi(undefined);
+		setSwearWord(undefined);
 
 		setError(undefined);
 		setReverseGeoName(undefined);
@@ -105,25 +117,6 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			.then(setApi)
 			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	// Number of cigarettes to display.
-	const cigarettes = api
-		? api.shootismoke.dailyCigarettes *
-		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
-		: undefined;
-
-	// Decide on a swear word. The effect says that the swear word only changes
-	// when the cigarettes count changes.
-	const [swearWord, setSwearWord] = useState<string | undefined>(
-		cigarettes ? getSwearWord(cigarettes) : undefined
-	);
-	useEffect(() => {
-		if (!cigarettes) {
-			return;
-		}
-
-		setSwearWord(getSwearWord(cigarettes));
-	}, [cigarettes]);
 
 	const distance = api ? distanceToStation(city.gps, api.pm25) : undefined;
 
@@ -238,7 +231,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			{aqi && <HealthSection aqi={aqi} />}
 
 			<RankingSection currentCity={city} />
-			<HowSection />
+			<AboutSection />
 			<FeaturedSection />
 			<DownloadSection />
 			<Footer />

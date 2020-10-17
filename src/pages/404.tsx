@@ -17,10 +17,10 @@
 import React from 'react';
 
 import {
+	AboutSection,
 	DownloadSection,
 	FeaturedSection,
 	Footer,
-	HowSection,
 	Nav,
 	RankingSection,
 	SearchBar,
@@ -43,7 +43,7 @@ export default function NotFound(): React.ReactElement {
 			</Section>
 
 			<RankingSection />
-			<HowSection />
+			<AboutSection />
 			<FeaturedSection />
 			<DownloadSection />
 			<Footer />

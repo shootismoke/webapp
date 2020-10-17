@@ -103,13 +103,12 @@ export function PollutantSection(
 	}
 
 	return (
-		<div className="pt-3">
+		<div className="pt-4">
 			<SectionDivider title="Today's tips" />
-			<Section className="max-w-screen-sm">
+			<Section>
 				<Tip imgAlt="skull" imgSrc={skull}>
 					<p className="leading-6 font-extrabold text-xl">
-						Your primary pollutant is
-						<br />
+						Your primary pollutant is{' '}
 						<span className="text-orange">
 							{polData.name} ({pollutant.toUpperCase()})*
 						</span>
