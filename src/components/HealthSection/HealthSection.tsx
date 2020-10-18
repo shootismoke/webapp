@@ -155,5 +155,5 @@ function tips(aqi: number): React.ReactElement[] {
 export function HealthSection(props: HealthSectionProps): React.ReactElement {
 	const { aqi } = props;
 
-	return <Section className="max-w-screen-sm">{tips(aqi)}</Section>;
+	return <Section>{tips(aqi)}</Section>;
 }

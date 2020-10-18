@@ -20,6 +20,14 @@ import React from 'react';
 
 import download from '../../../assets/images/icons/download.svg';
 
+/**
+ * Scroll to the bottom of the page.
+ * @see https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page/29971996
+ */
+function scrollToBottom(): void {
+	window.scrollTo(0, document.body.scrollHeight);
+}
+
 export function Nav(): React.ReactElement {
 	return (
 		<header className="sm:mx-8 mx-3 mt-4">
@@ -28,9 +36,9 @@ export function Nav(): React.ReactElement {
 				<Link to="/">
 					<img alt="logo" className="w-32" src={logo} />
 				</Link>
-				<Link
-					className="flex items-center font-extrabold leading-4 text-xs sm:text-sm text-orange text-right uppercase"
-					to="#download"
+				<div
+					className="flex items-center font-extrabold leading-4 text-xs sm:text-sm text-orange text-right uppercase cursor-pointer"
+					onClick={scrollToBottom}
 				>
 					Download <br className="sm:hidden" />
 					the app
@@ -39,7 +47,7 @@ export function Nav(): React.ReactElement {
 						className="ml-2 sm:ml-4 h-6 sm:h-10"
 						src={download}
 					/>
-				</Link>
+				</div>
 			</nav>
 		</header>
 	);

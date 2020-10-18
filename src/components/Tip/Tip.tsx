@@ -34,9 +34,7 @@ export function Tip({
 	imgSrc,
 }: TipProps): React.ReactElement {
 	return (
-		<div
-			className={c('flex flex-row items-start justify-start', className)}
-		>
+		<div className={c('flex flex-row items-center', className)}>
 			<img
 				alt={imgAlt}
 				className="mr-4"

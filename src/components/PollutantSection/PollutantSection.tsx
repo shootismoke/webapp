@@ -76,12 +76,12 @@ const pollutantData: Partial<Record<
 	},
 	pm10: {
 		effects:
-			'Particulate matters under 10μm (PM10) ,ay cause breathing difficulties.',
+			'Particulate matters under 10μm (PM10), may cause breathing difficulties.',
 		name: 'Particulates',
 	},
 	pm25: {
 		effects:
-			'Particulate matters under 2.5μm (PM2.5) ,ay cause breathing difficulties.',
+			'Particulate matters under 2.5μm (PM2.5), may cause breathing difficulties.',
 		name: 'Particulates',
 	},
 	so2: {
@@ -103,13 +103,12 @@ export function PollutantSection(
 	}
 
 	return (
-		<div className="pt-3">
+		<>
 			<SectionDivider title="Today's tips" />
-			<Section className="max-w-screen-sm">
+			<Section>
 				<Tip imgAlt="skull" imgSrc={skull}>
 					<p className="leading-6 font-extrabold text-xl">
-						Your primary pollutant is
-						<br />
+						Your primary pollutant is{' '}
 						<span className="text-orange">
 							{polData.name} ({pollutant.toUpperCase()})*
 						</span>
@@ -118,6 +117,6 @@ export function PollutantSection(
 
 				<p className="mt-2 text-gray-600 text-xs">*{polData.effects}</p>
 			</Section>
-		</div>
+		</>
 	);
 }

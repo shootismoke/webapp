@@ -17,10 +17,13 @@
 import React from 'react';
 
 import {
+	AboutSection,
+	AdSection,
+	BlogSection,
 	DownloadSection,
 	FeaturedSection,
 	Footer,
-	HowSection,
+	H1,
 	Nav,
 	RankingSection,
 	SearchBar,
@@ -34,17 +37,23 @@ export default function NotFound(): React.ReactElement {
 			<Seo title="404" />
 			<Nav />
 			<Section>
-				<h1 className="font-extrabold leading-12 lg:text-5xl text-3xl">
-					404!
-					<br />
-					<span className="text-orange">Something went wrong...</span>
-				</h1>
+				<H1>
+					<>
+						404!
+						<br />
+						<span className="text-orange">
+							Something went wrong...
+						</span>
+					</>
+				</H1>
 				<SearchBar className="mt-4" />
 			</Section>
 
 			<RankingSection />
-			<HowSection />
+			<AboutSection />
+			<AdSection />
 			<FeaturedSection />
+			<BlogSection />
 			<DownloadSection />
 			<Footer />
 		</>

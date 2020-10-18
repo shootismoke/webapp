@@ -19,7 +19,7 @@ import React from 'react';
 
 export function Footer(): React.ReactElement {
 	return (
-		<footer className="px-10 py-8 lg:py-12 bg-gray-700 flex flex-col items-center">
+		<footer className="mt-16 px-10 py-8 lg:py-12 bg-gray-700 flex flex-col items-center">
 			<img alt="logo" className="w-10" src={logo}></img>
 			<p className="mt-3 text-sm text-center text-white">
 				Created with pride by{' '}
