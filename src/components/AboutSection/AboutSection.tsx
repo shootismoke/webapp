@@ -24,8 +24,8 @@ export function AboutSection(): React.ReactElement {
 	return (
 		<>
 			<SectionDivider title="About Sh**t! I Smoke" />
-			<Section className="flex flex-col lg:flex-row">
-				<p className="lg:mr-2 lg:flex-1 text-xs text-gray-600 leading-5 tracking-wider">
+			<Section className="flex flex-col md:flex-row">
+				<p className="md:mr-2 md:flex-1 text-xs text-gray-600 leading-5 tracking-wider">
 					Publicizing pollution facts and climate change warnings
 					doesn&apos;t seem to convince our communities of the
 					environmental issues we face today. Scientists use obscure
@@ -44,7 +44,7 @@ export function AboutSection(): React.ReactElement {
 					Stations worldwide.
 				</p>
 
-				<p className="mt-4 lg:mt-0 lg:ml-2 lg:flex-1 text-xs text-gray-600 leading-5 tracking-wider">
+				<p className="mt-4 md:mt-0 md:ml-2 md:flex-1 text-xs text-gray-600 leading-5 tracking-wider">
 					<img
 						alt="cigarettes-conversion"
 						className="-mt-4 mb-6 mx-auto"
