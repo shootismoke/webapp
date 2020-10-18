@@ -84,9 +84,10 @@ const ads: Ad[] = [
 ];
 
 /**
- * Same padding as the Section component, but only applied to left.
+ * Same padding as the Section component, but only applied to left or right.
  */
 const leftSectionPadding = sectionHorizontalPadding.replace(/px/g, 'pl');
+const rightSectionPadding = sectionHorizontalPadding.replace(/px/g, 'pr');
 
 export function AdSection(): React.ReactElement {
 	return (
@@ -101,8 +102,8 @@ export function AdSection(): React.ReactElement {
 						<Card
 							className="
 							mr-3 w-40 h-64 p-3
-							lg:mr-5 lg:p-8 lg:w-48 lg:h-74
-							flex-shrink-0"
+							lg:mr-5 lg:p-6 lg:w-48 lg:h-74
+							flex flex-col items-center flex-shrink-0"
 							key={ad.title}
 						>
 							<img
@@ -116,7 +117,7 @@ export function AdSection(): React.ReactElement {
 							<a href={ad.url} rel="noreferrer" target="_blank">
 								<Button
 									style={{
-										paddingHorizontal: '0.75rem',
+										paddingHorizontal: '0.5rem',
 										paddingVertical: '0.25rem',
 										width: 'max-content',
 									}}
@@ -127,7 +128,12 @@ export function AdSection(): React.ReactElement {
 						</Card>
 					))}
 				</Carousel>
-				<p className="mt-4 text-xs text-center text-gray-600">
+				<p
+					className={c(
+						rightSectionPadding,
+						'mt-4 text-xs text-center text-gray-600'
+					)}
+				>
 					All revenue from affiliate commisions is shared publicly
 					here and used for website maintenance.
 				</p>

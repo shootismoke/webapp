@@ -9,6 +9,18 @@ html {
 
 @layer utilities {
 	@responsive {
+		.h-52 {
+			height: 13rem;
+		}
+
+		.h-74 {
+			height: 18.5rem;
+		}
+
+		.h-78 {
+			height: 19.5rem;
+		}
+
 		.leading-14 {
 			line-height: 3.5rem;
 		}
@@ -40,20 +52,12 @@ html {
 	height: 10.5rem;
 }
 
-.h-52 {
-	height: 13rem;
-}
-
 .h-66 {
 	height: 16.5rem;
 }
 
 .h-68 {
 	height: 17rem;
-}
-
-.h-78 {
-	height: 19.5rem;
 }
 
 .rounded-xl {

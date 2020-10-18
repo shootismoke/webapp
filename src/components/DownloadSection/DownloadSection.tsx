@@ -23,20 +23,26 @@ import { SectionDivider } from '../SectionDivider';
 
 export function DownloadSection(): React.ReactElement {
 	return (
-		<div className="pb-8" id="download">
+		<div className="lg:pb-8" id="download">
 			<SectionDivider title="App available on" />
-			<Section className="flex flex-row items-center">
-				<h3 className="mr-18 text-4xl leading-10 tracking-wider font-extrabold">
+			<Section className="flex flex-col lg:flex-row lg:items-center">
+				<h3
+					className="
+					text-center text-lg font-extrabold
+					lg:text-left lg:mr-10 lg:text-4xl lg:leading-10 lg:tracking-wider"
+				>
 					<>
 						<span className="text-orange">Set notifications</span>{' '}
-						on your phone and{' '}
-						<span className="text-orange">share results</span> with
-						friends:
+						on your phone <br className="lg:hidden" />
+						&amp; <span className="text-orange">
+							share results
+						</span>{' '}
+						with friends:
 					</>
 				</h3>
-				<div className="mt-3 flex lg:flex-col justify-center">
+				<div className="mt-4 lg:mt-0 flex lg:flex-col justify-center">
 					<a
-						className="mb-4 w-56"
+						className="mr-4 lg:mb-4 w-56"
 						href="https://play.google.com/store/apps/details?id=com.shitismoke.app"
 						rel="noreferrer"
 						target="_blank"

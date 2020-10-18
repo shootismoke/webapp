@@ -82,23 +82,22 @@ export function BlogSection(): React.ReactElement {
 						<Card
 							className="
 							mr-3 w-40 h-64
-							lg:mr-5 lg:p-8 lg:w-48 lg:h-74
+							lg:mr-5 lg:w-48 lg:h-74
 							flex-shrink-0"
 							key={blog.title}
 						>
 							<img
 								alt={blog.title}
-								className="h-42 lg:h-52"
+								className="w-full h-42 lg:h-52"
 								src={blog.image}
 							/>
 
-							<a
-								className="hover:underline"
-								href={blog.url}
-								rel="noreferrer"
-								target="_blank"
-							>
-								<h4 className="mt-3 mx-3 text-sm line-clamp-2">
+							<a href={blog.url} rel="noreferrer" target="_blank">
+								<h4
+									className="
+									mt-3 mx-3 text-sm line-clamp-2
+									hover:underline"
+								>
 									{blog.title}
 								</h4>
 							</a>
