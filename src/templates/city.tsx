@@ -165,7 +165,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						api?.shootismoke.isAccurate === false && 'text-red'
 					)}
 				>
-					{distance
+					{distance !== undefined
 						? `Air Quality Station: ${distance}km away`
 						: null}
 					{api?.shootismoke.isAccurate === false && (
