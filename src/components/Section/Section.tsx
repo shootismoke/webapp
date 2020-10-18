@@ -26,8 +26,6 @@ interface SectionProps {
 	noPadding?: boolean;
 }
 
-export const sectionHorizontalPadding = 'px-6 sm:px-12 md:px-24';
-
 export function Section({
 	children,
 	className,
@@ -37,7 +35,7 @@ export function Section({
 		<section
 			className={c(
 				'container mx-auto my-6 max-w-5xl',
-				!noPadding && sectionHorizontalPadding,
+				!noPadding && 'px-6 sm:px-12 md:px-24',
 				className
 			)}
 		>

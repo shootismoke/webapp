@@ -21,7 +21,7 @@ import React from 'react';
 import humidifier from '../../../assets/images/ads/humidifier@3x.png';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
-import { Section, sectionHorizontalPadding } from '../Section';
+import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 
 interface Ad {
@@ -83,18 +83,12 @@ const ads: Ad[] = [
 	},
 ];
 
-/**
- * Same padding as the Section component, but only applied to left or right.
- */
-const leftSectionPadding = sectionHorizontalPadding.replace(/px/g, 'pl');
-const rightSectionPadding = sectionHorizontalPadding.replace(/px/g, 'pr');
-
 export function AdSection(): React.ReactElement {
 	return (
 		<>
 			<SectionDivider title="10 best air purifiers" />
 			<Section
-				className={c(leftSectionPadding, 'lg:pr-24 pt-4')}
+				className={c('pl-6 sm:pl-12 md:pl-24', 'lg:pr-24 pt-4')}
 				noPadding={true}
 			>
 				<Carousel>
@@ -130,7 +124,7 @@ export function AdSection(): React.ReactElement {
 				</Carousel>
 				<p
 					className={c(
-						rightSectionPadding,
+						'pr-6 sm:pr-12 md:pr-24',
 						'mt-4 text-xs text-center text-gray-600'
 					)}
 				>

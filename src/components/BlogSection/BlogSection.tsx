@@ -20,7 +20,7 @@ import React from 'react';
 import humidifier from '../../../assets/images/blogs/blog@3x.png';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
-import { Section, sectionHorizontalPadding } from '../Section';
+import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 
 interface Blog {
@@ -64,17 +64,12 @@ const blogs: Blog[] = [
 	},
 ];
 
-/**
- * Same padding as the Section component, but only applied to left.
- */
-const leftSectionPadding = sectionHorizontalPadding.replace(/px/g, 'pl');
-
 export function BlogSection(): React.ReactElement {
 	return (
 		<>
 			<SectionDivider title="Latest Stories" />
 			<Section
-				className={c(leftSectionPadding, 'lg:pr-24 pt-4')}
+				className={c('pl-6 sm:pl-12 md:pl-24', 'lg:pr-24 pt-4')}
 				noPadding={true}
 			>
 				<Carousel>

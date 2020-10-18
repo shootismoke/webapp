@@ -48,7 +48,6 @@ import {
 	SearchBar,
 	SearchLocationState,
 	Section,
-	sectionHorizontalPadding,
 	Seo,
 } from '../components';
 import {
@@ -65,11 +64,6 @@ interface CityProps {
 		city: City;
 	};
 }
-
-/**
- * Same padding as the Section component, but only applied to left.
- */
-export const leftSectionPadding = sectionHorizontalPadding.replace(/px/g, 'ml');
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
@@ -181,7 +175,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Section className="pt-6" noPadding>
 				{cigarettes && swearWord ? (
 					<>
-						<div className={sectionHorizontalPadding}>
+						<div className="px-6 sm:px-12 md:px-24">
 							<HeroLayout
 								cover={<Cigarettes cigarettes={cigarettes} />}
 								title={
@@ -201,7 +195,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 						<div
 							className={c(
-								leftSectionPadding,
+								'ml-6 sm:ml-12 md:ml-24',
 								'mt-4 pb-2 overflow-auto flex'
 							)}
 						>
@@ -233,11 +227,11 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					</>
 				) : error ? (
 					<SadFace
-						className={sectionHorizontalPadding}
+						className="px-6 sm:px-12 md:px-24"
 						message={error.message}
 					/>
 				) : (
-					<Loading className={sectionHorizontalPadding} />
+					<Loading className="px-6 sm:px-12 md:px-24" />
 				)}
 			</Section>
 
