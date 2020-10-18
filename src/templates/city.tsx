@@ -84,8 +84,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	// Number of cigarettes to display.
 	const cigarettes = api
-		? api.shootismoke.dailyCigarettes *
-		  (frequency === 'daily' ? 1 : frequency === 'weekly' ? 7 : 30)
+		? round(
+				api.shootismoke.dailyCigarettes *
+					(frequency === 'daily'
+						? 1
+						: frequency === 'weekly'
+						? 7
+						: 30)
+		  )
 		: undefined;
 
 	// Decide on a swear word. The effect says that the swear word only changes
@@ -184,7 +190,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 											{t({ id: swearWord })}! You smoke
 											<br />
 											<span className="text-orange">
-												{round(cigarettes)} cigarette
+												{cigarettes} cigarette
 												{cigarettes === 1 ? '' : 's'}
 											</span>
 										</>
