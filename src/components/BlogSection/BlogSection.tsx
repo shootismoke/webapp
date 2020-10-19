@@ -69,7 +69,10 @@ export function BlogSection(): React.ReactElement {
 		<>
 			<SectionDivider title="Latest Stories" />
 			<Section
-				className={c('pl-6 sm:pl-12 md:pl-24', 'lg:pr-24 pt-4')}
+				className={c(
+					'pl-6 sm:pl-12 md:pl-24',
+					'sm:pr-12 md:pr-24 pt-4'
+				)}
 				noPadding={true}
 			>
 				<Carousel>
@@ -77,13 +80,13 @@ export function BlogSection(): React.ReactElement {
 						<Card
 							className="
 							mr-3 w-40 h-64
-							lg:mr-5 lg:w-48 lg:h-74
+							sm:mr-5 sm:w-48 sm:h-74
 							flex-shrink-0"
 							key={blog.title}
 						>
 							<img
 								alt={blog.title}
-								className="w-full h-42 lg:h-52"
+								className="w-full h-42 sm:h-52"
 								src={blog.image}
 							/>
 

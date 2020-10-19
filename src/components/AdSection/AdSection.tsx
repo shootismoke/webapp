@@ -88,7 +88,10 @@ export function AdSection(): React.ReactElement {
 		<>
 			<SectionDivider title="10 best air purifiers" />
 			<Section
-				className={c('pl-6 sm:pl-12 md:pl-24', 'lg:pr-24 pt-4')}
+				className={c(
+					'pl-6 sm:pl-12 md:pl-24',
+					'sm:pr-12 md:pr-24 pt-4'
+				)}
 				noPadding={true}
 			>
 				<Carousel>
@@ -96,7 +99,7 @@ export function AdSection(): React.ReactElement {
 						<Card
 							className="
 							mr-3 w-40 h-64 p-3
-							lg:mr-5 lg:p-6 lg:w-48 lg:h-74
+							sm:mr-5 sm:p-6 sm:w-48 sm:h-74
 							flex flex-col items-center flex-shrink-0"
 							key={ad.title}
 						>
