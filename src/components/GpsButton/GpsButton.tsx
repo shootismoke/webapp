@@ -19,6 +19,7 @@ import { navigate } from 'gatsby';
 import React, { useState } from 'react';
 
 import location from '../../../assets/images/icons/location_white.svg';
+import { logEvent } from '../../util';
 
 interface GpsButtonProps {
 	className?: string;
@@ -59,7 +60,13 @@ export function GpsButton(_props: GpsButtonProps): React.ReactElement {
 	const [text, setText] = useState<string>();
 
 	return (
-		<Button type="full" onPress={(): void => onGpsButtonClick(setText)}>
+		<Button
+			type="full"
+			onPress={(): void => {
+				logEvent('GpsButton.Button.Click');
+				onGpsButtonClick(setText);
+			}}
+		>
 			<div className="px-2 flex flex-row justify-center">
 				{!text && <img alt="location" src={location} />}
 				<p className="ml-3 font-extrabold leading-6 tracking-widest text-xs text-white uppercase truncate">

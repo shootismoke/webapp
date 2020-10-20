@@ -14,25 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import baseAmplitude, { AmplitudeClient } from 'amplitude-js';
-
-let amplitude: AmplitudeClient | undefined = undefined;
-
-if (typeof window !== 'undefined' && process.env.GATSBY_AMPLITUDE_API_KEY) {
-	amplitude = baseAmplitude.getInstance();
-	amplitude.init(process.env.GATSBY_AMPLITUDE_API_KEY);
-}
-
 /**
+ * Log an event on Amplitude.
  *
- * @param event -
+ * @param event - The event name to log.
  */
 export function logEvent(event: string): void {
-	if (!amplitude) {
+	if (!window.amplitude) {
 		return;
 	}
 
-	amplitude.logEvent(event, undefined, (responseCode, responseBody) => {
-		console.log(responseBody, responseCode);
-	});
+	window.amplitude.logEvent(
+		event,
+		undefined,
+		(responseCode, responseBody) => {
+			console.log(responseBody, responseCode);
+		}
+	);
 }
