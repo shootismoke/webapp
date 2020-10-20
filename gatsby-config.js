@@ -11,5 +11,11 @@ module.exports = {
 				tailwind: true, // Enable tailwindcss support.
 			},
 		},
+		{
+			resolve: '@sentry/gatsby',
+			options: {
+				dsn: process.env.SENTRY_API_KEY,
+			},
+		},
 	],
 };
