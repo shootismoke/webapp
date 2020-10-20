@@ -12,6 +12,14 @@ module.exports = {
 			},
 		},
 		{
+			resolve: 'gatsby-plugin-amplitude-analytics',
+			options: {
+				apiKey: process.env.AMPLITUDE_API_KEY,
+				environments: ['development', 'production'],
+				respectDNT: true,
+			},
+		},
+		{
 			resolve: '@sentry/gatsby',
 			options: {
 				dsn: process.env.SENTRY_API_KEY,

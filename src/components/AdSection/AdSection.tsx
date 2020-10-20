@@ -19,6 +19,7 @@ import c from 'classnames';
 import React from 'react';
 
 import humidifier from '../../../assets/images/ads/humidifier@3x.png';
+import { logEvent } from '../../util';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
 import { Section } from '../Section';
@@ -94,8 +95,15 @@ export function AdSection(): React.ReactElement {
 				)}
 				noPadding={true}
 			>
-				<Carousel>
-					{ads.map((ad) => (
+				<Carousel
+					onPageLeftClick={(): void =>
+						logEvent('AdSection.PageLeft.Click')
+					}
+					onPageRightClick={(): void =>
+						logEvent('AdSection.PageRight.Click')
+					}
+				>
+					{ads.map((ad, index) => (
 						<Card
 							className="
 							mr-3 w-40 h-64 p-3
@@ -111,7 +119,18 @@ export function AdSection(): React.ReactElement {
 							<h4 className="mt-4 mb-3 text-sm text-center">
 								{ad.title}
 							</h4>
-							<a href={ad.url} rel="noreferrer" target="_blank">
+							<a
+								href={ad.url}
+								onClick={(): void =>
+									logEvent('AdSection.Ad.Click', {
+										index,
+										title: ad.title,
+										url: ad.url,
+									})
+								}
+								rel="noreferrer"
+								target="_blank"
+							>
 								<Button
 									style={{
 										paddingHorizontal: '0.5rem',

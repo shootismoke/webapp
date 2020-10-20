@@ -28,6 +28,7 @@ import pix from '../../../assets/images/media/pix@3x.png';
 import rtbf from '../../../assets/images/media/rtbf@3x.png';
 import slate from '../../../assets/images/media/slate@3x.png';
 import usbek from '../../../assets/images/media/usbek@3x.png';
+import { logEvent } from '../../util';
 import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 
@@ -108,11 +109,18 @@ export function FeaturedSection(): React.ReactElement {
 			<SectionDivider title="Featured at" />
 			<Section>
 				<div className="lg:pt-3 grid grid-flow-row grid-cols-3 grid-rows-4 row-gap-6 col-gap-2 lg:grid-cols-6 lg:grid-rows-2 lg:col-gap-6">
-					{medias.map((media) => (
+					{medias.map((media, index) => (
 						<a
 							className="px-4 flex flex-row justify-center items-center"
 							href={media.href}
 							key={media.slug}
+							onClick={(): void =>
+								logEvent('FeaturedSection.Media.Click', {
+									index,
+									href: media.href,
+									slug: media.slug,
+								})
+							}
 							rel="noreferrer"
 							target="_blank"
 						>

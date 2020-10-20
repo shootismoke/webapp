@@ -18,6 +18,7 @@ import c from 'classnames';
 import React from 'react';
 
 import humidifier from '../../../assets/images/blogs/blog@3x.png';
+import { logEvent } from '../../util';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
 import { Section } from '../Section';
@@ -75,8 +76,15 @@ export function BlogSection(): React.ReactElement {
 				)}
 				noPadding={true}
 			>
-				<Carousel>
-					{blogs.map((blog) => (
+				<Carousel
+					onPageLeftClick={(): void =>
+						logEvent('BlogSection.PageLeft.Click')
+					}
+					onPageRightClick={(): void =>
+						logEvent('BlogSection.PageRight.Click')
+					}
+				>
+					{blogs.map((blog, index) => (
 						<Card
 							className="
 							mr-3 w-40 h-64
@@ -90,7 +98,18 @@ export function BlogSection(): React.ReactElement {
 								src={blog.image}
 							/>
 
-							<a href={blog.url} rel="noreferrer" target="_blank">
+							<a
+								href={blog.url}
+								onClick={(): void =>
+									logEvent('BlogSection.Blog.Click', {
+										index,
+										url: blog.url,
+										title: blog.title,
+									})
+								}
+								rel="noreferrer"
+								target="_blank"
+							>
 								<h4
 									className="
 									mt-3 mx-3 text-sm line-clamp-2

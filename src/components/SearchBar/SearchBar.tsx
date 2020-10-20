@@ -105,10 +105,6 @@ export interface SearchLocationState {
 	cityName: string;
 }
 
-function handleInputFocus(): void {
-	logEvent('SearchBar.Input.Focus');
-}
-
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
 		className,
@@ -138,7 +134,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 						} as SearchLocationState,
 					});
 				}}
-				onFocus={handleInputFocus}
+				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
 				placeholder={overridePlaceholder || placeholder}
 				styles={customStyles}
 				{...rest}

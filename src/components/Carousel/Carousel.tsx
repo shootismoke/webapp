@@ -21,6 +21,8 @@ import pageRight from '../../../assets/images/icons/pagination_right.svg';
 
 interface CarouselProps {
 	children: React.ReactElement[];
+	onPageLeftClick?: () => void;
+	onPageRightClick?: () => void;
 }
 
 /**
@@ -29,16 +31,18 @@ interface CarouselProps {
 const SCROLL_BY = 256;
 
 export function Carousel(props: CarouselProps): React.ReactElement {
-	const { children } = props;
+	const { children, onPageLeftClick, onPageRightClick } = props;
 	const scrollDiv = useRef<HTMLDivElement>(null);
 
 	function scrollLeft(): void {
+		onPageLeftClick && onPageLeftClick();
 		if (!scrollDiv.current) {
 			return;
 		}
 		scrollDiv.current.scrollLeft -= SCROLL_BY;
 	}
 	function scrollRight(): void {
+		onPageRightClick && onPageRightClick();
 		if (!scrollDiv.current) {
 			return;
 		}

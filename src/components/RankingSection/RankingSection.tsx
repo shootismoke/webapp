@@ -19,7 +19,7 @@ import { graphql, Link, useStaticQuery } from 'gatsby';
 import haversine from 'haversine';
 import React, { useEffect, useState } from 'react';
 
-import { City } from '../../util';
+import { City, logEvent } from '../../util';
 import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 import { CityCard } from './CityCard';
@@ -141,7 +141,16 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 			<Section className="flex flex-col items-center">
 				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
 					{cities.map((city, index) => (
-						<Link key={city.slug} to={`/city/${city.slug}`}>
+						<Link
+							key={city.slug}
+							to={`/city/${city.slug}`}
+							onClick={(): void =>
+								logEvent('RankingSection.CityCard.Click', {
+									rank: index + 1,
+									slug: city.slug,
+								})
+							}
+						>
 							<CityCard
 								description={
 									city.api?.shootismoke.dailyCigarettes

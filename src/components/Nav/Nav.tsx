@@ -35,7 +35,10 @@ export function Nav(): React.ReactElement {
 		<header className="sm:mx-8 mx-3 mt-4">
 			<nav className="flex flex-row justify-between">
 				{/** Should be `items-center`, but `items-end` looks better */}
-				<Link to="/">
+				<Link
+					onClick={(): void => logEvent('Nav.HomeButton.Click')}
+					to="/"
+				>
 					<img alt="logo" className="w-32" src={logo} />
 				</Link>
 				<div

@@ -18,6 +18,7 @@ import React from 'react';
 
 import apple from '../../../assets/images/app-store@3x.png';
 import play from '../../../assets/images/play-store@3x.png';
+import { logEvent } from '../../util';
 import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 
@@ -44,6 +45,9 @@ export function DownloadSection(): React.ReactElement {
 					<a
 						className="mr-4 lg:mb-4 w-56"
 						href="https://play.google.com/store/apps/details?id=com.shitismoke.app"
+						onClick={(): void =>
+							logEvent('DownloadSection.Android.Click')
+						}
 						rel="noreferrer"
 						target="_blank"
 					>
@@ -52,6 +56,9 @@ export function DownloadSection(): React.ReactElement {
 					<a
 						className="w-56"
 						href="https://itunes.apple.com/us/app/s-i-smoke/id1365605567?mt=8"
+						onClick={(): void =>
+							logEvent('DownloadSection.Ios.Click')
+						}
 						rel="noreferrer"
 						target="_blank"
 					>
