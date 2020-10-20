@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import favicon from '@shootismoke/ui/assets/logos/AppIcons/Assets.xcassets/AppIcon.appiconset/64.png';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
@@ -54,7 +55,7 @@ e=(!e||e.length===0?"$default_instance":e).toLowerCase()
 ;if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
 ;e.amplitude=n})(window,document);
 
-amplitude.getInstance().init("${process.env.GATSBY_AMPLITUDE_}");`,
+amplitude.getInstance().init("${process.env.GATSBY_AMPLITUDE_TOKEN}");`,
 				},
 			]}
 		>
@@ -67,6 +68,8 @@ amplitude.getInstance().init("${process.env.GATSBY_AMPLITUDE_}");`,
 			<link rel="preconnect" href="https://api.bigdatacloud.net" />
 			<link rel="preconnect" href="https://api.waqi.info" />
 			<link rel="preconnect" href="https://api.openaq.org" />
+
+			<link rel="icon" href={favicon} />
 
 			<link rel="canonical" href="https://shootismoke.app" />
 
