@@ -15,37 +15,37 @@
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
 
-interface SeoProps {
+import { Footer, H1, Nav, Section, Seo } from '../components';
+
+interface FaqSectionProps {
+	children: React.ReactElement;
 	title: string;
 }
 
-export function Seo(props: SeoProps): React.ReactElement {
-	const { title } = props;
+function FaqSection(props: FaqSectionProps): React.ReactElement {
+	const { children, title } = props;
 
 	return (
-		<Helmet>
-			<meta charSet="utf-8" />
-			<meta
-				name="description"
-				content="FIXME Some description about the app"
-			/>
+		<Section>
+			<H1 className="pt-3 text-orange">{title}</H1>
+			{children}
+		</Section>
+	);
+}
 
-			<link rel="preconnect" href="https://api.bigdatacloud.net" />
-			<link rel="preconnect" href="https://api.waqi.info" />
-			<link rel="preconnect" href="https://api.openaq.org" />
+export default function Faq(): React.ReactElement {
+	return (
+		<>
+			<Seo title="F.A.Q." />
+			<Nav />
 
-			<link rel="canonical" href="https://shootismoke.app" />
-
-			<link
-				href={
-					'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap'
-				}
-				rel="stylesheet"
-			/>
-
-			<title>{title} - Sh**t! I Smoke</title>
-		</Helmet>
+			<FaqSection
+				title={'about.how_to_calculate_number_of_cigarettes.title'}
+			>
+				<p>{'how_to_calculate_number_of_cigarettes.message'}</p>
+			</FaqSection>
+			<Footer />
+		</>
 	);
 }

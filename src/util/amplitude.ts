@@ -14,7 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export * from './amplitude';
-export * from './geocode';
-export * from './primaryPollutant';
-export * from './seo';
+import baseAmplitude from 'amplitude-js';
+
+const amplitude = baseAmplitude.getInstance();
+
+amplitude.init(process.env.GATSBY_AMPLITUDE_API_KEY as string);
+
+/**
+ *
+ * @param event -
+ */
+export function logEvent(event: string): void {
+	amplitude.logEvent(event, undefined, (responseCode, responseBody) => {
+		console.log(responseBody, responseCode);
+	});
+}

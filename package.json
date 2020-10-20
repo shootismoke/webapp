@@ -15,10 +15,12 @@
 	},
 	"dependencies": {
 		"@shootismoke/ui": "^0.5.7",
+		"@types/amplitude-js": "^6.0.0",
 		"@types/classnames": "^2.2.10",
 		"@types/react-helmet": "^6.0.0",
 		"@types/react-native": "^0.62.12",
 		"@types/react-select": "^3.0.13",
+		"amplitude-js": "^7.3.0",
 		"classnames": "^2.2.6",
 		"expo": "^37.0.12",
 		"gatsby": "^2.22.15",

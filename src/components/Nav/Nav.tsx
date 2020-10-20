@@ -19,12 +19,14 @@ import { Link } from 'gatsby';
 import React from 'react';
 
 import download from '../../../assets/images/icons/download.svg';
+import { logEvent } from '../../util';
 
 /**
  * Scroll to the bottom of the page.
  * @see https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page/29971996
  */
 function scrollToBottom(): void {
+	logEvent('Nav.DownloadApp.Click');
 	window.scrollTo(0, document.body.scrollHeight);
 }
 

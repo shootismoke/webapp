@@ -30,6 +30,7 @@ import {
 import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location_orange.svg';
+import { logEvent } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
@@ -104,6 +105,10 @@ export interface SearchLocationState {
 	cityName: string;
 }
 
+function handleInputFocus(): void {
+	logEvent('SearchBar.Input.Focus');
+}
+
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
 		className,
@@ -133,6 +138,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 						} as SearchLocationState,
 					});
 				}}
+				onFocus={handleInputFocus}
 				placeholder={overridePlaceholder || placeholder}
 				styles={customStyles}
 				{...rest}
@@ -141,9 +147,10 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				<img
 					alt="location"
 					className="absolute top-0 mt-4 mr-4 right-0 w-4 cursor-pointer"
-					onClick={(): void =>
-						onGpsButtonClick(setOverridePlaceholder)
-					}
+					onClick={(): void => {
+						logEvent('SearchBar.LocationIcon.Click');
+						onGpsButtonClick(setOverridePlaceholder);
+					}}
 					src={location}
 				/>
 			)}
