@@ -24,11 +24,9 @@ export function logEvent(event: string): void {
 		return;
 	}
 
-	window.amplitude.logEvent(
-		event,
-		undefined,
-		(responseCode, responseBody) => {
+	window.amplitude
+		.getInstance()
+		.logEvent(event, undefined, (responseCode, responseBody) => {
 			console.log(responseBody, responseCode);
-		}
-	);
+		});
 }
