@@ -30,7 +30,7 @@ export function Seo(props: SeoProps): React.ReactElement {
 			<meta charSet="utf-8" />
 			<meta
 				name="description"
-				content="FIXME Some description about the app"
+				content="Sh**t! I Smoke is an app that translates daily air quality data into equivalent in cigarettes smoked. The app uses Berkeley Earth's conversion formula with open databases of Air-Quality Stations worldwide."
 			/>
 
 			<link rel="preconnect" href="https://api.bigdatacloud.net" />
