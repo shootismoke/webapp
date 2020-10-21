@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import logo from '@shootismoke/ui/assets/logos/logo.svg';
+import { Link } from 'gatsby';
 import React from 'react';
 
 import { logEvent } from '../../util';
@@ -80,15 +81,13 @@ export function Footer(): React.ReactElement {
 
 			<p className="mt-4 text-xs text-center text-white">
 				Learn more about the initiative in our{' '}
-				<a
+				<Link
 					className="text-orange"
-					href="https://github.com/shootismoke/webapp"
 					onClick={(): void => logEvent('Footer.Faq.Click')}
-					rel="noreferrer"
-					target="_blank"
+					to="/faq"
 				>
 					F.A.Q.
-				</a>
+				</Link>
 				<br />
 				Source code available on{' '}
 				<a

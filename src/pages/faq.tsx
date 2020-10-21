@@ -40,7 +40,7 @@ export default function Faq(): React.ReactElement {
 
 	return (
 		<>
-			<Seo title="F.A.Q." />
+			<Seo title="Frequently Asked Questions" />
 			<Nav />
 
 			<FaqSection
