@@ -15,8 +15,24 @@ module.exports = {
 			resolve: 'gatsby-plugin-amplitude-analytics',
 			options: {
 				apiKey: process.env.AMPLITUDE_API_KEY,
-				environments: ['development', 'production'],
 				respectDNT: true,
+				amplitudeConfig: {
+					trackingOptions: {
+						city: false,
+						country: true,
+						carrier: false,
+						device_manufacturer: false,
+						device_model: false,
+						dma: false,
+						ip_address: false,
+						language: true,
+						os_name: true,
+						os_version: true,
+						platform: true,
+						region: false,
+						version_name: true,
+					},
+				},
 			},
 		},
 		{

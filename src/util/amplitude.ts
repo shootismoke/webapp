@@ -25,20 +25,23 @@ export function logEvent(
 	event: string,
 	properties?: Record<string, string | number | undefined>
 ): void {
-	console.log(window.amplitude);
 	if (!window.amplitude) {
 		return;
 	}
 
 	window.amplitude
 		.getInstance()
-		.logEvent(event, properties, (responseCode, responseBody) => {
-			if (responseCode < 200 || responseCode >= 300) {
-				captureException(
-					new Error(
-						`Amplitude callback: ${responseCode} ${responseBody}`
-					)
-				);
+		.logEvent(
+			event,
+			{ ...properties, url: window.location.href },
+			(responseCode, responseBody) => {
+				if (responseCode < 200 || responseCode >= 300) {
+					captureException(
+						new Error(
+							`Amplitude callback: ${responseCode} ${responseBody}`
+						)
+					);
+				}
 			}
-		});
+		);
 }
