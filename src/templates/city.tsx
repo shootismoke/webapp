@@ -1,18 +1,18 @@
-// Shoot! I Smoke
+// Sh**t! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Shoot! I Smoke is free software: you can redistribute it and/or modify
+// Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Shoot! I Smoke is distributed in the hope that it will be useful,
+// Sh**t! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
 import {
@@ -51,9 +51,11 @@ import {
 	Seo,
 } from '../components';
 import {
+	capitalize,
 	City,
 	getAQI,
 	getSeoTitle,
+	logEvent,
 	primaryPollutant,
 	reverseGeocode,
 } from '../util';
@@ -75,6 +77,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
+
+	// Log telemetry each time we change city.
+	useEffect(() => {
+		logEvent(`Page.City.${city.slug}.View`, {
+			name: city.name,
+			slug: city.slug,
+		});
+	}, [city]);
 
 	// Number of cigarettes to display.
 	const cigarettes = api
@@ -206,9 +216,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										key={f}
 									>
 										<BoxButton
-											onPress={(): void =>
-												setFrequency(f)
-											}
+											onPress={(): void => {
+												logEvent(
+													`City.FrequencyButton.${capitalize(
+														f
+													)}.Click`
+												);
+												setFrequency(f);
+											}}
 										>
 											<p
 												className={c(

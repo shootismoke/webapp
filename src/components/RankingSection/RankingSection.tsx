@@ -1,25 +1,25 @@
-// Shoot! I Smoke
+// Sh**t! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Shoot! I Smoke is free software: you can redistribute it and/or modify
+// Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Shoot! I Smoke is distributed in the hope that it will be useful,
+// Sh**t! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { round } from '@shootismoke/ui';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import haversine from 'haversine';
 import React, { useEffect, useState } from 'react';
 
-import { City } from '../../util';
+import { City, logEvent } from '../../util';
 import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 import { CityCard } from './CityCard';
@@ -141,7 +141,16 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 			<Section className="flex flex-col items-center">
 				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
 					{cities.map((city, index) => (
-						<Link key={city.slug} to={`/city/${city.slug}`}>
+						<Link
+							key={city.slug}
+							to={`/city/${city.slug}`}
+							onClick={(): void =>
+								logEvent('RankingSection.CityCard.Click', {
+									rank: index + 1,
+									slug: city.slug,
+								})
+							}
+						>
 							<CityCard
 								description={
 									city.api?.shootismoke.dailyCigarettes

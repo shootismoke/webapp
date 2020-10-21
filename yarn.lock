@@ -2349,6 +2349,89 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
+"@sentry/browser@5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-5.26.0.tgz#e90a197fb94c5f26c8e05d6a539c118f33c7d598"
+  integrity sha512-52kNVpy10Zd3gJRGFkhnOQvr80WJg7+XBqjMOE0//Akh4PfvEK3IqmAjVqysz6aHdruwTTivKF4ZoAxL/pA7Rg==
+  dependencies:
+    "@sentry/core" "5.26.0"
+    "@sentry/types" "5.26.0"
+    "@sentry/utils" "5.26.0"
+    tslib "^1.9.3"
+
+"@sentry/core@5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-5.26.0.tgz#9b5fe4de8a869d733ebcc77f5ec9c619f8717a51"
+  integrity sha512-Ubrw7K52orTVsaxpz8Su40FPXugKipoQC+zPrXcH+JIMB+o18kutF81Ae4WzuUqLfP7YB91eAlRrP608zw0EXA==
+  dependencies:
+    "@sentry/hub" "5.26.0"
+    "@sentry/minimal" "5.26.0"
+    "@sentry/types" "5.26.0"
+    "@sentry/utils" "5.26.0"
+    tslib "^1.9.3"
+
+"@sentry/gatsby@^5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/gatsby/-/gatsby-5.26.0.tgz#9019b99c762a628a349644781d156d191f136553"
+  integrity sha512-ypO4POjIvxTjyvdOWYe97slPKpYbrZBAS8C1UoGdPSmXBl04544t69AH4MVN0L8HkI/4hwJN7hsMbAhIsuVvhA==
+  dependencies:
+    "@sentry/react" "5.26.0"
+    "@sentry/tracing" "5.26.0"
+
+"@sentry/hub@5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-5.26.0.tgz#b2bbd8128cd5915f2ee59cbc29fff30272d74ec5"
+  integrity sha512-lAYeWvvhGYS6eQ5d0VEojw0juxGc3v4aAu8VLvMKWcZ1jXD13Bhc46u9Nvf4qAY6BAQsJDQcpEZLpzJu1bk1Qw==
+  dependencies:
+    "@sentry/types" "5.26.0"
+    "@sentry/utils" "5.26.0"
+    tslib "^1.9.3"
+
+"@sentry/minimal@5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-5.26.0.tgz#851dea3644153ed3ac4837fa8ed5661d94e7a313"
+  integrity sha512-mdFo3FYaI1W3KEd8EHATYx8mDOZIxeoUhcBLlH7Iej6rKvdM7p8GoECrmHPU1l6sCCPtBuz66QT5YeXc7WILsA==
+  dependencies:
+    "@sentry/hub" "5.26.0"
+    "@sentry/types" "5.26.0"
+    tslib "^1.9.3"
+
+"@sentry/react@5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/react/-/react-5.26.0.tgz#0462430757ac0ab0c10de803f39fb41d5ced1caa"
+  integrity sha512-oC1wwfhckV8HHJTs4Zot5JIwEftcltPuC8cOedenDor5SKKbMeNufKw0ZgW82j9DSZMjh053LKkIZmO7zYf8eQ==
+  dependencies:
+    "@sentry/browser" "5.26.0"
+    "@sentry/minimal" "5.26.0"
+    "@sentry/types" "5.26.0"
+    "@sentry/utils" "5.26.0"
+    hoist-non-react-statics "^3.3.2"
+    tslib "^1.9.3"
+
+"@sentry/tracing@5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/tracing/-/tracing-5.26.0.tgz#33ee0426da14836e54e7b9a8838e4d7d0cb14b70"
+  integrity sha512-N9qWGmKrFJYKFTZBe8zVT3Qiju0+9bbNJuyun69T+fqP3PCDh+aRlRiP+OKTJyeCZjNG5HIvIlU8wTVUDoYfjQ==
+  dependencies:
+    "@sentry/hub" "5.26.0"
+    "@sentry/minimal" "5.26.0"
+    "@sentry/types" "5.26.0"
+    "@sentry/utils" "5.26.0"
+    tslib "^1.9.3"
+
+"@sentry/types@5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-5.26.0.tgz#b0cbacb0b24cd86620fb296b46cf7277bb004a3e"
+  integrity sha512-ugpa1ePOhK55pjsyutAsa2tiJVQEyGYCaOXzaheg/3+EvhMdoW+owiZ8wupfvPhtZFIU3+FPOVz0d5k9K5d1rw==
+
+"@sentry/utils@5.26.0":
+  version "5.26.0"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-5.26.0.tgz#09a3d01d91747f38f796cafeb24f8fd86e4fa05f"
+  integrity sha512-F2gnHIAWbjiowcAgxz3VpKxY/NQ39NTujEd/NPnRTWlRynLFg3bAV+UvZFXljhYJeN3b/zRlScNDcpCWTrtZGw==
+  dependencies:
+    "@sentry/types" "5.26.0"
+    tslib "^1.9.3"
+
 "@shootismoke/convert@^0.5.7":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.5.7.tgz#48e4f5dfda7ef63155018d6dc2a3a9dc344d08b2"
@@ -2557,6 +2640,11 @@
     "@theme-ui/color-modes" "^0.4.0-highlight.0"
     "@theme-ui/core" "^0.4.0-highlight.0"
     "@theme-ui/mdx" "^0.4.0-highlight.0"
+
+"@types/amplitude-js@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-6.0.0.tgz#f53e67c15e7a7af939f95d4cdd54b65e30a20571"
+  integrity sha512-xzOyrhIBM9TQhBp1ARj/nhJHxA8zwZqXgpwN1tdBb04GI0xAUhtsP909x0LDW0iwAl4J0727c5bOMtQKH3KDAQ==
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -7915,6 +8003,13 @@ gatsby-page-utils@^0.2.8:
     glob "^7.1.6"
     lodash "^4.17.15"
     micromatch "^3.1.10"
+
+gatsby-plugin-amplitude-analytics@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-amplitude-analytics/-/gatsby-plugin-amplitude-analytics-3.2.0.tgz#e43e1ece9a51e559abc3560c205501d10468c8a9"
+  integrity sha512-8221ADi4h67NZwAI+j3StnhOvthN/ETBFoFPWHkRuhQfzOB8FOaQeH31PN6IUYCs7HaGRI50CwNS3CBXq1Qq3A==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
 
 gatsby-plugin-page-creator@^2.3.8:
   version "2.3.8"

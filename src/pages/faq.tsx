@@ -16,48 +16,38 @@
 
 import React, { useEffect } from 'react';
 
-import {
-	AboutSection,
-	AdSection,
-	BlogSection,
-	DownloadSection,
-	FeaturedSection,
-	Footer,
-	H1,
-	Nav,
-	RankingSection,
-	SearchBar,
-	Section,
-	Seo,
-} from '../components';
+import { Footer, H1, Nav, Section, Seo } from '../components';
 import { logEvent } from '../util';
 
-export default function NotFound(): React.ReactElement {
-	useEffect(() => logEvent('Page.404.View'), []);
+interface FaqSectionProps {
+	children: React.ReactElement;
+	title: string;
+}
+
+function FaqSection(props: FaqSectionProps): React.ReactElement {
+	const { children, title } = props;
+
+	return (
+		<Section>
+			<H1 className="pt-3 text-orange">{title}</H1>
+			{children}
+		</Section>
+	);
+}
+
+export default function Faq(): React.ReactElement {
+	useEffect(() => logEvent('Page.Faq.View'), []);
 
 	return (
 		<>
-			<Seo title="Page Not Found" />
+			<Seo title="Frequently Asked Questions" />
 			<Nav />
-			<Section>
-				<H1>
-					<>
-						404!
-						<br />
-						<span className="text-orange">
-							Something went wrong...
-						</span>
-					</>
-				</H1>
-				<SearchBar className="mt-4" />
-			</Section>
 
-			<RankingSection />
-			<AboutSection />
-			<AdSection />
-			<FeaturedSection />
-			<BlogSection />
-			<DownloadSection />
+			<FaqSection
+				title={'about.how_to_calculate_number_of_cigarettes.title'}
+			>
+				<p>{'how_to_calculate_number_of_cigarettes.message'}</p>
+			</FaqSection>
 			<Footer />
 		</>
 	);

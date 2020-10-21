@@ -1,24 +1,24 @@
-// Shoot! I Smoke
+// Sh**t! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Shoot! I Smoke is free software: you can redistribute it and/or modify
+// Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Shoot! I Smoke is distributed in the hope that it will be useful,
+// Sh**t! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { Button } from '@shootismoke/ui';
 import c from 'classnames';
 import React from 'react';
 
-import humidifier from '../../../assets/images/ads/humidifier@3x.png';
+import { logEvent } from '../../util';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
 import { Section } from '../Section';
@@ -27,59 +27,69 @@ import { SectionDivider } from '../SectionDivider';
 interface Ad {
 	image: string;
 	title: string;
-	url: string;
+	affiliateLink: string;
 }
 
 const ads: Ad[] = [
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty1',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/41iXxxBSFML.jpg',
+		title: 'Dyson Pure Hot + Cool',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B07KXBX32V/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B07KXBX32V&linkCode=as2&tag=shootismoke-20&linkId=06d44587fa4880918c4984dd5443721f',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty2',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/41MmT7Y3HDL.jpg',
+		title: 'Levoit Core 300 Compact Purifier',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B07VVK39F7/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B07VVK39F7&linkCode=as2&tag=shootismoke-20&linkId=da3e44c51c3b6a9240c911a2b842c152',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty3',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/31XCJuVajML.jpg',
+		title: 'Blueair 211+ Air Purifier 3 Stage',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B073WJL99W/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B073WJL99W&linkCode=as2&tag=shootismoke-20&linkId=7ca51140e175392191fb63020e81946d',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty4',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/415wavSYAPL.jpg',
+		title: 'Bissell air320 Smart Air Purifier',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B07XTX5RJJ/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B07XTX5RJJ&linkCode=as2&tag=shootismoke-20&linkId=15ca435b9c13e0069d713975475df694',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty5',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/51HTOhjvUaL.jpg',
+		title: 'Coway Airmega 200M True Hepa',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B0856PHMMK/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B0856PHMMK&linkCode=as2&tag=shootismoke-20&linkId=69d85a5b4518091def104f634ede9938',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty6',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/31hAZEBbUSL.jpg',
+		title: 'Molekule Air Mini Small Room',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B07ZPLXB54/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B07ZPLXB54&linkCode=as2&tag=shootismoke-20&linkId=d342754cf333e9eed99f72f41c099331',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty7',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/31skhhngBoL.jpg',
+		title: 'Winix 5500-2 Air Purifier',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B01D8DAYII/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B01D8DAYII&linkCode=as2&tag=shootismoke-20&linkId=51b96c28cd1ce2991ed9a34821401489',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty8',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/41mb1dyIEUL.jpg',
+		title: 'Germ Guardian AC4825E',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B004VGIGVY/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B004VGIGVY&linkCode=as2&tag=shootismoke-20&linkId=84aeb92600abe0ef2195fbde3ba1478a',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty9',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/41NH1hfkC2L.jpg',
+		title: 'Toshiba Smart WiFi Air Purifier',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B088LQKL5K/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B088LQKL5K&linkCode=as2&tag=shootismoke-20&linkId=05342b3864d8238c18db9fcecd2902f2',
 	},
 	{
-		image: humidifier,
-		title: 'Coway AP-1512HH Mighty10',
-		url: 'https://example.com',
+		image: 'https://m.media-amazon.com/images/I/3187svuKBZL.jpg',
+		title: 'Medify Air MA-15 Air Purifier',
+		affiliateLink:
+			'https://www.amazon.com/gp/product/B089CBRBVX/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B089CBRBVX&linkCode=as2&tag=shootismoke-20&linkId=b824ed14f82bba6764a393e6292e9160',
 	},
 ];
 
@@ -88,27 +98,48 @@ export function AdSection(): React.ReactElement {
 		<>
 			<SectionDivider title="10 best air purifiers" />
 			<Section
-				className={c('pl-6 sm:pl-12 md:pl-24', 'lg:pr-24 pt-4')}
+				className={c(
+					'pl-6 sm:pl-12 md:pl-24',
+					'sm:pr-12 md:pr-24 pt-4'
+				)}
 				noPadding={true}
 			>
-				<Carousel>
-					{ads.map((ad) => (
+				<Carousel
+					onPageLeftClick={(): void =>
+						logEvent('AdSection.PageLeft.Click')
+					}
+					onPageRightClick={(): void =>
+						logEvent('AdSection.PageRight.Click')
+					}
+				>
+					{ads.map((ad, adIndex) => (
 						<Card
 							className="
 							mr-3 w-40 h-64 p-3
-							lg:mr-5 lg:p-6 lg:w-48 lg:h-74
+							sm:mr-5 sm:p-6 sm:w-48 sm:h-74
 							flex flex-col items-center flex-shrink-0"
 							key={ad.title}
 						>
 							<img
 								alt={ad.title}
-								className="px-2"
+								className="px-2 h-36 object-cover"
 								src={ad.image}
 							/>
 							<h4 className="mt-4 mb-3 text-sm text-center">
 								{ad.title}
 							</h4>
-							<a href={ad.url} rel="noreferrer" target="_blank">
+							<a
+								href={ad.affiliateLink}
+								onClick={(): void =>
+									logEvent('AdSection.Ad.Click', {
+										adIndex,
+										adTitle: ad.title,
+										affiliateLink: ad.affiliateLink,
+									})
+								}
+								rel="noreferrer"
+								target="_blank"
+							>
 								<Button
 									style={{
 										paddingHorizontal: '0.5rem',

@@ -1,21 +1,24 @@
-// Shoot! I Smoke
+// Sh**t! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Shoot! I Smoke is free software: you can redistribute it and/or modify
+// Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Shoot! I Smoke is distributed in the hope that it will be useful,
+// Sh**t! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import logo from '@shootismoke/ui/assets/logos/logo.svg';
+import { Link } from 'gatsby';
 import React from 'react';
+
+import { logEvent } from '../../util';
 
 export function Footer(): React.ReactElement {
 	return (
@@ -26,6 +29,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://www.marcelocoelho.cc"
+					onClick={(): void => logEvent('Footer.Marcelo.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -35,6 +39,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://amaurymartiny.com"
+					onClick={(): void => logEvent('Footer.Amaury.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -46,6 +51,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://facebook.com/shootismoke"
+					onClick={(): void => logEvent('Footer.Facebook.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -55,6 +61,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://twitter.com/shootismoke"
+					onClick={(): void => logEvent('Footer.Twitter.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -64,6 +71,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="mailto:hi@shootismoke.app"
+					onClick={(): void => logEvent('Footer.Email.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -73,19 +81,19 @@ export function Footer(): React.ReactElement {
 
 			<p className="mt-4 text-xs text-center text-white">
 				Learn more about the initiative in our{' '}
-				<a
+				<Link
 					className="text-orange"
-					href="https://github.com/shootismoke/webapp"
-					rel="noreferrer"
-					target="_blank"
+					onClick={(): void => logEvent('Footer.Faq.Click')}
+					to="/faq"
 				>
 					F.A.Q.
-				</a>
+				</Link>
 				<br />
 				Source code available on{' '}
 				<a
 					className="text-orange"
 					href="https://github.com/shootismoke/webapp"
+					onClick={(): void => logEvent('Footer.Github.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>

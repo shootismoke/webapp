@@ -1,24 +1,25 @@
-// Shoot! I Smoke
+// Sh**t! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Shoot! I Smoke is free software: you can redistribute it and/or modify
+// Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Shoot! I Smoke is distributed in the hope that it will be useful,
+// Sh**t! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { Button } from '@shootismoke/ui';
 import { navigate } from 'gatsby';
 import React, { useState } from 'react';
 
 import location from '../../../assets/images/icons/location_white.svg';
+import { logEvent } from '../../util';
 
 interface GpsButtonProps {
 	className?: string;
@@ -59,7 +60,13 @@ export function GpsButton(_props: GpsButtonProps): React.ReactElement {
 	const [text, setText] = useState<string>();
 
 	return (
-		<Button type="full" onPress={(): void => onGpsButtonClick(setText)}>
+		<Button
+			type="full"
+			onPress={(): void => {
+				logEvent('GpsButton.Button.Click');
+				onGpsButtonClick(setText);
+			}}
+		>
 			<div className="px-2 flex flex-row justify-center">
 				{!text && <img alt="location" src={location} />}
 				<p className="ml-3 font-extrabold leading-6 tracking-widest text-xs text-white uppercase truncate">

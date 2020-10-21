@@ -1,18 +1,18 @@
-// Shoot! I Smoke
+// Sh**t! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Shoot! I Smoke is free software: you can redistribute it and/or modify
+// Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Shoot! I Smoke is distributed in the hope that it will be useful,
+// Sh**t! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
 
@@ -28,6 +28,7 @@ import pix from '../../../assets/images/media/pix@3x.png';
 import rtbf from '../../../assets/images/media/rtbf@3x.png';
 import slate from '../../../assets/images/media/slate@3x.png';
 import usbek from '../../../assets/images/media/usbek@3x.png';
+import { logEvent } from '../../util';
 import { Section } from '../Section';
 import { SectionDivider } from '../SectionDivider';
 
@@ -108,11 +109,18 @@ export function FeaturedSection(): React.ReactElement {
 			<SectionDivider title="Featured at" />
 			<Section>
 				<div className="lg:pt-3 grid grid-flow-row grid-cols-3 grid-rows-4 row-gap-6 col-gap-2 lg:grid-cols-6 lg:grid-rows-2 lg:col-gap-6">
-					{medias.map((media) => (
+					{medias.map((media, index) => (
 						<a
 							className="px-4 flex flex-row justify-center items-center"
 							href={media.href}
 							key={media.slug}
+							onClick={(): void =>
+								logEvent('FeaturedSection.Media.Click', {
+									index,
+									href: media.href,
+									slug: media.slug,
+								})
+							}
 							rel="noreferrer"
 							target="_blank"
 						>

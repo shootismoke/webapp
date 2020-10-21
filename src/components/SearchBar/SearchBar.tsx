@@ -1,18 +1,18 @@
-// Shoot! I Smoke
+// Sh**t! I Smoke
 // Copyright (C) 2018-2020  Marcelo S. Coelho, Amaury Martiny
 
-// Shoot! I Smoke is free software: you can redistribute it and/or modify
+// Sh**t! I Smoke is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Shoot! I Smoke is distributed in the hope that it will be useful,
+// Sh**t! I Smoke is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { fetchAlgolia } from '@shootismoke/ui/lib/util/fetchAlgolia';
 import c from 'classnames';
@@ -30,6 +30,7 @@ import {
 import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location_orange.svg';
+import { logEvent } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
@@ -133,6 +134,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 						} as SearchLocationState,
 					});
 				}}
+				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
 				placeholder={overridePlaceholder || placeholder}
 				styles={customStyles}
 				{...rest}
@@ -141,9 +143,10 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				<img
 					alt="location"
 					className="absolute top-0 mt-4 mr-4 right-0 w-4 cursor-pointer"
-					onClick={(): void =>
-						onGpsButtonClick(setOverridePlaceholder)
-					}
+					onClick={(): void => {
+						logEvent('SearchBar.LocationIcon.Click');
+						onGpsButtonClick(setOverridePlaceholder);
+					}}
 					src={location}
 				/>
 			)}
