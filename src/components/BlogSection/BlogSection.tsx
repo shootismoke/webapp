@@ -84,7 +84,7 @@ export function BlogSection(): React.ReactElement {
 						logEvent('BlogSection.PageRight.Click')
 					}
 				>
-					{blogs.map((blog, index) => (
+					{blogs.map((blog, blogIndex) => (
 						<Card
 							className="
 							mr-3 w-40 h-64
@@ -102,9 +102,9 @@ export function BlogSection(): React.ReactElement {
 								href={blog.url}
 								onClick={(): void =>
 									logEvent('BlogSection.Blog.Click', {
-										index,
-										url: blog.url,
-										title: blog.title,
+										blogIndex,
+										blogUrl: blog.url,
+										blogTitle: blog.title,
 									})
 								}
 								rel="noreferrer"

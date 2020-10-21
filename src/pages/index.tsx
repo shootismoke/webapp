@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
 	AboutSection,
@@ -31,8 +31,11 @@ import {
 	Section,
 	Seo,
 } from '../components';
+import { logEvent } from '../util';
 
 export default function Index(): React.ReactElement {
+	useEffect(() => logEvent('Page.Home.View'), []);
+
 	return (
 		<>
 			<Seo title="Air Quality Data, in plain English" />

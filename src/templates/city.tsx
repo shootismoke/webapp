@@ -51,9 +51,11 @@ import {
 	Seo,
 } from '../components';
 import {
+	capitalize,
 	City,
 	getAQI,
 	getSeoTitle,
+	logEvent,
 	primaryPollutant,
 	reverseGeocode,
 } from '../util';
@@ -75,6 +77,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
+
+	// Log telemetry each time we change city.
+	useEffect(() => {
+		logEvent(`Page.City.${city.slug}.View`, {
+			name: city.name,
+			slug: city.slug,
+		});
+	}, [city]);
 
 	// Number of cigarettes to display.
 	const cigarettes = api
@@ -206,9 +216,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										key={f}
 									>
 										<BoxButton
-											onPress={(): void =>
-												setFrequency(f)
-											}
+											onPress={(): void => {
+												logEvent(
+													`City.FrequencyButton.${capitalize(
+														f
+													)}.Click`
+												);
+												setFrequency(f);
+											}}
 										>
 											<p
 												className={c(

@@ -17,6 +17,8 @@
 import logo from '@shootismoke/ui/assets/logos/logo.svg';
 import React from 'react';
 
+import { logEvent } from '../../util';
+
 export function Footer(): React.ReactElement {
 	return (
 		<footer className="mt-16 px-10 py-8 lg:py-12 bg-gray-700 flex flex-col items-center">
@@ -26,6 +28,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://www.marcelocoelho.cc"
+					onClick={(): void => logEvent('Footer.Marcelo.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -35,6 +38,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://amaurymartiny.com"
+					onClick={(): void => logEvent('Footer.Amaury.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -46,6 +50,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://facebook.com/shootismoke"
+					onClick={(): void => logEvent('Footer.Facebook.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -55,6 +60,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://twitter.com/shootismoke"
+					onClick={(): void => logEvent('Footer.Twitter.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -64,6 +70,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="mailto:hi@shootismoke.app"
+					onClick={(): void => logEvent('Footer.Email.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -76,6 +83,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://github.com/shootismoke/webapp"
+					onClick={(): void => logEvent('Footer.Faq.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
@@ -86,6 +94,7 @@ export function Footer(): React.ReactElement {
 				<a
 					className="text-orange"
 					href="https://github.com/shootismoke/webapp"
+					onClick={(): void => logEvent('Footer.Github.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>

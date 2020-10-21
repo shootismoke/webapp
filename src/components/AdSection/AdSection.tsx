@@ -103,7 +103,7 @@ export function AdSection(): React.ReactElement {
 						logEvent('AdSection.PageRight.Click')
 					}
 				>
-					{ads.map((ad, index) => (
+					{ads.map((ad, adIndex) => (
 						<Card
 							className="
 							mr-3 w-40 h-64 p-3
@@ -123,9 +123,9 @@ export function AdSection(): React.ReactElement {
 								href={ad.url}
 								onClick={(): void =>
 									logEvent('AdSection.Ad.Click', {
-										index,
-										title: ad.title,
-										url: ad.url,
+										adIndex,
+										adTitle: ad.title,
+										adUrl: ad.url,
 									})
 								}
 								rel="noreferrer"

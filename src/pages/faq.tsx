@@ -14,9 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Shoot! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Footer, H1, Nav, Section, Seo } from '../components';
+import { logEvent } from '../util';
 
 interface FaqSectionProps {
 	children: React.ReactElement;
@@ -35,6 +36,8 @@ function FaqSection(props: FaqSectionProps): React.ReactElement {
 }
 
 export default function Faq(): React.ReactElement {
+	useEffect(() => logEvent('Page.Faq.View'), []);
+
 	return (
 		<>
 			<Seo title="F.A.Q." />
