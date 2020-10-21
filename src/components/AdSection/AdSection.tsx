@@ -122,7 +122,7 @@ export function AdSection(): React.ReactElement {
 						>
 							<img
 								alt={ad.title}
-								className="px-2 h-36"
+								className="px-2 h-36 object-cover"
 								src={ad.image}
 							/>
 							<h4 className="mt-4 mb-3 text-sm text-center">
