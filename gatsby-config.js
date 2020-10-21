@@ -33,6 +33,7 @@ module.exports = {
 						version_name: true,
 					},
 				},
+				environments: ['production'],
 			},
 		},
 		{

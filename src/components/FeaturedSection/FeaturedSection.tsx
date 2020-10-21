@@ -52,7 +52,7 @@ const medias = [
 	},
 	{
 		href:
-			'http://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
+			'https://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
 		image: slate,
 		slug: 'slate',
 	},
