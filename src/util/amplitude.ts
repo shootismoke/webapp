@@ -25,7 +25,6 @@ export function logEvent(
 	event: string,
 	properties?: Record<string, string | number | undefined>
 ): void {
-	console.log(window.amplitude);
 	if (!window.amplitude) {
 		return;
 	}
@@ -36,7 +35,6 @@ export function logEvent(
 			event,
 			{ ...properties, url: window.location.href },
 			(responseCode, responseBody) => {
-				console.log('OK');
 				if (responseCode < 200 || responseCode >= 300) {
 					captureException(
 						new Error(
