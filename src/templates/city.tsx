@@ -25,6 +25,7 @@ import {
 	round,
 } from '@shootismoke/ui';
 import c from 'classnames';
+import { Link } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
@@ -163,21 +164,25 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							  'Search for any city'
 					}
 				/>
-				<p
-					className={c(
-						'mt-2 text-gray-600 text-xs h-2',
-						api?.shootismoke.isAccurate === false && 'text-red'
-					)}
-				>
-					{distance !== undefined
-						? `Air Quality Station: ${distance}km away`
-						: null}
-					{api?.shootismoke.isAccurate === false && (
-						<img
-							alt="warning"
-							className="ml-1 inline"
-							src={warning}
-						/>
+				<p className="mt-2 text-gray-600 text-xs">
+					{distance !== undefined ? (
+						api?.shootismoke.isAccurate === false ? (
+							<Link
+								className="text-red hover:underline"
+								to="/faq"
+							>
+								Air Quality Station: {distance}km away
+								<img
+									alt="warning"
+									className="ml-1 inline"
+									src={warning}
+								/>
+							</Link>
+						) : (
+							`Air Quality Station: ${distance}km away`
+						)
+					) : (
+						'\b'
 					)}
 				</p>
 			</Section>
