@@ -1,4 +1,3 @@
-console.log('BBB', process.env.NODE_ENV);
 module.exports = {
 	plugins: [
 		'gatsby-plugin-postcss',
