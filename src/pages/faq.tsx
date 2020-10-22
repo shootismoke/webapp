@@ -16,21 +16,23 @@
 
 import React, { useEffect } from 'react';
 
+import box from '../../assets/images/conversion-box.svg';
 import { Footer, H1, Nav, Section, Seo } from '../components';
+import { t } from '../localization';
 import { logEvent } from '../util';
 
-interface FaqSectionProps {
+interface FaqSectionProps extends React.HTMLProps<HTMLDivElement> {
 	children: React.ReactElement;
 	title: string;
 }
 
 function FaqSection(props: FaqSectionProps): React.ReactElement {
-	const { children, title } = props;
+	const { children, title, ...rest } = props;
 
 	return (
-		<Section>
-			<H1 className="pt-3 text-orange">{title}</H1>
-			{children}
+		<Section className="pt-6" {...rest}>
+			<h2 className="pt-3 leading-10 text-4xl font-extrabold">{title}</h2>
+			<p className="mt-6 leading-6 text-sm text-gray-600">{children}</p>
 		</Section>
 	);
 }
@@ -43,11 +45,108 @@ export default function Faq(): React.ReactElement {
 			<Seo title="Frequently Asked Questions" />
 			<Nav />
 
+			<Section>
+				<H1 className="pt-3 text-orange">Frequently Asked Questions</H1>
+			</Section>
+
 			<FaqSection
-				title={'about.how_to_calculate_number_of_cigarettes.title'}
+				title={t(
+					'about_how_do_you_calculate_the_number_of_cigarettes_title'
+				)}
 			>
-				<p>{'how_to_calculate_number_of_cigarettes.message'}</p>
+				<>
+					<p>
+						{t(
+							'about_how_do_you_calculate_the_number_of_cigarettes_message_1'
+						)}
+						<a
+							className="text-orange hover:underline"
+							href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
+							rel="noreferrer"
+							target="_blank"
+						>
+							{t(
+								'about_how_do_you_calculate_the_number_of_cigarettes_link_1'
+							)}
+						</a>
+						{t(
+							'about_how_do_you_calculate_the_number_of_cigarettes_message_2'
+						)}{' '}
+						&micro;g/m&sup3;{' \u207D'}&sup1;{'\u207E'}.
+					</p>
+
+					<img alt="conversion-box" className="mb-2" src={box} />
+					<a
+						className="text-xs hover:underline"
+						href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
+						rel="noreferrer"
+						target="_blank"
+					>
+						(1){' '}
+						http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/
+					</a>
+				</>
 			</FaqSection>
+
+			<FaqSection title={t('about_beta_inaccurate_title')}>
+				<>{t('about_beta_inaccurate_message')}</>
+			</FaqSection>
+
+			<FaqSection title={t('about_where_does_data_come_from_title')}>
+				<>
+					{t('about_where_does_data_come_from_message_1')}
+					<a
+						className="text-orange hover:underline"
+						href="https://aqicn.org"
+						rel="noreferrer"
+						target="_blank"
+					>
+						{t('about_where_does_data_come_from_link_1')}
+					</a>
+					{t('about_where_does_data_come_from_message_2')}
+					<a
+						className="text-orange hover:underline"
+						href="https://openaq.org"
+						rel="noreferrer"
+						target="_blank"
+					>
+						{t('about_where_does_data_come_from_link_2')}
+					</a>
+					{t('about_where_does_data_come_from_message_3')}
+				</>
+			</FaqSection>
+
+			<FaqSection
+				id="station-so-far"
+				title={t('about_why_is_the_station_so_far_title')}
+			>
+				<>{t('about_why_is_the_station_so_far_message')}</>
+			</FaqSection>
+
+			<FaqSection title={t('about_weird_results_title')}>
+				<>
+					{t('about_weird_results_message_1')}
+					<a
+						className="text-orange hover:underline"
+						href="https://aqicn.org"
+						rel="noreferrer"
+						target="_blank"
+					>
+						{t('about_weird_results_link_1')}
+					</a>
+					{t('about_weird_results_message_2')}
+					<a
+						className="text-orange hover:underline"
+						href="https://openaq.org"
+						rel="noreferrer"
+						target="_blank"
+					>
+						{t('about_weird_results_link_2')}
+					</a>
+					{t('about_weird_results_message_3')}
+				</>
+			</FaqSection>
+
 			<Footer />
 		</>
 	);

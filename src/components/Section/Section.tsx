@@ -17,7 +17,7 @@
 import c from 'classnames';
 import React from 'react';
 
-interface SectionProps {
+interface SectionProps extends React.HTMLProps<HTMLDivElement> {
 	children:
 		| React.ReactElement
 		| undefined
@@ -30,6 +30,7 @@ export function Section({
 	children,
 	className,
 	noPadding,
+	...rest
 }: SectionProps): React.ReactElement {
 	return (
 		<section
@@ -38,6 +39,7 @@ export function Section({
 				!noPadding && 'px-6 sm:px-12 md:px-24',
 				className
 			)}
+			{...rest}
 		>
 			{children}
 		</section>

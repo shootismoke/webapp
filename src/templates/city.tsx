@@ -27,7 +27,6 @@ import {
 import c from 'classnames';
 import { Link } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 
 import warning from '../../assets/images/icons/warning_red.svg';
 import {
@@ -51,6 +50,7 @@ import {
 	Section,
 	Seo,
 } from '../components';
+import { t } from '../localization';
 import {
 	capitalize,
 	City,
@@ -70,7 +70,6 @@ interface CityProps {
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
-	const { formatMessage: t } = useIntl();
 	const {
 		location: routerLocation,
 		pageContext: { city },
@@ -169,7 +168,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						api?.shootismoke.isAccurate === false ? (
 							<Link
 								className="text-red hover:underline"
-								to="/faq"
+								to="/faq#station-so-far"
 							>
 								Air Quality Station: {distance}km away
 								<img
@@ -196,7 +195,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 								title={
 									<H1>
 										<>
-											{t({ id: swearWord })}! You smoke
+											{t(swearWord)}! You smoke
 											<br />
 											<span className="text-orange">
 												{cigarettes} cigarette

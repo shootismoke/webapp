@@ -14,8 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import enUs from './languages/en.json';
+import i18n from 'i18n-js';
 
-export const translations = {
-	'en-US': enUs,
+import en from './languages/en.json';
+
+i18n.fallbacks = true;
+i18n.translations = {
+	en,
 };
+i18n.locale = 'en';
+
+const { t } = i18n;
+
+export { i18n, t };
