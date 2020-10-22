@@ -105,10 +105,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	// Log telemetry each time we change city.
 	useEffect(() => {
-		logEvent(`Page.City.${city.slug}.View`, {
-			name: city.name,
-			slug: city.slug,
-		});
+		logEvent(
+			city.slug ? `Page.City.${city.slug}.View` : 'Page.City.GPS.View',
+			{
+				name: city.name,
+				slug: city.slug,
+			}
+		);
 	}, [city]);
 
 	// Number of cigarettes to display.
