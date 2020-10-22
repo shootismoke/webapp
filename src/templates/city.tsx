@@ -20,7 +20,6 @@ import {
 	BoxButton,
 	distanceToStation,
 	FrequencyContext,
-	getSwearWord,
 	raceApiPromise,
 	round,
 } from '@shootismoke/ui';
@@ -60,6 +59,32 @@ import {
 	primaryPollutant,
 	reverseGeocode,
 } from '../util';
+
+/**
+ * Swear words, untranslated.
+ */
+const swearWords = [
+	'home_swear_word_shoot',
+	'home_swear_word_dang',
+	'home_swear_word_darn',
+	'home_swear_word_geez',
+	'home_swear_word_omg',
+	'home_swear_word_crap',
+	'home_swear_word_arrgh',
+];
+
+/**
+ * Return a random swear word, untranslated.
+ *
+ * @param cigaretteCount - The cigarette count for which we show the swear
+ * word.
+ */
+function getSwearWord(cigaretteCount: number): string {
+	if (cigaretteCount <= 1) return 'home_cigarettes_oh';
+
+	// Return a random swear word, untranslated.
+	return swearWords[Math.floor(Math.random() * swearWords.length)];
+}
 
 interface CityProps {
 	location?: NavigateOptions<SearchLocationState>;
