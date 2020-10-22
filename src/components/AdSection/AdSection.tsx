@@ -159,8 +159,8 @@ export function AdSection(): React.ReactElement {
 						'mt-4 text-xs text-center text-gray-600'
 					)}
 				>
-					All revenue from affiliate commisions is shared publicly
-					here and used for website maintenance.
+					All revenue from affiliate commissions is used to support
+					the app&apos;s maintenance costs.
 				</p>
 			</Section>
 		</>

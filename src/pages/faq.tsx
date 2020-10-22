@@ -14,9 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { Link } from 'gatsby';
 import React, { useEffect } from 'react';
 
 import box from '../../assets/images/conversion-box.svg';
+import backArrow from '../../assets/images/icons/back_arrow.svg';
 import { Footer, H1, Nav, Section, Seo } from '../components';
 import { t } from '../localization';
 import { logEvent } from '../util';
@@ -31,7 +33,14 @@ function FaqSection(props: FaqSectionProps): React.ReactElement {
 
 	return (
 		<Section className="pt-6" {...rest}>
-			<h2 className="pt-3 leading-10 text-4xl font-extrabold">{title}</h2>
+			<h2
+				className="
+			leading-7 text-2xl
+			md:pt-3 md:leading-10 md:text-4xl
+			font-extrabold"
+			>
+				{title}
+			</h2>
 			<p className="mt-6 leading-6 text-sm text-gray-600">{children}</p>
 		</Section>
 	);
@@ -43,9 +52,16 @@ export default function Faq(): React.ReactElement {
 	return (
 		<>
 			<Seo title="Frequently Asked Questions" />
-			<Nav />
+			<Nav showDownloadApp={false} />
 
-			<Section>
+			<Section className="pt-3">
+				<Link
+					className="flex items-center text-xs text-orange font-extrabold uppercase"
+					to="/"
+				>
+					<img alt="back" className="mr-3" src={backArrow} />
+					<span>Back to Homepage</span>
+				</Link>
 				<H1 className="pt-3 text-orange">Frequently Asked Questions</H1>
 			</Section>
 
