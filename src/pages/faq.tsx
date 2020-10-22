@@ -71,7 +71,7 @@ export default function Faq(): React.ReactElement {
 				)}
 			>
 				<>
-					<p>
+					<span>
 						{t(
 							'about_how_do_you_calculate_the_number_of_cigarettes_message_1'
 						)}
@@ -89,7 +89,7 @@ export default function Faq(): React.ReactElement {
 							'about_how_do_you_calculate_the_number_of_cigarettes_message_2'
 						)}{' '}
 						&micro;g/m&sup3;{' \u207D'}&sup1;{'\u207E'}.
-					</p>
+					</span>
 
 					<img alt="conversion-box" className="mb-2" src={box} />
 					<a

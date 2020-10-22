@@ -15,11 +15,14 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
+import { captureException } from '@sentry/core';
 import {
 	Api,
 	BoxButton,
 	distanceToStation,
 	FrequencyContext,
+	getAQI,
+	primaryPollutant,
 	raceApiPromise,
 	round,
 } from '@shootismoke/ui';
@@ -53,10 +56,8 @@ import { t } from '../localization';
 import {
 	capitalize,
 	City,
-	getAQI,
 	getSeoTitle,
 	logEvent,
-	primaryPollutant,
 	reverseGeocode,
 } from '../util';
 
@@ -84,6 +85,18 @@ function getSwearWord(cigaretteCount: number): string {
 
 	// Return a random swear word, untranslated.
 	return swearWords[Math.floor(Math.random() * swearWords.length)];
+}
+
+/**
+ * These are errors that we know are okay, so we don't log them on Sentry.
+ */
+function isKnownError(error: string): boolean {
+	return (
+		// [openaq] Cannot normalize, got 0 result
+		error.includes('Cannot normalize, got 0 result') ||
+		// Station aqicn|8287 does not have PM2.5 measurings right now.
+		error.includes('does not have PM2.5 measurings right now')
+	);
 }
 
 interface CityProps {
@@ -162,6 +175,28 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			.then(setApi)
 			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	// Log errors.
+	useEffect(() => {
+		try {
+			if (!error) {
+				return;
+			}
+
+			// Error message is often like: `1. {error1} 2. {error2}`.
+			const errorParts = error.message.split('2.');
+			if (errorParts.length !== 2) {
+				captureException(error);
+			}
+			const error1 = errorParts[0].substring(3).trim(); // remove the leading "1."
+			const error2 = errorParts[1].trim();
+
+			!isKnownError(error1) && captureException(error1);
+			!isKnownError(error2) && captureException(error2);
+		} catch (err) {
+			captureException(err);
+		}
+	}, [error]);
 
 	const distance = api ? distanceToStation(city.gps, api.pm25) : undefined;
 

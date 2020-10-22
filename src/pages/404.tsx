@@ -42,7 +42,7 @@ export default function NotFound(): React.ReactElement {
 			<Section>
 				<H1>
 					<>
-						404!
+						Shoot! It&apos;s a 404.
 						<br />
 						<span className="text-orange">
 							Something went wrong...

@@ -16,5 +16,4 @@
 
 export * from './amplitude';
 export * from './geocode';
-export * from './primaryPollutant';
 export * from './seo';
