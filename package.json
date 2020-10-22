@@ -15,7 +15,7 @@
 	},
 	"dependencies": {
 		"@sentry/gatsby": "^5.26.0",
-		"@shootismoke/ui": "^0.6.0",
+		"@shootismoke/ui": "^0.6.1",
 		"@types/amplitude-js": "^6.0.0",
 		"@types/classnames": "^2.2.10",
 		"@types/i18n-js": "^3.0.3",

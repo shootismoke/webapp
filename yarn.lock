@@ -2399,33 +2399,33 @@
     "@sentry/types" "5.26.0"
     tslib "^1.9.3"
 
-"@shootismoke/convert@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.6.0.tgz#211ffb29254b552c93d725de9dcdb28bd8616e6c"
-  integrity sha512-I/Qzvgo5bvG3oBcnDEzqqkuW+w7Q2o5bNCY2Ng0DUVcxrgVBoJwj25+bTpH6mWueWVsasX6Ro3LfDgK/+Nr0wA==
+"@shootismoke/convert@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@shootismoke/convert/-/convert-0.6.1.tgz#45c48c0c00a0146c611c1bd987e6152764ad6b75"
+  integrity sha512-vnxy2gc8N83frc41Qvc04gG8LidK967OvTCvx7XiCUPe+2FBNOvGt6ZR5qkTYyxpAvQRhqCX6URe/7zmL1sxOA==
   dependencies:
     "@types/debug" "^4.1.5"
     debug "^4.1.1"
 
-"@shootismoke/dataproviders@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.6.0.tgz#32d588159d1160107c3a36dfba117172bbdbd714"
-  integrity sha512-gjx52EFuwabs6zwfNv2u68EtONS3HDYd5WVZslmEIB5XSNEVRsPf18xgMB6QGX48vUS02bBxpgXJA+cYmvPbRQ==
+"@shootismoke/dataproviders@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.6.1.tgz#dc4063e4244661c630d4c6955b6e04debf2c1bfb"
+  integrity sha512-KzJK2hiOtH5OE9dS1Q5NJ/wUVER/J3eqUMGUkxDAHJSiTT7XV5G5NIyzUFu/GW6fYc8paQ3r/DOTCe7gz1gPag==
   dependencies:
-    "@shootismoke/convert" "^0.6.0"
+    "@shootismoke/convert" "^0.6.1"
     axios "^0.20.0"
     date-fns "^2.8.1"
     date-fns-tz "^1.0.9"
     fp-ts "^2.1.1"
     io-ts "^2.0.1"
 
-"@shootismoke/ui@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.6.0.tgz#45184c1bcafa63770d5da921d01ed810a1e233dc"
-  integrity sha512-IS6QofUeuv6/fbFeWyro6YSEpJA1gZmnqY9tbpD7wSFQ28j6U1ubduM8xzClUMT5n8KXpTLAFNczCTmyjC4fUg==
+"@shootismoke/ui@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.6.1.tgz#b2848305bcfb2e64144d6d3b46c247dcc80b7598"
+  integrity sha512-4jx5Mc6FC99d7qS6x4a5sY+9yitY7FyryuOZ3qlLDXf2UUDz01xP1ZCLY/G7Raaz1gAFgstl25lEgrrhudwkdw==
   dependencies:
     "@expo/vector-icons" "^10.2.0"
-    "@shootismoke/dataproviders" "^0.6.0"
+    "@shootismoke/dataproviders" "^0.6.1"
     "@types/haversine" "^1.1.4"
     "@types/p-any" "^1.1.3"
     expo-constants "^9.0.0"
