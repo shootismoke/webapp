@@ -30,6 +30,7 @@ import {
 import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location_orange.svg';
+import search from '../../../assets/images/icons/search.svg';
 import { logEvent } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 
@@ -135,7 +136,12 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 					});
 				}}
 				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
-				placeholder={overridePlaceholder || placeholder}
+				placeholder={
+					<span className="flex items-center">
+						<img alt="search" className="mr-2" src={search} />
+						{overridePlaceholder || placeholder}
+					</span>
+				}
 				styles={customStyles}
 				{...rest}
 			/>
