@@ -43,14 +43,14 @@ function tips(aqi: number): React.ReactElement[] {
 	if (aqi <= 50) {
 		return [
 			<Tip imgAlt="happy" imgSrc={happy} key={1}>
-				<p className="leading-6 font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					Air quality is considered{' '}
 					<span className="text-orange">satisfactory</span>, and air
 					pollution poses little or no risk.
 				</p>
 			</Tip>,
 			<Tip className="mt-4" imgAlt="fitness" imgSrc={fitness} key={2}>
-				<p className="leading-6 font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					<span className="text-orange">Enjoy</span> your usual
 					outdoor activities.
 				</p>
@@ -59,14 +59,14 @@ function tips(aqi: number): React.ReactElement[] {
 	} else if (aqi <= 100) {
 		return [
 			<Tip imgAlt="happy" imgSrc={happy} key={1}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					Air quality is{' '}
 					<span className="text-orange">acceptable.</span> Enjoy your
 					usual outdoor activities.
 				</p>
 			</Tip>,
 			<Tip className="mt-4" imgAlt="warning" imgSrc={warning} key={2}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					For some pollutants there may be a{' '}
 					<span className="text-orange">moderate health concern</span>{' '}
 					for a very small number of people who are unusually
@@ -77,7 +77,7 @@ function tips(aqi: number): React.ReactElement[] {
 	} else if (aqi <= 150) {
 		return [
 			<Tip imgAlt="cry" imgSrc={cry} key={1}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					Experiencing discomfort such as sore eyes, cough or sore
 					throat?{' '}
 					<span className="text-orange">
@@ -86,7 +86,7 @@ function tips(aqi: number): React.ReactElement[] {
 				</p>
 			</Tip>,
 			<Tip className="mt-4" imgAlt="fitness" imgSrc={fitness} key={2}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					It’s ok to be active outside, but we recommended to{' '}
 					<span className="text-orange">
 						avoid prolonged strenuous exercise.
@@ -97,7 +97,7 @@ function tips(aqi: number): React.ReactElement[] {
 	} else if (aqi <= 200) {
 		return [
 			<Tip imgAlt="cry" imgSrc={cry} key={1}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					Everyone experiencing discomfort such as sore eyes, cough or
 					sore throat{' '}
 					<span className="text-orange">
@@ -106,7 +106,7 @@ function tips(aqi: number): React.ReactElement[] {
 				</p>
 			</Tip>,
 			<Tip className="mt-4" imgAlt="pause" imgSrc={pause} key={2}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					Avoid prolonged strenuous exercise, and{' '}
 					<span className="text-orange">take more breaks</span> during
 					outdoor activities.
@@ -116,13 +116,13 @@ function tips(aqi: number): React.ReactElement[] {
 	} else if (aqi <= 300) {
 		return [
 			<Tip imgAlt="warning" imgSrc={warning} key={1}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					<span className="text-orange">Health alert:</span> everyone
 					may experience more serious health effects.
 				</p>
 			</Tip>,
 			<Tip className="mt-4" imgAlt="house" imgSrc={house} key={2}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					Everyone should{' '}
 					<span className="text-orange">
 						reduce outdoor activities,
@@ -134,13 +134,13 @@ function tips(aqi: number): React.ReactElement[] {
 	} else {
 		return [
 			<Tip imgAlt="warning" imgSrc={warning} key={1}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					<span className="text-orange">Health alert:</span> Stop
 					outdoor activities and move all activities indoors.
 				</p>
 			</Tip>,
 			<Tip className="mt-6" imgAlt="mask" imgSrc={mask} key={2}>
-				<p className="font-extrabold text-xl">
+				<p className="type-400 md:type-500">
 					If it is necessary to go out, please{' '}
 					<span className="text-orange">wear a mask</span>.
 				</p>

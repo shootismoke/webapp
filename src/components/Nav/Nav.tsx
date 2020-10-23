@@ -49,7 +49,7 @@ export function Nav(props: NavProps): React.ReactElement {
 				</Link>
 				{showDownloadApp && (
 					<div
-						className="flex items-center font-extrabold leading-4 text-xs sm:text-sm text-orange text-right uppercase cursor-pointer"
+						className="flex items-center type-300 sm:type-400 text-orange text-right uppercase cursor-pointer"
 						onClick={scrollToBottom}
 					>
 						Download <br className="sm:hidden" />

@@ -294,7 +294,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										>
 											<p
 												className={c(
-													'font-extrabold text-4xl',
+													'type-600 lg:type-700',
 													f !== frequency &&
 														'text-gray-200'
 												)}

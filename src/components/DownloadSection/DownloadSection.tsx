@@ -28,9 +28,8 @@ export function DownloadSection(): React.ReactElement {
 			<SectionDivider title="App available on" />
 			<Section className="flex flex-col lg:flex-row lg:items-center">
 				<h3
-					className="
-					text-center text-lg font-extrabold
-					lg:text-left lg:mr-10 lg:text-4xl lg:leading-10 lg:tracking-wider"
+					className="text-center type-400
+					lg:text-left lg:mr-10 lg:type-600"
 				>
 					<>
 						<span className="text-orange">Set notifications</span>{' '}

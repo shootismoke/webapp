@@ -33,14 +33,7 @@ function FaqSection(props: FaqSectionProps): React.ReactElement {
 
 	return (
 		<Section className="pt-6" {...rest}>
-			<h2
-				className="
-			leading-7 text-2xl
-			md:pt-3 md:leading-10 md:text-4xl
-			font-extrabold"
-			>
-				{title}
-			</h2>
+			<h2 className="md:pt-3 type-500">{title}</h2>
 			<p className="mt-6 leading-6 text-sm text-gray-600">{children}</p>
 		</Section>
 	);
@@ -56,7 +49,7 @@ export default function Faq(): React.ReactElement {
 
 			<Section className="pt-3">
 				<Link
-					className="flex items-center text-xs text-orange font-extrabold uppercase"
+					className="flex items-center type-300 text-orange uppercase"
 					to="/"
 				>
 					<img alt="back" className="mr-3" src={backArrow} />

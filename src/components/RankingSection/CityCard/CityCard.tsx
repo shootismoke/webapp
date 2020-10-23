@@ -43,9 +43,7 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 			</div>
 
 			<div className="min-w-0 flex flex-col justify-center">
-				<h4 className="mb-1 text-lg font-extrabold text-orange">
-					{title}
-				</h4>
+				<h4 className="mb-1 type-400 text-orange">{title}</h4>
 				<p className="text-sm w-full truncate">{subtitle}</p>
 				<p className="text-xs text-gray-600">{description}</p>
 			</div>
