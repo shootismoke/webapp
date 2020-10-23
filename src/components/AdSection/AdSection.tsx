@@ -155,7 +155,7 @@ export function AdSection(): React.ReactElement {
 				</Carousel>
 				<p
 					className={c(
-						'pr-6 sm:pr-12 md:pr-24',
+						'pr-6 sm:pr-0 md:pr-24',
 						'mt-4 text-xs text-center text-gray-600'
 					)}
 				>
