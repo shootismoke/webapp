@@ -31,13 +31,13 @@
 
 	.type-200 {
 		font-size: 0.88rem; /* 14px */
-		letter-spacing: auto;
+		letter-spacing: normal;
 		line-height: normal;
 		@apply font-medium;
 	}
 
 	.type-100 {
-		letter-spacing: auto;
+		letter-spacing: normal;
 		@apply font-medium leading-5 text-xs; /* 20px, 12px */
 	}
 }

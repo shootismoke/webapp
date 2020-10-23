@@ -227,7 +227,7 @@ export function BlogSection(): React.ReactElement {
 									{blog.title}
 								</h4>
 							</a>
-							<p className="mt-1 mx-3 text-xs text-gray-600">
+							<p className="mt-1 mx-3 type-100 text-gray-600">
 								{blog.subtitle}
 							</p>
 						</Card>

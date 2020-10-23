@@ -86,7 +86,7 @@ export default function Faq(): React.ReactElement {
 
 					<img alt="conversion-box" className="mb-2" src={box} />
 					<a
-						className="text-xs hover:underline"
+						className="type-100 hover:underline"
 						href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
 						rel="noreferrer"
 						target="_blank"

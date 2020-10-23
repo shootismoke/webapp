@@ -156,7 +156,7 @@ export function AdSection(): React.ReactElement {
 				<p
 					className={c(
 						'pr-6 sm:pr-0 md:pr-24',
-						'mt-4 text-xs text-center text-gray-600'
+						'mt-4 type-100 text-center text-gray-600'
 					)}
 				>
 					All revenue from affiliate commissions is used to support

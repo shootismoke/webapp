@@ -226,7 +226,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							  'Search for any city'
 					}
 				/>
-				<p className="mt-2 text-gray-600 text-xs">
+				<p className="mt-2 type-100 text-gray-600">
 					{distance !== undefined ? (
 						api?.shootismoke.isAccurate === false ? (
 							<Link

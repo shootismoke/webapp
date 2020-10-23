@@ -47,7 +47,7 @@ export function Footer(): React.ReactElement {
 				</a>
 				.
 			</p>
-			<p className="mt-8 text-xs text-center text-white">
+			<p className="mt-8 type-100 text-center text-white">
 				<a
 					className="text-orange"
 					href="https://facebook.com/shootismoke"
@@ -79,7 +79,7 @@ export function Footer(): React.ReactElement {
 				</a>{' '}
 			</p>
 
-			<p className="mt-4 text-xs text-center text-white">
+			<p className="mt-4 type-100 text-center text-white">
 				Learn more about the initiative in our{' '}
 				<Link
 					className="text-orange"

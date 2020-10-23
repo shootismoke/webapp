@@ -115,7 +115,9 @@ export function PollutantSection(
 					</p>
 				</Tip>
 
-				<p className="mt-2 text-gray-600 text-xs">*{polData.effects}</p>
+				<p className="mt-2 type-100 text-gray-600">
+					*{polData.effects}
+				</p>
 			</Section>
 		</>
 	);
