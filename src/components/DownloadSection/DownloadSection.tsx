@@ -24,18 +24,16 @@ import { Section } from '../Section';
 export function DownloadSection(): React.ReactElement {
 	const data = useStaticQuery(graphql`
 		query DownloadSectionQuery {
-			appStore: file(relativePath: { eq: "app-store@3x.png" }) {
+			appStore: file(relativePath: { eq: "app-store.png" }) {
 				childImageSharp {
-					# Specify the image processing specifications right in the query.
 					fluid {
 						...GatsbyImageSharpFluid
 					}
 				}
 			}
 
-			playStore: file(relativePath: { eq: "play-store@3x.png" }) {
+			playStore: file(relativePath: { eq: "play-store.png" }) {
 				childImageSharp {
-					# Specify the image processing specifications right in the query.
 					fluid {
 						...GatsbyImageSharpFluid
 					}

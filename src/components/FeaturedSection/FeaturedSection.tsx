@@ -14,20 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { graphql, useStaticQuery } from 'gatsby';
+import Img, { FluidObject } from 'gatsby-image';
 import React from 'react';
 
-import bbc from '../../../assets/images/media/bbc@3x.png';
-import circa from '../../../assets/images/media/circa@3x.png';
-import citylab from '../../../assets/images/media/citylab@3x.png';
-import highsnobiety from '../../../assets/images/media/highsnobiety@3x.png';
-import hindustantimes from '../../../assets/images/media/hindustantimes@3x.png';
-import huffpost from '../../../assets/images/media/huffpost@3x.png';
-import lifehacker from '../../../assets/images/media/lifehacker@3x.png';
-import nexo from '../../../assets/images/media/nexo@3x.png';
-import pix from '../../../assets/images/media/pix@3x.png';
-import rtbf from '../../../assets/images/media/rtbf@3x.png';
-import slate from '../../../assets/images/media/slate@3x.png';
-import usbek from '../../../assets/images/media/usbek@3x.png';
+import bbc from '../../../assets/images/media/bbc.png';
+import circa from '../../../assets/images/media/circa.png';
+import citylab from '../../../assets/images/media/citylab.png';
+import highsnobiety from '../../../assets/images/media/highsnobiety.png';
+import hindustantimes from '../../../assets/images/media/hindustantimes.png';
+import huffpost from '../../../assets/images/media/huffpost.png';
+import lifehacker from '../../../assets/images/media/lifehacker.png';
+import nexo from '../../../assets/images/media/nexo.png';
+import pix from '../../../assets/images/media/pix.png';
+import rtbf from '../../../assets/images/media/rtbf.png';
+import slate from '../../../assets/images/media/slate.png';
+import usbek from '../../../assets/images/media/usbek.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 
@@ -103,6 +105,40 @@ const medias = [
 ];
 
 export function FeaturedSection(): React.ReactElement {
+	const data = useStaticQuery(graphql`
+		query MyQuery {
+			allFile(filter: { relativeDirectory: { eq: "media" } }) {
+				edges {
+					node {
+						childImageSharp {
+							fluid {
+								...GatsbyImageSharpFluid
+							}
+						}
+						name
+					}
+				}
+			}
+		}
+	`);
+
+	// Build a map of media slug->fluid.
+	const imagesMap = data.allFile.edges.reduce(
+		(
+			acc: Record<string, FluidObject>,
+			{
+				node,
+			}: {
+				node: { name: string; childImageSharp: { fluid: FluidObject } };
+			}
+		) => {
+			acc[node.name] = node.childImageSharp.fluid;
+
+			return acc;
+		},
+		{} as Record<string, FluidObject>
+	);
+
 	return (
 		<Section title="Featured at">
 			<div className="grid grid-flow-row grid-cols-3 grid-rows-4 row-gap-6 col-gap-2 md:grid-cols-6 md:grid-rows-2 md:col-gap-6">
@@ -121,10 +157,10 @@ export function FeaturedSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img
+						<Img
 							alt={media.slug}
 							className="w-32"
-							src={media.image}
+							fluid={imagesMap[media.slug]}
 						/>
 					</a>
 				))}
