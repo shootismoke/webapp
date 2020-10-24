@@ -53,18 +53,18 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 		<div className="relative flex items-center">
 			<img
 				alt="page-left"
-				className="hidden sm:block absolute -left-6 cursor-pointer"
+				className="hidden md:block absolute -left-6 cursor-pointer"
 				onClick={scrollLeft}
 				src={pageLeft}
 			/>
 			<img
 				alt="page-right"
-				className="hidden sm:block absolute -right-6 cursor-pointer"
+				className="hidden md:block absolute -right-6 cursor-pointer"
 				onClick={scrollRight}
 				src={pageRight}
 			/>
 			<div
-				className="w-full h-68 sm:h-78 overflow-x-auto scroll-smooth flex flex-row"
+				className="w-full h-68 md:h-78 overflow-x-auto scroll-smooth flex flex-row"
 				ref={scrollDiv}
 			>
 				{children}

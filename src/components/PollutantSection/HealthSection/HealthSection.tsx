@@ -16,15 +16,14 @@
 
 import React from 'react';
 
-import cry from '../../../assets/images/health/cry.svg';
-import fitness from '../../../assets/images/health/fitness.svg';
-import happy from '../../../assets/images/health/happy.svg';
-import house from '../../../assets/images/health/house.svg';
-import mask from '../../../assets/images/health/mask.svg';
-import pause from '../../../assets/images/health/pause.svg';
-import warning from '../../../assets/images/health/warning.svg';
-import { Section } from '../Section';
-import { Tip } from '../Tip';
+import cry from '../../../../assets/images/health/cry.svg';
+import fitness from '../../../../assets/images/health/fitness.svg';
+import happy from '../../../../assets/images/health/happy.svg';
+import house from '../../../../assets/images/health/house.svg';
+import mask from '../../../../assets/images/health/mask.svg';
+import pause from '../../../../assets/images/health/pause.svg';
+import warning from '../../../../assets/images/health/warning.svg';
+import { Tip } from '../../Tip';
 
 interface HealthSectionProps {
 	/**
@@ -42,14 +41,14 @@ interface HealthSectionProps {
 function tips(aqi: number): React.ReactElement[] {
 	if (aqi <= 50) {
 		return [
-			<Tip imgAlt="happy" imgSrc={happy} key={1}>
+			<Tip className="mt-8" imgAlt="happy" imgSrc={happy} key={1}>
 				<p className="type-400 md:type-500">
 					Air quality is considered{' '}
 					<span className="text-orange">satisfactory</span>, and air
 					pollution poses little or no risk.
 				</p>
 			</Tip>,
-			<Tip className="mt-4" imgAlt="fitness" imgSrc={fitness} key={2}>
+			<Tip className="mt-8" imgAlt="fitness" imgSrc={fitness} key={2}>
 				<p className="type-400 md:type-500">
 					<span className="text-orange">Enjoy</span> your usual
 					outdoor activities.
@@ -58,14 +57,14 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else if (aqi <= 100) {
 		return [
-			<Tip imgAlt="happy" imgSrc={happy} key={1}>
+			<Tip className="mt-8" imgAlt="happy" imgSrc={happy} key={1}>
 				<p className="type-400 md:type-500">
 					Air quality is{' '}
 					<span className="text-orange">acceptable.</span> Enjoy your
 					usual outdoor activities.
 				</p>
 			</Tip>,
-			<Tip className="mt-4" imgAlt="warning" imgSrc={warning} key={2}>
+			<Tip className="mt-8" imgAlt="warning" imgSrc={warning} key={2}>
 				<p className="type-400 md:type-500">
 					For some pollutants there may be a{' '}
 					<span className="text-orange">moderate health concern</span>{' '}
@@ -76,7 +75,7 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else if (aqi <= 150) {
 		return [
-			<Tip imgAlt="cry" imgSrc={cry} key={1}>
+			<Tip className="mt-8" imgAlt="cry" imgSrc={cry} key={1}>
 				<p className="type-400 md:type-500">
 					Experiencing discomfort such as sore eyes, cough or sore
 					throat?{' '}
@@ -85,7 +84,7 @@ function tips(aqi: number): React.ReactElement[] {
 					</span>
 				</p>
 			</Tip>,
-			<Tip className="mt-4" imgAlt="fitness" imgSrc={fitness} key={2}>
+			<Tip className="mt-8" imgAlt="fitness" imgSrc={fitness} key={2}>
 				<p className="type-400 md:type-500">
 					It’s ok to be active outside, but we recommended to{' '}
 					<span className="text-orange">
@@ -96,7 +95,7 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else if (aqi <= 200) {
 		return [
-			<Tip imgAlt="cry" imgSrc={cry} key={1}>
+			<Tip className="mt-8" imgAlt="cry" imgSrc={cry} key={1}>
 				<p className="type-400 md:type-500">
 					Everyone experiencing discomfort such as sore eyes, cough or
 					sore throat{' '}
@@ -105,7 +104,7 @@ function tips(aqi: number): React.ReactElement[] {
 					</span>
 				</p>
 			</Tip>,
-			<Tip className="mt-4" imgAlt="pause" imgSrc={pause} key={2}>
+			<Tip className="mt-8" imgAlt="pause" imgSrc={pause} key={2}>
 				<p className="type-400 md:type-500">
 					Avoid prolonged strenuous exercise, and{' '}
 					<span className="text-orange">take more breaks</span> during
@@ -115,13 +114,13 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else if (aqi <= 300) {
 		return [
-			<Tip imgAlt="warning" imgSrc={warning} key={1}>
+			<Tip className="mt-8" imgAlt="warning" imgSrc={warning} key={1}>
 				<p className="type-400 md:type-500">
 					<span className="text-orange">Health alert:</span> everyone
 					may experience more serious health effects.
 				</p>
 			</Tip>,
-			<Tip className="mt-4" imgAlt="house" imgSrc={house} key={2}>
+			<Tip className="mt-8" imgAlt="house" imgSrc={house} key={2}>
 				<p className="type-400 md:type-500">
 					Everyone should{' '}
 					<span className="text-orange">
@@ -133,13 +132,13 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else {
 		return [
-			<Tip imgAlt="warning" imgSrc={warning} key={1}>
+			<Tip className="mt-8" imgAlt="warning" imgSrc={warning} key={1}>
 				<p className="type-400 md:type-500">
 					<span className="text-orange">Health alert:</span> Stop
 					outdoor activities and move all activities indoors.
 				</p>
 			</Tip>,
-			<Tip className="mt-6" imgAlt="mask" imgSrc={mask} key={2}>
+			<Tip className="mt-8" imgAlt="mask" imgSrc={mask} key={2}>
 				<p className="type-400 md:type-500">
 					If it is necessary to go out, please{' '}
 					<span className="text-orange">wear a mask</span>.
@@ -152,5 +151,5 @@ function tips(aqi: number): React.ReactElement[] {
 export function HealthSection(props: HealthSectionProps): React.ReactElement {
 	const { aqi } = props;
 
-	return <Section>{tips(aqi)}</Section>;
+	return <div>{tips(aqi)}</div>;
 }

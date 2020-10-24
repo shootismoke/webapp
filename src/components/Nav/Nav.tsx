@@ -38,7 +38,7 @@ export function Nav(props: NavProps): React.ReactElement {
 	const { showDownloadApp = true } = props;
 
 	return (
-		<header className="sm:mx-8 mx-3 mt-4">
+		<header className="md:mx-8 mx-3 mt-4">
 			<nav className="flex flex-row justify-between">
 				{/** Should be `items-center`, but `items-end` looks better */}
 				<Link
@@ -49,14 +49,14 @@ export function Nav(props: NavProps): React.ReactElement {
 				</Link>
 				{showDownloadApp && (
 					<div
-						className="flex items-center type-300 sm:type-400 text-orange text-right uppercase cursor-pointer"
+						className="flex items-center type-300 md:type-400 text-orange text-right uppercase cursor-pointer"
 						onClick={scrollToBottom}
 					>
-						Download <br className="sm:hidden" />
+						Download <br className="md:hidden" />
 						the app
 						<img
 							alt="download"
-							className="ml-2 sm:ml-4 h-6 sm:h-10"
+							className="ml-2 md:ml-4 h-6 md:h-10"
 							src={download}
 						/>
 					</div>

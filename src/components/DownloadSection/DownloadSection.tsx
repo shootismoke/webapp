@@ -20,29 +20,27 @@ import apple from '../../../assets/images/app-store@3x.png';
 import play from '../../../assets/images/play-store@3x.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
-import { SectionDivider } from '../SectionDivider';
 
 export function DownloadSection(): React.ReactElement {
 	return (
-		<div className="lg:pb-8" id="download">
-			<SectionDivider title="App available on" />
-			<Section className="flex flex-col lg:flex-row lg:items-center">
+		<Section id="download" title="App available on">
+			<div className="flex flex-col md:flex-row md:items-center">
 				<h3
 					className="text-center type-400
-					lg:text-left lg:mr-10 lg:type-600"
+					md:text-left md:mr-10 md:type-600"
 				>
 					<>
 						<span className="text-orange">Set notifications</span>{' '}
-						on your phone <br className="lg:hidden" />
+						on your phone <br className="md:hidden" />
 						&amp; <span className="text-orange">
 							share results
 						</span>{' '}
 						with friends:
 					</>
 				</h3>
-				<div className="mt-4 lg:mt-0 flex lg:flex-col justify-center">
+				<div className="mt-4 md:mt-0 flex md:flex-col justify-center">
 					<a
-						className="mr-4 lg:mb-4 w-56"
+						className="mr-4 md:mb-4 w-56"
 						href="https://play.google.com/store/apps/details?id=com.shitismoke.app"
 						onClick={(): void =>
 							logEvent('DownloadSection.Android.Click')
@@ -64,7 +62,7 @@ export function DownloadSection(): React.ReactElement {
 						<img alt="download on Apple Store" src={apple} />
 					</a>
 				</div>
-			</Section>
-		</div>
+			</div>
+		</Section>
 	);
 }

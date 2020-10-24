@@ -34,7 +34,7 @@ function FaqSection(props: FaqSectionProps): React.ReactElement {
 	return (
 		<Section className="pt-6" {...rest}>
 			<h2 className="md:pt-3 type-500">{title}</h2>
-			<p className="mt-6 leading-6 text-sm text-gray-600">{children}</p>
+			<p className="mt-6 type-100 text-gray-600">{children}</p>
 		</Section>
 	);
 }

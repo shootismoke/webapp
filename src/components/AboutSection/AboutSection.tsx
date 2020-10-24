@@ -18,13 +18,11 @@ import React from 'react';
 
 import box from '../../../assets/images/conversion-box.svg';
 import { Section } from '../Section';
-import { SectionDivider } from '../SectionDivider';
 
 export function AboutSection(): React.ReactElement {
 	return (
-		<>
-			<SectionDivider title="About Sh**t! I Smoke" />
-			<Section className="flex flex-col md:flex-row">
+		<Section title="About Sh**t! I Smoke">
+			<div className="flex flex-col md:flex-row">
 				<p className="md:mr-2 md:flex-1 type-100 text-gray-600">
 					Publicizing pollution facts and climate change warnings
 					doesn&apos;t seem to convince our communities of the
@@ -43,7 +41,6 @@ export function AboutSection(): React.ReactElement {
 					PM2.5 level of 22 μg/m3) to open databases of Air-Quality
 					Stations worldwide.
 				</p>
-
 				<p className="mt-4 md:mt-0 md:ml-2 md:flex-1 type-100 text-gray-600">
 					<img
 						alt="cigarettes-conversion"
@@ -57,7 +54,7 @@ export function AboutSection(): React.ReactElement {
 					discussion around the subject of air pollution globally,
 					from TV shows in California to newspapers in China.
 				</p>
-			</Section>
-		</>
+			</div>
+		</Section>
 	);
 }

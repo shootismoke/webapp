@@ -48,7 +48,7 @@ export default function Index(): React.ReactElement {
 						<span className="text-orange">
 							smoking by breathing{' '}
 						</span>
-						<br className="hidden sm:block" />
+						<br className="hidden md:block" />
 						urban air?
 					</>
 				</H1>

@@ -40,7 +40,6 @@ import {
 	FeaturedSection,
 	Footer,
 	H1,
-	HealthSection,
 	HeroLayout,
 	Loading,
 	Nav,
@@ -214,7 +213,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			/>
 
 			<Nav />
-			<Section>
+			<Section className="pt-10">
 				<SearchBar
 					placeholder={
 						city.name
@@ -252,14 +251,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Section className="pt-6" noPadding>
 				{cigarettes && swearWord ? (
 					<>
-						<div className="px-6 sm:px-12 md:px-24">
+						<div className="px-6 md:px-12 md:px-24">
 							<HeroLayout
 								cover={<Cigarettes cigarettes={cigarettes} />}
 								title={
 									<H1>
 										<>
-											{t(swearWord)}! You smoke
-											<br />
+											{t(swearWord)}! You smoke{' '}
 											<span className="text-orange">
 												{cigarettes} cigarette
 												{cigarettes === 1 ? '' : 's'}
@@ -272,7 +270,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 						<div
 							className={c(
-								'ml-6 sm:ml-12 md:ml-24',
+								'ml-6 md:ml-12 md:ml-24',
 								'mt-4 pb-2 overflow-auto flex'
 							)}
 						>
@@ -294,7 +292,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										>
 											<p
 												className={c(
-													'type-600 lg:type-700',
+													'py-1 type-600 md:type-700',
 													f !== frequency &&
 														'text-gray-200'
 												)}
@@ -309,19 +307,17 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					</>
 				) : error ? (
 					<SadFace
-						className="px-6 sm:px-12 md:px-24"
+						className="px-6 md:px-12 md:px-24"
 						message={error.message}
 					/>
 				) : (
-					<Loading className="px-6 sm:px-12 md:px-24" />
+					<Loading className="px-6 md:px-12 md:px-24" />
 				)}
 			</Section>
 
-			{primaryPol && (
-				<PollutantSection pollutant={primaryPol.parameter} />
+			{primaryPol && aqi && (
+				<PollutantSection aqi={aqi} pollutant={primaryPol.parameter} />
 			)}
-
-			{aqi && <HealthSection aqi={aqi} />}
 
 			<RankingSection currentCity={city} />
 			<AboutSection />
