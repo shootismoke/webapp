@@ -1,8 +1,8 @@
-@import './typography.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import './typography.css';
 
 html {
 	color: #44464a;
