@@ -70,7 +70,8 @@ const medias = [
 		slug: 'huffpost',
 	},
 	{
-		href: undefined,
+		href:
+			'https://www.pix11.com/2018/05/09/how-much-do-you-smoke-app-translates-air-pollution-into-cigarettes-smoked/',
 		slug: 'pix',
 	},
 	{
@@ -82,7 +83,7 @@ const medias = [
 
 export function FeaturedSection(): React.ReactElement {
 	const data = useStaticQuery(graphql`
-		query MyQuery {
+		query FeaturedSectionQuery {
 			allFile(filter: { relativeDirectory: { eq: "media" } }) {
 				edges {
 					node {
