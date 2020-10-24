@@ -157,9 +157,9 @@ const blogs: Blog[] = [
 			"L'équivalent de combien de cigarettes fumez-vous en respirant l'air des villes?",
 		subtitle: 'Slate',
 		link:
-			'http://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
+			'https://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
 		image:
-			'http://www.slate.fr/sites/default/files/styles/1060x523/public/000_mn2r4.jpg',
+			'https://www.slate.fr/sites/default/files/styles/1060x523/public/000_mn2r4.jpg',
 	},
 	{
 		title:

@@ -70,7 +70,7 @@ export default function Faq(): React.ReactElement {
 						)}
 						<a
 							className="text-orange hover:underline"
-							href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
+							href="https://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
 							rel="noreferrer"
 							target="_blank"
 						>
@@ -87,12 +87,12 @@ export default function Faq(): React.ReactElement {
 					<img alt="conversion-box" className="mb-3" src={box} />
 					<a
 						className="type-100 hover:underline"
-						href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
+						href="https://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"
 						rel="noreferrer"
 						target="_blank"
 					>
 						(1){' '}
-						http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/
+						https://berkeleyearth.org/air-pollution-and-cigarette-equivalence/
 					</a>
 				</>
 			</FaqSection>
