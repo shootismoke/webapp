@@ -45,7 +45,10 @@ export default function City(
 	const { location } = props;
 	const parsed = parseQuery(location.search);
 
-	if (isNaN(+parsed.lat) || isNaN(+parsed.lng)) {
+	if (
+		typeof window !== 'undefined' &&
+		(isNaN(+parsed.lat) || isNaN(+parsed.lng))
+	) {
 		window.location.pathname = '/404';
 
 		return null;
