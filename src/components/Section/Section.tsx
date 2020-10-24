@@ -17,28 +17,35 @@
 import c from 'classnames';
 import React from 'react';
 
-interface SectionProps {
+import { SectionDivider } from './SectionDivider';
+
+interface SectionProps extends React.HTMLProps<HTMLDivElement> {
 	children:
 		| React.ReactElement
 		| undefined
 		| (React.ReactElement | undefined)[];
 	className?: string;
 	noPadding?: boolean;
+	title?: string;
 }
 
 export function Section({
 	children,
 	className,
 	noPadding,
+	title,
+	...rest
 }: SectionProps): React.ReactElement {
 	return (
 		<section
 			className={c(
-				'container mx-auto my-6 max-w-5xl',
-				!noPadding && 'px-6 sm:px-12 md:px-24',
+				'container mx-auto mt-16 md:mt-20 max-w-5xl',
+				!noPadding && 'px-6 md:px-24',
 				className
 			)}
+			{...rest}
 		>
+			{title && <SectionDivider className="mb-6 md:mb-9" title={title} />}
 			{children}
 		</section>
 	);

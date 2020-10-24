@@ -39,17 +39,18 @@ export default function NotFound(): React.ReactElement {
 		<>
 			<Seo title="Page Not Found" />
 			<Nav />
+
 			<Section>
 				<H1>
 					<>
-						404!
+						Shoot! It&apos;s a 404.
 						<br />
 						<span className="text-orange">
 							Something went wrong...
 						</span>
 					</>
 				</H1>
-				<SearchBar className="mt-4" />
+				<SearchBar className="mt-6" />
 			</Section>
 
 			<RankingSection />

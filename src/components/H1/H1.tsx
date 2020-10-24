@@ -25,14 +25,5 @@ interface H1Props {
 export function H1(props: H1Props): React.ReactElement {
 	const { children, className } = props;
 
-	return (
-		<h1
-			className={c(
-				'font-extrabold leading-10 sm:leading-14 text-4xl sm:text-5xl',
-				className
-			)}
-		>
-			{children}
-		</h1>
-	);
+	return <h1 className={c('type-600 md:type-700', className)}>{children}</h1>;
 }

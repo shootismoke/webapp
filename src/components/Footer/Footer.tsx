@@ -22,9 +22,9 @@ import { logEvent } from '../../util';
 
 export function Footer(): React.ReactElement {
 	return (
-		<footer className="mt-16 px-10 py-8 lg:py-12 bg-gray-700 flex flex-col items-center">
+		<footer className="mt-20 md:mt-32 px-10 py-8 md:py-12 bg-gray-700 flex flex-col items-center">
 			<img alt="logo" className="w-10" src={logo}></img>
-			<p className="mt-3 text-sm text-center text-white">
+			<p className="mt-4 type-200 text-center text-white">
 				Created with pride by{' '}
 				<a
 					className="text-orange"
@@ -47,7 +47,7 @@ export function Footer(): React.ReactElement {
 				</a>
 				.
 			</p>
-			<p className="mt-8 text-xs text-center text-white">
+			<p className="mt-8 type-100 text-center text-white">
 				<a
 					className="text-orange"
 					href="https://facebook.com/shootismoke"
@@ -57,7 +57,7 @@ export function Footer(): React.ReactElement {
 				>
 					Facebook
 				</a>
-				<span className="mx-3">|</span>
+				<span className="mx-4">|</span>
 				<a
 					className="text-orange"
 					href="https://twitter.com/shootismoke"
@@ -67,7 +67,7 @@ export function Footer(): React.ReactElement {
 				>
 					Twitter
 				</a>
-				<span className="mx-3">|</span>
+				<span className="mx-4">|</span>
 				<a
 					className="text-orange"
 					href="mailto:hi@shootismoke.app"
@@ -79,7 +79,7 @@ export function Footer(): React.ReactElement {
 				</a>{' '}
 			</p>
 
-			<p className="mt-4 text-xs text-center text-white">
+			<p className="mt-4 type-100 text-center text-white">
 				Learn more about the initiative in our{' '}
 				<Link
 					className="text-orange"

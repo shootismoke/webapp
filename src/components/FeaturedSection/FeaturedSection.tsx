@@ -30,7 +30,6 @@ import slate from '../../../assets/images/media/slate@3x.png';
 import usbek from '../../../assets/images/media/usbek@3x.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
-import { SectionDivider } from '../SectionDivider';
 
 const medias = [
 	{
@@ -52,7 +51,7 @@ const medias = [
 	},
 	{
 		href:
-			'http://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
+			'https://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
 		image: slate,
 		slug: 'slate',
 	},
@@ -105,34 +104,31 @@ const medias = [
 
 export function FeaturedSection(): React.ReactElement {
 	return (
-		<>
-			<SectionDivider title="Featured at" />
-			<Section>
-				<div className="lg:pt-3 grid grid-flow-row grid-cols-3 grid-rows-4 row-gap-6 col-gap-2 lg:grid-cols-6 lg:grid-rows-2 lg:col-gap-6">
-					{medias.map((media, index) => (
-						<a
-							className="px-4 flex flex-row justify-center items-center"
-							href={media.href}
-							key={media.slug}
-							onClick={(): void =>
-								logEvent('FeaturedSection.Media.Click', {
-									index,
-									href: media.href,
-									slug: media.slug,
-								})
-							}
-							rel="noreferrer"
-							target="_blank"
-						>
-							<img
-								alt={media.slug}
-								className="w-32"
-								src={media.image}
-							/>
-						</a>
-					))}
-				</div>
-			</Section>
-		</>
+		<Section title="Featured at">
+			<div className="grid grid-flow-row grid-cols-3 grid-rows-4 row-gap-6 col-gap-2 md:grid-cols-6 md:grid-rows-2 md:col-gap-6">
+				{medias.map((media, index) => (
+					<a
+						className="px-4 flex flex-row justify-center items-center"
+						href={media.href}
+						key={media.slug}
+						onClick={(): void =>
+							logEvent('FeaturedSection.Media.Click', {
+								index,
+								href: media.href,
+								slug: media.slug,
+							})
+						}
+						rel="noreferrer"
+						target="_blank"
+					>
+						<img
+							alt={media.slug}
+							className="w-32"
+							src={media.image}
+						/>
+					</a>
+				))}
+			</div>
+		</Section>
 	);
 }

@@ -19,10 +19,11 @@ import React from 'react';
 
 import skull from '../../../assets/images/icons/skull.svg';
 import { Section } from '../Section';
-import { SectionDivider } from '../SectionDivider';
 import { Tip } from '../Tip';
+import { HealthSection } from './HealthSection';
 
 interface PollutantSectionProps {
+	aqi: number;
 	pollutant: Pollutant;
 }
 
@@ -94,7 +95,7 @@ const pollutantData: Partial<Record<
 export function PollutantSection(
 	props: PollutantSectionProps
 ): React.ReactElement {
-	const { pollutant } = props;
+	const { aqi, pollutant } = props;
 
 	const polData = pollutantData[pollutant];
 
@@ -103,20 +104,19 @@ export function PollutantSection(
 	}
 
 	return (
-		<>
-			<SectionDivider title="Today's tips" />
-			<Section>
-				<Tip imgAlt="skull" imgSrc={skull}>
-					<p className="leading-6 font-extrabold text-xl">
-						Your primary pollutant is{' '}
-						<span className="text-orange">
-							{polData.name} ({pollutant.toUpperCase()})*
-						</span>
-					</p>
-				</Tip>
+		<Section title="Today's tips">
+			<Tip imgAlt="skull" imgSrc={skull}>
+				<p className="type-400 md:type-500">
+					Your primary pollutant is{' '}
+					<span className="text-orange">
+						{polData.name} ({pollutant.toUpperCase()})*
+					</span>
+				</p>
+			</Tip>
 
-				<p className="mt-2 text-gray-600 text-xs">*{polData.effects}</p>
-			</Section>
-		</>
+			<p className="mt-2 type-100 text-gray-600">*{polData.effects}</p>
+
+			<HealthSection aqi={aqi} />
+		</Section>
 	);
 }

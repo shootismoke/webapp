@@ -16,6 +16,9 @@ module.exports = {
 			options: {
 				apiKey: process.env.AMPLITUDE_API_KEY,
 				respectDNT: true,
+				eventTypes: {
+					pageView: 'Route.Update',
+				},
 				amplitudeConfig: {
 					trackingOptions: {
 						city: false,
@@ -33,6 +36,7 @@ module.exports = {
 						version_name: true,
 					},
 				},
+				environments: ['production'],
 			},
 		},
 		{

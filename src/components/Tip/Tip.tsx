@@ -17,7 +17,7 @@
 import c from 'classnames';
 import React from 'react';
 
-interface TipProps {
+export interface TipProps {
 	children:
 		| React.ReactElement
 		| undefined

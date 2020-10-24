@@ -29,19 +29,22 @@ export function logEvent(
 		return;
 	}
 
-	window.amplitude
-		.getInstance()
-		.logEvent(
-			event,
-			{ ...properties, url: window.location.href },
-			(responseCode, responseBody) => {
-				if (responseCode < 200 || responseCode >= 300) {
-					captureException(
-						new Error(
-							`Amplitude callback: ${responseCode} ${responseBody}`
-						)
-					);
-				}
+	window.amplitude.getInstance().logEvent(
+		event,
+		{
+			...properties,
+			origin: window.location.origin,
+			pathname: window.location.pathname,
+			url: window.location.href,
+		},
+		(responseCode, responseBody) => {
+			if (responseCode < 200 || responseCode >= 300) {
+				captureException(
+					new Error(
+						`Amplitude callback: ${responseCode} ${responseBody}`
+					)
+				);
 			}
-		);
+		}
+	);
 }

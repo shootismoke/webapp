@@ -69,7 +69,7 @@ export function GpsButton(_props: GpsButtonProps): React.ReactElement {
 		>
 			<div className="px-2 flex flex-row justify-center">
 				{!text && <img alt="location" src={location} />}
-				<p className="ml-3 font-extrabold leading-6 tracking-widest text-xs text-white uppercase truncate">
+				<p className="ml-3 py-1 type-300 text-white uppercase truncate">
 					{text || DEFAULT_TEXT}
 				</p>
 			</div>

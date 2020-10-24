@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import c from 'classnames';
 import React from 'react';
 
 import fallbackImage from '../../../assets/images/blogs/blog@3x.png';
@@ -22,7 +21,6 @@ import { logEvent } from '../../util';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
 import { Section } from '../Section';
-import { SectionDivider } from '../SectionDivider';
 
 interface Blog {
 	image: string;
@@ -176,37 +174,33 @@ const blogs: Blog[] = [
 
 export function BlogSection(): React.ReactElement {
 	return (
-		<>
-			<SectionDivider title="Latest Stories" />
-			<Section
-				className={c(
-					'pl-6 sm:pl-12 md:pl-24',
-					'sm:pr-12 md:pr-24 pt-4'
-				)}
-				noPadding={true}
+		<Section
+			className="pl-6 md:px-24"
+			noPadding={true}
+			title="Latest Stories"
+		>
+			<Carousel
+				onPageLeftClick={(): void =>
+					logEvent('BlogSection.PageLeft.Click')
+				}
+				onPageRightClick={(): void =>
+					logEvent('BlogSection.PageRight.Click')
+				}
 			>
-				<Carousel
-					onPageLeftClick={(): void =>
-						logEvent('BlogSection.PageLeft.Click')
-					}
-					onPageRightClick={(): void =>
-						logEvent('BlogSection.PageRight.Click')
-					}
-				>
-					{blogs.map((blog, blogIndex) => (
-						<Card
-							className="
+				{blogs.map((blog, blogIndex) => (
+					<Card
+						className="
 							mr-3 w-40 h-64
-							sm:mr-5 sm:w-48 sm:h-74
+							md:mr-5 md:w-48 md:h-74
 							flex-shrink-0"
-							key={blog.title}
-						>
-							<img
-								alt={blog.title}
-								className="h-42 sm:h-52 object-cover"
-								src={blog.image}
-							/>
-
+						key={blog.title}
+					>
+						<img
+							alt={blog.title}
+							className="h-42 md:h-52 object-cover"
+							src={blog.image}
+						/>
+						<div className="px-4">
 							<a
 								href={blog.link}
 								onClick={(): void =>
@@ -221,19 +215,19 @@ export function BlogSection(): React.ReactElement {
 							>
 								<h4
 									className="
-									mt-3 mx-3 text-sm line-clamp-2
+									mt-4 type-200 line-clamp-2
 									hover:underline"
 								>
 									{blog.title}
 								</h4>
 							</a>
-							<p className="mt-1 mx-3 text-xs text-gray-600">
+							<p className="mt-1 type-100 text-gray-600">
 								{blog.subtitle}
 							</p>
-						</Card>
-					))}
-				</Carousel>
-			</Section>
-		</>
+						</div>
+					</Card>
+				))}
+			</Carousel>
+		</Section>
 	);
 }

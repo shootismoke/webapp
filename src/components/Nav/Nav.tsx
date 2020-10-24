@@ -30,29 +30,36 @@ function scrollToBottom(): void {
 	window.scrollTo(0, document.body.scrollHeight);
 }
 
-export function Nav(): React.ReactElement {
+interface NavProps {
+	showDownloadApp?: boolean;
+}
+
+export function Nav(props: NavProps): React.ReactElement {
+	const { showDownloadApp = true } = props;
+
 	return (
-		<header className="sm:mx-8 mx-3 mt-4">
+		<header className="mt-3 md:mt-9 mx-3 md:mx-9">
 			<nav className="flex flex-row justify-between">
-				{/** Should be `items-center`, but `items-end` looks better */}
 				<Link
 					onClick={(): void => logEvent('Nav.HomeButton.Click')}
 					to="/"
 				>
 					<img alt="logo" className="w-32" src={logo} />
 				</Link>
-				<div
-					className="flex items-center font-extrabold leading-4 text-xs sm:text-sm text-orange text-right uppercase cursor-pointer"
-					onClick={scrollToBottom}
-				>
-					Download <br className="sm:hidden" />
-					the app
-					<img
-						alt="download"
-						className="ml-2 sm:ml-4 h-6 sm:h-10"
-						src={download}
-					/>
-				</div>
+				{showDownloadApp && (
+					<div
+						className="flex items-center type-300 md:type-400 text-orange text-right uppercase md:normal-case cursor-pointer"
+						onClick={scrollToBottom}
+					>
+						Download <br className="md:hidden" />
+						the app
+						<img
+							alt="download"
+							className="ml-2 md:ml-4 h-6 md:h-10"
+							src={download}
+						/>
+					</div>
+				)}
 			</nav>
 		</header>
 	);

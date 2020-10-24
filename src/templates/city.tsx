@@ -15,18 +15,20 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
+import { captureException } from '@sentry/core';
 import {
 	Api,
 	BoxButton,
 	distanceToStation,
 	FrequencyContext,
-	getSwearWord,
+	getAQI,
+	primaryPollutant,
 	raceApiPromise,
 	round,
 } from '@shootismoke/ui';
 import c from 'classnames';
+import { Link } from 'gatsby';
 import React, { useContext, useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 
 import warning from '../../assets/images/icons/warning_red.svg';
 import {
@@ -38,7 +40,6 @@ import {
 	FeaturedSection,
 	Footer,
 	H1,
-	HealthSection,
 	HeroLayout,
 	Loading,
 	Nav,
@@ -50,15 +51,52 @@ import {
 	Section,
 	Seo,
 } from '../components';
+import { t } from '../localization';
 import {
 	capitalize,
 	City,
-	getAQI,
 	getSeoTitle,
 	logEvent,
-	primaryPollutant,
 	reverseGeocode,
 } from '../util';
+
+/**
+ * Swear words, untranslated.
+ */
+const swearWords = [
+	'home_swear_word_shoot',
+	'home_swear_word_dang',
+	'home_swear_word_darn',
+	'home_swear_word_geez',
+	'home_swear_word_omg',
+	'home_swear_word_crap',
+	'home_swear_word_arrgh',
+];
+
+/**
+ * Return a random swear word, untranslated.
+ *
+ * @param cigaretteCount - The cigarette count for which we show the swear
+ * word.
+ */
+function getSwearWord(cigaretteCount: number): string {
+	if (cigaretteCount <= 1) return 'home_cigarettes_oh';
+
+	// Return a random swear word, untranslated.
+	return swearWords[Math.floor(Math.random() * swearWords.length)];
+}
+
+/**
+ * These are errors that we know are okay, so we don't log them on Sentry.
+ */
+function isKnownError(error: string): boolean {
+	return (
+		// [openaq] Cannot normalize, got 0 result
+		error.includes('Cannot normalize, got 0 result') ||
+		// Station aqicn|8287 does not have PM2.5 measurings right now.
+		error.includes('does not have PM2.5 measurings right now')
+	);
+}
 
 interface CityProps {
 	location?: NavigateOptions<SearchLocationState>;
@@ -69,7 +107,6 @@ interface CityProps {
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
-	const { formatMessage: t } = useIntl();
 	const {
 		location: routerLocation,
 		pageContext: { city },
@@ -80,10 +117,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	// Log telemetry each time we change city.
 	useEffect(() => {
-		logEvent(`Page.City.${city.slug}.View`, {
-			name: city.name,
-			slug: city.slug,
-		});
+		logEvent(
+			city.slug ? `Page.City.${city.slug}.View` : 'Page.City.GPS.View',
+			{
+				name: city.name,
+				slug: city.slug,
+			}
+		);
 	}, [city]);
 
 	// Number of cigarettes to display.
@@ -135,6 +175,28 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
 
+	// Log errors.
+	useEffect(() => {
+		try {
+			if (!error) {
+				return;
+			}
+
+			// Error message is often like: `1. {error1} 2. {error2}`.
+			const errorParts = error.message.split('2.');
+			if (errorParts.length !== 2) {
+				captureException(error);
+			}
+			const error1 = errorParts[0].substring(3).trim(); // remove the leading "1."
+			const error2 = errorParts[1].trim();
+
+			!isKnownError(error1) && captureException(error1);
+			!isKnownError(error2) && captureException(error2);
+		} catch (err) {
+			captureException(err);
+		}
+	}, [error]);
+
 	const distance = api ? distanceToStation(city.gps, api.pm25) : undefined;
 
 	const primaryPol = api && primaryPollutant(api.normalized);
@@ -151,48 +213,52 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			/>
 
 			<Nav />
-			<Section>
-				<SearchBar
-					placeholder={
-						city.name
-							? [city.name, city.adminName, city.country]
-									.filter((x) => !!x)
-									.join(', ')
-							: routerLocation?.state?.cityName ||
-							  reverseGeoName ||
-							  'Search for any city'
-					}
-				/>
-				<p
-					className={c(
-						'mt-2 text-gray-600 text-xs h-2',
-						api?.shootismoke.isAccurate === false && 'text-red'
-					)}
-				>
-					{distance !== undefined
-						? `Air Quality Station: ${distance}km away`
-						: null}
-					{api?.shootismoke.isAccurate === false && (
-						<img
-							alt="warning"
-							className="ml-1 inline"
-							src={warning}
-						/>
-					)}
-				</p>
-			</Section>
 
-			<Section className="pt-6" noPadding>
+			<Section noPadding>
+				<div className="px-6 md:px-24">
+					<SearchBar
+						placeholder={
+							city.name
+								? [city.name, city.adminName, city.country]
+										.filter((x) => !!x)
+										.join(', ')
+								: routerLocation?.state?.cityName ||
+								  reverseGeoName ||
+								  'Search for any city'
+						}
+					/>
+					<p className="mt-2 type-100 text-gray-600">
+						{distance !== undefined ? (
+							api?.shootismoke.isAccurate === false ? (
+								<Link
+									className="text-red hover:underline"
+									to="/faq#station-so-far"
+								>
+									Air Quality Station: {distance}km away
+									<img
+										alt="warning"
+										className="ml-1 inline"
+										src={warning}
+									/>
+								</Link>
+							) : (
+								`Air Quality Station: ${distance}km away`
+							)
+						) : (
+							'\b' // So that the <p> doesn't collapse.
+						)}
+					</p>
+				</div>
+
 				{cigarettes && swearWord ? (
 					<>
-						<div className="px-6 sm:px-12 md:px-24">
+						<div className="mt-5 px-6 md:px-24">
 							<HeroLayout
 								cover={<Cigarettes cigarettes={cigarettes} />}
 								title={
 									<H1>
 										<>
-											{t({ id: swearWord })}! You smoke
-											<br />
+											{t(swearWord)}! You smoke{' '}
 											<span className="text-orange">
 												{cigarettes} cigarette
 												{cigarettes === 1 ? '' : 's'}
@@ -205,14 +271,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 						<div
 							className={c(
-								'ml-6 sm:ml-12 md:ml-24',
-								'mt-4 pb-2 overflow-auto flex'
+								'ml-6 md:ml-24',
+								'mt-4 overflow-auto flex'
 							)}
 						>
 							{(['daily', 'weekly', 'monthly'] as const).map(
 								(f) => (
 									<div
-										className="mr-3 cursor-pointer"
+										className="mr-4 cursor-pointer"
 										key={f}
 									>
 										<BoxButton
@@ -227,7 +293,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										>
 											<p
 												className={c(
-													'font-extrabold text-4xl',
+													'py-1 type-600 md:type-700',
 													f !== frequency &&
 														'text-gray-200'
 												)}
@@ -242,19 +308,17 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					</>
 				) : error ? (
 					<SadFace
-						className="px-6 sm:px-12 md:px-24"
+						className="mt-5 px-6 md:px-24"
 						message={error.message}
 					/>
 				) : (
-					<Loading className="px-6 sm:px-12 md:px-24" />
+					<Loading className="mt-5 px-6 md:px-24" />
 				)}
 			</Section>
 
-			{primaryPol && (
-				<PollutantSection pollutant={primaryPol.parameter} />
+			{primaryPol && aqi && (
+				<PollutantSection aqi={aqi} pollutant={primaryPol.parameter} />
 			)}
-
-			{aqi && <HealthSection aqi={aqi} />}
 
 			<RankingSection currentCity={city} />
 			<AboutSection />

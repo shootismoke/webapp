@@ -43,7 +43,7 @@ export function Seo(props: SeoProps): React.ReactElement {
 
 			<link
 				href={
-					'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap'
+					'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&display=swap'
 				}
 				rel="stylesheet"
 			/>

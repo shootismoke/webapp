@@ -41,12 +41,17 @@ function parseQuery(queryString: string): Record<string, string> {
 
 export default function City(
 	props: MatchRenderProps<void>
-): React.ReactElement {
+): React.ReactElement | null {
 	const { location } = props;
 	const parsed = parseQuery(location.search);
 
-	if (isNaN(+parsed.lat) || isNaN(+parsed.lng)) {
-		return <p>TODO</p>;
+	if (
+		typeof window !== 'undefined' &&
+		(isNaN(+parsed.lat) || isNaN(+parsed.lng))
+	) {
+		window.location.pathname = '/404';
+
+		return null;
 	} else {
 		return (
 			<CityTemplate

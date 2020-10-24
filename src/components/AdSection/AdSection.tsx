@@ -22,7 +22,6 @@ import { logEvent } from '../../util';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
 import { Section } from '../Section';
-import { SectionDivider } from '../SectionDivider';
 
 interface Ad {
 	image: string;
@@ -95,74 +94,64 @@ const ads: Ad[] = [
 
 export function AdSection(): React.ReactElement {
 	return (
-		<>
-			<SectionDivider title="10 best air purifiers" />
-			<Section
-				className={c(
-					'pl-6 sm:pl-12 md:pl-24',
-					'sm:pr-12 md:pr-24 pt-4'
-				)}
-				noPadding={true}
+		<Section
+			className="pl-6 md:px-24"
+			noPadding={true}
+			title="10 best air purifiers"
+		>
+			<Carousel
+				onPageLeftClick={(): void =>
+					logEvent('AdSection.PageLeft.Click')
+				}
+				onPageRightClick={(): void =>
+					logEvent('AdSection.PageRight.Click')
+				}
 			>
-				<Carousel
-					onPageLeftClick={(): void =>
-						logEvent('AdSection.PageLeft.Click')
-					}
-					onPageRightClick={(): void =>
-						logEvent('AdSection.PageRight.Click')
-					}
-				>
-					{ads.map((ad, adIndex) => (
-						<Card
-							className="
+				{ads.map((ad, adIndex) => (
+					<Card
+						className="
 							mr-3 w-40 h-64 p-3
-							sm:mr-5 sm:p-6 sm:w-48 sm:h-74
+							md:mr-5 md:w-48 md:h-74 md:p-6
 							flex flex-col items-center flex-shrink-0"
-							key={ad.title}
+						key={ad.title}
+					>
+						<img
+							alt={ad.title}
+							className="px-2 h-36 object-cover"
+							src={ad.image}
+						/>
+						<h4 className="mt-4 mb-3 type-200 text-center">
+							{ad.title}
+						</h4>
+						<a
+							href={ad.affiliateLink}
+							onClick={(): void =>
+								logEvent('AdSection.Ad.Click', {
+									adIndex,
+									adTitle: ad.title,
+									affiliateLink: ad.affiliateLink,
+								})
+							}
+							rel="noreferrer"
+							target="_blank"
 						>
-							<img
-								alt={ad.title}
-								className="px-2 h-36 object-cover"
-								src={ad.image}
-							/>
-							<h4 className="mt-4 mb-3 text-sm text-center">
-								{ad.title}
-							</h4>
-							<a
-								href={ad.affiliateLink}
-								onClick={(): void =>
-									logEvent('AdSection.Ad.Click', {
-										adIndex,
-										adTitle: ad.title,
-										affiliateLink: ad.affiliateLink,
-									})
-								}
-								rel="noreferrer"
-								target="_blank"
+							<Button
+								style={{
+									paddingHorizontal: '0.5rem',
+									paddingVertical: '0.25rem',
+									width: 'max-content',
+								}}
 							>
-								<Button
-									style={{
-										paddingHorizontal: '0.5rem',
-										paddingVertical: '0.25rem',
-										width: 'max-content',
-									}}
-								>
-									VIEW PRICE
-								</Button>
-							</a>
-						</Card>
-					))}
-				</Carousel>
-				<p
-					className={c(
-						'pr-6 sm:pr-12 md:pr-24',
-						'mt-4 text-xs text-center text-gray-600'
-					)}
-				>
-					All revenue from affiliate commisions is shared publicly
-					here and used for website maintenance.
-				</p>
-			</Section>
-		</>
+								VIEW PRICE
+							</Button>
+						</a>
+					</Card>
+				))}
+			</Carousel>
+			<p className={c('pr-6', 'mt-4 type-100 text-center text-gray-600')}>
+				All revenue from affiliate commissions is used to support the
+				app&apos;s maintenance costs.
+			</p>
+		</Section>
 	);
 }

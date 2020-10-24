@@ -21,7 +21,6 @@ import React, { useEffect, useState } from 'react';
 
 import { City, logEvent } from '../../util';
 import { Section } from '../Section';
-import { SectionDivider } from '../SectionDivider';
 import { CityCard } from './CityCard';
 
 /**
@@ -130,16 +129,15 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 		: worldCities.slice(0, CITIES_TO_SHOW);
 
 	return (
-		<>
-			<SectionDivider
-				title={
-					hasClosestCities
-						? 'Top Cigarettes near You'
-						: 'Worldwide City ranking'
-				}
-			/>
-			<Section className="flex flex-col items-center">
-				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 lg:grid-cols-2 lg:grid-rows-3 gap-4">
+		<Section
+			title={
+				hasClosestCities
+					? 'Top Cigarettes near You'
+					: 'Worldwide City ranking'
+			}
+		>
+			<div className="flex flex-col items-center">
+				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 md:grid-cols-2 md:grid-rows-3 gap-4">
 					{cities.map((city, index) => (
 						<Link
 							key={city.slug}
@@ -177,7 +175,7 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 						</Link>
 					))}
 				</div>
-			</Section>
-		</>
+			</div>
+		</Section>
 	);
 }

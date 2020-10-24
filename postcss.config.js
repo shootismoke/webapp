@@ -1,3 +1,3 @@
 module.exports = () => ({
-	plugins: [require('tailwindcss')],
+	plugins: [require('postcss-easy-import'), require('tailwindcss')],
 });
