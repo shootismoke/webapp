@@ -214,45 +214,45 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 			<Nav />
 
-			<Section>
-				<SearchBar
-					placeholder={
-						city.name
-							? [city.name, city.adminName, city.country]
-									.filter((x) => !!x)
-									.join(', ')
-							: routerLocation?.state?.cityName ||
-							  reverseGeoName ||
-							  'Search for any city'
-					}
-				/>
-				<p className="mt-2 type-100 text-gray-600">
-					{distance !== undefined ? (
-						api?.shootismoke.isAccurate === false ? (
-							<Link
-								className="text-red hover:underline"
-								to="/faq#station-so-far"
-							>
-								Air Quality Station: {distance}km away
-								<img
-									alt="warning"
-									className="ml-1 inline"
-									src={warning}
-								/>
-							</Link>
+			<Section noPadding>
+				<div className="px-6 md:px-24">
+					<SearchBar
+						placeholder={
+							city.name
+								? [city.name, city.adminName, city.country]
+										.filter((x) => !!x)
+										.join(', ')
+								: routerLocation?.state?.cityName ||
+								  reverseGeoName ||
+								  'Search for any city'
+						}
+					/>
+					<p className="mt-2 type-100 text-gray-600">
+						{distance !== undefined ? (
+							api?.shootismoke.isAccurate === false ? (
+								<Link
+									className="text-red hover:underline"
+									to="/faq#station-so-far"
+								>
+									Air Quality Station: {distance}km away
+									<img
+										alt="warning"
+										className="ml-1 inline"
+										src={warning}
+									/>
+								</Link>
+							) : (
+								`Air Quality Station: ${distance}km away`
+							)
 						) : (
-							`Air Quality Station: ${distance}km away`
-						)
-					) : (
-						'\b'
-					)}
-				</p>
-			</Section>
+							'\b' // So that the <p> doesn't collapse.
+						)}
+					</p>
+				</div>
 
-			<Section className="pt-6" noPadding>
 				{cigarettes && swearWord ? (
 					<>
-						<div className="px-6 md:px-12 md:px-24">
+						<div className="mt-5 px-6 md:px-24">
 							<HeroLayout
 								cover={<Cigarettes cigarettes={cigarettes} />}
 								title={
@@ -308,11 +308,11 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					</>
 				) : error ? (
 					<SadFace
-						className="px-6 md:px-12 md:px-24"
+						className="mt-5 px-6 md:px-24"
 						message={error.message}
 					/>
 				) : (
-					<Loading className="px-6 md:px-12 md:px-24" />
+					<Loading className="mt-5 px-6 md:px-24" />
 				)}
 			</Section>
 
