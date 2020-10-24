@@ -16,4 +16,5 @@
 
 export * from './amplitude';
 export * from './geocode';
+export * from './sentry';
 export * from './seo';

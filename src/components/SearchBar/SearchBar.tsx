@@ -31,7 +31,7 @@ import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location_orange.svg';
 import search from '../../../assets/images/icons/search.svg';
-import { logEvent } from '../../util';
+import { logEvent, sentryException } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
@@ -61,7 +61,7 @@ function algoliaLoadOptions(
 			}))
 		),
 		TE.fold((err) => {
-			console.error(err);
+			sentryException(err);
 
 			return T.of([]);
 		}, T.of)

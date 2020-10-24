@@ -14,37 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { sentryException } from './sentry';
+import { captureException } from '@sentry/core';
 
 /**
- * Log an event on Amplitude.
+ * Capture an  error, and send it to Sentry.
  *
- * @param event - The event name to log.
+ * @param err - The error to capture.
  */
-export function logEvent(
-	event: string,
-	properties?: Record<string, string | number | undefined>
-): void {
-	if (!window.amplitude) {
-		return;
-	}
-
-	window.amplitude.getInstance().logEvent(
-		event,
-		{
-			...properties,
-			origin: window.location.origin,
-			pathname: window.location.pathname,
-			url: window.location.href,
-		},
-		(responseCode, responseBody) => {
-			if (responseCode < 200 || responseCode >= 300) {
-				sentryException(
-					new Error(
-						`Amplitude callback: ${responseCode} ${responseBody}`
-					)
-				);
-			}
-		}
-	);
+export function sentryException(err: Error): void {
+	console.error(err);
+	captureException(err);
 }

@@ -15,7 +15,6 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
-import { captureException } from '@sentry/core';
 import {
 	Api,
 	BoxButton,
@@ -58,6 +57,7 @@ import {
 	getSeoTitle,
 	logEvent,
 	reverseGeocode,
+	sentryException,
 } from '../util';
 
 /**
@@ -185,15 +185,15 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			// Error message is often like: `1. {error1} 2. {error2}`.
 			const errorParts = error.message.split('2.');
 			if (errorParts.length !== 2) {
-				captureException(error);
+				sentryException(error);
 			}
 			const error1 = errorParts[0].substring(3).trim(); // remove the leading "1."
 			const error2 = errorParts[1].trim();
 
-			!isKnownError(error1) && captureException(error1);
-			!isKnownError(error2) && captureException(error2);
+			!isKnownError(error1) && sentryException(new Error(error1));
+			!isKnownError(error2) && sentryException(new Error(error2));
 		} catch (err) {
-			captureException(err);
+			sentryException(err);
 		}
 	}, [error]);
 
