@@ -27,7 +27,7 @@ export function DownloadSection(): React.ReactElement {
 			<div className="flex flex-col md:flex-row md:items-center">
 				<h3
 					className="text-center type-400
-					md:text-left md:mr-10 md:type-600"
+					md:text-left md:mr-24 md:type-600"
 				>
 					<>
 						<span className="text-orange">Set notifications</span>{' '}
