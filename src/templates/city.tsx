@@ -271,14 +271,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 						<div
 							className={c(
-								'ml-6 md:ml-12 md:ml-24',
-								'mt-4 pb-2 overflow-auto flex'
+								'ml-6 md:ml-24',
+								'mt-4 overflow-auto flex'
 							)}
 						>
 							{(['daily', 'weekly', 'monthly'] as const).map(
 								(f) => (
 									<div
-										className="mr-3 cursor-pointer"
+										className="mr-4 cursor-pointer"
 										key={f}
 									>
 										<BoxButton

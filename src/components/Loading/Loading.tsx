@@ -34,7 +34,7 @@ export function Loading(props: LoadingProps): React.ReactElement {
 				title={
 					<H1>
 						<>
-							Loading{' '}
+							Loading...{' '}
 							<span className="text-orange">
 								cough... cough...
 							</span>
