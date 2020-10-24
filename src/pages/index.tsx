@@ -52,7 +52,7 @@ export default function Index(): React.ReactElement {
 						urban air?
 					</>
 				</H1>
-				<SearchBar className="mt-5" showGps={false} />
+				<SearchBar className="mt-6" showGps={false} />
 
 				<div className="my-3 flex flex-row items-center">
 					<hr className="flex-grow border-t border-gray-200" />

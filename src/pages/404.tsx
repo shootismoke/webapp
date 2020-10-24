@@ -49,7 +49,7 @@ export default function NotFound(): React.ReactElement {
 						</span>
 					</>
 				</H1>
-				<SearchBar className="mt-4" />
+				<SearchBar className="mt-6" />
 			</Section>
 
 			<RankingSection />

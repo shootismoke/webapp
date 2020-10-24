@@ -200,30 +200,31 @@ export function BlogSection(): React.ReactElement {
 							className="h-42 md:h-52 object-cover"
 							src={blog.image}
 						/>
-
-						<a
-							href={blog.link}
-							onClick={(): void =>
-								logEvent('BlogSection.Blog.Click', {
-									blogIndex,
-									blogUrl: blog.link,
-									blogTitle: blog.title,
-								})
-							}
-							rel="noreferrer"
-							target="_blank"
-						>
-							<h4
-								className="
-									mt-3 mx-3 type-200 line-clamp-2
-									hover:underline"
+						<div className="px-4">
+							<a
+								href={blog.link}
+								onClick={(): void =>
+									logEvent('BlogSection.Blog.Click', {
+										blogIndex,
+										blogUrl: blog.link,
+										blogTitle: blog.title,
+									})
+								}
+								rel="noreferrer"
+								target="_blank"
 							>
-								{blog.title}
-							</h4>
-						</a>
-						<p className="mt-1 mx-3 type-100 text-gray-600">
-							{blog.subtitle}
-						</p>
+								<h4
+									className="
+									mt-4 type-200 line-clamp-2
+									hover:underline"
+								>
+									{blog.title}
+								</h4>
+							</a>
+							<p className="mt-1 type-100 text-gray-600">
+								{blog.subtitle}
+							</p>
+						</div>
 					</Card>
 				))}
 			</Carousel>

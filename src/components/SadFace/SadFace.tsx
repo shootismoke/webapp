@@ -42,7 +42,7 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 				}
 			/>
 
-			<p className="mt-8 type-100 text-gray-600">
+			<p className="mt-4 type-100 text-gray-600">
 				Please try to search for another city.
 				<br />
 				<br />

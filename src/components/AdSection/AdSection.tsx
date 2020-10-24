@@ -111,7 +111,7 @@ export function AdSection(): React.ReactElement {
 					<Card
 						className="
 							mr-3 w-40 h-64 p-3
-							md:mr-5 md:p-6 md:w-48 md:h-74
+							md:mr-5 md:w-48 md:h-74 md:p-6
 							flex flex-col items-center flex-shrink-0"
 						key={ad.title}
 					>

@@ -38,9 +38,8 @@ export function Nav(props: NavProps): React.ReactElement {
 	const { showDownloadApp = true } = props;
 
 	return (
-		<header className="md:mx-8 mx-3 mt-4">
+		<header className="mt-3 md:mt-9 mx-3 md:mx-9">
 			<nav className="flex flex-row justify-between">
-				{/** Should be `items-center`, but `items-end` looks better */}
 				<Link
 					onClick={(): void => logEvent('Nav.HomeButton.Click')}
 					to="/"

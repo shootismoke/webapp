@@ -32,9 +32,9 @@ function FaqSection(props: FaqSectionProps): React.ReactElement {
 	const { children, title, ...rest } = props;
 
 	return (
-		<Section className="pt-6" {...rest}>
+		<Section {...rest}>
 			<h2 className="md:pt-3 type-500">{title}</h2>
-			<p className="mt-6 type-100 text-gray-600">{children}</p>
+			<p className="mt-5 type-100 text-gray-600">{children}</p>
 		</Section>
 	);
 }
@@ -84,7 +84,7 @@ export default function Faq(): React.ReactElement {
 						&micro;g/m&sup3;{' \u207D'}&sup1;{'\u207E'}.
 					</span>
 
-					<img alt="conversion-box" className="mb-2" src={box} />
+					<img alt="conversion-box" className="mb-3" src={box} />
 					<a
 						className="type-100 hover:underline"
 						href="http://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"

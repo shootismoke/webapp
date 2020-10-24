@@ -32,7 +32,7 @@ export function Loading(props: LoadingProps): React.ReactElement {
 			<HeroLayout
 				cover={<Cigarettes cigarettes={1.1} />}
 				title={
-					<H1 className="mt-4">
+					<H1>
 						<>
 							Loading{' '}
 							<span className="text-orange">

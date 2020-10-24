@@ -39,7 +39,7 @@ export function Section({
 	return (
 		<section
 			className={c(
-				'container mx-auto m-16 md:mt-20 max-w-5xl',
+				'container mx-auto mt-16 md:mt-20 max-w-5xl',
 				!noPadding && 'px-6 md:px-24',
 				className
 			)}
