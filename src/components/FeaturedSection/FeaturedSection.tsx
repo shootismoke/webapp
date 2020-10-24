@@ -18,18 +18,6 @@ import { graphql, useStaticQuery } from 'gatsby';
 import Img, { FluidObject } from 'gatsby-image';
 import React from 'react';
 
-import bbc from '../../../assets/images/media/bbc.png';
-import circa from '../../../assets/images/media/circa.png';
-import citylab from '../../../assets/images/media/citylab.png';
-import highsnobiety from '../../../assets/images/media/highsnobiety.png';
-import hindustantimes from '../../../assets/images/media/hindustantimes.png';
-import huffpost from '../../../assets/images/media/huffpost.png';
-import lifehacker from '../../../assets/images/media/lifehacker.png';
-import nexo from '../../../assets/images/media/nexo.png';
-import pix from '../../../assets/images/media/pix.png';
-import rtbf from '../../../assets/images/media/rtbf.png';
-import slate from '../../../assets/images/media/slate.png';
-import usbek from '../../../assets/images/media/usbek.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 
@@ -37,69 +25,57 @@ const medias = [
 	{
 		href:
 			'https://www.citylab.com/environment/2018/04/how-much-are-you-smoking-by-breathing-urban-air/558827/',
-		image: citylab,
 		slug: 'citylab',
 	},
 	{
 		href: 'https://vimeo.com/269420780',
-		image: bbc,
 		slug: 'bbc',
 	},
 	{
 		href:
 			'https://www.circa.com/story/2018/05/03/science/an-app-tells-you-how-many-cigarettes-youre-smoking-when-you-breathe-the-polluted-air-in-your-city',
-		image: circa,
 		slug: 'circa',
 	},
 	{
 		href:
 			'https://www.slate.fr/story/160929/cigarettes-equivalent-pollution-villes',
-		image: slate,
 		slug: 'slate',
 	},
 	{
 		href:
 			'https://www.rtbf.be/info/medias/detail_respirer-l-air-de-bruxelles-c-est-comme-fumer-2-5-cigarettes-jour-dit-cette-appli?id=9903635',
-		image: rtbf,
 		slug: 'rtbf',
 	},
 	{
 		href:
 			'https://www.hindustantimes.com/pune-news/planning-to-take-a-smoke-break-just-breathe-in-pune-s-air-which-equals-9-1-cigarettes-a-day/story-cAfTW4IKF2OmZ2lMgCVxFL.html',
-		image: hindustantimes,
 		slug: 'hindustantimes',
 	},
 	{
 		href: undefined,
-		image: nexo,
 		slug: 'nexo',
 	},
 	{
 		href:
 			'https://vitals.lifehacker.com/see-your-citys-air-pollution-measured-in-daily-cigarett-1825659774',
-		image: lifehacker,
 		slug: 'lifehacker',
 	},
 	{
 		href: 'https://www.highsnobiety.com/p/smoking-pollution-air-app/',
-		image: highsnobiety,
 		slug: 'highsnobiety',
 	},
 	{
 		href:
 			'https://www.huffingtonpost.com/entry/how-much-are-you-smoking-by-breathing-urban-air_us_5ae332e0e4b02baed1b9ccbc',
-		image: huffpost,
 		slug: 'huffpost',
 	},
 	{
 		href: undefined,
-		image: pix,
 		slug: 'pix',
 	},
 	{
 		href:
 			'https://usbeketrica.com/article/une-appli-calcule-le-nombre-de-cigarettes-qu-on-fume-a-notre-insu-a-cause-de-la-pollution-de-l-air',
-		image: usbek,
 		slug: 'usbek',
 	},
 ];
