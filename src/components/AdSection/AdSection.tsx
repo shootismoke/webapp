@@ -120,9 +120,9 @@ export function AdSection(): React.ReactElement {
 							className="px-2 h-36 object-cover"
 							src={ad.image}
 						/>
-						<h4 className="mt-4 mb-3 type-200 text-center">
+						<h3 className="mt-4 mb-3 type-200 text-center">
 							{ad.title}
-						</h4>
+						</h3>
 						<a
 							href={ad.affiliateLink}
 							onClick={(): void =>

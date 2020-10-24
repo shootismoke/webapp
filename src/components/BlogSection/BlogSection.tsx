@@ -213,13 +213,13 @@ export function BlogSection(): React.ReactElement {
 								rel="noreferrer"
 								target="_blank"
 							>
-								<h4
+								<h3
 									className="
 									mt-4 type-200 line-clamp-2
 									hover:underline"
 								>
 									{blog.title}
-								</h4>
+								</h3>
 							</a>
 							<p className="mt-1 type-100 text-gray-600">
 								{blog.subtitle}

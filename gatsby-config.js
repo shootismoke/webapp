@@ -1,6 +1,14 @@
 module.exports = {
 	plugins: [
 		'gatsby-plugin-postcss',
+		'gatsby-plugin-sharp',
+		'gatsby-transformer-sharp',
+		{
+			resolve: 'gatsby-source-filesystem',
+			options: {
+				path: `${__dirname}/assets/images`,
+			},
+		},
 		'gatsby-plugin-react-helmet',
 		'gatsby-plugin-react-native-web',
 		'gatsby-plugin-typescript',

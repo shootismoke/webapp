@@ -22,11 +22,13 @@ interface SeoProps {
 	title: string;
 }
 
+const HTML_ATTRIBUTES = { lang: 'en' };
+
 export function Seo(props: SeoProps): React.ReactElement {
 	const { title } = props;
 
 	return (
-		<Helmet>
+		<Helmet htmlAttributes={HTML_ATTRIBUTES}>
 			<meta charSet="utf-8" />
 			<meta
 				name="description"

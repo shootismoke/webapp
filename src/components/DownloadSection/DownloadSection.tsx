@@ -14,14 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { graphql, useStaticQuery } from 'gatsby';
+import Img from 'gatsby-image';
 import React from 'react';
 
-import apple from '../../../assets/images/app-store@3x.png';
-import play from '../../../assets/images/play-store@3x.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 
 export function DownloadSection(): React.ReactElement {
+	const data = useStaticQuery(graphql`
+		query DownloadSectionQuery {
+			appStore: file(relativePath: { eq: "app-store@3x.png" }) {
+				childImageSharp {
+					# Specify the image processing specifications right in the query.
+					fluid {
+						...GatsbyImageSharpFluid
+					}
+				}
+			}
+
+			playStore: file(relativePath: { eq: "play-store@3x.png" }) {
+				childImageSharp {
+					# Specify the image processing specifications right in the query.
+					fluid {
+						...GatsbyImageSharpFluid
+					}
+				}
+			}
+		}
+	`);
+
 	return (
 		<Section id="download" title="App available on">
 			<div className="flex flex-col md:flex-row md:items-center">
@@ -48,7 +70,10 @@ export function DownloadSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img alt="download on Play Store" src={play} />
+						<Img
+							alt="download on Play Store"
+							fluid={data.playStore.childImageSharp.fluid}
+						/>
 					</a>
 					<a
 						className="w-56"
@@ -59,7 +84,10 @@ export function DownloadSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img alt="download on Apple Store" src={apple} />
+						<Img
+							alt="download on Apple Store"
+							fluid={data.appStore.childImageSharp.fluid}
+						/>
 					</a>
 				</div>
 			</div>
