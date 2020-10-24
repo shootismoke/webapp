@@ -40,6 +40,7 @@ export default function Index(): React.ReactElement {
 		<>
 			<Seo title="Daily Air Quality, as Cigarettes" />
 			<Nav />
+
 			<Section>
 				<H1 className="pt-3">
 					<>

@@ -39,6 +39,7 @@ export default function NotFound(): React.ReactElement {
 		<>
 			<Seo title="Page Not Found" />
 			<Nav />
+
 			<Section>
 				<H1>
 					<>

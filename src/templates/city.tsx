@@ -213,7 +213,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			/>
 
 			<Nav />
-			<Section className="pt-10">
+
+			<Section>
 				<SearchBar
 					placeholder={
 						city.name
