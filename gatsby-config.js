@@ -9,6 +9,17 @@ module.exports = {
 				path: `${__dirname}/assets/images`,
 			},
 		},
+		{
+			resolve: `gatsby-plugin-prefetch-google-fonts`,
+			options: {
+				fonts: [
+					{
+						family: 'Montserrat',
+						variants: ['500', '800'],
+					},
+				],
+			},
+		},
 		'gatsby-plugin-react-helmet',
 		'gatsby-plugin-react-native-web',
 		'gatsby-plugin-typescript',

@@ -70,6 +70,7 @@ export function DownloadSection(): React.ReactElement {
 					>
 						<Img
 							alt="download on Play Store"
+							className="rounded-2xl"
 							fluid={data.playStore.childImageSharp.fluid}
 						/>
 					</a>
@@ -84,6 +85,7 @@ export function DownloadSection(): React.ReactElement {
 					>
 						<Img
 							alt="download on Apple Store"
+							className="rounded-2xl"
 							fluid={data.appStore.childImageSharp.fluid}
 						/>
 					</a>

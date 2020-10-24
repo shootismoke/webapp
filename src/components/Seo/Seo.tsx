@@ -46,13 +46,6 @@ export function Seo(props: SeoProps): React.ReactElement {
 
 			<link rel="canonical" href="https://shootismoke.app" />
 
-			<link
-				href={
-					'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&display=swap'
-				}
-				rel="stylesheet"
-			/>
-
 			<title>{title} - Sh**t! I Smoke</title>
 		</Helmet>
 	);
