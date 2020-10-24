@@ -22,6 +22,9 @@ interface SeoProps {
 	title: string;
 }
 
+/**
+ * @see https://web.dev/html-has-lang.
+ */
 const HTML_ATTRIBUTES = { lang: 'en' };
 
 export function Seo(props: SeoProps): React.ReactElement {
