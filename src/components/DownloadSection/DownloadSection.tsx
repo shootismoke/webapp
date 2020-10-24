@@ -27,7 +27,7 @@ export function DownloadSection(): React.ReactElement {
 			appStore: file(relativePath: { eq: "app-store.png" }) {
 				childImageSharp {
 					fluid {
-						...GatsbyImageSharpFluid
+						...GatsbyImageSharpFluid_noBase64
 					}
 				}
 			}
@@ -35,7 +35,7 @@ export function DownloadSection(): React.ReactElement {
 			playStore: file(relativePath: { eq: "play-store.png" }) {
 				childImageSharp {
 					fluid {
-						...GatsbyImageSharpFluid
+						...GatsbyImageSharpFluid_noBase64
 					}
 				}
 			}

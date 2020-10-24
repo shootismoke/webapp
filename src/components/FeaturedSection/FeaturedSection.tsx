@@ -89,7 +89,7 @@ export function FeaturedSection(): React.ReactElement {
 					node {
 						childImageSharp {
 							fluid {
-								...GatsbyImageSharpFluid
+								...GatsbyImageSharpFluid_noBase64
 							}
 						}
 						name
