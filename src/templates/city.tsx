@@ -22,7 +22,6 @@ import {
 	FrequencyContext,
 	getAQI,
 	primaryPollutant,
-	raceApiPromise,
 	round,
 } from '@shootismoke/ui';
 import c from 'classnames';
@@ -159,18 +158,23 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		setError(undefined);
 		setReverseGeoName(undefined);
 
-		reverseGeocode(city.gps).then(setReverseGeoName).catch(console.error);
+		reverseGeocode(city.gps).then(setReverseGeoName).catch(sentryException);
 
-		const sixHoursAgo = new Date();
-		sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
-		raceApiPromise(city.gps, {
-			aqicn: {
-				token: process.env.GATSBY_AQICN_TOKEN as string,
-			},
-			openaq: {
-				dateFrom: sixHoursAgo,
-			},
-		})
+		// This `race` file imports a bunch of stuff, so we run it lazily.
+		import('@shootismoke/ui/lib/util/race')
+			.then(({ raceApiPromise }) => {
+				const sixHoursAgo = new Date();
+				sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
+
+				return raceApiPromise(city.gps, {
+					aqicn: {
+						token: process.env.GATSBY_AQICN_TOKEN as string,
+					},
+					openaq: {
+						dateFrom: sixHoursAgo,
+					},
+				});
+			})
 			.then(setApi)
 			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
