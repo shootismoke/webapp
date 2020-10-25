@@ -108,40 +108,41 @@ export function AdSection(): React.ReactElement {
 				}
 			>
 				{ads.map((ad, adIndex) => (
-					<CarouselCard
-						className={c(
-							'p-3 md:p-6',
-							adIndex === 0 && 'ml-3 md:ml-0'
-						)}
+					<a
+						href={ad.affiliateLink}
 						key={ad.title}
+						onClick={(): void =>
+							logEvent('AdSection.Ad.Click', {
+								adIndex,
+								adTitle: ad.title,
+								affiliateLink: ad.affiliateLink,
+							})
+						}
+						rel="noreferrer"
+						target="_blank"
 					>
-						<img
-							alt={ad.title}
-							className="px-2 h-36 object-cover"
-							src={ad.image}
-						/>
-						<h3 className="mt-4 mb-3 type-200 text-center">
-							{ad.title}
-						</h3>
-						<a
-							href={ad.affiliateLink}
-							onClick={(): void =>
-								logEvent('AdSection.Ad.Click', {
-									adIndex,
-									adTitle: ad.title,
-									affiliateLink: ad.affiliateLink,
-								})
-							}
-							rel="noreferrer"
-							target="_blank"
+						<CarouselCard
+							className={c(
+								'p-3 md:p-6',
+								adIndex === 0 && 'ml-3 md:ml-0'
+							)}
 						>
+							<img
+								alt={ad.title}
+								className="px-2 h-36 object-cover"
+								src={ad.image}
+							/>
+							<h3 className="mt-4 mb-3 type-200 text-center">
+								{ad.title}
+							</h3>
+
 							<Button className="px-3 py-1">
 								<span className="type-300 text-orange">
 									VIEW PRICE
 								</span>
 							</Button>
-						</a>
-					</CarouselCard>
+						</CarouselCard>
+					</a>
 				))}
 			</Carousel>
 			<p className={c('px-6', 'type-100 text-center text-gray-600')}>
