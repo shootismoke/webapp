@@ -269,12 +269,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							/>
 						</div>
 
-						<div
-							className={c(
-								'ml-6 md:ml-24',
-								'mt-4 overflow-auto flex'
-							)}
-						>
+						<div className="pl-6 md:pl-0 md:ml-24 mt-4 overflow-auto flex">
 							{(['daily', 'weekly', 'monthly'] as const).map(
 								(f) => (
 									<div

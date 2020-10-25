@@ -14,23 +14,4 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import c from 'classnames';
-import React from 'react';
-
-export type CardProps = React.HTMLProps<HTMLDivElement>;
-
-export function Card(props: CardProps): React.ReactElement {
-	const { className, children, ...rest } = props;
-
-	return (
-		<div
-			className={c(
-				'overflow-hidden border rounded-xl border-gray-200 shadow-lg',
-				className
-			)}
-			{...rest}
-		>
-			{children}
-		</div>
-	);
-}
+export * from './CarouselCard';

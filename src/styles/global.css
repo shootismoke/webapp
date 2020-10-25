@@ -11,12 +11,16 @@ html {
 
 @layer utilities {
 	@responsive {
-		.h-52 {
-			height: 13rem;
+		.h-50 {
+			height: 12.5rem;
 		}
 
-		.h-74 {
-			height: 18.5rem;
+		.h-60 {
+			height: 15rem;
+		}
+
+		.h-70 {
+			height: 17.5rem;
 		}
 
 		.h-78 {
@@ -61,18 +65,6 @@ html {
 
 .h-36 {
 	height: 9rem;
-}
-
-.h-42 {
-	height: 10.5rem;
-}
-
-.h-66 {
-	height: 16.5rem;
-}
-
-.h-68 {
-	height: 17rem;
 }
 
 .rounded-xl {

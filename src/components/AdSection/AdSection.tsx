@@ -19,8 +19,7 @@ import React from 'react';
 
 import { logEvent } from '../../util';
 import { Button } from '../Button';
-import { Card } from '../Card';
-import { Carousel } from '../Carousel';
+import { Carousel, CarouselCard } from '../Carousel';
 import { Section } from '../Section';
 
 interface Ad {
@@ -95,9 +94,10 @@ const ads: Ad[] = [
 export function AdSection(): React.ReactElement {
 	return (
 		<Section
-			className="pl-6 md:px-24"
+			className="md:px-24"
 			noPadding={true}
 			title="10 best air purifiers"
+			titleClassName="px-6 md:px-0"
 		>
 			<Carousel
 				onPageLeftClick={(): void =>
@@ -108,11 +108,11 @@ export function AdSection(): React.ReactElement {
 				}
 			>
 				{ads.map((ad, adIndex) => (
-					<Card
-						className="
-							mr-3 w-40 h-64 p-3
-							md:mr-5 md:w-48 md:h-74 md:p-6
-							flex flex-col items-center flex-shrink-0"
+					<CarouselCard
+						className={c(
+							'p-3 md:p-6',
+							adIndex === 0 && 'ml-3 md:ml-0'
+						)}
 						key={ad.title}
 					>
 						<img
@@ -135,16 +135,16 @@ export function AdSection(): React.ReactElement {
 							rel="noreferrer"
 							target="_blank"
 						>
-							<Button className="px-2 py-1">
+							<Button className="px-3 py-1">
 								<span className="type-300 text-orange">
 									VIEW PRICE
 								</span>
 							</Button>
 						</a>
-					</Card>
+					</CarouselCard>
 				))}
 			</Carousel>
-			<p className={c('pr-6', 'mt-4 type-100 text-center text-gray-600')}>
+			<p className={c('px-6', 'type-100 text-center text-gray-600')}>
 				All revenue from affiliate commissions is used to support the
 				app&apos;s maintenance costs.
 			</p>

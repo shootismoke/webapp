@@ -17,41 +17,23 @@
 import c from 'classnames';
 import React from 'react';
 
-import { SectionDivider } from './SectionDivider';
+import { Card, CardProps } from '../../Card';
 
-interface SectionProps extends React.HTMLProps<HTMLDivElement> {
-	/**
-	 * Remove padding from section content. Title still has padding.
-	 */
-	noPadding?: boolean;
-	title?: string;
-	titleClassName?: string;
-}
+export function CarouselCard(props: CardProps): React.ReactElement {
+	const { children, className, ...rest } = props;
 
-export function Section({
-	children,
-	className,
-	noPadding,
-	title,
-	titleClassName,
-	...rest
-}: SectionProps): React.ReactElement {
 	return (
-		<section
+		<Card
 			className={c(
-				'container mx-auto mt-16 md:mt-20 max-w-5xl',
-				!noPadding && 'px-6 md:px-24',
+				`mb-6
+				mr-3 w-40 h-60
+				md:mr-5 md:w-48 md:h-70
+				flex flex-col items-center flex-shrink-0`,
 				className
 			)}
 			{...rest}
 		>
-			{title && (
-				<SectionDivider
-					className={c('mb-6 md:mb-9', titleClassName)}
-					title={title}
-				/>
-			)}
 			{children}
-		</section>
+		</Card>
 	);
 }

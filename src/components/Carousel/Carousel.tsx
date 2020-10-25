@@ -14,13 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import c from 'classnames';
 import React, { useRef } from 'react';
 
 import pageLeft from '../../../assets/images/icons/pagination_left.svg';
 import pageRight from '../../../assets/images/icons/pagination_right.svg';
 
-interface CarouselProps {
-	children: React.ReactElement[];
+export * from './CarouselCard';
+
+interface CarouselProps extends React.HTMLProps<HTMLDivElement> {
+	innerClassName?: string;
 	onPageLeftClick?: () => void;
 	onPageRightClick?: () => void;
 }
@@ -31,7 +34,14 @@ interface CarouselProps {
 const SCROLL_BY = 256;
 
 export function Carousel(props: CarouselProps): React.ReactElement {
-	const { children, onPageLeftClick, onPageRightClick } = props;
+	const {
+		children,
+		className,
+		innerClassName,
+		onPageLeftClick,
+		onPageRightClick,
+		...rest
+	} = props;
 	const scrollDiv = useRef<HTMLDivElement>(null);
 
 	function scrollLeft(): void {
@@ -50,7 +60,7 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 	}
 
 	return (
-		<div className="relative flex items-center">
+		<div className={c('relative flex items-center', className)} {...rest}>
 			<img
 				alt="page-left"
 				className="hidden md:block absolute -left-6 cursor-pointer z-10"
@@ -64,7 +74,10 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 				src={pageRight}
 			/>
 			<div
-				className="w-full h-68 md:h-78 overflow-x-auto scroll-smooth flex flex-row"
+				className={c(
+					'overflow-x-auto scroll-smooth flex flex-row',
+					innerClassName
+				)}
 				ref={scrollDiv}
 			>
 				{children}

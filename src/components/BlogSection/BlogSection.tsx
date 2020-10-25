@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import c from 'classnames';
 import { graphql, useStaticQuery } from 'gatsby';
 import Img, { FluidObject } from 'gatsby-image';
 import React from 'react';
 
 import { logEvent } from '../../util';
-import { Card } from '../Card';
-import { Carousel } from '../Carousel';
+import { Carousel, CarouselCard } from '../Carousel';
 import { Section } from '../Section';
 
 interface Blog {
@@ -197,9 +197,10 @@ export function BlogSection(): React.ReactElement {
 
 	return (
 		<Section
-			className="pl-6 md:px-24"
+			className="md:px-24"
 			noPadding={true}
 			title="Latest Stories"
+			titleClassName="px-6 md:px-0"
 		>
 			<Carousel
 				onPageLeftClick={(): void =>
@@ -210,19 +211,16 @@ export function BlogSection(): React.ReactElement {
 				}
 			>
 				{blogs.map((blog, blogIndex) => (
-					<Card
-						className="
-							mr-3 w-40 h-64
-							md:mr-5 md:w-48 md:h-74
-							flex-shrink-0"
+					<CarouselCard
+						className={c(blogIndex === 0 && 'ml-3 md:ml-0')}
 						key={blog.title}
 					>
 						<Img
 							alt={blog.title}
-							className="h-42 md:h-52 object-cover"
+							className="w-full h-40 md:h-50 object-cover"
 							fluid={imagesMap[blog.slug]}
 						/>
-						<div className="px-4">
+						<div className="mt-2 px-4">
 							<a
 								href={blog.link}
 								onClick={(): void =>
@@ -237,7 +235,7 @@ export function BlogSection(): React.ReactElement {
 							>
 								<h3
 									className="
-									mt-4 type-200 line-clamp-2
+									type-200 line-clamp-2
 									hover:underline"
 								>
 									{blog.title}
@@ -247,7 +245,7 @@ export function BlogSection(): React.ReactElement {
 								{blog.subtitle}
 							</p>
 						</div>
-					</Card>
+					</CarouselCard>
 				))}
 			</Carousel>
 		</Section>
