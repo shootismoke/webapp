@@ -29,7 +29,9 @@ export function HeroLayout(props: HeroLayoutrops): React.ReactElement {
 
 	return (
 		<>
-			<div className={c('h-32', coverClassName)}>{cover}</div>
+			<div className={c('h-32 overflow-hidden', coverClassName)}>
+				{cover}
+			</div>
 			<div className={c('mt-3', titleClassname)}>{title}</div>
 		</>
 	);
