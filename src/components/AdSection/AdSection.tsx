@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Button } from '@shootismoke/ui';
 import c from 'classnames';
 import React from 'react';
 
 import { logEvent } from '../../util';
+import { Button } from '../Button';
 import { Card } from '../Card';
 import { Carousel } from '../Carousel';
 import { Section } from '../Section';
@@ -135,14 +135,10 @@ export function AdSection(): React.ReactElement {
 							rel="noreferrer"
 							target="_blank"
 						>
-							<Button
-								style={{
-									paddingHorizontal: '0.5rem',
-									paddingVertical: '0.25rem',
-									width: 'max-content',
-								}}
-							>
-								VIEW PRICE
+							<Button className="px-2 py-1">
+								<span className="type-300 text-orange">
+									VIEW PRICE
+								</span>
 							</Button>
 						</a>
 					</Card>
