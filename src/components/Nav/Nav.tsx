@@ -44,7 +44,7 @@ export function Nav(props: NavProps): React.ReactElement {
 					onClick={(): void => logEvent('Nav.HomeButton.Click')}
 					to="/"
 				>
-					<img alt="logo" className="w-32 md:w-40" src={logo} />
+					<img alt="logo" className="h-10 md:h-12" src={logo} />
 				</Link>
 				{showDownloadApp && (
 					<div
