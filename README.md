@@ -1,9 +1,10 @@
 <p align="center" style="background-color: #F8A65D;">
-    <img alt="oss image" src="https://shootismoke.app/static/logo_text_2lines-cf697d3ebc27c385cd2f30e1f6a68c51.svg" width="100px">
+    <img alt="oss image" src="https://shootismoke.app/static/logo_text_2lines-cf697d3ebc27c385cd2f30e1f6a68c51.svg" width="300px">
     <h1 align="center">Sh**t! I Smoke</h1>
+    <a href="https://shootismoke.app">https://shootismoke.app</a>
+
 </p>
 <h4 align="center">Know how many cigarettes you smoke based on the pollution of your location.</h4>
-<a href="https://shootismoke.app"><h4 align="center">https://shootismoke.app</h4></a>
 
 <p align="center">
   <a href="https://github.com/shootismoke/webapp/actions">
