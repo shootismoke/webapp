@@ -14,13 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Button } from '@shootismoke/ui';
 import c from 'classnames';
 import React from 'react';
 
 import { logEvent } from '../../util';
-import { Card } from '../Card';
-import { Carousel } from '../Carousel';
+import { Button } from '../Button';
+import { Carousel, CarouselCard } from '../Carousel';
 import { Section } from '../Section';
 
 interface Ad {
@@ -95,9 +94,10 @@ const ads: Ad[] = [
 export function AdSection(): React.ReactElement {
 	return (
 		<Section
-			className="pl-6 md:px-24"
+			className="md:px-24"
 			noPadding={true}
 			title="10 best air purifiers"
+			titleClassName="px-6 md:px-0"
 		>
 			<Carousel
 				onPageLeftClick={(): void =>
@@ -108,47 +108,44 @@ export function AdSection(): React.ReactElement {
 				}
 			>
 				{ads.map((ad, adIndex) => (
-					<Card
-						className="
-							mr-3 w-40 h-64 p-3
-							md:mr-5 md:w-48 md:h-74 md:p-6
-							flex flex-col items-center flex-shrink-0"
+					<a
+						href={ad.affiliateLink}
 						key={ad.title}
+						onClick={(): void =>
+							logEvent('AdSection.Ad.Click', {
+								adIndex,
+								adTitle: ad.title,
+								affiliateLink: ad.affiliateLink,
+							})
+						}
+						rel="noreferrer"
+						target="_blank"
 					>
-						<img
-							alt={ad.title}
-							className="px-2 h-36 object-cover"
-							src={ad.image}
-						/>
-						<h4 className="mt-4 mb-3 type-200 text-center">
-							{ad.title}
-						</h4>
-						<a
-							href={ad.affiliateLink}
-							onClick={(): void =>
-								logEvent('AdSection.Ad.Click', {
-									adIndex,
-									adTitle: ad.title,
-									affiliateLink: ad.affiliateLink,
-								})
-							}
-							rel="noreferrer"
-							target="_blank"
+						<CarouselCard
+							className={c(
+								'p-3 md:p-6',
+								adIndex === 0 && 'ml-3 md:ml-0'
+							)}
 						>
-							<Button
-								style={{
-									paddingHorizontal: '0.5rem',
-									paddingVertical: '0.25rem',
-									width: 'max-content',
-								}}
-							>
-								VIEW PRICE
+							<img
+								alt={ad.title}
+								className="px-2 h-36 object-cover"
+								src={ad.image}
+							/>
+							<h3 className="mt-4 mb-3 type-200 text-center">
+								{ad.title}
+							</h3>
+
+							<Button className="px-3 py-1">
+								<span className="type-300 text-orange">
+									VIEW PRICE
+								</span>
 							</Button>
-						</a>
-					</Card>
+						</CarouselCard>
+					</a>
 				))}
 			</Carousel>
-			<p className={c('pr-6', 'mt-4 type-100 text-center text-gray-600')}>
+			<p className={c('px-6', 'type-100 text-center text-gray-600')}>
 				All revenue from affiliate commissions is used to support the
 				app&apos;s maintenance costs.
 			</p>

@@ -17,41 +17,23 @@
 import c from 'classnames';
 import React from 'react';
 
-import { SectionDivider } from './SectionDivider';
-
-interface SectionProps extends React.HTMLProps<HTMLDivElement> {
-	/**
-	 * Remove padding from section content. Title still has padding.
-	 */
-	noPadding?: boolean;
-	title?: string;
-	titleClassName?: string;
+interface ButtonProps extends React.HTMLProps<HTMLDivElement> {
+	primary?: boolean;
 }
 
-export function Section({
-	children,
-	className,
-	noPadding,
-	title,
-	titleClassName,
-	...rest
-}: SectionProps): React.ReactElement {
+export function Button(props: ButtonProps): React.ReactElement {
+	const { children, className, primary, ...rest } = props;
+
 	return (
-		<section
+		<div
 			className={c(
-				'container mx-auto mt-16 md:mt-20 max-w-5xl',
-				!noPadding && 'px-6 md:px-24',
+				'border border-orange rounded-full cursor-pointer',
+				primary && 'bg-orange',
 				className
 			)}
 			{...rest}
 		>
-			{title && (
-				<SectionDivider
-					className={c('mb-6 md:mb-9', titleClassName)}
-					title={title}
-				/>
-			)}
 			{children}
-		</section>
+		</div>
 	);
 }

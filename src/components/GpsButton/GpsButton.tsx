@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Button } from '@shootismoke/ui';
 import { navigate } from 'gatsby';
 import React, { useState } from 'react';
 
 import location from '../../../assets/images/icons/location_white.svg';
 import { logEvent } from '../../util';
+import { Button } from '../Button';
 
 interface GpsButtonProps {
 	className?: string;
@@ -61,8 +61,9 @@ export function GpsButton(_props: GpsButtonProps): React.ReactElement {
 
 	return (
 		<Button
-			type="full"
-			onPress={(): void => {
+			className="py-3"
+			primary
+			onClick={(): void => {
 				logEvent('GpsButton.Button.Click');
 				onGpsButtonClick(setText);
 			}}

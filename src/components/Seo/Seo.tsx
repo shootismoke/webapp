@@ -22,11 +22,16 @@ interface SeoProps {
 	title: string;
 }
 
+/**
+ * @see https://web.dev/html-has-lang.
+ */
+const HTML_ATTRIBUTES = { lang: 'en' };
+
 export function Seo(props: SeoProps): React.ReactElement {
 	const { title } = props;
 
 	return (
-		<Helmet>
+		<Helmet htmlAttributes={HTML_ATTRIBUTES}>
 			<meta charSet="utf-8" />
 			<meta
 				name="description"
@@ -40,13 +45,6 @@ export function Seo(props: SeoProps): React.ReactElement {
 			<link rel="icon" href={favicon} />
 
 			<link rel="canonical" href="https://shootismoke.app" />
-
-			<link
-				href={
-					'https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&display=swap'
-				}
-				rel="stylesheet"
-			/>
 
 			<title>{title} - Sh**t! I Smoke</title>
 		</Helmet>

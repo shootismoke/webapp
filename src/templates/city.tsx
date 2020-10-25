@@ -15,7 +15,6 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
-import { captureException } from '@sentry/core';
 import {
 	Api,
 	BoxButton,
@@ -23,7 +22,6 @@ import {
 	FrequencyContext,
 	getAQI,
 	primaryPollutant,
-	raceApiPromise,
 	round,
 } from '@shootismoke/ui';
 import c from 'classnames';
@@ -58,6 +56,7 @@ import {
 	getSeoTitle,
 	logEvent,
 	reverseGeocode,
+	sentryException,
 } from '../util';
 
 /**
@@ -159,18 +158,23 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		setError(undefined);
 		setReverseGeoName(undefined);
 
-		reverseGeocode(city.gps).then(setReverseGeoName).catch(console.error);
+		reverseGeocode(city.gps).then(setReverseGeoName).catch(sentryException);
 
-		const sixHoursAgo = new Date();
-		sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
-		raceApiPromise(city.gps, {
-			aqicn: {
-				token: process.env.GATSBY_AQICN_TOKEN as string,
-			},
-			openaq: {
-				dateFrom: sixHoursAgo,
-			},
-		})
+		// This `race` file imports a bunch of stuff, so we run it lazily.
+		import('@shootismoke/ui/lib/util/race')
+			.then(({ raceApiPromise }) => {
+				const sixHoursAgo = new Date();
+				sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
+
+				return raceApiPromise(city.gps, {
+					aqicn: {
+						token: process.env.GATSBY_AQICN_TOKEN as string,
+					},
+					openaq: {
+						dateFrom: sixHoursAgo,
+					},
+				});
+			})
 			.then(setApi)
 			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -185,15 +189,15 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			// Error message is often like: `1. {error1} 2. {error2}`.
 			const errorParts = error.message.split('2.');
 			if (errorParts.length !== 2) {
-				captureException(error);
+				sentryException(error);
 			}
 			const error1 = errorParts[0].substring(3).trim(); // remove the leading "1."
 			const error2 = errorParts[1].trim();
 
-			!isKnownError(error1) && captureException(error1);
-			!isKnownError(error2) && captureException(error2);
+			!isKnownError(error1) && sentryException(new Error(error1));
+			!isKnownError(error2) && sentryException(new Error(error2));
 		} catch (err) {
-			captureException(err);
+			sentryException(err);
 		}
 	}, [error]);
 
@@ -269,12 +273,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 							/>
 						</div>
 
-						<div
-							className={c(
-								'ml-6 md:ml-24',
-								'mt-4 overflow-auto flex'
-							)}
-						>
+						<div className="pl-6 md:pl-0 md:ml-24 mt-4 overflow-auto flex">
 							{(['daily', 'weekly', 'monthly'] as const).map(
 								(f) => (
 									<div

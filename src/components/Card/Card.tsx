@@ -17,16 +17,10 @@
 import c from 'classnames';
 import React from 'react';
 
-interface CardProps {
-	children?:
-		| React.ReactElement
-		| undefined
-		| (React.ReactElement | undefined)[];
-	className?: string;
-}
+export type CardProps = React.HTMLProps<HTMLDivElement>;
 
 export function Card(props: CardProps): React.ReactElement {
-	const { className, children } = props;
+	const { className, children, ...rest } = props;
 
 	return (
 		<div
@@ -34,6 +28,7 @@ export function Card(props: CardProps): React.ReactElement {
 				'overflow-hidden border rounded-xl border-gray-200 shadow-lg',
 				className
 			)}
+			{...rest}
 		>
 			{children}
 		</div>

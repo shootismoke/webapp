@@ -37,13 +37,14 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 		<Card className={c('h-26 pr-2 flex flex-row', className)}>
 			<div className="mr-4 w-26 h-26 flex-shrink-0">
 				<img
+					alt={title}
 					className="h-full w-full object-cover"
 					src={photoUrl || FALLBACK_IMAGE}
 				/>
 			</div>
 
 			<div className="min-w-0 flex flex-col justify-center">
-				<h4 className="mb-3 type-400 text-orange">{title}</h4>
+				<p className="mb-3 type-400 text-orange">{title}</p>
 				<p className="type-200 w-full truncate">{subtitle}</p>
 				<p className="type-100 text-gray-600">{description}</p>
 			</div>

@@ -31,7 +31,7 @@ import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location_orange.svg';
 import search from '../../../assets/images/icons/search.svg';
-import { logEvent } from '../../util';
+import { logEvent, sentryException } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
@@ -61,14 +61,14 @@ function algoliaLoadOptions(
 			}))
 		),
 		TE.fold((err) => {
-			console.error(err);
+			sentryException(err);
 
 			return T.of([]);
 		}, T.of)
 	)();
 }
 
-function defaultCustomStyle<T>(provided: T): CSSProperties {
+function defaultCustomStyle(provided: CSSProperties): CSSProperties {
 	return {
 		...provided,
 		color: '#44464A',
@@ -91,7 +91,14 @@ const customStyles: StylesConfig = {
 	noOptionsMessage: defaultCustomStyle,
 	loadingMessage: defaultCustomStyle,
 	option: defaultCustomStyle,
-	placeholder: defaultCustomStyle,
+	placeholder: (provided: CSSProperties): CSSProperties => {
+		return {
+			...provided,
+			color: '#44464A',
+			fontSize: '0.9rem',
+			width: '100%', // This is for truncate ellipsis.
+		};
+	},
 	singleValue: (provided) => ({
 		...provided,
 		width: '80%',
@@ -137,10 +144,18 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				}}
 				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
 				placeholder={
-					<span className="flex items-center">
-						<img alt="search" className="mr-2" src={search} />
-						{overridePlaceholder || placeholder}
-					</span>
+					<div className="flex items-center">
+						<img
+							alt="search"
+							className="mr-2 flex-shrink-0"
+							src={search}
+						/>
+						<span className="overflow-hidden truncate">
+							{overridePlaceholder || placeholder}
+						</span>
+
+						{showGps && <div className="mr-4 w-6 flex-shrink-0" />}
+					</div>
 				}
 				styles={customStyles}
 				{...rest}

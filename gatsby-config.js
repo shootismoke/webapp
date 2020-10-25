@@ -1,6 +1,25 @@
 module.exports = {
 	plugins: [
 		'gatsby-plugin-postcss',
+		'gatsby-plugin-sharp',
+		'gatsby-transformer-sharp',
+		{
+			resolve: 'gatsby-source-filesystem',
+			options: {
+				path: `${__dirname}/assets/images`,
+			},
+		},
+		{
+			resolve: `gatsby-plugin-prefetch-google-fonts`,
+			options: {
+				fonts: [
+					{
+						family: 'Montserrat',
+						variants: ['500', '800'],
+					},
+				],
+			},
+		},
 		'gatsby-plugin-react-helmet',
 		'gatsby-plugin-react-native-web',
 		'gatsby-plugin-typescript',
@@ -45,5 +64,6 @@ module.exports = {
 				dsn: process.env.SENTRY_API_KEY,
 			},
 		},
+		'gatsby-plugin-webpack-bundle-analyser-v2',
 	],
 };
