@@ -19,6 +19,7 @@ import Img, { FluidObject } from 'gatsby-image';
 import React from 'react';
 
 import { logEvent } from '../../util';
+import type { GatsbyFileNode } from '../BlogSection';
 import { Section } from '../Section';
 
 const medias = [
@@ -106,7 +107,7 @@ export function FeaturedSection(): React.ReactElement {
 			{
 				node,
 			}: {
-				node: { name: string; childImageSharp: { fluid: FluidObject } };
+				node: GatsbyFileNode;
 			}
 		) => {
 			acc[node.name] = node.childImageSharp.fluid;

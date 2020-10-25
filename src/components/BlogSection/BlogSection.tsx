@@ -160,6 +160,15 @@ const blogs: Blog[] = [
 	},
 ];
 
+/**
+ * An interface representing a file node in Gatsby, when we query a
+ * childImageSharp.
+ */
+export interface GatsbyFileNode {
+	name: string;
+	childImageSharp: { fluid: FluidObject };
+}
+
 export function BlogSection(): React.ReactElement {
 	const data = useStaticQuery(graphql`
 		query BlogSectionQuery {
@@ -185,7 +194,7 @@ export function BlogSection(): React.ReactElement {
 			{
 				node,
 			}: {
-				node: { name: string; childImageSharp: { fluid: FluidObject } };
+				node: GatsbyFileNode;
 			}
 		) => {
 			acc[node.name] = node.childImageSharp.fluid;
