@@ -64,6 +64,5 @@ module.exports = {
 				dsn: process.env.SENTRY_API_KEY,
 			},
 		},
-		'gatsby-plugin-webpack-bundle-analyser-v2',
 	],
 };
