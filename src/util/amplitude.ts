@@ -15,7 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 // Import the `amplitude` namespace for TS typings.
-import 'amplitude-js';
+import '@types/amplitude-js';
 
 import { sentryException } from './sentry';
 
