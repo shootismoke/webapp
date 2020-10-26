@@ -14,6 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+// Import the `amplitude` namespace for TS typings.
+import 'amplitude-js';
+
 import { sentryException } from './sentry';
 
 /**
