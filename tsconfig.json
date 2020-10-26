@@ -3,7 +3,8 @@
 		"downlevelIteration": true,
 		"jsx": "react",
 		"resolveJsonModule": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"types": ["cypress"]
 	},
 	"extends": "./node_modules/@amaurymartiny/tsconfig/tsconfig"
 }
