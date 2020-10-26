@@ -220,41 +220,38 @@ export function BlogSection(): React.ReactElement {
 				}
 			>
 				{blogs.map((blog, blogIndex) => (
-					<CarouselCard
-						className={c(blogIndex === 0 && 'ml-3 md:ml-0')}
+					<a
+						href={blog.link}
 						key={blog.title}
+						onClick={(): void =>
+							logEvent('BlogSection.Blog.Click', {
+								blogIndex,
+								blogUrl: blog.link,
+								blogTitle: blog.title,
+							})
+						}
+						rel="noreferrer"
+						target="_blank"
 					>
-						<Img
-							alt={blog.title}
-							className="w-full h-40 md:h-50 object-cover"
-							fluid={imagesMap[blog.slug]}
-						/>
-						<div className="mt-2 px-4">
-							<a
-								href={blog.link}
-								onClick={(): void =>
-									logEvent('BlogSection.Blog.Click', {
-										blogIndex,
-										blogUrl: blog.link,
-										blogTitle: blog.title,
-									})
-								}
-								rel="noreferrer"
-								target="_blank"
-							>
-								<h3
-									className="
-									type-200 line-clamp-2
-									hover:underline"
-								>
+						<CarouselCard
+							className={c(blogIndex === 0 && 'ml-3 md:ml-0')}
+						>
+							<Img
+								alt={blog.title}
+								className="w-full h-40 md:h-50 object-cover"
+								fluid={imagesMap[blog.slug]}
+							/>
+							<div className="mt-2 px-4">
+								<h3 className="type-200 line-clamp-2">
 									{blog.title}
 								</h3>
-							</a>
-							<p className="mt-1 type-100 text-gray-600">
-								{blog.subtitle}
-							</p>
-						</div>
-					</CarouselCard>
+
+								<p className="mt-1 type-100 text-gray-600">
+									{blog.subtitle}
+								</p>
+							</div>
+						</CarouselCard>
+					</a>
 				))}
 			</Carousel>
 		</Section>
