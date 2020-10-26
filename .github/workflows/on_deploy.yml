@@ -1,0 +1,16 @@
+name: on_deploy
+
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+on: [deployment, deployment_status]
+
+jobs:
+    cypress:
+        # Only runs this job on successful deploy.
+        if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Run Cypress
+              uses: cypress-io/github-action@v2
+              env:
+                  CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
