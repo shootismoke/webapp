@@ -137,7 +137,7 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 			}
 		>
 			<div className="flex flex-col items-center">
-				<p className="mb-6 type-100 text-center text-gray-600">
+				<p className="-mt-5 mb-5 type-100 text-center text-gray-600">
 					Updated every two hours. Real-time ranking may differ.
 				</p>
 				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 md:grid-cols-2 md:grid-rows-3 gap-4">
