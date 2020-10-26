@@ -145,7 +145,7 @@ export function AdSection(): React.ReactElement {
 					</a>
 				))}
 			</Carousel>
-			<p className={c('px-6', 'type-100 text-center text-gray-600')}>
+			<p className="px-6 type-100 text-center text-gray-600">
 				All revenue from affiliate commissions is used to support the
 				app&apos;s maintenance costs.
 			</p>
