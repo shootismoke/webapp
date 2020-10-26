@@ -4,6 +4,7 @@ name: ci
 on: [deployment_status]
 
 jobs:
+    # Inspired from https://glebbahmutov.com/blog/develop-preview-test/
     cypress:
         # only runs this job on successful deploy
         if: github.event.deployment_status.state == 'success'
