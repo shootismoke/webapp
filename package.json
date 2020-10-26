@@ -19,7 +19,7 @@
 		"@types/amplitude-js": "^6.0.0",
 		"@types/classnames": "^2.2.10",
 		"@types/i18n-js": "^3.0.3",
-		"@types/react-helmet": "^6.0.0",
+		"@types/react-helmet": "^6.1.0",
 		"@types/react-native": "^0.62.12",
 		"@types/react-select": "^3.0.13",
 		"classnames": "^2.2.6",
