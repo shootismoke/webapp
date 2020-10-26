@@ -242,11 +242,7 @@ export function BlogSection(): React.ReactElement {
 								fluid={imagesMap[blog.slug]}
 							/>
 							<div className="mt-2 px-4">
-								<h3
-									className="
-									type-200 line-clamp-2
-									hover:underline"
-								>
+								<h3 className="type-200 line-clamp-2">
 									{blog.title}
 								</h3>
 
