@@ -14,10 +14,5 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-declare module '*.png' {
-	export default img as string;
-}
-
-declare module '*.svg' {
-	export default img as string;
-}
+// Importing types to have the `amplitude` namespace.
+import '@types/amplitude-js';
