@@ -40,5 +40,4 @@ describe('Homepage', () => {
 
 		cy.url().should('match', /city\/\w+/);
 	});
-
 });
