@@ -25,26 +25,34 @@ export function logEvent(
 	event: string,
 	properties?: Record<string, string | number | undefined>
 ): void {
-	if (!window.amplitude) {
-		return;
+	if (window.amplitude) {
+		window.amplitude.getInstance().logEvent(
+			event,
+			{
+				...properties,
+				origin: window.location.origin,
+				pathname: window.location.pathname,
+				url: window.location.href,
+			},
+			(responseCode, responseBody) => {
+				if (responseCode < 200 || responseCode >= 300) {
+					sentryException(
+						new Error(
+							`Amplitude callback: ${responseCode} ${responseBody}`
+						)
+					);
+				}
+			}
+		);
 	}
 
-	window.amplitude.getInstance().logEvent(
-		event,
-		{
-			...properties,
-			origin: window.location.origin,
-			pathname: window.location.pathname,
-			url: window.location.href,
-		},
-		(responseCode, responseBody) => {
-			if (responseCode < 200 || responseCode >= 300) {
-				sentryException(
-					new Error(
-						`Amplitude callback: ${responseCode} ${responseBody}`
-					)
-				);
-			}
-		}
-	);
+	// We also try Cabin.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	if ((window as any).cabin) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(window as any).cabin.event(event).catch((err: Error) => {
+			console.error(err);
+			sentryException(err);
+		});
+	}
 }
