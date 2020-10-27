@@ -47,6 +47,12 @@ export function Seo(props: SeoProps): React.ReactElement {
 			<link rel="canonical" href="https://shootismoke.app" />
 
 			<title>{title} - Sh**t! I Smoke</title>
+
+			<script
+				async
+				defer
+				src="https://scripts.withcabin.com/hello.js"
+			></script>
 		</Helmet>
 	);
 }
