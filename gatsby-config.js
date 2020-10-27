@@ -33,6 +33,7 @@ module.exports = {
 				tailwind: true, // Enable tailwindcss support.
 			},
 		},
+		'gatsby-plugin-robots-txt',
 		'gatsby-plugin-sitemap',
 		{
 			resolve: 'gatsby-plugin-amplitude-analytics',
