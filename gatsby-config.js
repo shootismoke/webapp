@@ -44,6 +44,10 @@ module.exports = {
 					pageView: 'Route.Update',
 				},
 				amplitudeConfig: {
+					includeGclid: true,
+					includeReferrer: true,
+					includeUtm: true,
+					// We never track PII.
 					trackingOptions: {
 						city: false,
 						country: true,
