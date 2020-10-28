@@ -26,7 +26,7 @@ describe('Homepage', () => {
 
 		cy.get('footer')
 			.should('be.visible')
-			.find('a[href="/faq"]')
+			.contains('F.A.Q.')
 			.should('have.attr', 'href', '/faq')
 			.click();
 
@@ -36,7 +36,7 @@ describe('Homepage', () => {
 	it('can click on a city', () => {
 		cy.visit('/');
 
-		cy.get('.pt-2').find('a').first().click();
+		cy.get('[data-cy-city=1]').click();
 
 		cy.url().should('match', /city\/\w+/);
 	});
