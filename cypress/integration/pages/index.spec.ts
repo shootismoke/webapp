@@ -20,4 +20,24 @@ describe('Homepage', () => {
 
 		cy.get('h1').should('be.visible').should('contain', 'How much am I');
 	});
+
+	it('footer is visible', () => {
+		cy.visit('/');
+
+		cy.get('footer')
+			.should('be.visible')
+			.contains('F.A.Q.')
+			.should('have.attr', 'href', '/faq')
+			.click();
+
+		cy.url().should('contain', 'faq');
+	});
+
+	it('can click on a city', () => {
+		cy.visit('/');
+
+		cy.get('[data-cy-city=1]').click();
+
+		cy.url().should('match', /city\/\w+/);
+	});
 });

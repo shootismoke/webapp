@@ -143,6 +143,7 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 md:grid-cols-2 md:grid-rows-3 gap-4">
 					{cities.map((city, index) => (
 						<Link
+							data-cy-city={index}
 							key={city.slug}
 							to={`/city/${city.slug}`}
 							onClick={(): void =>
