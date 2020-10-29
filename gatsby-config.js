@@ -1,4 +1,7 @@
 module.exports = {
+	siteMetadata: {
+		siteUrl: 'https://shootismoke.app',
+	},
 	plugins: [
 		'gatsby-plugin-postcss',
 		'gatsby-plugin-sharp',
@@ -30,6 +33,8 @@ module.exports = {
 				tailwind: true, // Enable tailwindcss support.
 			},
 		},
+		'gatsby-plugin-robots-txt',
+		'gatsby-plugin-sitemap',
 		{
 			resolve: 'gatsby-plugin-amplitude-analytics',
 			options: {
@@ -39,6 +44,10 @@ module.exports = {
 					pageView: 'Route.Update',
 				},
 				amplitudeConfig: {
+					includeGclid: true,
+					includeReferrer: true,
+					includeUtm: true,
+					// We never track PII.
 					trackingOptions: {
 						city: false,
 						country: true,
