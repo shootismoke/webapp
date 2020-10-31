@@ -15,42 +15,56 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 export function searchCityWithSlug(startPage: string): void {
-	it('should search for a city and redirect to correct slug', () => {
-		cy.visit(startPage);
+	it(
+		'should search for a city and redirect to correct slug',
+		{
+			// Algolia sometimes take a long time on CI.
+			defaultCommandTimeout: 10000,
+		},
+		() => {
+			cy.visit(startPage);
 
-		cy.get('[data-cy=SearchBar-AsyncSelect]')
-			.should('be.visible')
-			.get('input')
-			.type('paris', { force: true });
+			cy.get('[data-cy=SearchBar-AsyncSelect]')
+				.should('be.visible')
+				.get('input')
+				.type('paris', { force: true });
 
-		// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
-		cy.get('[data-cy=SearchBar-AsyncSelect]')
-			.get('[class*="-menu"]')
-			.find('[class*="-option"]')
-			.should('have.length.gt', 1)
-			.first()
-			.click({ force: true });
+			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
+			cy.get('[data-cy=SearchBar-AsyncSelect]')
+				.get('[class*="-menu"]')
+				.find('[class*="-option"]')
+				.should('have.length.gt', 1)
+				.first()
+				.click({ force: true });
 
-		cy.url().should('have.string', '/city/paris');
-	});
+			cy.url().should('have.string', '/city/paris');
+		}
+	);
 }
 
 export function searchCityWithGps(startPage: string): void {
-	it('should search for a city and redirect to city page with gps', () => {
-		cy.visit(startPage);
+	it(
+		'should search for a city and redirect to city page with gps',
+		{
+			// Algolia sometimes take a long time on CI.
+			defaultCommandTimeout: 10000,
+		},
+		() => {
+			cy.visit(startPage);
 
-		cy.get('[data-cy=SearchBar-AsyncSelect]')
-			.should('be.visible')
-			.get('input')
-			.type('notre dame de paris', { force: true });
+			cy.get('[data-cy=SearchBar-AsyncSelect]')
+				.should('be.visible')
+				.get('input')
+				.type('notre dame de paris', { force: true });
 
-		// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
-		cy.get('[data-cy=SearchBar-AsyncSelect]')
-			.get('[class*="-menu"]')
-			.find('[class*="-option"]')
-			.first()
-			.click({ force: true });
+			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
+			cy.get('[data-cy=SearchBar-AsyncSelect]')
+				.get('[class*="-menu"]')
+				.find('[class*="-option"]')
+				.first()
+				.click({ force: true });
 
-		cy.url().should('have.string', '/city?lat=48.7767&lng=1.96212');
-	});
+			cy.url().should('have.string', '/city?lat=48.7767&lng=1.96212');
+		}
+	);
 }
