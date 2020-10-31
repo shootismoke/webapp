@@ -19,14 +19,11 @@ function performSearch(
 	searchInput: string,
 	expectedUrl: string
 ): void {
-	console.log(process.env.CI, process.env);
 	// FIXME This test doesn't pass in CI.
 	// https://github.com/shootismoke/webapp/issues/36
-	if (process.env.CI) {
-		return;
-	}
-	console.log('AAA');
-	it(
+	const fn = process.env.CI ? it.skip : it;
+
+	fn(
 		`should search for ${searchInput} and redirect to ${expectedUrl}`,
 		{
 			// Algolia sometimes take a long time on CI.
