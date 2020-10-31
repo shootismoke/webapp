@@ -22,7 +22,7 @@ export function redirectToFaq(startPage: string): void {
 			.should('be.visible')
 			.contains('F.A.Q.')
 			.should('have.attr', 'href', '/faq')
-			.click();
+			.click({ force: true });
 
 		cy.url().should('have.string', '/faq');
 	});

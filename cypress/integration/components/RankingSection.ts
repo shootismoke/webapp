@@ -18,7 +18,7 @@ export function clickOnCityCard(startPage: string): void {
 	it('should redirect to correct city when we click on a city card', () => {
 		cy.visit(startPage);
 
-		cy.get('[data-cy=RankingSection-city-card-0]').click();
+		cy.get('[data-cy=RankingSection-city-card-0]').click({ force: true });
 
 		cy.url().should('match', /city\/\w+/);
 	});

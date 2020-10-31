@@ -20,15 +20,13 @@ export function searchCityWithSlug(startPage: string): void {
 
 		cy.get('[data-cy=SearchBar-AsyncSelect]')
 			.should('be.visible')
-			.click()
-			.type('paris');
-
-		cy.get('[data-cy=SearchBar-AsyncSelect]')
+			.click({ force: true })
+			.type('paris')
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
 			.get('[class*="-menu"]')
 			.find('[class*="-option"]')
 			.first()
-			.click();
+			.click({ force: true });
 
 		cy.url().should('have.string', '/city/paris');
 	});
@@ -40,15 +38,13 @@ export function searchCityWithGps(startPage: string): void {
 
 		cy.get('[data-cy=SearchBar-AsyncSelect]')
 			.should('be.visible')
-			.click()
-			.type('notre dame de paris');
-
-		cy.get('[data-cy=SearchBar-AsyncSelect]')
+			.click({ force: true })
+			.type('notre dame de paris')
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
 			.get('[class*="-menu"]')
 			.find('[class*="-option"]')
 			.first()
-			.click();
+			.click({ force: true });
 
 		cy.url().should('have.string', '/city?lat=48.7767&lng=1.96212');
 	});
