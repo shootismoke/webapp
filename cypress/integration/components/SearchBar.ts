@@ -19,11 +19,9 @@ function performSearch(
 	searchInput: string,
 	expectedUrl: string
 ): void {
-	// FIXME This test doesn't pass in CI.
+	// FIXME This test passes locally, but doesn't pass in CI.
 	// https://github.com/shootismoke/webapp/issues/36
-	const fn = process.env.CI ? it.skip : it;
-
-	fn(
+	it.skip(
 		`should search for ${searchInput} and redirect to ${expectedUrl}`,
 		{
 			// Algolia sometimes take a long time on CI.
