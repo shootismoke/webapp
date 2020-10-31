@@ -14,7 +14,6 @@ jobs:
 
             # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions
             - name: Cypress tests running
-              if: ${{ success() }}
               # set the merge commit status check
               # using GitHub REST API
               # see https://docs.github.com/en/rest/reference/repos#create-a-commit-status
