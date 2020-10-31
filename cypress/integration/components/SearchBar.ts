@@ -20,11 +20,12 @@ export function searchCityWithSlug(startPage: string): void {
 
 		cy.get('[data-cy=SearchBar-AsyncSelect]')
 			.should('be.visible')
-			.click({ force: true })
-			.type('paris', { force: true });
+			.get('input')
+			.type('paris');
 
 		// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
-		cy.get('[data-cy=SearchBar-AsyncSelect] [class*="-menu"]')
+		cy.get('[data-cy=SearchBar-AsyncSelect]')
+			.get('[class*="-menu"]')
 			.find('[class*="-option"]')
 			.first()
 			.click({ force: true });
@@ -39,11 +40,12 @@ export function searchCityWithGps(startPage: string): void {
 
 		cy.get('[data-cy=SearchBar-AsyncSelect]')
 			.should('be.visible')
-			.click({ force: true })
-			.type('notre dame de paris', { force: true });
+			.get('input')
+			.type('notre dame de paris');
 
 		// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
-		cy.get('[data-cy=SearchBar-AsyncSelect] [class*="-menu"]')
+		cy.get('[data-cy=SearchBar-AsyncSelect]')
+			.get('[class*="-menu"]')
 			.find('[class*="-option"]')
 			.first()
 			.click({ force: true });
