@@ -25,9 +25,9 @@ export function searchCityWithSlug(startPage: string): void {
 			cy.visit(startPage);
 
 			cy.get('[data-cy=SearchBar-AsyncSelect] input')
-				.should('be.visible')
-				.click({ force: true })
-				.should('be.focused')
+				.should('be.visible', { force: true })
+				.click()
+				.should('be.focused', { force: true })
 				.type('paris');
 
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
@@ -36,7 +36,7 @@ export function searchCityWithSlug(startPage: string): void {
 				.find('[class*="-option"]')
 				.should('have.length.gt', 1)
 				.first()
-				.click({ force: true });
+				.click();
 
 			cy.url().should('have.string', '/city/paris');
 		}
@@ -54,9 +54,9 @@ export function searchCityWithGps(startPage: string): void {
 			cy.visit(startPage);
 
 			cy.get('[data-cy=SearchBar-AsyncSelect] input')
-				.should('be.visible')
-				.click({ force: true })
-				.should('be.focused')
+				.should('be.visible', { force: true })
+				.click()
+				.should('be.focused', { force: true })
 				.type('notre dame de paris');
 
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
@@ -64,7 +64,7 @@ export function searchCityWithGps(startPage: string): void {
 				.get('[class*="-menu"]')
 				.find('[class*="-option"]')
 				.first()
-				.click({ force: true });
+				.click();
 
 			cy.url().should('have.string', '/city?lat=48.7767&lng=1.96212');
 		}
