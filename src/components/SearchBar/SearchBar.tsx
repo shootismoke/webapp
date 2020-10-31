@@ -157,7 +157,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 	>(undefined);
 
 	return (
-		<div className="relative">
+		<div className="relative" data-cy="SearchBar-AsyncSelect">
 			<AsyncSelect
 				className={c('w-full rounded text-gray-700', className)}
 				loadOptions={algoliaLoadOptions}

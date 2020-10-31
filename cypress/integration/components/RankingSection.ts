@@ -14,24 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import {
-	clickOnCityCard,
-	redirectToFaq,
-	searchCityWithGps,
-	searchCityWithSlug,
-} from '../components';
+export function clickOnCityCard(startPage: string): void {
+	it('should redirect to correct city when we click on a city card', () => {
+		cy.visit(startPage);
 
-const URL_PATH = '/city/paris';
+		cy.get('[data-cy=RankingSection-city-card-0]').click();
 
-describe('Homepage', () => {
-	clickOnCityCard(URL_PATH);
-	redirectToFaq(URL_PATH);
-	searchCityWithGps(URL_PATH);
-	searchCityWithSlug(URL_PATH);
-
-	it('h1 is visible', () => {
-		cy.visit(URL_PATH);
-
-		cy.get('h1').should('be.visible').should('contain', 'You are smoking');
+		cy.url().should('match', /city\/\w+/);
 	});
-});
+}
