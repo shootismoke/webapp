@@ -91,7 +91,14 @@ const customStyles: StylesConfig = {
 		...provided,
 		display: 'none',
 	}),
-	input: defaultCustomStyle,
+	input: (provided: CSSProperties): CSSProperties => {
+		return {
+			...provided,
+			color: '#44464A',
+			fontSize: '0.9rem',
+			zIndex: 100, // This is so that the <input> is above the <img>, mainly for cypress tests to pass.
+		};
+	},
 	noOptionsMessage: defaultCustomStyle,
 	loadingMessage: defaultCustomStyle,
 	option: defaultCustomStyle,
