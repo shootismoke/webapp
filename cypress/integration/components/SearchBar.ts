@@ -30,14 +30,12 @@ function performSearch(
 
 			cy.get('[data-cy=SearchBar-AsyncSelect] input')
 				.click({ force: true })
-				.should('be.focused', { force: true })
 				.type(searchInput, { force: true });
 
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
 			cy.get('[data-cy=SearchBar-AsyncSelect]')
 				.get('[class*="-menu"]')
 				.find('[class*="-option"]')
-				.should('have.length.gt', 1)
 				.first()
 				.click({ force: true });
 
