@@ -25,6 +25,7 @@ export function searchCityWithSlug(startPage: string): void {
 			cy.visit(startPage);
 
 			cy.get('[data-cy=SearchBar-AsyncSelect] input')
+				.should('be.visible')
 				.click({ force: true })
 				.should('be.focused')
 				.type('paris');
@@ -52,11 +53,8 @@ export function searchCityWithGps(startPage: string): void {
 		() => {
 			cy.visit(startPage);
 
-			cy.get('[data-cy=SearchBar-AsyncSelect] input').should(
-				'be.focused'
-			);
-
 			cy.get('[data-cy=SearchBar-AsyncSelect] input')
+				.should('be.visible')
 				.click({ force: true })
 				.should('be.focused')
 				.type('notre dame de paris');
