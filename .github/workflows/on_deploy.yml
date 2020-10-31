@@ -11,17 +11,32 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+
             - name: Run Cypress
               uses: cypress-io/github-action@v2
               env:
                   CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
 
-            # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions
+            # after the test run completes
+            # store videos and any screenshots
+            # NOTE: screenshots will be generated only if E2E test failed
+            # thus we store screenshots only on failures
+            # Alternative: create and commit an empty cypress/screenshots folder
+            # to always have something to upload
+            - uses: actions/upload-artifact@v1
+              if: failure()
+              with:
+                  name: cypress-screenshots
+                  path: cypress/screenshots
+            # Test run video was always captured, so this action uses "always()" condition
+            - uses: actions/upload-artifact@v1
+              if: always()
+              with:
+                  name: cypress-videos
+                  path: cypress/videos
+
             - name: Cypress tests passed
               if: ${{ success() }}
-              # set the merge commit status check
-              # using GitHub REST API
-              # see https://docs.github.com/en/rest/reference/repos#create-a-commit-status
               run: |
                   curl --request POST \
                   --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \

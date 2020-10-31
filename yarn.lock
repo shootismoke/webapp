@@ -3256,25 +3256,26 @@
     "@types/debug" "^4.1.5"
     debug "^4.1.1"
 
-"@shootismoke/dataproviders@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.6.1.tgz#dc4063e4244661c630d4c6955b6e04debf2c1bfb"
-  integrity sha512-KzJK2hiOtH5OE9dS1Q5NJ/wUVER/J3eqUMGUkxDAHJSiTT7XV5G5NIyzUFu/GW6fYc8paQ3r/DOTCe7gz1gPag==
+"@shootismoke/dataproviders@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@shootismoke/dataproviders/-/dataproviders-0.6.2.tgz#6ab4c36b29523596966090269d1306abef5a9d61"
+  integrity sha512-+/bmlt2hB+1dE4OV1I0gaRedbQrlJGSml5DYIJ7yEjFHDEMcpodgUFQCwww8xiDqZYPknPqWFcYBAWmdAVPQ+A==
   dependencies:
     "@shootismoke/convert" "^0.6.1"
-    axios "^0.20.0"
+    axios "^0.21.0"
     date-fns "^2.8.1"
     date-fns-tz "^1.0.9"
     fp-ts "^2.1.1"
     io-ts "^2.0.1"
 
-"@shootismoke/ui@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.6.1.tgz#b2848305bcfb2e64144d6d3b46c247dcc80b7598"
-  integrity sha512-4jx5Mc6FC99d7qS6x4a5sY+9yitY7FyryuOZ3qlLDXf2UUDz01xP1ZCLY/G7Raaz1gAFgstl25lEgrrhudwkdw==
+"@shootismoke/ui@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@shootismoke/ui/-/ui-0.6.2.tgz#caeb3014b74b8a63f23b00535e11155fd7412a75"
+  integrity sha512-Qewq4jIohy5SqC8YZufftU32YAJAP49/89XARoq+q+MwmJAUYRlk84OPkNQJmzXB0GoY8f8gmXmI106ntnMPHQ==
   dependencies:
     "@expo/vector-icons" "^10.2.0"
-    "@shootismoke/dataproviders" "^0.6.1"
+    "@shootismoke/dataproviders" "^0.6.2"
+    "@sindresorhus/slugify" "^1.1.0"
     "@types/haversine" "^1.1.4"
     "@types/p-any" "^1.1.3"
     expo-constants "^9.0.0"
@@ -4619,6 +4620,13 @@ axios@^0.20.0:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
   integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+  dependencies:
+    follow-redirects "^1.10.0"
+
+axios@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.0.tgz#26df088803a2350dff2c27f96fef99fe49442aca"
+  integrity sha512-fmkJBknJKoZwem3/IKSSLpkdNXZeBu5Q7GA/aRsr2btgrptmSCxi2oFjZHqGdK9DoTil9PIHlPIZw2EcRJXRvw==
   dependencies:
     follow-redirects "^1.10.0"
 

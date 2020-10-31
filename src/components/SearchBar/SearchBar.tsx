@@ -15,12 +15,13 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { fetchAlgolia } from '@shootismoke/ui/lib/util/fetchAlgolia';
+import slugify from '@sindresorhus/slugify';
 import c from 'classnames';
 import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
-import { navigate } from 'gatsby';
-import React, { CSSProperties, useState } from 'react';
+import { graphql, navigate, useStaticQuery } from 'gatsby';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import {
 	OptionsType,
 	OptionTypeBase,
@@ -31,7 +32,7 @@ import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location_orange.svg';
 import search from '../../../assets/images/icons/search.svg';
-import { logEvent, sentryException } from '../../util';
+import { City, logEvent, sentryException } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
@@ -50,14 +51,17 @@ function algoliaLoadOptions(
 		TE.map((items) =>
 			items.map((item) => ({
 				label: [
-					item.locale_names[0],
-					item.city,
-					item.county && item.county.length ? item.county[0] : null,
+					item.locale_names && item.locale_names[0],
+					item.city && item.city[0],
+					item.county && item.county[0],
 					item.country,
 				]
 					.filter((_) => _)
 					.join(', '),
-				value: item._geoloc,
+				value: {
+					localeName: item.locale_names && item.locale_names[0],
+					...item._geoloc,
+				},
 			}))
 		),
 		TE.fold((err) => {
@@ -87,7 +91,14 @@ const customStyles: StylesConfig = {
 		...provided,
 		display: 'none',
 	}),
-	input: defaultCustomStyle,
+	input: (provided: CSSProperties): CSSProperties => {
+		return {
+			...provided,
+			color: '#44464A',
+			fontSize: '0.9rem',
+			zIndex: 100, // This is so that the <input> is above the <img>, mainly for cypress tests to pass.
+		};
+	},
 	noOptionsMessage: defaultCustomStyle,
 	loadingMessage: defaultCustomStyle,
 	option: defaultCustomStyle,
@@ -121,6 +132,31 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 		...rest
 	} = props;
 
+	const worldCities = useStaticQuery(graphql`
+		query SearchBarQuery {
+			allShootismokeCity {
+				nodes {
+					slug
+				}
+			}
+		}
+	`).allShootismokeCity.nodes as City[];
+	// Create a lookup map for fast access.
+	const [worldCitiesMap, setWorldCitiesMap] = useState<Record<string, true>>(
+		{}
+	);
+	useEffect(() => {
+		setWorldCitiesMap(
+			worldCities.reduce((acc, { slug }) => {
+				if (slug) {
+					acc[slug] = true;
+				}
+
+				return acc;
+			}, {} as Record<string, true>)
+		);
+	}, [worldCities]);
+
 	// If we have a more important message to show in the placeholder, we put
 	// it here.
 	const [overridePlaceholder, setOverridePlaceholder] = useState<
@@ -128,7 +164,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 	>(undefined);
 
 	return (
-		<div className="relative">
+		<div className="relative" data-cy="SearchBar-AsyncSelect">
 			<AsyncSelect
 				className={c('w-full rounded text-gray-700', className)}
 				loadOptions={algoliaLoadOptions}
@@ -136,11 +172,22 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore FIXME How to fix this?
 				onChange={({ label, value }): void => {
-					navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
-						state: {
-							cityName: label,
-						} as SearchLocationState,
-					});
+					// If the input matches one of the slugs, then we redirect
+					// to the slugged page.
+					const sluggifiedCity = slugify(value.localeName || '');
+					if (worldCitiesMap[sluggifiedCity]) {
+						navigate(`/city/${sluggifiedCity}`, {
+							state: {
+								cityName: label,
+							} as SearchLocationState,
+						});
+					} else {
+						navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
+							state: {
+								cityName: label,
+							} as SearchLocationState,
+						});
+					}
 				}}
 				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
 				placeholder={
