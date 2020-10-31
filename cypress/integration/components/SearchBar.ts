@@ -29,10 +29,9 @@ function performSearch(
 			cy.visit(startPage);
 
 			cy.get('[data-cy=SearchBar-AsyncSelect] input')
-				.should('be.visible')
-				.click()
+				.click({ force: true })
 				.should('be.focused')
-				.type(searchInput);
+				.type(searchInput, { force: true });
 
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
 			cy.get('[data-cy=SearchBar-AsyncSelect]')
@@ -40,7 +39,7 @@ function performSearch(
 				.find('[class*="-option"]')
 				.should('have.length.gt', 1)
 				.first()
-				.click();
+				.click({ force: true });
 
 			cy.url().should('have.string', expectedUrl);
 		}
