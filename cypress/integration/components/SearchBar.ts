@@ -24,11 +24,10 @@ export function searchCityWithSlug(startPage: string): void {
 		() => {
 			cy.visit(startPage);
 
-			cy.get('[data-cy=SearchBar-AsyncSelect] input').should(
-				'be.visible'
-			);
-
-			cy.get('[data-cy=SearchBar-AsyncSelect] input').type('paris');
+			cy.get('[data-cy=SearchBar-AsyncSelect] input')
+				.focus()
+				.should('be.focused')
+				.type('paris');
 
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
 			cy.get('[data-cy=SearchBar-AsyncSelect]')
@@ -54,11 +53,12 @@ export function searchCityWithGps(startPage: string): void {
 			cy.visit(startPage);
 
 			cy.get('[data-cy=SearchBar-AsyncSelect] input').should(
-				'be.visible'
+				'be.focused'
 			);
 
 			cy.get('[data-cy=SearchBar-AsyncSelect] input')
-				.type('paris')
+				.focus()
+				.should('be.focused')
 				.type('notre dame de paris');
 
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
