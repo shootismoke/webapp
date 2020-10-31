@@ -12,22 +12,6 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions
-            - name: Cypress tests running
-              # set the merge commit status check
-              # using GitHub REST API
-              # see https://docs.github.com/en/rest/reference/repos#create-a-commit-status
-              run: |
-                  curl --request POST \
-                  --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-                  --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-                  --header 'content-type: application/json' \
-                  --data '{
-                  "context": "cypress",
-                  "state": "pending",
-                  "description": "Cypress tests running",
-                  "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-
             - name: Run Cypress
               uses: cypress-io/github-action@v2
               env:
