@@ -24,6 +24,6 @@ export function redirectToFaq(startPage: string): void {
 			.should('have.attr', 'href', '/faq')
 			.click();
 
-		cy.url().should('contain', '/faq');
+		cy.url().should('have.string', '/faq');
 	});
 }
