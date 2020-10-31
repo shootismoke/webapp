@@ -21,7 +21,7 @@ import {
 	searchCityWithSlug,
 } from '../components';
 
-const URL_PATH = '/';
+const URL_PATH = '/city/brussels';
 
 describe('Homepage', () => {
 	clickOnCityCard(URL_PATH);
@@ -32,6 +32,6 @@ describe('Homepage', () => {
 	it('h1 is visible', () => {
 		cy.visit(URL_PATH);
 
-		cy.get('h1').should('be.visible').should('contain', 'How much am I');
+		cy.get('h1').should('be.visible').should('contain', 'You smoke');
 	});
 });

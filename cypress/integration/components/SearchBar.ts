@@ -46,6 +46,6 @@ export function searchCityWithGps(startPage: string): void {
 			.first()
 			.click();
 
-		cy.url().should('have.string', '/city/?lat=48.7767&lng=1.96212');
+		cy.url().should('have.string', '/city?lat=48.7767&lng=1.96212');
 	});
 }
