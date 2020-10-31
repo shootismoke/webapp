@@ -14,9 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-export function searchCityWithSlug(startPage: string): void {
+function performSearch(
+	startPage: string,
+	searchInput: string,
+	expectedUrl: string
+): void {
 	it(
-		'should search for a city and redirect to correct slug',
+		`should search for ${searchInput} and redirect to ${expectedUrl}`,
 		{
 			// Algolia sometimes take a long time on CI.
 			defaultCommandTimeout: 10000,
@@ -25,10 +29,10 @@ export function searchCityWithSlug(startPage: string): void {
 			cy.visit(startPage);
 
 			cy.get('[data-cy=SearchBar-AsyncSelect] input')
-				.should('be.visible', { force: true })
+				.should('be.visible')
 				.click()
-				.should('be.focused', { force: true })
-				.type('paris');
+				.should('be.focused')
+				.type(searchInput);
 
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
 			cy.get('[data-cy=SearchBar-AsyncSelect]')
@@ -38,35 +42,19 @@ export function searchCityWithSlug(startPage: string): void {
 				.first()
 				.click();
 
-			cy.url().should('have.string', '/city/paris');
+			cy.url().should('have.string', expectedUrl);
 		}
 	);
 }
 
+export function searchCityWithSlug(startPage: string): void {
+	performSearch(startPage, 'paris', '/city/paris');
+}
+
 export function searchCityWithGps(startPage: string): void {
-	it(
-		'should search for a city and redirect to city page with gps',
-		{
-			// Algolia sometimes take a long time on CI.
-			defaultCommandTimeout: 10000,
-		},
-		() => {
-			cy.visit(startPage);
-
-			cy.get('[data-cy=SearchBar-AsyncSelect] input')
-				.should('be.visible', { force: true })
-				.click()
-				.should('be.focused', { force: true })
-				.type('notre dame de paris');
-
-			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
-			cy.get('[data-cy=SearchBar-AsyncSelect]')
-				.get('[class*="-menu"]')
-				.find('[class*="-option"]')
-				.first()
-				.click();
-
-			cy.url().should('have.string', '/city?lat=48.7767&lng=1.96212');
-		}
+	performSearch(
+		startPage,
+		'notre dame de paris',
+		'/city?lat=48.7767&lng=1.96212'
 	);
 }
