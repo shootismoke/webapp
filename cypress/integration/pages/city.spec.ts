@@ -23,7 +23,7 @@ import {
 
 const URL_PATH = '/city/brussels';
 
-describe('Homepage', () => {
+describe('City Page', () => {
 	clickOnCityCard(URL_PATH);
 	redirectToFaq(URL_PATH);
 	searchCityWithGps(URL_PATH);
