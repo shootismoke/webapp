@@ -19,12 +19,13 @@ function performSearch(
 	searchInput: string,
 	expectedUrl: string
 ): void {
+	console.log(process.env.CI, process.env);
 	// FIXME This test doesn't pass in CI.
 	// https://github.com/shootismoke/webapp/issues/36
 	if (process.env.CI) {
 		return;
 	}
-
+	console.log('AAA');
 	it(
 		`should search for ${searchInput} and redirect to ${expectedUrl}`,
 		{
