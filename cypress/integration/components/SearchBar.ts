@@ -28,9 +28,9 @@ function performSearch(
 		() => {
 			cy.visit(startPage);
 
-			cy.get('[data-cy=SearchBar-AsyncSelect] input')
-				.click({ force: true })
-				.type(searchInput, { force: true });
+			cy.get('[data-cy=SearchBar-AsyncSelect] input').type(searchInput, {
+				force: true,
+			});
 
 			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
 			cy.get('[data-cy=SearchBar-AsyncSelect]')
