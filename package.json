@@ -17,7 +17,7 @@
 		"@sentry/gatsby": "^5.27.2",
 		"@shootismoke/ui": "^0.6.2",
 		"@types/amplitude-js": "^6.0.0",
-		"@types/classnames": "^2.2.10",
+		"@types/classnames": "^2.2.11",
 		"@types/i18n-js": "^3.0.3",
 		"@types/react-helmet": "^6.1.0",
 		"@types/react-native": "^0.62.12",
