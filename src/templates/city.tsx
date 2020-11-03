@@ -114,8 +114,6 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
 
-	console.log(routerLocation);
-
 	// Log telemetry each time we change city.
 	useEffect(() => {
 		logEvent(
