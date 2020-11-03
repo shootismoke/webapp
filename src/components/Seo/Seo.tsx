@@ -19,6 +19,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 interface SeoProps {
+	pathname: string;
 	title: string;
 }
 
@@ -28,7 +29,7 @@ interface SeoProps {
 const HTML_ATTRIBUTES = { lang: 'en' };
 
 export function Seo(props: SeoProps): React.ReactElement {
-	const { title } = props;
+	const { pathname, title } = props;
 
 	return (
 		<Helmet htmlAttributes={HTML_ATTRIBUTES}>
@@ -44,7 +45,10 @@ export function Seo(props: SeoProps): React.ReactElement {
 
 			<link rel="icon" href={favicon} />
 
-			<link rel="canonical" href="https://shootismoke.app" />
+			<link
+				rel="canonical"
+				href={`https://shootismoke.app${pathname.replace(/\/$/, '')}`}
+			/>
 
 			<title>{title} - Sh**t! I Smoke</title>
 

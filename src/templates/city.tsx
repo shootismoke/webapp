@@ -209,6 +209,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	return (
 		<>
 			<Seo
+				pathname={location.pathname}
 				title={getSeoTitle(
 					api?.shootismoke.dailyCigarettes,
 					city.slug,

@@ -37,7 +37,7 @@ export default function NotFound(): React.ReactElement {
 
 	return (
 		<>
-			<Seo title="Page Not Found" />
+			<Seo pathname="/404" title="Page Not Found" />
 			<Nav />
 
 			<Section>
