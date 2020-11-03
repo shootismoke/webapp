@@ -44,7 +44,7 @@ export default function Faq(): React.ReactElement {
 
 	return (
 		<>
-			<Seo title="Frequently Asked Questions" />
+			<Seo pathname="/faq" title="Frequently Asked Questions" />
 			<Nav showDownloadApp={false} />
 
 			<Section className="pt-3">

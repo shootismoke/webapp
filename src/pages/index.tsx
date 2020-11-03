@@ -38,7 +38,7 @@ export default function Index(): React.ReactElement {
 
 	return (
 		<>
-			<Seo title="Daily Air Quality, as Cigarettes" />
+			<Seo pathname="/" title="Daily Air Quality, as Cigarettes" />
 			<Nav />
 
 			<Section>
