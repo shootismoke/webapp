@@ -24,7 +24,7 @@
 		"@types/react-select": "^3.0.22",
 		"classnames": "^2.2.6",
 		"expo": "^37.0.12",
-		"gatsby": "^2.24.91",
+		"gatsby": "^2.25.3",
 		"i18n-js": "^3.8.0",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
