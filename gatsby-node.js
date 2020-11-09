@@ -47,7 +47,6 @@ exports.createPages = ({ graphql, actions }) => {
 							}
 							parameter
 							value
-							lastUpdated
 							unit
 							sourceName
 							city
@@ -61,7 +60,6 @@ exports.createPages = ({ graphql, actions }) => {
 							}
 							parameter
 							value
-							lastUpdated
 							unit
 							sourceName
 							city
