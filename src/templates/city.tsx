@@ -211,14 +211,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Seo
 				description={
 					reverseGeoName
-						? `Air pollution in ${reverseGeoName}. `
+						? `Air pollution in ${city.name}. `
 						: undefined
 				}
 				pathname={city.slug ? `/city/${city.slug}` : '/city'}
 				title={getSeoTitle(
 					api?.shootismoke.dailyCigarettes,
 					city.slug,
-					reverseGeoName
+					city.name
 				)}
 			/>
 
