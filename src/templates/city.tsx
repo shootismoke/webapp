@@ -209,6 +209,11 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	return (
 		<>
 			<Seo
+				description={
+					reverseGeoName
+						? `Air pollution in ${reverseGeoName}. `
+						: undefined
+				}
 				pathname={city.slug ? `/city/${city.slug}` : '/city'}
 				title={getSeoTitle(
 					api?.shootismoke.dailyCigarettes,
@@ -265,7 +270,10 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										<>
 											{t(swearWord)}! You smoke{' '}
 											<span className="text-orange">
-												{cigarettes} cigarette
+												{cigarettes >= 100
+													? Math.round(cigarettes)
+													: cigarettes}{' '}
+												cigarette
 												{cigarettes === 1 ? '' : 's'}
 											</span>
 										</>
