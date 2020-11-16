@@ -215,11 +215,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						: undefined
 				}
 				pathname={city.slug ? `/city/${city.slug}` : '/city'}
-				title={getSeoTitle(
-					api?.shootismoke.dailyCigarettes,
-					city.slug,
-					city.name
-				)}
+				title={getSeoTitle(api?.shootismoke.dailyCigarettes, city.name)}
 			/>
 
 			<Nav />

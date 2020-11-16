@@ -26,23 +26,13 @@ export function capitalize(s: string): string {
 /**
  * Decide on a SEO title for the page.
  */
-export function getSeoTitle(
-	cigarettes?: number,
-	slug?: string,
-	reverseGeoName?: string
-): string {
+export function getSeoTitle(cigarettes?: number, cityName?: string): string {
 	if (!cigarettes) {
-		return slug
-			? `${capitalize(slug)} Air Pollution`
-			: `City Air Pollution`;
+		return cityName ? `${cityName} Air Pollution` : `City Air Pollution`;
 	}
 
 	// Round to 1 decimal
 	const cigarettesRounded = Math.round(cigarettes * 10) / 10;
 
-	return slug
-		? `${capitalize(
-				slug
-		  )} Air Pollution: ${cigarettesRounded} cigarettes per day`
-		: `${reverseGeoName} Air Pollution: ${cigarettesRounded} cigarettes per day`;
+	return `${cityName} Air Pollution: ${cigarettesRounded} cigarettes per day`;
 }
