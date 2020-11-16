@@ -37,7 +37,7 @@
 		"cypress": "^5.6.0",
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-prettier": "^3.1.4",
-		"eslint-plugin-simple-import-sort": "^5.0.3",
+		"eslint-plugin-simple-import-sort": "^6.0.0",
 		"gatsby-image": "^2.4.21",
 		"gatsby-plugin-amplitude-analytics": "^3.2.0",
 		"gatsby-plugin-postcss": "^2.3.13",
