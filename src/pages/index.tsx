@@ -64,8 +64,8 @@ export default function Index(): React.ReactElement {
 			</Section>
 
 			<RankingSection />
-			<AboutSection />
 			<AdSection />
+			<AboutSection />
 			<FeaturedSection />
 			<BlogSection />
 			<DownloadSection />

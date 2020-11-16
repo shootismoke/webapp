@@ -321,8 +321,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			)}
 
 			<RankingSection currentCity={city} />
-			<AboutSection />
 			<AdSection />
+			<AboutSection />
 			<FeaturedSection />
 			<BlogSection />
 			<DownloadSection />
