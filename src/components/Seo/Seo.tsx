@@ -19,6 +19,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 interface SeoProps {
+	description?: string;
 	pathname: string;
 	title: string;
 }
@@ -29,14 +30,16 @@ interface SeoProps {
 const HTML_ATTRIBUTES = { lang: 'en' };
 
 export function Seo(props: SeoProps): React.ReactElement {
-	const { pathname, title } = props;
+	const { description, pathname, title } = props;
 
 	return (
 		<Helmet htmlAttributes={HTML_ATTRIBUTES}>
 			<meta charSet="utf-8" />
 			<meta
 				name="description"
-				content="Sh**t! I Smoke is an app that translates daily air quality data into equivalent in cigarettes smoked. The app uses Berkeley Earth's conversion formula with open databases of Air-Quality Stations worldwide."
+				content={`${
+					description || ''
+				}Sh**t! I Smoke is an app that translates daily air quality data into equivalent in cigarettes smoked. The app uses Berkeley Earth's conversion formula with open databases of Air-Quality Stations worldwide.`}
 			/>
 
 			<link rel="preconnect" href="https://api.bigdatacloud.net" />

@@ -54,8 +54,8 @@ export default function NotFound(): React.ReactElement {
 			</Section>
 
 			<RankingSection />
-			<AboutSection />
 			<AdSection />
+			<AboutSection />
 			<FeaturedSection />
 			<BlogSection />
 			<DownloadSection />

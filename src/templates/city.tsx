@@ -209,12 +209,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	return (
 		<>
 			<Seo
-				pathname={city.slug ? `/city/${city.slug}` : '/city'}
-				title={getSeoTitle(
-					api?.shootismoke.dailyCigarettes,
-					city.slug,
+				description={
 					reverseGeoName
-				)}
+						? `Air pollution in ${city.name}. `
+						: undefined
+				}
+				pathname={city.slug ? `/city/${city.slug}` : '/city'}
+				title={getSeoTitle(api?.shootismoke.dailyCigarettes, city.name)}
 			/>
 
 			<Nav />
@@ -265,7 +266,10 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										<>
 											{t(swearWord)}! You smoke{' '}
 											<span className="text-orange">
-												{cigarettes} cigarette
+												{cigarettes >= 100
+													? Math.round(cigarettes)
+													: cigarettes}{' '}
+												cigarette
 												{cigarettes === 1 ? '' : 's'}
 											</span>
 										</>
@@ -321,8 +325,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			)}
 
 			<RankingSection currentCity={city} />
-			<AboutSection />
 			<AdSection />
+			<AboutSection />
 			<FeaturedSection />
 			<BlogSection />
 			<DownloadSection />
