@@ -11,26 +11,36 @@
 		"lint": "tsc --noEmit && eslint --ext js,ts,tsx .",
 		"serve": "gatsby serve",
 		"start": "gatsby develop",
-		"test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \""
+		"test": "jest"
 	},
 	"dependencies": {
 		"@sentry/gatsby": "^5.27.2",
 		"@shootismoke/ui": "^0.6.2",
+		"@testing-library/jest-dom": "^5.11.6",
+		"@testing-library/react": "^11.2.2",
 		"@types/amplitude-js": "^6.0.0",
 		"@types/classnames": "^2.2.11",
+		"@types/cypress": "^1.1.3",
 		"@types/i18n-js": "^3.0.3",
+		"@types/jest": "^26.0.15",
 		"@types/react-helmet": "^6.1.0",
 		"@types/react-native": "^0.62.12",
 		"@types/react-select": "^3.0.22",
+		"@types/react-test-renderer": "^17.0.0",
+		"babel-jest": "^26.6.3",
+		"babel-preset-gatsby": "^0.7.0",
 		"classnames": "^2.2.6",
 		"expo": "^37.0.12",
 		"gatsby": "^2.25.3",
 		"i18n-js": "^3.8.0",
+		"identity-obj-proxy": "^3.0.0",
+		"jest": "^26.6.3",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-helmet": "^6.1.0",
 		"react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
-		"react-select": "^3.1.0"
+		"react-select": "^3.1.0",
+		"react-test-renderer": "^17.0.1"
 	},
 	"devDependencies": {
 		"@amaurymartiny/config": "^1.3.1",
