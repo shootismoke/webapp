@@ -20,9 +20,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-
             - name: Install Dependencies
-            run: yarn install
-
+              run: yarn install
             - name: Run test and generate coverage report
-            run: yarn test --coverage
+              run: yarn test --coverage
