@@ -46,6 +46,11 @@ export function Seo(props: SeoProps): React.ReactElement {
 			<link rel="preconnect" href="https://api.waqi.info" />
 			<link rel="preconnect" href="https://api.openaq.org" />
 
+			<link
+				rel="stylesheet"
+				href="https://fonts.googleapis.com/css?family=Montserrat:500,800&display=swap"
+			/>
+
 			<link rel="icon" href={favicon} />
 
 			<link
