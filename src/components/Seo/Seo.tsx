@@ -42,9 +42,31 @@ export function Seo(props: SeoProps): React.ReactElement {
 				}Sh**t! I Smoke is an app that translates daily air quality data into equivalent in cigarettes smoked. The app uses Berkeley Earth's conversion formula with open databases of Air-Quality Stations worldwide.`}
 			/>
 
-			<link rel="preconnect" href="https://api.bigdatacloud.net" />
-			<link rel="preconnect" href="https://api.waqi.info" />
-			<link rel="preconnect" href="https://api.openaq.org" />
+			<link
+				rel="preconnect"
+				href="https://fonts.gstatic.com"
+				crossOrigin="anonymous"
+			/>
+			<link
+				rel="preconnect"
+				href="https://api.bigdatacloud.net"
+				crossOrigin="anonymous"
+			/>
+			<link
+				rel="preconnect"
+				href="https://api.waqi.info"
+				crossOrigin="anonymous"
+			/>
+			<link
+				rel="preconnect"
+				href="https://api.openaq.org"
+				crossOrigin="anonymous"
+			/>
+
+			<link
+				rel="stylesheet"
+				href="https://fonts.googleapis.com/css?family=Montserrat:500,800&display=swap"
+			/>
 
 			<link rel="icon" href={favicon} />
 
