@@ -21,27 +21,20 @@ function performSearch(
 ): void {
 	// FIXME This test passes locally, but doesn't pass in CI.
 	// https://github.com/shootismoke/webapp/issues/36
-	it.skip(
-		`should search for ${searchInput} and redirect to ${expectedUrl}`,
-		{
-			// Algolia sometimes take a long time on CI.
-			defaultCommandTimeout: 10000,
-		},
-		() => {
-			cy.visit(startPage);
+	it.skip(`should search for ${searchInput} and redirect to ${expectedUrl}`, () => {
+		cy.visit(startPage);
 
-			cy.get('[data-cy=SearchBar-AsyncSelect] input').type(searchInput);
+		cy.get('[data-cy=SearchBar-AsyncSelect] input').type(searchInput);
 
-			// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
-			cy.get('[data-cy=SearchBar-AsyncSelect]')
-				.get('[class*="-menu"]')
-				.find('[class*="-option"]')
-				.first()
-				.click({ force: true });
+		// See https://stackoverflow.com/questions/55046835/select-react-select-dropdown-list-option-using-cypress
+		cy.get('[data-cy=SearchBar-AsyncSelect]')
+			.get('[class*="-menu"]')
+			.find('[class*="-option"]')
+			.first()
+			.click({ force: true });
 
-			cy.url().should('have.string', expectedUrl);
-		}
-	);
+		cy.url().should('have.string', expectedUrl);
+	});
 }
 
 export function searchCityWithSlug(startPage: string): void {
