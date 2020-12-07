@@ -14,7 +14,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"@sentry/gatsby": "^5.27.2",
+		"@sentry/gatsby": "^5.28.0",
 		"@shootismoke/ui": "^0.6.2",
 		"@types/amplitude-js": "^6.0.0",
 		"@types/classnames": "^2.2.11",
