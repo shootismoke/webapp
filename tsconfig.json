@@ -2,9 +2,10 @@
 	"compilerOptions": {
 		"downlevelIteration": true,
 		"jsx": "react",
+		"lib": ["DOM", "ES2015"],
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
-		"types": ["cypress"]
+		"types": ["cypress", "node"]
 	},
 	"extends": "./node_modules/@amaurymartiny/tsconfig/tsconfig"
 }
