@@ -3665,10 +3665,10 @@
   resolved "https://registry.yarnpkg.com/@turist/time/-/time-0.0.1.tgz#57637d2a7d1860adb9f9cecbdcc966ce4f551d63"
   integrity sha512-M2BiThcbxMxSKX8W4z5u9jKZn6datnM3+FpEU+eYw0//l31E2xhqi7vTAuJ/Sf0P3yhp66SDJgPu3bRRpvrdQQ==
 
-"@types/amplitude-js@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-6.0.0.tgz#f53e67c15e7a7af939f95d4cdd54b65e30a20571"
-  integrity sha512-xzOyrhIBM9TQhBp1ARj/nhJHxA8zwZqXgpwN1tdBb04GI0xAUhtsP909x0LDW0iwAl4J0727c5bOMtQKH3KDAQ==
+"@types/amplitude-js@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-7.0.0.tgz#69570ce73c64247255bfa6e6919ad5da472baa62"
+  integrity sha512-bp2Fc/3UKlykGDLgfBYHtixawo2HU0vijvMhCfje+IALW7pedzSyoagscoEEDr6msf3Tn7VNDuZIXO/ZYTEteg==
 
 "@types/anymatch@*":
   version "1.3.1"
