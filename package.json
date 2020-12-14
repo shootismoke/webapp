@@ -14,11 +14,12 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"@sentry/gatsby": "^5.27.2",
+		"@sentry/gatsby": "^5.29.0",
 		"@shootismoke/ui": "^0.6.2",
 		"@types/amplitude-js": "^7.0.0",
 		"@types/classnames": "^2.2.11",
 		"@types/i18n-js": "^3.0.3",
+		"@types/node": "^14.14.13",
 		"@types/react-helmet": "^6.1.0",
 		"@types/react-native": "^0.62.12",
 		"@types/react-select": "^3.0.27",
