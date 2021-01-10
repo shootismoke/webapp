@@ -25,7 +25,7 @@ import {
 	round,
 } from '@shootismoke/ui';
 import c from 'classnames';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
 import warning from '../../assets/images/icons/warning_red.svg';

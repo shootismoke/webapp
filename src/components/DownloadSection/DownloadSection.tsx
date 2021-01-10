@@ -14,34 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { graphql, useStaticQuery } from 'gatsby';
-import Img from 'gatsby-image';
+import Img from 'next/image';
 import React from 'react';
 
+import appStore from '../../../assets/images/app-store.png';
+import playStore from '../../../assets/images/play-store.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 
 export function DownloadSection(): React.ReactElement {
-	const data = useStaticQuery(graphql`
-		query DownloadSectionQuery {
-			appStore: file(relativePath: { eq: "app-store.png" }) {
-				childImageSharp {
-					fluid {
-						...GatsbyImageSharpFluid_noBase64
-					}
-				}
-			}
-
-			playStore: file(relativePath: { eq: "play-store.png" }) {
-				childImageSharp {
-					fluid {
-						...GatsbyImageSharpFluid_noBase64
-					}
-				}
-			}
-		}
-	`);
-
 	return (
 		<Section id="download" title="App available on">
 			<div className="flex flex-col md:flex-row md:items-center">
@@ -71,7 +52,8 @@ export function DownloadSection(): React.ReactElement {
 						<Img
 							alt="download on Play Store"
 							className="rounded-2xl"
-							fluid={data.playStore.childImageSharp.fluid}
+							layout="fill"
+							src={playStore}
 						/>
 					</a>
 					<a
@@ -86,7 +68,8 @@ export function DownloadSection(): React.ReactElement {
 						<Img
 							alt="download on Apple Store"
 							className="rounded-2xl"
-							fluid={data.appStore.childImageSharp.fluid}
+							layout="fill"
+							src={appStore}
 						/>
 					</a>
 				</div>

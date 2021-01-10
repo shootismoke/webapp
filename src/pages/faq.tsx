@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Link } from 'gatsby';
+import Link from 'next/link';
 import React, { useEffect } from 'react';
 
 import box from '../../assets/images/conversion-box.svg';

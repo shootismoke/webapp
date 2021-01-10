@@ -15,7 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import logo from '@shootismoke/ui/assets/logos/logo_text_2lines.svg';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 import React from 'react';
 
 import download from '../../../assets/images/icons/download.svg';

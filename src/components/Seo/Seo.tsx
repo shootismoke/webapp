@@ -15,8 +15,8 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import favicon from '@shootismoke/ui/assets/logos/AppIcons/Assets.xcassets/AppIcon.appiconset/64.png';
+import Head from 'next/head';
 import React from 'react';
-import { Helmet } from 'react-helmet';
 
 interface SeoProps {
 	description?: string;
@@ -33,7 +33,7 @@ export function Seo(props: SeoProps): React.ReactElement {
 	const { description, pathname, title } = props;
 
 	return (
-		<Helmet htmlAttributes={HTML_ATTRIBUTES}>
+		<Head>
 			<meta charSet="utf-8" />
 			<meta
 				name="description"
@@ -82,6 +82,6 @@ export function Seo(props: SeoProps): React.ReactElement {
 				defer
 				src="https://scripts.withcabin.com/hello.js"
 			></script>
-		</Helmet>
+		</Head>
 	);
 }

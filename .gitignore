@@ -19,11 +19,8 @@ build/Release
 
 # Dependency directories
 node_modules/
-
-# gatsby files
-.cache/
-public
 .expo
+.next
 
 # Mac files
 .DS_Store
