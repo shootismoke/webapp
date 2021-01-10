@@ -15,15 +15,15 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
+import { BoxButton } from '@shootismoke/ui/lib/BoxButton';
+import { FrequencyContext } from '@shootismoke/ui/lib/context';
+import type { Api } from '@shootismoke/ui/lib/util/api';
+import { round } from '@shootismoke/ui/lib/util/api';
 import {
-	Api,
-	BoxButton,
-	distanceToStation,
-	FrequencyContext,
 	getAQI,
 	primaryPollutant,
-	round,
-} from '@shootismoke/ui';
+} from '@shootismoke/ui/lib/util/primaryPollutant';
+import { distanceToStation } from '@shootismoke/ui/lib/util/station';
 import c from 'classnames';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
@@ -33,7 +33,6 @@ import {
 	AboutSection,
 	AdSection,
 	BlogSection,
-	Cigarettes,
 	DownloadSection,
 	FeaturedSection,
 	Footer,
@@ -259,7 +258,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					<>
 						<div className="mt-5 px-6 md:px-24">
 							<HeroLayout
-								cover={<Cigarettes cigarettes={cigarettes} />}
+								// cover={<Cigarettes cigarettes={cigarettes} />}
+								cover={<div>hELLO</div>}
 								title={
 									<H1>
 										<>

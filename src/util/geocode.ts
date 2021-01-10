@@ -15,7 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { LatLng } from '@shootismoke/dataproviders';
-import type { Api } from '@shootismoke/ui';
+import type { Api } from '@shootismoke/ui/lib/util/api';
 import axios from 'axios';
 
 export interface City {

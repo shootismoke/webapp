@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Cigarettes as CigarettesBase } from '@shootismoke/ui';
+import { Cigarettes as CigarettesBase } from '@shootismoke/ui/lib/Cigarettes';
 import React from 'react';
 
 // Total height of the box containing cigarettes.
