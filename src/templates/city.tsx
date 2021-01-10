@@ -33,6 +33,7 @@ import {
 	AboutSection,
 	AdSection,
 	BlogSection,
+	// Cigarettes,
 	DownloadSection,
 	FeaturedSection,
 	Footer,
@@ -97,6 +98,7 @@ function isKnownError(error: string): boolean {
 }
 
 interface CityProps {
+	cities: City[];
 	location?: NavigateOptions<SearchLocationState>;
 	pageContext: {
 		city: City;
@@ -106,6 +108,7 @@ interface CityProps {
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
 	const {
+		cities,
 		location: routerLocation,
 		pageContext: { city },
 	} = props;
@@ -222,6 +225,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Section noPadding>
 				<div className="px-6 md:px-24">
 					<SearchBar
+						cities={cities}
 						placeholder={
 							city.name
 								? [city.name, city.adminName, city.country]
@@ -259,7 +263,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						<div className="mt-5 px-6 md:px-24">
 							<HeroLayout
 								// cover={<Cigarettes cigarettes={cigarettes} />}
-								cover={<div>hELLO</div>}
+								cover={<div>HELLO</div>}
 								title={
 									<H1>
 										<>
@@ -323,7 +327,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<PollutantSection aqi={aqi} pollutant={primaryPol.parameter} />
 			)}
 
-			<RankingSection currentCity={city} />
+			<RankingSection cities={cities} currentCity={city} />
 			<AdSection />
 			<AboutSection />
 			<FeaturedSection />

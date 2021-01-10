@@ -20,7 +20,7 @@ import c from 'classnames';
 import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
-import { graphql, navigate, useStaticQuery } from 'gatsby';
+import { useRouter } from 'next/router';
 import React, { CSSProperties, useEffect, useState } from 'react';
 import {
 	OptionsType,
@@ -36,6 +36,7 @@ import { City, logEvent, sentryException } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
+	cities: City[];
 	className?: string;
 	showGps?: boolean;
 }
@@ -126,28 +127,20 @@ export interface SearchLocationState {
 
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
+		cities,
 		className,
 		placeholder = 'Search a city or address',
 		showGps = true,
 		...rest
 	} = props;
 
-	const worldCities = useStaticQuery(graphql`
-		query SearchBarQuery {
-			allShootismokeCity {
-				nodes {
-					slug
-				}
-			}
-		}
-	`).allShootismokeCity.nodes as City[];
+	const router = useRouter();
+
 	// Create a lookup map for fast access.
-	const [worldCitiesMap, setWorldCitiesMap] = useState<Record<string, true>>(
-		{}
-	);
+	const [citiesMap, setCitiesMap] = useState<Record<string, true>>({});
 	useEffect(() => {
-		setWorldCitiesMap(
-			worldCities.reduce((acc, { slug }) => {
+		setCitiesMap(
+			cities.reduce((acc, { slug }) => {
 				if (slug) {
 					acc[slug] = true;
 				}
@@ -155,7 +148,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				return acc;
 			}, {} as Record<string, true>)
 		);
-	}, [worldCities]);
+	}, [cities]);
 
 	// If we have a more important message to show in the placeholder, we put
 	// it here.
@@ -171,22 +164,14 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				noOptionsMessage={(): string => 'Type something...'}
 				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore FIXME How to fix this?
-				onChange={({ label, value }): void => {
+				onChange={({ value }): void => {
 					// If the input matches one of the slugs, then we redirect
 					// to the slugged page.
 					const sluggifiedCity = slugify(value.localeName || '');
-					if (worldCitiesMap[sluggifiedCity]) {
-						navigate(`/city/${sluggifiedCity}`, {
-							state: {
-								cityName: label,
-							} as SearchLocationState,
-						});
+					if (citiesMap[sluggifiedCity]) {
+						router.push(`/city/${sluggifiedCity}`);
 					} else {
-						navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
-							state: {
-								cityName: label,
-							} as SearchLocationState,
-						});
+						router.push(`/city?lat=${value.lat}&lng=${value.lng}`);
 					}
 				}}
 				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
@@ -213,7 +198,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 					className="absolute top-0 mt-4 mr-4 right-0 w-4 cursor-pointer"
 					onClick={(): void => {
 						logEvent('SearchBar.LocationIcon.Click');
-						onGpsButtonClick(setOverridePlaceholder);
+						onGpsButtonClick(setOverridePlaceholder, router);
 					}}
 					src={location}
 				/>

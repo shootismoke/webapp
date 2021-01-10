@@ -61,6 +61,7 @@
 		"gatsby-transformer-sharp": "^2.9.0",
 		"identity-obj-proxy": "^3.0.0",
 		"jest": "^26.6.3",
+		"next-fonts": "^1.5.1",
 		"next-images": "^1.6.2",
 		"node-fetch": "^2.6.1",
 		"postcss-easy-import": "^3.0.0",
