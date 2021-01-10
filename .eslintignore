@@ -1,8 +1,9 @@
 .eslintrc.js
 babel.config.js
-gatsby-*.js
+next.config.js
 postcss.config.js
-tailwindcss.config.js
+tailwind.config.js
+src/testutil/loadershim.js
 **/.cache/*
 **/.expo/*
 **/node_modules/*

@@ -43,6 +43,15 @@ export interface City {
 	slug?: string;
 }
 
+export async function getAllCities(): Promise<City[]> {
+	// Call an external API endpoint to get all cities.
+	const { data: cities } = await axios.get<City[]>(
+		'https://raw.githubusercontent.com/shootismoke/cities/master/all.json'
+	);
+
+	return cities;
+}
+
 const REVERSE_API =
 	'https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=en';
 

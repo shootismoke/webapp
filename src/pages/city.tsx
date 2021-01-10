@@ -15,11 +15,10 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { MatchRenderProps } from '@reach/router';
-import axios from 'axios';
 import React from 'react';
 
 import CityTemplate from '../templates/city';
-import { City } from '../util';
+import { City, getAllCities } from '../util';
 
 /**
  * Parse query string for lat and lng.
@@ -42,16 +41,9 @@ function parseQuery(queryString: string): Record<string, string> {
 }
 
 export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
-	// Call an external API endpoint to get all cities.
-	const { data: cities } = await axios.get<City[]>(
-		'https://raw.githubusercontent.com/shootismoke/cities/master/all.json'
-	);
+	const cities = await getAllCities();
 
-	return {
-		props: {
-			cities,
-		},
-	};
+	return { props: { cities } };
 }
 
 interface CityProps extends MatchRenderProps<void> {
