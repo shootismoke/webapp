@@ -15,8 +15,9 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { round } from '@shootismoke/ui/lib/util/api';
-import { graphql, Link, useStaticQuery } from 'gatsby';
+import { graphql, useStaticQuery } from 'gatsby';
 import haversine from 'haversine';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import { City, logEvent } from '../../util';
@@ -145,13 +146,7 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 						<Link
 							data-cy={`RankingSection-city-card-${index}`}
 							key={city.slug}
-							to={`/city/${city.slug}`}
-							onClick={(): void =>
-								logEvent('RankingSection.CityCard.Click', {
-									rank: index + 1,
-									slug: city.slug,
-								})
-							}
+							href={`/city/${city.slug}`}
 						>
 							<CityCard
 								description={
@@ -161,6 +156,12 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 													.dailyCigarettes
 										  )} cigarettes today`
 										: 'Loading cigarettes...'
+								}
+								onClick={(): void =>
+									logEvent('RankingSection.CityCard.Click', {
+										rank: index + 1,
+										slug: city.slug,
+									})
 								}
 								photoUrl={city.photoUrl}
 								subtitle={

@@ -17,12 +17,12 @@
 import c from 'classnames';
 import React from 'react';
 
-import { Card } from '../../Card';
+import { Card, CardProps } from '../../Card';
 
 const FALLBACK_IMAGE =
 	'https://images.pexels.com/photos/1563256/pexels-photo-1563256.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';
 
-interface CityCardProps {
+interface CityCardProps extends CardProps {
 	description?: string;
 	className?: string;
 	photoUrl?: string;

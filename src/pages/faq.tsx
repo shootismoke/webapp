@@ -48,12 +48,11 @@ export default function Faq(): React.ReactElement {
 			<Nav showDownloadApp={false} />
 
 			<Section className="pt-3">
-				<Link
-					className="flex items-center type-300 text-orange uppercase"
-					to="/"
-				>
-					<img alt="back" className="mr-3" src={backArrow} />
-					<span>Back to Homepage</span>
+				<Link href="/">
+					<a className="flex items-center type-300 text-orange uppercase">
+						<img alt="back" className="mr-3" src={backArrow} />
+						<span>Back to Homepage</span>
+					</a>
 				</Link>
 				<H1 className="pt-3 text-orange">Frequently Asked Questions</H1>
 			</Section>

@@ -236,16 +236,15 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					<p className="mt-2 type-100 text-gray-600">
 						{distance !== undefined ? (
 							api?.shootismoke.isAccurate === false ? (
-								<Link
-									className="text-red hover:underline"
-									to="/faq#station-so-far"
-								>
-									Air Quality Station: {distance}km away
-									<img
-										alt="warning"
-										className="ml-1 inline"
-										src={warning}
-									/>
+								<Link href="/faq#station-so-far">
+									<a className="text-red hover:underline">
+										Air Quality Station: {distance}km away
+										<img
+											alt="warning"
+											className="ml-1 inline"
+											src={warning}
+										/>
+									</a>
 								</Link>
 							) : (
 								`Air Quality Station: ${distance}km away`
