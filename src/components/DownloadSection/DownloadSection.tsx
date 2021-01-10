@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import Img from 'next/image';
 import React from 'react';
 
 import appStore from '../../../assets/images/app-store.png';
@@ -49,10 +48,9 @@ export function DownloadSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<Img
+						<img
 							alt="download on Play Store"
 							className="rounded-2xl"
-							layout="fill"
 							src={playStore}
 						/>
 					</a>
@@ -65,10 +63,9 @@ export function DownloadSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<Img
+						<img
 							alt="download on Apple Store"
 							className="rounded-2xl"
-							layout="fill"
 							src={appStore}
 						/>
 					</a>

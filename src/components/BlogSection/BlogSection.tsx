@@ -15,7 +15,6 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import c from 'classnames';
-import Img from 'next/image';
 import React from 'react';
 
 import blogfolha from '../../../assets/images/blogs/blogfolha.jpg';
@@ -227,10 +226,9 @@ export function BlogSection(): React.ReactElement {
 						<CarouselCard
 							className={c(blogIndex === 0 && 'ml-3 md:ml-0')}
 						>
-							<Img
+							<img
 								alt={blog.title}
 								className="w-full h-40 md:h-50 object-cover"
-								layout="fill"
 								src={blog.image}
 							/>
 							<div className="mt-2 px-4">

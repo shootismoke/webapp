@@ -1,23 +1,12 @@
+// @see https://github.com/expo/expo/blob/master/docs/pages/versions/unversioned/guides/using-nextjs.md#withexpo
+const { withExpo } = require('@expo/next-adapter');
 const withFonts = require('next-fonts');
 const withImages = require('next-images');
 
-module.exports = withFonts(
-	withImages({
-		webpack: (config) => {
-			// @see https://github.com/vercel/next.js/blob/master/examples/with-react-native-web/next.config.js
-			config.resolve.alias = {
-				...(config.resolve.alias || {}),
-				// Transform all direct `react-native` imports to `react-native-web`
-				'react-native$': 'react-native-web',
-			};
-			config.resolve.extensions = [
-				'.web.js',
-				'.web.ts',
-				'.web.tsx',
-				...config.resolve.extensions,
-			];
-
-			return config;
-		},
-	})
+module.exports = withExpo(
+	withFonts(
+		withImages({
+			projectRoot: __dirname,
+		})
+	)
 );
