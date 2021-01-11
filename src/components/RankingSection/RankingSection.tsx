@@ -125,35 +125,40 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 							key={city.slug}
 							href={`/city/${city.slug}`}
 						>
-							<CityCard
-								description={
-									city.api?.shootismoke.dailyCigarettes
-										? `${round(
-												city.api.shootismoke
-													.dailyCigarettes
-										  )} cigarettes today`
-										: 'Loading cigarettes...'
-								}
-								onClick={(): void =>
-									logEvent('RankingSection.CityCard.Click', {
-										rank: index + 1,
-										slug: city.slug,
-									})
-								}
-								photoUrl={city.photoUrl}
-								subtitle={
-									city.name
-										? [
-												city.name,
-												city.adminName,
-												city.country,
-										  ]
-												.filter((x) => !!x)
-												.join(', ')
-										: 'Loading city...'
-								}
-								title={`${numberToOrdinal(index + 1)}`}
-							/>
+							<a>
+								<CityCard
+									description={
+										city.api?.shootismoke.dailyCigarettes
+											? `${round(
+													city.api.shootismoke
+														.dailyCigarettes
+											  )} cigarettes today`
+											: 'Loading cigarettes...'
+									}
+									onClick={(): void =>
+										logEvent(
+											'RankingSection.CityCard.Click',
+											{
+												rank: index + 1,
+												slug: city.slug,
+											}
+										)
+									}
+									photoUrl={city.photoUrl}
+									subtitle={
+										city.name
+											? [
+													city.name,
+													city.adminName,
+													city.country,
+											  ]
+													.filter((x) => !!x)
+													.join(', ')
+											: 'Loading city...'
+									}
+									title={`${numberToOrdinal(index + 1)}`}
+								/>
+							</a>
 						</Link>
 					))}
 				</div>

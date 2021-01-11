@@ -41,12 +41,16 @@ export function Nav(props: NavProps): React.ReactElement {
 		<header className="mt-3 md:mt-9 mx-3 md:mx-9">
 			<nav className="flex flex-row justify-between">
 				<Link href="/">
-					<img
-						alt="logo"
-						className="h-10 md:h-12"
-						onClick={(): void => logEvent('Nav.HomeButton.Click')}
-						src={logo}
-					/>
+					<a>
+						<img
+							alt="logo"
+							className="h-10 md:h-12"
+							onClick={(): void =>
+								logEvent('Nav.HomeButton.Click')
+							}
+							src={logo}
+						/>
+					</a>
 				</Link>
 				{showDownloadApp && (
 					<div
