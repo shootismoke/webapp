@@ -50,7 +50,7 @@ interface CityProps extends MatchRenderProps<void> {
 	cities: City[];
 }
 
-export default function City(props: CityProps): React.ReactElement | null {
+export default function CityPage(props: CityProps): React.ReactElement | null {
 	const { cities, location } = props;
 	const parsed = parseQuery(location.search);
 
@@ -64,13 +64,11 @@ export default function City(props: CityProps): React.ReactElement | null {
 	} else {
 		return (
 			<CityTemplate
-				cities={cities}
-				pageContext={{
-					city: {
-						gps: { latitude: +parsed.lat, longitude: +parsed.lng },
-						name: (location?.state as Record<string, string>)?.name,
-					},
+				city={{
+					gps: { latitude: +parsed.lat, longitude: +parsed.lng },
+					name: (location?.state as Record<string, string>)?.name,
 				}}
+				cities={cities}
 			/>
 		);
 	}

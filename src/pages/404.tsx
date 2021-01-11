@@ -42,7 +42,7 @@ interface NotFoundProps {
 	cities: City[];
 }
 
-export default function NotFound(props: NotFoundProps): React.ReactElement {
+export default function NotFoundPage(props: NotFoundProps): React.ReactElement {
 	const { cities } = props;
 	useEffect(() => logEvent('Page.404.View'), []);
 

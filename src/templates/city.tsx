@@ -98,20 +98,14 @@ function isKnownError(error: string): boolean {
 }
 
 interface CityProps {
+	city: City;
 	cities: City[];
 	location?: NavigateOptions<SearchLocationState>;
-	pageContext: {
-		city: City;
-	};
 }
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
-	const {
-		cities,
-		location: routerLocation,
-		pageContext: { city },
-	} = props;
+	const { city, cities, location: routerLocation } = props;
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);

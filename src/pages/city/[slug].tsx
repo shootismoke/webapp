@@ -16,7 +16,6 @@
 
 import { MatchRenderProps } from '@reach/router';
 import React from 'react';
-import { StringDecoder } from 'string_decoder';
 
 import CityTemplate from '../../templates/city';
 import { City, getAllCities } from '../../util';
@@ -27,23 +26,39 @@ export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
 	return { props: { cities } };
 }
 
-interface CityProps extends MatchRenderProps<void> {
-	cities: City[];
-	slug: StringDecoder;
+export async function getStaticPaths(): Promise<{
+	fallback: false;
+	paths: {
+		params: {
+			id: string | undefined;
+		};
+	}[];
+}> {
+	const cities = await getAllCities();
+
+	return {
+		fallback: false,
+		paths: cities.map((city) => ({
+			params: {
+				id: city.slug,
+			},
+		})),
+	};
 }
 
-export default function City(props: CityProps): React.ReactElement | null {
-	const { cities, location, slug } = props;
+interface CityProps extends MatchRenderProps<void> {
+	cities: City[];
+	slug: string;
+}
 
-	return (
-		<CityTemplate
-			cities={cities}
-			pageContext={{
-				city: {
-					gps: { latitude: +parsed.lat, longitude: +parsed.lng },
-					name: (location?.state as Record<string, string>)?.name,
-				},
-			}}
-		/>
-	);
+export default function CityPage(props: CityProps): React.ReactElement | null {
+	const { cities, slug } = props;
+	const city = cities.find((c) => c.slug === slug);
+	if (!city) {
+		throw new Error(
+			'`city` will never be undefined, because of getStaticPaths. qed.'
+		);
+	}
+
+	return <CityTemplate city={city} cities={cities} />;
 }

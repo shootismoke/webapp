@@ -43,7 +43,7 @@ interface IndexProps {
 	cities: City[];
 }
 
-export default function Index(props: IndexProps): React.ReactElement {
+export default function IndexPage(props: IndexProps): React.ReactElement {
 	const { cities } = props;
 	useEffect(() => logEvent('Page.Home.View'), []);
 
