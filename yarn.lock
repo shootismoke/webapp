@@ -3706,10 +3706,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-select@^3.0.27":
-  version "3.0.27"
-  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-3.0.27.tgz#ef0f114458a5eb063e14e99cc6d8d17dec92de60"
-  integrity sha512-UBZgS1O/BaXo27F6a5+OGMpOFmpsFWb5HyZ8DyuJ5EOCT57ZKwWS4ko9Eqxb3CzVsyKLAp5BXoZtHZbqaFN7ww==
+"@types/react-select@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-3.1.2.tgz#38627df4b49be9b28f800ed72b35d830369a624b"
+  integrity sha512-ygvR/2FL87R2OLObEWFootYzkvm67LRA+URYEAcBuvKk7IXmdsnIwSGm60cVXGaqkJQHozb2Cy1t94tCYb6rJA==
   dependencies:
     "@types/react" "*"
     "@types/react-dom" "*"
