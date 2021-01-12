@@ -14,9 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { NavigateOptions } from '@reach/router';
-import { FrequencyContext } from '@shootismoke/ui/lib/context';
 import { BoxButton } from '@shootismoke/ui/lib/BoxButton';
+import { FrequencyContext } from '@shootismoke/ui/lib/context';
 import type { Api } from '@shootismoke/ui/lib/util/api';
 import { round } from '@shootismoke/ui/lib/util/api';
 import {
@@ -29,6 +28,15 @@ import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
 import warning from '../../../assets/images/icons/warning_red.svg';
+import { t } from '../../localization';
+import {
+	capitalize,
+	City,
+	getSeoTitle,
+	logEvent,
+	reverseGeocode,
+	sentryException,
+} from '../../util';
 import {
 	AboutSection,
 	AdSection,
@@ -45,19 +53,9 @@ import {
 	RankingSection,
 	SadFace,
 	SearchBar,
-	SearchLocationState,
 	Section,
 	Seo,
 } from '..';
-import { t } from '../../localization';
-import {
-	capitalize,
-	City,
-	getSeoTitle,
-	logEvent,
-	reverseGeocode,
-	sentryException,
-} from '../../util';
 
 /**
  * Swear words, untranslated.
@@ -100,12 +98,11 @@ function isKnownError(error: string): boolean {
 interface CityProps {
 	city: City;
 	cities: City[];
-	location?: NavigateOptions<SearchLocationState>;
 }
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
-	const { city, cities, location: routerLocation } = props;
+	const { city, cities } = props;
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
@@ -225,9 +222,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 								? [city.name, city.adminName, city.country]
 										.filter((x) => !!x)
 										.join(', ')
-								: routerLocation?.state?.cityName ||
-								  reverseGeoName ||
-								  'Search for any city'
+								: reverseGeoName || 'Search for any city'
 						}
 					/>
 					<p className="mt-2 type-100 text-gray-600">

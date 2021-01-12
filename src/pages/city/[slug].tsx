@@ -14,8 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { MatchRenderProps } from '@reach/router';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
 
 import CityTemplate from '../../components/layout/city';
@@ -49,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	};
 };
 
-interface CityProps extends MatchRenderProps<void> {
+interface CityProps {
 	city: City;
 	cities: City[];
 	slug: string;

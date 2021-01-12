@@ -122,14 +122,6 @@ const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 	}),
 };
 
-/**
- * Interface that is used for passing data through state in @reach/router
- * transitions.
- */
-export interface SearchLocationState {
-	cityName: string;
-}
-
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
 		cities,
