@@ -14,13 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { AmplitudeClient, getInstance } from 'amplitude-js';
+import type { AmplitudeClient } from 'amplitude-js';
 
 import { sentryException } from './sentry';
 
 let client: AmplitudeClient;
 if (typeof window !== 'undefined') {
-	client = getInstance();
+	/* eslint-disable */
+	const amplitude = require('amplitude-js');
+	client = amplitude.getInstance();
+	/* eslint-enable */
 	client.init(
 		process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY as string,
 		undefined,

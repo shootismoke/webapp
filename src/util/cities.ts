@@ -43,11 +43,19 @@ export interface City {
 	slug?: string;
 }
 
+let cachedCities: City[];
+
 export async function getAllCities(): Promise<City[]> {
+	if (cachedCities) {
+		return cachedCities;
+	}
+
 	// Call an external API endpoint to get all cities.
 	const { data: cities } = await axios.get<City[]>(
 		'https://raw.githubusercontent.com/shootismoke/cities/master/all.json'
 	);
+
+	cachedCities = cities;
 
 	return cities;
 }
