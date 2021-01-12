@@ -7,10 +7,8 @@
 	"private": true,
 	"repository": "https://github.com/shootismoke/webapp",
 	"scripts": {
-		"build": "next build",
 		"dev": "next dev",
 		"lint": "tsc --noEmit && eslint --ext js,ts,tsx .",
-		"start": "next start",
 		"test": "jest"
 	},
 	"dependencies": {
