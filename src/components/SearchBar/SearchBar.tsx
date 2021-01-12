@@ -161,14 +161,16 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				noOptionsMessage={(): string => 'Type something...'}
 				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 				// @ts-ignore FIXME How to fix this?
-				onChange={({ value }): void => {
+				onChange={({ label, value }): void => {
 					// If the input matches one of the slugs, then we redirect
 					// to the slugged page.
 					const sluggifiedCity = slugify(value.localeName || '');
 					if (citiesMap[sluggifiedCity]) {
 						router.push(`/city/${sluggifiedCity}`);
 					} else {
-						router.push(`/city?lat=${value.lat}&lng=${value.lng}`);
+						router.push(
+							`/city?lat=${value.lat}&lng=${value.lng}&name=${label}`
+						);
 					}
 				}}
 				onFocus={(): void => logEvent('SearchBar.Input.Focus')}

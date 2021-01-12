@@ -15,7 +15,6 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import type { LatLng } from '@shootismoke/dataproviders';
-import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -46,5 +45,10 @@ export default function CityPage(props: CityProps): React.ReactElement | null {
 		}
 	}, []);
 
-	return gps ? <CityTemplate city={{ gps }} cities={cities} /> : null;
+	return gps ? (
+		<CityTemplate
+			city={{ gps, name: router.query.name as string }}
+			cities={cities}
+		/>
+	) : null;
 }
