@@ -123,7 +123,9 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 						<Link
 							data-cy={`RankingSection-city-card-${index}`}
 							key={city.slug}
-							href={`/city/${city.slug}`}
+							// city.slug is always defined in `cities`
+							// eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
+							href={`/city/${city.slug!}`}
 						>
 							<a>
 								<CityCard

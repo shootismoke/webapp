@@ -22,12 +22,7 @@ import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
 import { useRouter } from 'next/router';
 import React, { CSSProperties, useEffect, useState } from 'react';
-import {
-	OptionsType,
-	OptionTypeBase,
-	Props as SelectProps,
-	StylesConfig,
-} from 'react-select';
+import { OptionsType, Props as SelectProps, StylesConfig } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location_orange.svg';
@@ -41,17 +36,21 @@ interface SearchBarProps extends SelectProps {
 	showGps?: boolean;
 }
 
+interface AlgoliaOption {
+	label: string;
+	value: {
+		localeName: string;
+		lat: number;
+		lng: number;
+	};
+}
+
 /**
  * Populate the search bar results with user's input.
  */
 function algoliaLoadOptions(
 	inputValue: string
-): Promise<
-	OptionsType<{
-		label: string;
-		value: { localeName: string; lat: number; lng: number };
-	}>
-> {
+): Promise<OptionsType<AlgoliaOption>> {
 	return pipe(
 		fetchAlgolia(inputValue),
 		TE.map((items) =>
@@ -155,11 +154,11 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 
 	return (
 		<div className="relative" data-cy="SearchBar-AsyncSelect">
-			<AsyncSelect
+			<AsyncSelect<{ label: string; value: string }>
 				className={c('w-full rounded text-gray-700', className)}
 				loadOptions={algoliaLoadOptions}
 				noOptionsMessage={(): string => 'Type something...'}
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				/* eslint-disable */
 				// @ts-ignore FIXME How to fix this?
 				onChange={({ label, value }): void => {
 					// If the input matches one of the slugs, then we redirect
@@ -173,6 +172,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 						);
 					}
 				}}
+				/* eslint-enable */
 				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
 				placeholder={
 					<div className="flex items-center">

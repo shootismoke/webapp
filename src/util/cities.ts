@@ -61,7 +61,7 @@ const REVERSE_API =
  * @see https://www.bigdatacloud.com/geocoding-apis/free-reverse-geocode-to-city-api
  */
 export async function reverseGeocode(gps: LatLng): Promise<string> {
-	const { data } = await axios.get(
+	const { data } = await axios.get<{ [key: string]: string }>(
 		`${REVERSE_API}&latitude=${gps.latitude}&longitude=${gps.longitude}`
 	);
 

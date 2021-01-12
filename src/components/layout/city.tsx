@@ -204,7 +204,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Seo
 				description={
 					reverseGeoName
-						? `Air pollution in ${city.name}. `
+						? `Air pollution in ${city.name || reverseGeoName}. `
 						: undefined
 				}
 				pathname={city.slug ? `/city/${city.slug}` : '/city'}

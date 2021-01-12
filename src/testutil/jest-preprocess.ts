@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const babelOptions = {
 	presets: ['@babel/preset-typescript'],
 };

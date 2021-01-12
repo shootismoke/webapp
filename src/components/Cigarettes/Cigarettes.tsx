@@ -95,7 +95,7 @@ export function Cigarettes(props: CigarettesProps): React.ReactElement {
 			showVerticalAfter={SHOW_VERTICAL_AFTER}
 			{...cigaretteConfig}
 			cigaretteStyle={{
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore Not yet supported on RN, but works on browser.
 				transform: 'translateY(2px)', // Empirically, without the -2, the cigarette is cut off.
 				transformOrigin: 'top left',
@@ -110,7 +110,7 @@ export function Cigarettes(props: CigarettesProps): React.ReactElement {
 
 				// This is so that horizontal cigarettes wrap correctly.
 				maxWidth: cigarettes <= SHOW_VERTICAL_AFTER ? '300px' : '100%',
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore Not yet supported on RN, but works on browser.
 				overflowX:
 					SHOW_VERTICAL_AFTER < cigarettes &&

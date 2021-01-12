@@ -19,7 +19,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import CityTemplate from '../components/layout/city';
-import { City, getAllCities } from '../util';
+import { City, getAllCities, sentryException } from '../util';
 
 export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
 	const cities = await getAllCities();
@@ -39,11 +39,11 @@ export default function CityPage(props: CityProps): React.ReactElement | null {
 	useEffect(() => {
 		const { lat, lng } = router.query;
 		if (!lat || !lng || isNaN(+lat) || isNaN(+lng)) {
-			router.push('/404');
+			router.push('/404').catch(sentryException);
 		} else {
 			setGps({ latitude: +lat, longitude: +lng });
 		}
-	}, []);
+	}, [router]);
 
 	return gps ? (
 		<CityTemplate

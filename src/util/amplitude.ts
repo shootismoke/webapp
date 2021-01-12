@@ -14,7 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { getInstance } from 'amplitude-js';
+
 import { sentryException } from './sentry';
+
+const client = getInstance();
+client.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY as string, undefined, {
+	includeGclid: true,
+	includeReferrer: true,
+	includeUtm: true,
+	// We never track PII.
+	trackingOptions: {
+		city: false,
+		country: true,
+		carrier: false,
+		device_manufacturer: false,
+		device_model: false,
+		dma: false,
+		ip_address: false,
+		language: true,
+		os_name: true,
+		os_version: true,
+		platform: true,
+		region: false,
+		version_name: true,
+	},
+});
 
 /**
  * Log an event on Amplitude.
@@ -25,8 +50,8 @@ export function logEvent(
 	event: string,
 	properties?: Record<string, string | number | undefined>
 ): void {
-	if (window.amplitude) {
-		window.amplitude.getInstance().logEvent(
+	if (client) {
+		client.logEvent(
 			event,
 			{
 				...properties,
@@ -47,9 +72,9 @@ export function logEvent(
 	}
 
 	// We also try Cabin.
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// eslint-disable-next-line
 	if ((window as any).cabin) {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		// eslint-disable-next-line
 		(window as any).cabin.event(event).catch((err: Error) => {
 			console.error(err);
 			sentryException(err);
