@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-// import { Cigarettes } from '../Cigarettes';
+import { Cigarettes } from '../Cigarettes';
 import { H1 } from '../H1';
 import { HeroLayout } from '../HeroLayout';
 
@@ -30,8 +30,7 @@ export function Loading(props: LoadingProps): React.ReactElement {
 	return (
 		<div className={className}>
 			<HeroLayout
-				// cover={<Cigarettes cigarettes={1.1} />}
-				cover={<div>HELLO</div>}
+				cover={<Cigarettes cigarettes={1.1} />}
 				title={
 					<H1>
 						<>

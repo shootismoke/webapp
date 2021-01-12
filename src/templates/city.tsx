@@ -33,7 +33,7 @@ import {
 	AdSection,
 	BlogSection,
 	BoxButton,
-	// Cigarettes,
+	Cigarettes,
 	DownloadSection,
 	FeaturedSection,
 	Footer,
@@ -256,8 +256,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					<>
 						<div className="mt-5 px-6 md:px-24">
 							<HeroLayout
-								// cover={<Cigarettes cigarettes={cigarettes} />}
-								cover={<div>HELLO</div>}
+								cover={<Cigarettes cigarettes={cigarettes} />}
 								title={
 									<H1>
 										<>
