@@ -14,32 +14,39 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { getInstance } from 'amplitude-js';
+import { AmplitudeClient, getInstance } from 'amplitude-js';
 
 import { sentryException } from './sentry';
 
-const client = getInstance();
-client.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY as string, undefined, {
-	includeGclid: true,
-	includeReferrer: true,
-	includeUtm: true,
-	// We never track PII.
-	trackingOptions: {
-		city: false,
-		country: true,
-		carrier: false,
-		device_manufacturer: false,
-		device_model: false,
-		dma: false,
-		ip_address: false,
-		language: true,
-		os_name: true,
-		os_version: true,
-		platform: true,
-		region: false,
-		version_name: true,
-	},
-});
+let client: AmplitudeClient;
+if (typeof window !== 'undefined') {
+	client = getInstance();
+	client.init(
+		process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY as string,
+		undefined,
+		{
+			includeGclid: true,
+			includeReferrer: true,
+			includeUtm: true,
+			// We never track PII.
+			trackingOptions: {
+				city: false,
+				country: true,
+				carrier: false,
+				device_manufacturer: false,
+				device_model: false,
+				dma: false,
+				ip_address: false,
+				language: true,
+				os_name: true,
+				os_version: true,
+				platform: true,
+				region: false,
+				version_name: true,
+			},
+		}
+	);
+}
 
 /**
  * Log an event on Amplitude.

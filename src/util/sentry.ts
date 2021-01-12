@@ -16,9 +16,11 @@
 
 import { captureException, init } from '@sentry/browser';
 
-init({
-	dsn: process.env.NEXT_PUBLIC_SENTRY_API_KEY,
-});
+if (typeof window !== 'undefined') {
+	init({
+		dsn: process.env.NEXT_PUBLIC_SENTRY_API_KEY,
+	});
+}
 
 /**
  * Capture an  error, and send it to Sentry.

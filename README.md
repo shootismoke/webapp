@@ -36,15 +36,15 @@ yarn install
 # Fill in secret tokens
 cp .env.example .env.development
 
-# Run the app with Gatsby
-yarn start
+# Run the app with Next.js
+yarn dev
 ```
 
-The webapp uses [Gatsby](https://www.gatsbyjs.com/), you can check out [their docs](https://www.gatsbyjs.com/docs/).
+The webapp uses [Next.js](https://nextjs.org/), you can check out [their docs](https://nextjs.org/docs/).
 
 #### Use your own API tokens
 
-All API secret tokens should live in the `.env.development` file for development, as described [in the Gatsby docs](https://www.gatsbyjs.com/docs/environment-variables/#defining-environment-variables).
+All API secret tokens should live in the `.env.development` file for development, as described [in the Next.js docs](https://nextjs.org/docs/basic-features/environment-variables).
 
 | Service                 | Url                   | Comments                                                                |
 | ----------------------- | --------------------- | ----------------------------------------------------------------------- |

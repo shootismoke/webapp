@@ -13,7 +13,7 @@ module.exports = {
 		'cypress',
 	],
 	transformIgnorePatterns: [
-		`node_modules/(?!(gatsby|react-native|expo-constants|@unimodules|@expo|expo-font)/)`,
+		`node_modules/(?!(react-native|expo-constants|@unimodules|@expo|expo-font)/)`,
 	],
 	globals: {
 		__PATH_PREFIX__: ``,
