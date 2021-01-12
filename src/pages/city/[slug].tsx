@@ -14,51 +14,49 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { MatchRenderProps } from '@reach/router';
 import React from 'react';
 
 import CityTemplate from '../../templates/city';
 import { City, getAllCities } from '../../util';
 
-export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const cities = await getAllCities();
 
-	return { props: { cities } };
-}
-
-export async function getStaticPaths(): Promise<{
-	fallback: false;
-	paths: {
-		params: {
-			id: string | undefined;
-		};
-	}[];
-}> {
-	const cities = await getAllCities();
-
-	return {
-		fallback: false,
-		paths: cities.map((city) => ({
-			params: {
-				id: city.slug,
-			},
-		})),
-	};
-}
-
-interface CityProps extends MatchRenderProps<void> {
-	cities: City[];
-	slug: string;
-}
-
-export default function CityPage(props: CityProps): React.ReactElement | null {
-	const { cities, slug } = props;
-	const city = cities.find((c) => c.slug === slug);
+	const city = cities.find((c) => c.slug === params?.slug);
 	if (!city) {
 		throw new Error(
 			'`city` will never be undefined, because of getStaticPaths. qed.'
 		);
 	}
+
+	return { props: { city, cities } };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+	const cities = await getAllCities();
+
+	return {
+		fallback: false,
+		paths: cities
+			.filter((city) => !!city.slug) // Just to be sure, though all cities should have a slug.
+			.map((city) => ({
+				params: {
+					slug: city.slug,
+				},
+			})),
+	};
+};
+
+interface CityProps extends MatchRenderProps<void> {
+	city: City;
+	cities: City[];
+	slug: string;
+}
+
+export default function CityPage(props: CityProps): React.ReactElement | null {
+	const { cities, city } = props;
 
 	return <CityTemplate city={city} cities={cities} />;
 }

@@ -3,6 +3,8 @@ const withImages = require('next-images');
 
 module.exports = withFonts(
 	withImages({
-		customExpoConfig,
+		webpack(config) {
+			return config;
+		},
 	})
 );

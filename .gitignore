@@ -19,7 +19,6 @@ build/Release
 
 # Dependency directories
 node_modules/
-.next
 
 # Mac files
 .DS_Store
@@ -38,17 +37,6 @@ cypress/videos
 .env.development
 .env.production
 
-# @generated: @expo/next-adapter@2.1.53
-/.expo/*
-# Expo Web
-/web-build/*
-# Expo Native
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
 # Next.js
 /.next/*
 /out/
@@ -57,4 +45,3 @@ cypress/videos
 # Next.js dependencies
 /.pnp
 .pnp.js
-# @end @expo/next-adapter

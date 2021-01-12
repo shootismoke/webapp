@@ -15,7 +15,6 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { NavigateOptions } from '@reach/router';
-import { BoxButton } from '@shootismoke/ui/lib/BoxButton';
 import { FrequencyContext } from '@shootismoke/ui/lib/context';
 import type { Api } from '@shootismoke/ui/lib/util/api';
 import { round } from '@shootismoke/ui/lib/util/api';
@@ -33,6 +32,7 @@ import {
 	AboutSection,
 	AdSection,
 	BlogSection,
+	BoxButton,
 	// Cigarettes,
 	DownloadSection,
 	FeaturedSection,
