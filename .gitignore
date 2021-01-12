@@ -36,6 +36,7 @@ cypress/videos
 # Secrets
 .env.development
 .env.production
+.env.local
 
 # Next.js
 /.next/*

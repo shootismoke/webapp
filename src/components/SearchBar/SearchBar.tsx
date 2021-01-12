@@ -46,7 +46,12 @@ interface SearchBarProps extends SelectProps {
  */
 function algoliaLoadOptions(
 	inputValue: string
-): Promise<OptionsType<OptionTypeBase>> {
+): Promise<
+	OptionsType<{
+		label: string;
+		value: { localeName: string; lat: number; lng: number };
+	}>
+> {
 	return pipe(
 		fetchAlgolia(inputValue),
 		TE.map((items) =>
@@ -81,7 +86,7 @@ function defaultCustomStyle(provided: CSSProperties): CSSProperties {
 	};
 }
 
-const customStyles: StylesConfig = {
+const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 	control: (provided) => ({
 		...provided,
 		borderRadius: '10px',

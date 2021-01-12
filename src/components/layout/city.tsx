@@ -16,6 +16,7 @@
 
 import { NavigateOptions } from '@reach/router';
 import { FrequencyContext } from '@shootismoke/ui/lib/context';
+import { BoxButton } from '@shootismoke/ui/lib/BoxButton';
 import type { Api } from '@shootismoke/ui/lib/util/api';
 import { round } from '@shootismoke/ui/lib/util/api';
 import {
@@ -27,12 +28,11 @@ import c from 'classnames';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
-import warning from '../../assets/images/icons/warning_red.svg';
+import warning from '../../../assets/images/icons/warning_red.svg';
 import {
 	AboutSection,
 	AdSection,
 	BlogSection,
-	BoxButton,
 	Cigarettes,
 	DownloadSection,
 	FeaturedSection,
@@ -48,8 +48,8 @@ import {
 	SearchLocationState,
 	Section,
 	Seo,
-} from '../components';
-import { t } from '../localization';
+} from '..';
+import { t } from '../../localization';
 import {
 	capitalize,
 	City,
@@ -57,7 +57,7 @@ import {
 	logEvent,
 	reverseGeocode,
 	sentryException,
-} from '../util';
+} from '../../util';
 
 /**
  * Swear words, untranslated.
@@ -164,7 +164,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 				return raceApiPromise(city.gps, {
 					aqicn: {
-						token: process.env.GATSBY_AQICN_TOKEN as string,
+						token: process.env.NEXT_PUBLIC_AQICN_TOKEN as string,
 					},
 					openaq: {
 						dateFrom: sixHoursAgo,

@@ -17,7 +17,7 @@
 import { MatchRenderProps } from '@reach/router';
 import React from 'react';
 
-import CityTemplate from '../templates/city';
+import CityTemplate from '../components/layout/city';
 import { City, getAllCities } from '../util';
 
 /**
