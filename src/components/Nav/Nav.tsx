@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import logo from '@shootismoke/ui/assets/logos/logo_text_2lines.svg';
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -42,14 +43,18 @@ export function Nav(props: NavProps): React.ReactElement {
 			<nav className="flex flex-row justify-between">
 				<Link href="/">
 					<a>
-						<img
-							alt="logo"
-							className="h-10 md:h-12"
-							onClick={(): void =>
-								logEvent('Nav.HomeButton.Click')
-							}
-							src={logo}
-						/>
+						<div className="next-images relative w-40 | h-10 md:h-12">
+							<Image
+								alt="logo"
+								layout="fill"
+								objectFit="contain"
+								objectPosition="left"
+								onClick={(): void =>
+									logEvent('Nav.HomeButton.Click')
+								}
+								src={logo}
+							/>
+						</div>
 					</a>
 				</Link>
 				{showDownloadApp && (
@@ -59,11 +64,15 @@ export function Nav(props: NavProps): React.ReactElement {
 					>
 						Download <br className="md:hidden" />
 						the app
-						<img
-							alt="download"
-							className="ml-2 md:ml-4 h-6 md:h-10"
-							src={download}
-						/>
+						<div className="next-images relative w-8 | ml-2 md:ml-4 h-6 md:h-10">
+							<Image
+								alt="download"
+								layout="fill"
+								objectFit="contain"
+								objectPosition="right"
+								src={download}
+							/>
+						</div>
 					</div>
 				)}
 			</nav>

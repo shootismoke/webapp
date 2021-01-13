@@ -14,10 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import Image from 'next/image';
 import React from 'react';
 
-import appStore from '../../../assets/images/app-store.png?webp';
-import playStore from '../../../assets/images/play-store.png?webp';
+import appStore from '../../../assets/images/app-store.png';
+import playStore from '../../../assets/images/play-store.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 
@@ -48,11 +49,14 @@ export function DownloadSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img
-							alt="download on Play Store"
-							className="rounded-2xl"
-							src={playStore}
-						/>
+						<div className="next-images relative h-16 | rounded-2xl">
+							<Image
+								alt="download on Play Store"
+								layout="fill"
+								objectFit="contain"
+								src={playStore}
+							/>
+						</div>
 					</a>
 					<a
 						className="w-56"
@@ -63,11 +67,14 @@ export function DownloadSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img
-							alt="download on Apple Store"
-							className="rounded-2xl"
-							src={appStore}
-						/>
+						<div className="next-images relative h-16 | rounded-2xl">
+							<Image
+								alt="download on Apple Store"
+								layout="fill"
+								objectFit="contain"
+								src={appStore}
+							/>
+						</div>
 					</a>
 				</div>
 			</div>

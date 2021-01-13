@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import c from 'classnames';
+import Image from 'next/image';
 import React from 'react';
 
 import { Card, CardProps } from '../../Card';
@@ -36,11 +37,14 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 	return (
 		<Card className={c('h-26 pr-2 flex flex-row', className)}>
 			<div className="mr-4 w-26 h-26 flex-shrink-0">
-				<img
-					alt={title}
-					className="h-full w-full object-cover"
-					src={photoUrl || FALLBACK_IMAGE}
-				/>
+				<div className="next-images relative | h-full w-full object-cover">
+					<Image
+						alt={title}
+						layout="fill"
+						objectFit="cover"
+						src={photoUrl || FALLBACK_IMAGE}
+					/>
+				</div>
 			</div>
 
 			<div className="min-w-0 flex flex-col justify-center">

@@ -101,7 +101,7 @@ const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 			...provided,
 			color: '#44464A',
 			fontSize: '0.9rem',
-			zIndex: 100, // This is so that the <input> is above the <img>, mainly for cypress tests to pass.
+			zIndex: 100, // This is so that the <input> is above the <Image>, mainly for cypress tests to pass.
 		};
 	},
 	noOptionsMessage: defaultCustomStyle,

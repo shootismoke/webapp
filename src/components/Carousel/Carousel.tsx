@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import c from 'classnames';
+import Image from 'next/image';
 import React, { useRef } from 'react';
 
 import pageLeft from '../../../assets/images/icons/pagination_left.svg';
@@ -61,18 +62,26 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 
 	return (
 		<div className={c('relative flex items-center', className)} {...rest}>
-			<img
-				alt="page-left"
-				className="hidden md:block absolute -left-6 cursor-pointer z-10"
-				onClick={scrollLeft}
-				src={pageLeft}
-			/>
-			<img
-				alt="page-right"
-				className="hidden md:block absolute -right-6 cursor-pointer z-10"
-				onClick={scrollRight}
-				src={pageRight}
-			/>
+			<div className="next-images w-12 h-12 | hidden md:block absolute -left-6 cursor-pointer z-10">
+				<Image
+					alt="page-left"
+					layout="fill"
+					objectFit="contain"
+					onClick={scrollLeft}
+					src={pageLeft}
+				/>
+			</div>
+
+			<div className="next-images w-12 h-12 | hidden md:block absolute -right-6 cursor-pointer z-10">
+				<Image
+					alt="page-right"
+					layout="fill"
+					objectFit="contain"
+					onClick={scrollRight}
+					src={pageRight}
+				/>
+			</div>
+
 			<div
 				className={c(
 					'overflow-x-auto scroll-smooth flex flex-row',

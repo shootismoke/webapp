@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import Image from 'next/image';
 import React from 'react';
 
 import box from '../../../assets/images/conversion-box.svg';
@@ -42,11 +43,14 @@ export function AboutSection(): React.ReactElement {
 					Stations worldwide.
 				</p>
 				<p className="mt-4 md:mt-0 md:ml-2 md:flex-1 type-100 text-gray-600">
-					<img
-						alt="cigarettes-conversion"
-						className="-mt-4 mb-6 mx-auto"
-						src={box}
-					/>
+					<div className="next-images relative w-full h-32 | -mt-4 mb-6 mx-auto">
+						<Image
+							alt="cigarettes-conversion"
+							layout="fill"
+							objectFit="contain"
+							src={box}
+						/>
+					</div>
 					Use location to discover the air quality near you, or search
 					on a map for stations elsewhere. Created to raise awareness
 					to air pollution, the tool is free, open-source, and

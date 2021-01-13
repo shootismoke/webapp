@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import c from 'classnames';
+import Image from 'next/image';
 import { NextRouter, useRouter } from 'next/router';
 import React, { useState } from 'react';
 
@@ -77,7 +78,16 @@ export function GpsButton(props: GpsButtonProps): React.ReactElement {
 			{...rest}
 		>
 			<div className="px-2 flex flex-row justify-center">
-				{!text && <img alt="location" src={location} />}
+				{!text && (
+					<div className="next-images relative w-4 h-4 my-auto">
+						<Image
+							alt="location"
+							layout="fill"
+							objectFit="contain"
+							src={location}
+						/>
+					</div>
+				)}
 				<p className="ml-3 py-1 type-300 text-white uppercase truncate">
 					{text || DEFAULT_TEXT}
 				</p>

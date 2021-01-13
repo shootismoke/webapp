@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
@@ -50,7 +51,15 @@ export default function Faq(): React.ReactElement {
 			<Section className="pt-3">
 				<Link href="/">
 					<a className="flex items-center type-300 text-orange uppercase">
-						<img alt="back" className="mr-3" src={backArrow} />
+						<span className="next-images relative w-3 h-3 | mr-3">
+							<Image
+								alt="back"
+								layout="fill"
+								objectFit="contain"
+								src={backArrow}
+							/>
+						</span>
+
 						<span>Back to Homepage</span>
 					</a>
 				</Link>
@@ -83,7 +92,15 @@ export default function Faq(): React.ReactElement {
 						&micro;g/m&sup3;{' \u207D'}&sup1;{'\u207E'}.
 					</span>
 
-					<img alt="conversion-box" className="mb-3" src={box} />
+					<div className="next-images | mb-3">
+						<Image
+							alt="conversion-box"
+							height={124}
+							src={box}
+							width={390}
+						/>
+					</div>
+
 					<a
 						className="type-100 hover:underline"
 						href="https://berkeleyearth.org/air-pollution-and-cigarette-equivalence/"

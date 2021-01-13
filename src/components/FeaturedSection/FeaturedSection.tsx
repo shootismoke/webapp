@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import Image from 'next/image';
 import React from 'react';
 
 import bbc from '../../../assets/images/media/bbc.png?lqip';
@@ -122,11 +123,14 @@ export function FeaturedSection(): React.ReactElement {
 						rel="noreferrer"
 						target="_blank"
 					>
-						<img
-							alt={media.slug}
-							className="w-32"
-							src={media.image}
-						/>
+						<div className="next-images relative h-12 | w-32">
+							<Image
+								alt={media.slug}
+								layout="fill"
+								objectFit="contain"
+								src={media.image}
+							/>
+						</div>
 					</a>
 				))}
 			</div>

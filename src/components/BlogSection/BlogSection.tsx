@@ -15,25 +15,26 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import c from 'classnames';
+import Image from 'next/image';
 import React from 'react';
 
-import blogfolha from '../../../assets/images/blogs/blogfolha.jpg?lqip';
-import bloomberg from '../../../assets/images/blogs/bloomberg.jpg?lqip';
-import france3Regions from '../../../assets/images/blogs/france3_regions.jpg?lqip';
-import highsnobiety from '../../../assets/images/blogs/highsnobiety.jpg?lqip';
-import hindustantimes from '../../../assets/images/blogs/hindustantimes.jpg?lqip';
+import blogfolha from '../../../assets/images/blogs/blogfolha.jpg';
+import bloomberg from '../../../assets/images/blogs/bloomberg.jpg';
+import france3Regions from '../../../assets/images/blogs/france3_regions.jpg';
+import highsnobiety from '../../../assets/images/blogs/highsnobiety.jpg';
+import hindustantimes from '../../../assets/images/blogs/hindustantimes.jpg';
 import hln from '../../../assets/images/blogs/hln.webp';
-import huffpostKorea from '../../../assets/images/blogs/huffpost_korea.jpeg?lqip';
+import huffpostKorea from '../../../assets/images/blogs/huffpost_korea.jpeg';
 import lifehacker from '../../../assets/images/blogs/lifehacker.webp';
-import okdiario from '../../../assets/images/blogs/okdiario.jpg?lqip';
-import pix11 from '../../../assets/images/blogs/pix11.jpg?lqip';
-import rppNoticias from '../../../assets/images/blogs/rpp-noticias.jpg?lqip';
-import sfgate from '../../../assets/images/blogs/sfgate.jpg?lqip';
-import slate from '../../../assets/images/blogs/slate.jpg?lqip';
+import okdiario from '../../../assets/images/blogs/okdiario.jpg';
+import pix11 from '../../../assets/images/blogs/pix11.jpg';
+import rppNoticias from '../../../assets/images/blogs/rpp-noticias.jpg';
+import sfgate from '../../../assets/images/blogs/sfgate.jpg';
+import slate from '../../../assets/images/blogs/slate.jpg';
 import tencentqq from '../../../assets/images/blogs/tencentqq.webp';
 import thedailybeast from '../../../assets/images/blogs/thedailybeast.webp';
-import usbeketrica from '../../../assets/images/blogs/usbeketrica.jpg?lqip';
-import webmd from '../../../assets/images/blogs/webmd.jpg?lqip';
+import usbeketrica from '../../../assets/images/blogs/usbeketrica.jpg';
+import webmd from '../../../assets/images/blogs/webmd.jpg';
 import { logEvent } from '../../util';
 import { Carousel, CarouselCard } from '../Carousel';
 import { Section } from '../Section';
@@ -226,11 +227,14 @@ export function BlogSection(): React.ReactElement {
 						<CarouselCard
 							className={c(blogIndex === 0 && 'ml-3 md:ml-0')}
 						>
-							<img
-								alt={blog.title}
-								className="w-full h-40 md:h-50 object-cover"
-								src={blog.image}
-							/>
+							<div className="next-images relative | w-full h-40 md:h-50 object-cover">
+								<Image
+									alt={blog.title}
+									layout="fill"
+									objectFit="cover"
+									src={blog.image}
+								/>
+							</div>
 							<div className="mt-2 px-4">
 								<h3 className="type-200 line-clamp-2">
 									{blog.title}
