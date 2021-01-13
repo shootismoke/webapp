@@ -24,7 +24,6 @@ import {
 } from '@shootismoke/ui/lib/util/primaryPollutant';
 import { distanceToStation } from '@shootismoke/ui/lib/util/station';
 import c from 'classnames';
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
