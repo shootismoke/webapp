@@ -10800,13 +10800,13 @@ responselike@1.0.2:
   dependencies:
     lowercase-keys "^1.0.0"
 
-responsive-loader@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/responsive-loader/-/responsive-loader-2.3.0.tgz#3123b6db1dd8aeee37c4d7805e3f45d2e8f5edc1"
-  integrity sha512-8GyyasTKdOfTMDvYy/mBpyV2EM7hz7zWoKdxpocA60eX1jM2udsb+ji03haZWeGnTkQvOplXVqHsev9952dWng==
+responsive-loader@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/responsive-loader/-/responsive-loader-2.0.0.tgz#929915399de828906def89293cce45ebfa03afa0"
+  integrity sha512-V82uI9YI0IvpBt9dLNY5xhuv9n9jaMgiTYBmOtnKaxJpfiybObObrDWWbr08L98MYPTA8/YeF99qqlTgG8WI+w==
   dependencies:
     loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
+    schema-utils "^2.7.0"
 
 restore-cursor@^1.0.1:
   version "1.0.1"
@@ -11003,7 +11003,7 @@ scheduler@^0.20.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-schema-utils@2.7.1, schema-utils@^2.6.6, schema-utils@^2.7.1:
+schema-utils@2.7.1, schema-utils@^2.6.6, schema-utils@^2.7.0, schema-utils@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.7.1.tgz#1ca4f32d1b24c590c203b8e7a50bf0ea4cd394d7"
   integrity sha512-SHiNtMOUGWBQJwzISiVYKu82GiV4QYGePp3odlY1tuKO7gPtphAT5R/py0fA6xtbgLL/RvtJZnU9b8s0F1q0Xg==
