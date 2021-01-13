@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import sadFace from '@shootismoke/ui/assets/images/error@3x.png';
+import sadFace from '@shootismoke/ui/assets/images/error@3x.png?webp';
 import React from 'react';
 
 import { H1 } from '../H1';

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import favicon from '@shootismoke/ui/assets/logos/AppIcons/Assets.xcassets/AppIcon.appiconset/64.png';
+import favicon from '@shootismoke/ui/assets/logos/AppIcons/Assets.xcassets/AppIcon.appiconset/64.png?webp';
 import Head from 'next/head';
 import React from 'react';
 

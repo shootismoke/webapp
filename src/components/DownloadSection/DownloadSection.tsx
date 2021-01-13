@@ -16,8 +16,8 @@
 
 import React from 'react';
 
-import appStore from '../../../assets/images/app-store.png';
-import playStore from '../../../assets/images/play-store.png';
+import appStore from '../../../assets/images/app-store.png?webp';
+import playStore from '../../../assets/images/play-store.png?webp';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 

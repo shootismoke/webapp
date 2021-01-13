@@ -14,15 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-declare module '*.jpg' {
+declare module '*.jpg?lqip' {
 	export default img as string;
 }
 
-declare module '*.jpeg' {
+declare module '*.jpg?webp' {
 	export default img as string;
 }
 
-declare module '*.png' {
+declare module '*.jpeg?lqip' {
+	export default img as string;
+}
+
+declare module '*.jpeg?webp' {
+	export default img as string;
+}
+
+declare module '*.png?lqip' {
+	export default img as string;
+}
+
+declare module '*.png?webp' {
 	export default img as string;
 }
 
