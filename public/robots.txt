@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://shootismoke.app/sitemap.xml
+Host: https://shootismoke.app
