@@ -1,0 +1,149 @@
+import { round } from '@shootismoke/ui/lib/util/api';
+import { pm25ToCigarettes } from '@shootismoke/ui/lib/util/secretSauce';
+import {
+	Expo,
+	ExpoPushMessage,
+	ExpoPushReceipt,
+	ExpoPushReceiptId,
+	ExpoPushTicket,
+} from 'expo-server-sdk';
+
+import { Frequency, IExpoReport, IUser } from '../types';
+import { logger } from '../util/logger';
+
+/**
+ * Generate the body of the push notification message.
+ */
+function getMessageBody(pm25: number, frequency: Frequency): string {
+	const dailyCigarettes = pm25ToCigarettes(pm25);
+
+	if (frequency === 'daily') {
+		return `Shoot! You'll smoke ${round(dailyCigarettes)} cigarettes today`;
+	}
+
+	return `Shoot! You smoked ${round(
+		frequency === 'monthly' ? dailyCigarettes * 30 : dailyCigarettes * 7
+	)} cigarettes in the past ${frequency === 'monthly' ? 'month' : 'week'}.`;
+}
+
+/**
+ * A user that has notifications.
+ */
+interface IUserWithExpoReport extends IUser {
+	expoReport: IExpoReport;
+}
+
+/**
+ * Asserts user has notifications.
+ *
+ * @param user - User to test if she/he has notifications.
+ */
+function assertUserWithExpoReport(
+	user: IUser
+): asserts user is IUserWithExpoReport {
+	if (!user.expoReport) {
+		throw new Error(
+			`User ${user._id} has notifications, as per our db query. qed.`
+		);
+	}
+}
+
+/**
+ * For a user, construct a personalized ExpoPushMessage.
+ *
+ * @param user - The user to construct the message for
+ */
+export function constructExpoPushMessage(
+	user: IUser,
+	pm25: number
+): ExpoPushMessage {
+	assertUserWithExpoReport(user);
+
+	const { frequency, expoPushToken } = user.expoReport;
+
+	if (!Expo.isExpoPushToken(expoPushToken)) {
+		throw new Error(`Invalid ExpoPushToken: ${expoPushToken}`); // eslint-disable-line @typescript-eslint/restrict-template-expressions
+	}
+
+	return {
+		body: getMessageBody(pm25, frequency),
+		title:
+			frequency === 'daily'
+				? 'Daily forecast'
+				: frequency === 'weekly'
+				? 'Weekly report'
+				: 'Monthly report',
+		to: expoPushToken,
+		sound: 'default',
+	};
+}
+
+/**
+ * Send a batch of messages (push notifications) to Expo's servers.
+ *
+ * @see https://github.com/expo/expo-server-sdk-node
+ * @param expo - An instance of the Expo class.
+ * @param messages - The messages to send.
+ */
+export async function sendBatchToExpo(
+	expo: Expo,
+	messages: ExpoPushMessage[]
+): Promise<ExpoPushTicket[]> {
+	const chunks = expo.chunkPushNotifications(messages);
+	const tickets: ExpoPushTicket[] = [];
+	// Send the chunks to the Expo push notification service. There are
+	// different strategies you could use. A simple one is to send one chunk at a
+	// time, which nicely spreads the load out over time:
+	for (const chunk of chunks) {
+		try {
+			const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+			tickets.push(...ticketChunk);
+			// NOTE: If a ticket contains an error code in ticket.details.error, you
+			// must handle it appropriately. The error codes are listed in the Expo
+			// documentation:
+			// https://docs.expo.io/versions/latest/guides/push-notifications#response-format
+		} catch (error) {
+			// On error when sending push notifications, we log the error, but move
+			// on with the loop.
+			logger.error(error);
+		}
+	}
+
+	return tickets;
+}
+
+/**
+ * Handle Expo push receipts.
+ *
+ * @param expo - Expo class instance.
+ * @param receiptIds - The receipt IDs to handle.
+ * @param onOk - Handler on successful receipt.
+ * @param onError - Handler on error receipt.
+ */
+export async function handleReceipts(
+	expo: Expo,
+	receiptIds: string[],
+	onOk: (_receiptId: ExpoPushReceiptId, _receipt: ExpoPushReceipt) => void,
+	onError: (_receiptId: ExpoPushReceiptId, _receipt: ExpoPushReceipt) => void
+): Promise<void> {
+	const receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
+	for (const chunk of receiptIdChunks) {
+		try {
+			const receipts = await expo.getPushNotificationReceiptsAsync(chunk);
+
+			// The receipts specify whether Apple or Google successfully received the
+			// notification and information about an error, if one occurred.
+			for (const [receiptId, receipt] of Object.entries(receipts)) {
+				if (receipt.status === 'ok') {
+					onOk(receiptId, receipt);
+				} else if (receipt.status === 'error') {
+					onError(receiptId, receipt);
+				}
+			}
+		} catch (error) {
+			// On error when sending push notifications, we log the error, but move
+			// on with the loop.
+			logger.error(error);
+		}
+	}
+}

@@ -16,6 +16,15 @@ jobs:
             - run: yarn install
             - run: yarn lint
 
+    test-unit:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install Dependencies
+              run: yarn install
+            - name: Run unit test
+              run: yarn test:unit
+
     test:
         runs-on: ubuntu-latest
         steps:

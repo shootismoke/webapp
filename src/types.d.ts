@@ -33,3 +33,6 @@ declare module '*.svg' {
 declare module '*.webp' {
 	export default img as string;
 }
+
+// The following packages don't have typings.
+declare module 'assign-deep';
