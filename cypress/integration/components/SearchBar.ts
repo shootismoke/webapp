@@ -21,7 +21,7 @@ function performSearch(
 ): void {
 	// FIXME This test passes locally, but doesn't pass in CI.
 	// https://github.com/shootismoke/webapp/issues/36
-	it.skip(`should search for ${searchInput} and redirect to ${expectedUrl}`, () => {
+	it(`should search for ${searchInput} and redirect to ${expectedUrl}`, () => {
 		cy.visit(startPage);
 
 		cy.get('[data-cy=SearchBar-AsyncSelect] input').type(searchInput);

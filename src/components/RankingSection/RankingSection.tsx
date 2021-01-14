@@ -121,13 +121,12 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 md:grid-cols-2 md:grid-rows-3 gap-4">
 					{citiesToShow.map((city, index) => (
 						<Link
-							data-cy={`RankingSection-city-card-${index}`}
 							key={city.slug}
 							// city.slug is always defined in `cities`
 							// eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
 							href={`/city/${city.slug!}`}
 						>
-							<a>
+							<a data-cy={`RankingSection-city-card-${index}`}>
 								<CityCard
 									description={
 										city.api?.shootismoke.dailyCigarettes
