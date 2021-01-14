@@ -20,11 +20,6 @@ build/Release
 # Dependency directories
 node_modules/
 
-# gatsby files
-.cache/
-public
-.expo
-
 # Mac files
 .DS_Store
 
@@ -41,3 +36,13 @@ cypress/videos
 # Secrets
 .env.development
 .env.production
+.env.local
+
+# Next.js
+/.next/*
+/out/
+# Next.js production
+/build/
+# Next.js dependencies
+/.pnp
+.pnp.js

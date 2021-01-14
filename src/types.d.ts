@@ -14,10 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+declare module '*.jpg' {
+	export default img as string;
+}
+
+declare module '*.jpeg' {
+	export default img as string;
+}
+
 declare module '*.png' {
 	export default img as string;
 }
 
 declare module '*.svg' {
+	export default img as string;
+}
+
+declare module '*.webp' {
 	export default img as string;
 }

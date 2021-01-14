@@ -20,14 +20,9 @@ import c from 'classnames';
 import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
-import { graphql, navigate, useStaticQuery } from 'gatsby';
+import { useRouter } from 'next/router';
 import React, { CSSProperties, useEffect, useState } from 'react';
-import {
-	OptionsType,
-	OptionTypeBase,
-	Props as SelectProps,
-	StylesConfig,
-} from 'react-select';
+import { OptionsType, Props as SelectProps, StylesConfig } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
 import location from '../../../assets/images/icons/location_orange.svg';
@@ -36,8 +31,18 @@ import { City, logEvent, sentryException } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 
 interface SearchBarProps extends SelectProps {
+	cities: City[];
 	className?: string;
 	showGps?: boolean;
+}
+
+interface AlgoliaOption {
+	label: string;
+	value: {
+		localeName: string;
+		lat: number;
+		lng: number;
+	};
 }
 
 /**
@@ -45,7 +50,7 @@ interface SearchBarProps extends SelectProps {
  */
 function algoliaLoadOptions(
 	inputValue: string
-): Promise<OptionsType<OptionTypeBase>> {
+): Promise<OptionsType<AlgoliaOption>> {
 	return pipe(
 		fetchAlgolia(inputValue),
 		TE.map((items) =>
@@ -80,7 +85,7 @@ function defaultCustomStyle(provided: CSSProperties): CSSProperties {
 	};
 }
 
-const customStyles: StylesConfig = {
+const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 	control: (provided) => ({
 		...provided,
 		borderRadius: '10px',
@@ -96,7 +101,7 @@ const customStyles: StylesConfig = {
 			...provided,
 			color: '#44464A',
 			fontSize: '0.9rem',
-			zIndex: 100, // This is so that the <input> is above the <img>, mainly for cypress tests to pass.
+			zIndex: 100, // This is so that the <input> is above the <Image>, mainly for cypress tests to pass.
 		};
 	},
 	noOptionsMessage: defaultCustomStyle,
@@ -116,38 +121,22 @@ const customStyles: StylesConfig = {
 	}),
 };
 
-/**
- * Interface that is used for passing data through state in @reach/router
- * transitions.
- */
-export interface SearchLocationState {
-	cityName: string;
-}
-
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
+		cities,
 		className,
 		placeholder = 'Search a city or address',
 		showGps = true,
 		...rest
 	} = props;
 
-	const worldCities = useStaticQuery(graphql`
-		query SearchBarQuery {
-			allShootismokeCity {
-				nodes {
-					slug
-				}
-			}
-		}
-	`).allShootismokeCity.nodes as City[];
+	const router = useRouter();
+
 	// Create a lookup map for fast access.
-	const [worldCitiesMap, setWorldCitiesMap] = useState<Record<string, true>>(
-		{}
-	);
+	const [citiesMap, setCitiesMap] = useState<Record<string, true>>({});
 	useEffect(() => {
-		setWorldCitiesMap(
-			worldCities.reduce((acc, { slug }) => {
+		setCitiesMap(
+			cities.reduce((acc, { slug }) => {
 				if (slug) {
 					acc[slug] = true;
 				}
@@ -155,7 +144,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				return acc;
 			}, {} as Record<string, true>)
 		);
-	}, [worldCities]);
+	}, [cities]);
 
 	// If we have a more important message to show in the placeholder, we put
 	// it here.
@@ -165,30 +154,27 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 
 	return (
 		<div className="relative" data-cy="SearchBar-AsyncSelect">
-			<AsyncSelect
+			<AsyncSelect<{ label: string; value: string }>
 				className={c('w-full rounded text-gray-700', className)}
 				loadOptions={algoliaLoadOptions}
+				// https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
+				instanceId={1}
 				noOptionsMessage={(): string => 'Type something...'}
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				/* eslint-disable */
 				// @ts-ignore FIXME How to fix this?
 				onChange={({ label, value }): void => {
 					// If the input matches one of the slugs, then we redirect
 					// to the slugged page.
 					const sluggifiedCity = slugify(value.localeName || '');
-					if (worldCitiesMap[sluggifiedCity]) {
-						navigate(`/city/${sluggifiedCity}`, {
-							state: {
-								cityName: label,
-							} as SearchLocationState,
-						});
+					if (citiesMap[sluggifiedCity]) {
+						router.push(`/city/${sluggifiedCity}`);
 					} else {
-						navigate(`/city?lat=${value.lat}&lng=${value.lng}`, {
-							state: {
-								cityName: label,
-							} as SearchLocationState,
-						});
+						router.push(
+							`/city?lat=${value.lat}&lng=${value.lng}&name=${label}`
+						);
 					}
 				}}
+				/* eslint-enable */
 				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
 				placeholder={
 					<div className="flex items-center">
@@ -213,7 +199,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 					className="absolute top-0 mt-4 mr-4 right-0 w-4 cursor-pointer"
 					onClick={(): void => {
 						logEvent('SearchBar.LocationIcon.Click');
-						onGpsButtonClick(setOverridePlaceholder);
+						onGpsButtonClick(setOverridePlaceholder, router);
 					}}
 					src={location}
 				/>

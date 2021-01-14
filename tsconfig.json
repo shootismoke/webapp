@@ -1,11 +1,20 @@
 {
 	"compilerOptions": {
 		"downlevelIteration": true,
-		"jsx": "react",
+		"jsx": "preserve",
 		"lib": ["DOM", "ES2015"],
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
-		"types": ["cypress", "node"]
+		"types": ["cypress", "node"],
+		"target": "es5",
+		"allowJs": false,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"isolatedModules": true
 	},
-	"extends": "./node_modules/@amaurymartiny/tsconfig/tsconfig"
+	"extends": "./node_modules/@amaurymartiny/tsconfig/tsconfig",
+	"exclude": ["node_modules"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

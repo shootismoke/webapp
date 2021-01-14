@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import c from 'classnames';
+import Image from 'next/image';
 import React from 'react';
 
 import { logEvent } from '../../util';
@@ -127,11 +128,15 @@ export function AdSection(): React.ReactElement {
 								adIndex === 0 && 'ml-3 md:ml-0'
 							)}
 						>
-							<img
-								alt={ad.title}
-								className="px-2 h-36 object-cover"
-								src={ad.image}
-							/>
+							<div className="next-images relative w-full | px-2 h-36 object-cover">
+								<Image
+									alt={ad.title}
+									layout="fill"
+									objectFit="contain"
+									src={ad.image}
+								/>
+							</div>
+
 							<h3 className="mt-4 mb-3 type-200 text-center">
 								{ad.title}
 							</h3>

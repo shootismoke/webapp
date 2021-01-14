@@ -34,5 +34,7 @@ export function getSeoTitle(cigarettes?: number, cityName?: string): string {
 	// Round to 1 decimal
 	const cigarettesRounded = Math.round(cigarettes * 10) / 10;
 
-	return `${cityName} Air Pollution: ${cigarettesRounded} cigarettes per day`;
+	return `${
+		cityName ? `${cityName} ` : ''
+	}Air Pollution: ${cigarettesRounded} cigarettes per day`;
 }

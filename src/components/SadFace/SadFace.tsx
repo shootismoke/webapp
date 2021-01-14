@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import sadFace from '@shootismoke/ui/assets/images/error@3x.png';
+import Image from 'next/image';
 import React from 'react';
 
 import { H1 } from '../H1';
@@ -31,7 +32,17 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 	return (
 		<div className={className}>
 			<HeroLayout
-				cover={<img alt="error" className="h-32" src={sadFace} />}
+				cover={
+					<div className="next-images relative | h-full">
+						<Image
+							alt="error"
+							layout="fill"
+							objectFit="contain"
+							objectPosition="left"
+							src={sadFace}
+						/>
+					</div>
+				}
 				title={
 					<H1>
 						<>
@@ -43,10 +54,7 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 			/>
 
 			<p className="mt-4 type-100 text-gray-600">
-				Please try to search for another city.
-				<br />
-				<br />
-				{message}
+				{message} Please try to search for another city.
 			</p>
 		</div>
 	);

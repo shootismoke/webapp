@@ -17,7 +17,7 @@
 import c from 'classnames';
 import React from 'react';
 
-interface ButtonProps extends React.HTMLProps<HTMLDivElement> {
+export interface ButtonProps extends React.HTMLProps<HTMLDivElement> {
 	primary?: boolean;
 }
 

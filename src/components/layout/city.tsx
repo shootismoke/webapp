@@ -14,21 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { NavigateOptions } from '@reach/router';
+import { BoxButton } from '@shootismoke/ui/lib/BoxButton';
+import { FrequencyContext } from '@shootismoke/ui/lib/context';
+import type { Api } from '@shootismoke/ui/lib/util/api';
+import { round } from '@shootismoke/ui/lib/util/api';
 import {
-	Api,
-	BoxButton,
-	distanceToStation,
-	FrequencyContext,
 	getAQI,
 	primaryPollutant,
-	round,
-} from '@shootismoke/ui';
+} from '@shootismoke/ui/lib/util/primaryPollutant';
+import { distanceToStation } from '@shootismoke/ui/lib/util/station';
 import c from 'classnames';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
-import warning from '../../assets/images/icons/warning_red.svg';
+import warning from '../../../assets/images/icons/warning_red.svg';
+import { t } from '../../localization';
+import {
+	capitalize,
+	City,
+	getSeoTitle,
+	logEvent,
+	reverseGeocode,
+	sentryException,
+} from '../../util';
 import {
 	AboutSection,
 	AdSection,
@@ -45,19 +53,9 @@ import {
 	RankingSection,
 	SadFace,
 	SearchBar,
-	SearchLocationState,
 	Section,
 	Seo,
-} from '../components';
-import { t } from '../localization';
-import {
-	capitalize,
-	City,
-	getSeoTitle,
-	logEvent,
-	reverseGeocode,
-	sentryException,
-} from '../util';
+} from '..';
 
 /**
  * Swear words, untranslated.
@@ -98,18 +96,13 @@ function isKnownError(error: string): boolean {
 }
 
 interface CityProps {
-	location?: NavigateOptions<SearchLocationState>;
-	pageContext: {
-		city: City;
-	};
+	city: City;
+	cities: City[];
 }
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
-	const {
-		location: routerLocation,
-		pageContext: { city },
-	} = props;
+	const { city, cities } = props;
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
@@ -168,7 +161,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 				return raceApiPromise(city.gps, {
 					aqicn: {
-						token: process.env.GATSBY_AQICN_TOKEN as string,
+						token: process.env.NEXT_PUBLIC_AQICN_TOKEN as string,
 					},
 					openaq: {
 						dateFrom: sixHoursAgo,
@@ -176,7 +169,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				});
 			})
 			.then(setApi)
-			.catch(setError);
+			.catch(() =>
+				setError(
+					new Error(
+						'The closest station currently does not have PM2.5 measurings.'
+					)
+				)
+			);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// Log errors.
@@ -211,7 +210,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Seo
 				description={
 					reverseGeoName
-						? `Air pollution in ${city.name}. `
+						? `Air pollution in ${city.name || reverseGeoName}. `
 						: undefined
 				}
 				pathname={city.slug ? `/city/${city.slug}` : '/city'}
@@ -223,29 +222,27 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Section noPadding>
 				<div className="px-6 md:px-24">
 					<SearchBar
+						cities={cities}
 						placeholder={
 							city.name
 								? [city.name, city.adminName, city.country]
 										.filter((x) => !!x)
 										.join(', ')
-								: routerLocation?.state?.cityName ||
-								  reverseGeoName ||
-								  'Search for any city'
+								: reverseGeoName || 'Search for any city'
 						}
 					/>
 					<p className="mt-2 type-100 text-gray-600">
 						{distance !== undefined ? (
 							api?.shootismoke.isAccurate === false ? (
-								<Link
-									className="text-red hover:underline"
-									to="/faq#station-so-far"
-								>
-									Air Quality Station: {distance}km away
-									<img
-										alt="warning"
-										className="ml-1 inline"
-										src={warning}
-									/>
+								<Link href="/faq#station-so-far">
+									<a className="text-red hover:underline">
+										Air Quality Station: {distance}km away
+										<img
+											alt="warning"
+											className="ml-1 inline"
+											src={warning}
+										/>
+									</a>
 								</Link>
 							) : (
 								`Air Quality Station: ${distance}km away`
@@ -324,7 +321,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<PollutantSection aqi={aqi} pollutant={primaryPol.parameter} />
 			)}
 
-			<RankingSection currentCity={city} />
+			<RankingSection cities={cities} currentCity={city} />
 			<AdSection />
 			<AboutSection />
 			<FeaturedSection />

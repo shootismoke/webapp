@@ -15,14 +15,15 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import c from 'classnames';
+import Image from 'next/image';
 import React from 'react';
 
-import { Card } from '../../Card';
+import { Card, CardProps } from '../../Card';
 
 const FALLBACK_IMAGE =
 	'https://images.pexels.com/photos/1563256/pexels-photo-1563256.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';
 
-interface CityCardProps {
+interface CityCardProps extends CardProps {
 	description?: string;
 	className?: string;
 	photoUrl?: string;
@@ -36,11 +37,14 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 	return (
 		<Card className={c('h-26 pr-2 flex flex-row', className)}>
 			<div className="mr-4 w-26 h-26 flex-shrink-0">
-				<img
-					alt={title}
-					className="h-full w-full object-cover"
-					src={photoUrl || FALLBACK_IMAGE}
-				/>
+				<div className="next-images relative | h-full w-full object-cover">
+					<Image
+						alt={title}
+						layout="fill"
+						objectFit="cover"
+						src={photoUrl || FALLBACK_IMAGE}
+					/>
+				</div>
 			</div>
 
 			<div className="min-w-0 flex flex-col justify-center">

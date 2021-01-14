@@ -15,7 +15,8 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import logo from '@shootismoke/ui/assets/logos/logo_text_2lines.svg';
-import { Link } from 'gatsby';
+import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 import download from '../../../assets/images/icons/download.svg';
@@ -40,11 +41,21 @@ export function Nav(props: NavProps): React.ReactElement {
 	return (
 		<header className="mt-3 md:mt-9 mx-3 md:mx-9">
 			<nav className="flex flex-row justify-between">
-				<Link
-					onClick={(): void => logEvent('Nav.HomeButton.Click')}
-					to="/"
-				>
-					<img alt="logo" className="h-10 md:h-12" src={logo} />
+				<Link href="/">
+					<a>
+						<div className="next-images relative w-40 | h-10 md:h-12">
+							<Image
+								alt="logo"
+								layout="fill"
+								objectFit="contain"
+								objectPosition="left"
+								onClick={(): void =>
+									logEvent('Nav.HomeButton.Click')
+								}
+								src={logo}
+							/>
+						</div>
+					</a>
 				</Link>
 				{showDownloadApp && (
 					<div
@@ -53,11 +64,15 @@ export function Nav(props: NavProps): React.ReactElement {
 					>
 						Download <br className="md:hidden" />
 						the app
-						<img
-							alt="download"
-							className="ml-2 md:ml-4 h-6 md:h-10"
-							src={download}
-						/>
+						<div className="next-images relative w-8 | ml-2 md:ml-4 h-6 md:h-10">
+							<Image
+								alt="download"
+								layout="fill"
+								objectFit="contain"
+								objectPosition="left"
+								src={download}
+							/>
+						</div>
 					</div>
 				)}
 			</nav>

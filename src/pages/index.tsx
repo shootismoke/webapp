@@ -31,9 +31,20 @@ import {
 	Section,
 	Seo,
 } from '../components';
-import { logEvent } from '../util';
+import { City, getAllCities, logEvent } from '../util';
 
-export default function Index(): React.ReactElement {
+export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
+	const cities = await getAllCities();
+
+	return { props: { cities } };
+}
+
+interface IndexProps {
+	cities: City[];
+}
+
+export default function IndexPage(props: IndexProps): React.ReactElement {
+	const { cities } = props;
 	useEffect(() => logEvent('Page.Home.View'), []);
 
 	return (
@@ -53,7 +64,7 @@ export default function Index(): React.ReactElement {
 						urban air?
 					</>
 				</H1>
-				<SearchBar className="mt-6" showGps={false} />
+				<SearchBar cities={cities} className="mt-6" showGps={false} />
 
 				<div className="my-3 flex flex-row items-center">
 					<hr className="flex-grow border-t border-gray-200" />
@@ -63,7 +74,7 @@ export default function Index(): React.ReactElement {
 				<GpsButton />
 			</Section>
 
-			<RankingSection />
+			<RankingSection cities={cities} />
 			<AdSection />
 			<AboutSection />
 			<FeaturedSection />

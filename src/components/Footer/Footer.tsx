@@ -15,7 +15,8 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import logo from '@shootismoke/ui/assets/logos/logo.svg';
-import { Link } from 'gatsby';
+import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 import { logEvent } from '../../util';
@@ -23,7 +24,15 @@ import { logEvent } from '../../util';
 export function Footer(): React.ReactElement {
 	return (
 		<footer className="mt-20 md:mt-32 px-10 py-8 md:py-12 bg-gray-700 flex flex-col items-center">
-			<img alt="logo" className="w-10" src={logo}></img>
+			<div className="next-images relative h-10 | w-10">
+				<Image
+					alt="logo"
+					layout="fill"
+					objectFit="contain"
+					src={logo}
+				/>
+			</div>
+
 			<p className="mt-4 type-200 text-center text-white">
 				Created with pride by{' '}
 				<a
@@ -81,12 +90,13 @@ export function Footer(): React.ReactElement {
 
 			<p className="mt-4 type-100 text-center text-white">
 				Learn more about the initiative in our{' '}
-				<Link
-					className="text-orange"
-					onClick={(): void => logEvent('Footer.Faq.Click')}
-					to="/faq"
-				>
-					F.A.Q.
+				<Link href="/faq">
+					<a
+						className="text-orange"
+						onClick={(): void => logEvent('Footer.Faq.Click')}
+					>
+						F.A.Q.
+					</a>
 				</Link>
 				<br />
 				Source code available on{' '}

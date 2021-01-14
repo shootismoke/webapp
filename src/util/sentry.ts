@@ -14,7 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { captureException } from '@sentry/core';
+import { captureException, init } from '@sentry/browser';
+
+if (typeof window !== 'undefined') {
+	init({
+		dsn: process.env.NEXT_PUBLIC_SENTRY_API_KEY,
+	});
+}
 
 /**
  * Capture an  error, and send it to Sentry.
@@ -22,6 +28,11 @@ import { captureException } from '@sentry/core';
  * @param err - The error to capture.
  */
 export function sentryException(err: Error): void {
+	if (typeof window === 'undefined') {
+		// Coming soon.
+		// https://sentry.io/for/nextjs/
+		return;
+	}
 	console.error(err);
 	captureException(err);
 }

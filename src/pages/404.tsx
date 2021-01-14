@@ -30,9 +30,20 @@ import {
 	Section,
 	Seo,
 } from '../components';
-import { logEvent } from '../util';
+import { City, getAllCities, logEvent } from '../util';
 
-export default function NotFound(): React.ReactElement {
+export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
+	const cities = await getAllCities();
+
+	return { props: { cities } };
+}
+
+interface NotFoundProps {
+	cities: City[];
+}
+
+export default function NotFoundPage(props: NotFoundProps): React.ReactElement {
+	const { cities } = props;
 	useEffect(() => logEvent('Page.404.View'), []);
 
 	return (
@@ -50,10 +61,10 @@ export default function NotFound(): React.ReactElement {
 						</span>
 					</>
 				</H1>
-				<SearchBar className="mt-6" />
+				<SearchBar cities={cities} className="mt-6" />
 			</Section>
 
-			<RankingSection />
+			<RankingSection cities={cities} />
 			<AdSection />
 			<AboutSection />
 			<FeaturedSection />

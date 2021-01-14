@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
-import { navigate } from 'gatsby';
+import c from 'classnames';
+import Image from 'next/image';
+import { NextRouter, useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import location from '../../../assets/images/icons/location_white.svg';
 import { logEvent } from '../../util';
-import { Button } from '../Button';
+import { Button, ButtonProps } from '../Button';
 
-interface GpsButtonProps {
-	className?: string;
-}
+type GpsButtonProps = ButtonProps;
 
 /**
  * Handler when a user clicks on a button to fetch browser's GPS.
@@ -31,7 +31,8 @@ interface GpsButtonProps {
  * @param setStatus - A function to set the status of the GPS fetch.
  */
 export function onGpsButtonClick(
-	setStatus: (status: string | undefined) => void
+	setStatus: (status: string | undefined) => void,
+	router: NextRouter
 ): void {
 	setStatus("Fetching browser's GPS location...");
 	if (!navigator.geolocation) {
@@ -42,9 +43,14 @@ export function onGpsButtonClick(
 	} else {
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
-				navigate(
-					`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
-				);
+				router
+					.push(
+						`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
+					)
+					.catch((err) => {
+						setStatus(`❌ Error: ${(err as Error).message}`);
+						setTimeout(() => setStatus(undefined), 1500);
+					});
 			},
 			(err) => {
 				setStatus(`❌ Error: ${err.message}`);
@@ -56,20 +62,32 @@ export function onGpsButtonClick(
 
 const DEFAULT_TEXT = 'Use my location';
 
-export function GpsButton(_props: GpsButtonProps): React.ReactElement {
+export function GpsButton(props: GpsButtonProps): React.ReactElement {
+	const { className, ...rest } = props;
 	const [text, setText] = useState<string>();
+	const router = useRouter();
 
 	return (
 		<Button
-			className="py-3"
+			className={c('py-3', className)}
 			primary
 			onClick={(): void => {
 				logEvent('GpsButton.Button.Click');
-				onGpsButtonClick(setText);
+				onGpsButtonClick(setText, router);
 			}}
+			{...rest}
 		>
 			<div className="px-2 flex flex-row justify-center">
-				{!text && <img alt="location" src={location} />}
+				{!text && (
+					<div className="next-images relative w-4 h-4 my-auto">
+						<Image
+							alt="location"
+							layout="fill"
+							objectFit="contain"
+							src={location}
+						/>
+					</div>
+				)}
 				<p className="ml-3 py-1 type-300 text-white uppercase truncate">
 					{text || DEFAULT_TEXT}
 				</p>

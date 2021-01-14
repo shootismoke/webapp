@@ -15,8 +15,8 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { round } from '@shootismoke/ui/lib/util/api';
-import { graphql, Link, useStaticQuery } from 'gatsby';
 import haversine from 'haversine';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import { City, logEvent } from '../../util';
@@ -42,6 +42,7 @@ function numberToOrdinal(n: number): string {
 
 interface RankingSectionProps {
 	currentCity?: City;
+	cities: City[];
 }
 
 /**
@@ -50,30 +51,7 @@ interface RankingSectionProps {
 const CITIES_TO_SHOW = 6;
 
 export function RankingSection(props: RankingSectionProps): React.ReactElement {
-	const { currentCity } = props;
-	const worldCities = useStaticQuery(graphql`
-		query WorldCitiesQuery {
-			allShootismokeCity {
-				nodes {
-					adminName
-					api {
-						shootismoke {
-							dailyCigarettes
-							isAccurate
-						}
-					}
-					country
-					gps {
-						latitude
-						longitude
-					}
-					name
-					photoUrl
-					slug
-				}
-			}
-		}
-	`).allShootismokeCity.nodes as City[];
+	const { currentCity, cities } = props;
 	const [closestCities, setClosestCities] = useState<City[]>([]);
 
 	// Each time we change city, find the closest cities.
@@ -85,7 +63,7 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 
 		// We naively calculate the distance from our current city to all the
 		// other cities in the database.
-		const distances = worldCities
+		const distances = cities
 			.map((city) => ({
 				city,
 				distance: haversine(currentCity.gps, city.gps),
@@ -118,15 +96,15 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 		});
 
 		setClosestCities(citiesToShow);
-	}, [currentCity, worldCities]);
+	}, [currentCity, cities]);
 
 	// The cities we want to show are:
 	// - either the closest cities to the current city,
 	// - or just the world most polluted cities.
 	const hasClosestCities = !!closestCities.length;
-	const cities = hasClosestCities
+	const citiesToShow = hasClosestCities
 		? closestCities
-		: worldCities.slice(0, CITIES_TO_SHOW);
+		: cities.slice(0, CITIES_TO_SHOW);
 
 	return (
 		<Section
@@ -141,41 +119,47 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 					Updated every two hours. Real-time ranking may differ.
 				</p>
 				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 md:grid-cols-2 md:grid-rows-3 gap-4">
-					{cities.map((city, index) => (
+					{citiesToShow.map((city, index) => (
 						<Link
-							data-cy={`RankingSection-city-card-${index}`}
 							key={city.slug}
-							to={`/city/${city.slug}`}
-							onClick={(): void =>
-								logEvent('RankingSection.CityCard.Click', {
-									rank: index + 1,
-									slug: city.slug,
-								})
-							}
+							// city.slug is always defined in `cities`
+							// eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
+							href={`/city/${city.slug!}`}
 						>
-							<CityCard
-								description={
-									city.api?.shootismoke.dailyCigarettes
-										? `${round(
-												city.api.shootismoke
-													.dailyCigarettes
-										  )} cigarettes today`
-										: 'Loading cigarettes...'
-								}
-								photoUrl={city.photoUrl}
-								subtitle={
-									city.name
-										? [
-												city.name,
-												city.adminName,
-												city.country,
-										  ]
-												.filter((x) => !!x)
-												.join(', ')
-										: 'Loading city...'
-								}
-								title={`${numberToOrdinal(index + 1)}`}
-							/>
+							<a data-cy={`RankingSection-city-card-${index}`}>
+								<CityCard
+									description={
+										city.api?.shootismoke.dailyCigarettes
+											? `${round(
+													city.api.shootismoke
+														.dailyCigarettes
+											  )} cigarettes today`
+											: 'Loading cigarettes...'
+									}
+									onClick={(): void =>
+										logEvent(
+											'RankingSection.CityCard.Click',
+											{
+												rank: index + 1,
+												slug: city.slug,
+											}
+										)
+									}
+									photoUrl={city.photoUrl}
+									subtitle={
+										city.name
+											? [
+													city.name,
+													city.adminName,
+													city.country,
+											  ]
+													.filter((x) => !!x)
+													.join(', ')
+											: 'Loading city...'
+									}
+									title={`${numberToOrdinal(index + 1)}`}
+								/>
+							</a>
 						</Link>
 					))}
 				</div>

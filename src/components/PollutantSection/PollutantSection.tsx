@@ -32,10 +32,9 @@ interface PollutantSectionProps {
  *
  * @see https://www.sciencedirect.com/topics/chemistry/air-pollutant
  */
-const pollutantData: Partial<Record<
-	Pollutant,
-	{ effects: string; name: string }
->> = {
+const pollutantData: Partial<
+	Record<Pollutant, { effects: string; name: string }>
+> = {
 	bc: {
 		effects:
 			'Black carbon is a potent climate-warming component of particulate matter formed by the incomplete combustion of fossil fuels, wood and other fuels.',

@@ -15,7 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import { LatLng } from '@shootismoke/dataproviders';
-import type { Api } from '@shootismoke/ui';
+import type { Api } from '@shootismoke/ui/lib/util/api';
 import axios from 'axios';
 
 export interface City {
@@ -43,6 +43,23 @@ export interface City {
 	slug?: string;
 }
 
+let cachedCities: City[];
+
+export async function getAllCities(): Promise<City[]> {
+	if (cachedCities) {
+		return cachedCities;
+	}
+
+	// Call an external API endpoint to get all cities.
+	const { data: cities } = await axios.get<City[]>(
+		'https://raw.githubusercontent.com/shootismoke/cities/master/all.json'
+	);
+
+	cachedCities = cities;
+
+	return cities;
+}
+
 const REVERSE_API =
 	'https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=en';
 
@@ -52,7 +69,7 @@ const REVERSE_API =
  * @see https://www.bigdatacloud.com/geocoding-apis/free-reverse-geocode-to-city-api
  */
 export async function reverseGeocode(gps: LatLng): Promise<string> {
-	const { data } = await axios.get(
+	const { data } = await axios.get<{ [key: string]: string }>(
 		`${REVERSE_API}&latitude=${gps.latitude}&longitude=${gps.longitude}`
 	);
 

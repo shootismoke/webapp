@@ -15,6 +15,6 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 export * from './amplitude';
-export * from './geocode';
+export * from './cities';
 export * from './sentry';
 export * from './seo';

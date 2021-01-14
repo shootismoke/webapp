@@ -15,6 +15,7 @@
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
 import c from 'classnames';
+import Image from 'next/image';
 import React from 'react';
 
 export interface TipProps {
@@ -35,12 +36,17 @@ export function Tip({
 }: TipProps): React.ReactElement {
 	return (
 		<div className={c('flex flex-row items-center', className)}>
-			<img
-				alt={imgAlt}
-				className="mr-4"
-				src={imgSrc}
-				style={{ minWidth: '42px' }}
-			></img>
+			<div
+				className="next-images relative | mr-4"
+				style={{ minHeight: '42px', minWidth: '42px' }}
+			>
+				<Image
+					alt={imgAlt}
+					layout="fill"
+					objectFit="contain"
+					src={imgSrc}
+				/>
+			</div>
 
 			{children}
 		</div>
