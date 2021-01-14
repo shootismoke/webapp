@@ -28,7 +28,7 @@ export async function connectToDatabase(): Promise<void> {
 
 	if (!process.env.BACKEND_MONGODB_ATLAS_URI) {
 		const e = new Error(
-			'connectToDatabase: `MONGODB_ATLAS_URI` is not defined'
+			'connectToDatabase: `BACKEND_MONGODB_ATLAS_URI` is not defined'
 		);
 		logger.error(e);
 		throw e;
