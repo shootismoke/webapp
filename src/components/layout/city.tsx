@@ -169,7 +169,13 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				});
 			})
 			.then(setApi)
-			.catch(setError);
+			.catch(() =>
+				setError(
+					new Error(
+						'The station currently does not have PM2.5 errors.'
+					)
+				)
+			);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// Log errors.
