@@ -172,7 +172,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			.catch(() =>
 				setError(
 					new Error(
-						'The station currently does not have PM2.5 errors.'
+						'The closest station currently does not have PM2.5 measurings.'
 					)
 				)
 			);

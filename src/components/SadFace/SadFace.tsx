@@ -54,10 +54,7 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 			/>
 
 			<p className="mt-4 type-100 text-gray-600">
-				Please try to search for another city.
-				<br />
-				<br />
-				{message}
+				{message} Please try to search for another city.
 			</p>
 		</div>
 	);
