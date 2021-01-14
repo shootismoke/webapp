@@ -157,6 +157,8 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 			<AsyncSelect<{ label: string; value: string }>
 				className={c('w-full rounded text-gray-700', className)}
 				loadOptions={algoliaLoadOptions}
+				// https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
+				instanceId={1}
 				noOptionsMessage={(): string => 'Type something...'}
 				/* eslint-disable */
 				// @ts-ignore FIXME How to fix this?

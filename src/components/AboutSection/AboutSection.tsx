@@ -42,7 +42,7 @@ export function AboutSection(): React.ReactElement {
 					PM2.5 level of 22 μg/m3) to open databases of Air-Quality
 					Stations worldwide.
 				</p>
-				<p className="mt-4 md:mt-0 md:ml-2 md:flex-1 type-100 text-gray-600">
+				<div className="mt-4 md:mt-0 md:ml-2 md:flex-1 type-100 text-gray-600">
 					<div className="next-images relative w-full h-32 | -mt-4 mb-6 mx-auto">
 						<Image
 							alt="cigarettes-conversion"
@@ -57,7 +57,7 @@ export function AboutSection(): React.ReactElement {
 					respectful of your privacy. It was able to create a
 					discussion around the subject of air pollution globally,
 					from TV shows in California to newspapers in China.
-				</p>
+				</div>
 			</div>
 		</Section>
 	);

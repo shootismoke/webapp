@@ -69,7 +69,7 @@ export function Nav(props: NavProps): React.ReactElement {
 								alt="download"
 								layout="fill"
 								objectFit="contain"
-								objectPosition="right"
+								objectPosition="left"
 								src={download}
 							/>
 						</div>
