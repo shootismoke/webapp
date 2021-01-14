@@ -132,7 +132,7 @@ export function AdSection(): React.ReactElement {
 								<Image
 									alt={ad.title}
 									layout="fill"
-									objectFit="cover"
+									objectFit="contain"
 									src={ad.image}
 								/>
 							</div>
