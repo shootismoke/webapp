@@ -1,6 +1,5 @@
 .eslintrc.js
 *.config.js
-src/testutil/loadershim.js
 **/.cache/*
 **/.expo/*
 **/node_modules/*
