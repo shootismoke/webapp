@@ -86,12 +86,14 @@ function usersPipeline(
  * Find in DB all users to show reports with frequency `frequency`.
  *
  * @param frequency - The frequency to show the timezones.
+ * @param now - The time now, can be set to arbitrary time (e.g. for testing
+ * purposes).
  * @todo Unpure.
  */
 export async function findUsersForReport(
-	report: 'email' | 'expo'
+	report: 'email' | 'expo',
+	now = new Date()
 ): Promise<IUser[]> {
-	const now = new Date();
 	// Return a tuple [dailyUsers, weeklyUsers, monthlyUsers]
 	const allUsers = await Promise.all(
 		(['daily', 'weekly', 'monthly'] as const).map((frequency) =>

@@ -10,7 +10,7 @@ export const alice = {
 		frequency: 'weekly',
 	},
 	lastStationId: 'openaq|FR04143',
-	timezone: 'America/Los_Angeles',
+	timezone: 'Europe/Berlin',
 };
 
 export const bob = {
@@ -20,8 +20,8 @@ export const bob = {
 	},
 	expoReport: {
 		expoPushToken: 'ExponentPushToken[0zK3-xM3PgLEfe31-AafjB]', // real one, unused',
-		frequency: 'weekly',
+		frequency: 'monthly',
 	},
 	lastStationId: 'openaq|FR04143',
-	timezone: 'America/Los_Angeles',
+	timezone: 'Europe/Berlin',
 };
