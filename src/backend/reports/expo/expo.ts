@@ -8,8 +8,8 @@ import {
 	ExpoPushTicket,
 } from 'expo-server-sdk';
 
-import { Frequency, IExpoReport, IUser } from '../types';
-import { logger } from '../util/logger';
+import { Frequency, IExpoReport, IUser } from '../../types';
+import { logger } from '../../util/logger';
 
 /**
  * Generate the body of the push notification message.

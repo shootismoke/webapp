@@ -1,10 +1,9 @@
 import { AllProviders } from '@shootismoke/dataproviders';
-import { timeZonesNames } from '@vvo/tzdb';
 import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
+import timezones from 'timezones.json';
 
 import { MongoUser } from '../types';
-import { logger } from '../util';
 import { PushTicket } from './pushTicket';
 
 const FREQUENCY = ['never', 'daily', 'weekly', 'monthly'];
@@ -69,7 +68,7 @@ const UserSchema = new Schema<MongoUser>(
 		 * User's timezone.
 		 */
 		timezone: {
-			enum: timeZonesNames,
+			enum: timezones.map((tz) => tz.utc).flat(),
 			required: true,
 			type: Schema.Types.String,
 		},
@@ -108,16 +107,13 @@ const UserSchema = new Schema<MongoUser>(
 	{ strict: 'throw', timestamps: true }
 );
 
-// Cascade delete all related PushTickets.
-UserSchema.pre('remove', () => {
-	// eslint-disable-next-line
-	PushTicket.remove({ userId: ((this as unknown) as MongoUser)._id })
-		.exec()
-		.catch(logger.error);
-});
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+UserSchema.pre('remove', async () => {
+	const userId = ((this as unknown) as MongoUser)._id;
 
-// Send an API call to EasyCron to set up cron jobs for this user.
-// UserSchema.pre('save', () => {});
+	// Cascade delete all related PushTickets.
+	await PushTicket.remove({ userId }).exec();
+});
 
 // https://stackoverflow.com/questions/19051041/cannot-overwrite-model-once-compiled-mongoose#answer-51351095
 export const User =

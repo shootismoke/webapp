@@ -5,7 +5,7 @@ import { createApi } from '@shootismoke/ui/lib/util/race';
 import retry from 'async-retry';
 import { ExpoPushMessage } from 'expo-server-sdk';
 
-import { IUser } from '../types';
+import { IUser } from '../../types';
 import { constructExpoPushMessage } from './expo';
 
 type AllProviders = 'aqicn' | 'openaq' | 'waqi';

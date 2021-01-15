@@ -1,6 +1,6 @@
 import Expo, { ExpoPushMessage } from 'expo-server-sdk';
 
-import { IUser } from '../types';
+import { IUser } from '../../types';
 import {
 	constructExpoPushMessage,
 	handleReceipts,
