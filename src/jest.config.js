@@ -1,5 +1,5 @@
 module.exports = {
-	setupFilesAfterEnv: ['<rootDir>/../test/e2e/frontend/jest.setup.ts'],
+	setupFilesAfterEnv: ['<rootDir>/../test/jest.setup.ts'],
 	testPathIgnorePatterns: [
 		'<rootDir>/.next/',
 		'<rootDir>/node_modules/',

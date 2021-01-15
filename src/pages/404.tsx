@@ -29,8 +29,8 @@ import {
 	SearchBar,
 	Section,
 	Seo,
-} from '../components';
-import { City, getAllCities, logEvent } from '../util';
+} from '../frontend/components';
+import { City, getAllCities, logEvent } from '../frontend/util';
 
 export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
 	const cities = await getAllCities();

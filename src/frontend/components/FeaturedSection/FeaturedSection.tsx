@@ -17,18 +17,18 @@
 import Image from 'next/image';
 import React from 'react';
 
-import bbc from '../../../assets/images/media/bbc.png';
-import circa from '../../../assets/images/media/circa.png';
-import citylab from '../../../assets/images/media/citylab.png';
-import highsnobiety from '../../../assets/images/media/highsnobiety.png';
-import hindustantimes from '../../../assets/images/media/hindustantimes.png';
-import huffpost from '../../../assets/images/media/huffpost.png';
-import lifehacker from '../../../assets/images/media/lifehacker.png';
-import nexo from '../../../assets/images/media/nexo.png';
-import pix from '../../../assets/images/media/pix.png';
-import rtbf from '../../../assets/images/media/rtbf.png';
-import slate from '../../../assets/images/media/slate.png';
-import usbek from '../../../assets/images/media/usbek.png';
+import bbc from '../../../../assets/images/media/bbc.png';
+import circa from '../../../../assets/images/media/circa.png';
+import citylab from '../../../../assets/images/media/citylab.png';
+import highsnobiety from '../../../../assets/images/media/highsnobiety.png';
+import hindustantimes from '../../../../assets/images/media/hindustantimes.png';
+import huffpost from '../../../../assets/images/media/huffpost.png';
+import lifehacker from '../../../../assets/images/media/lifehacker.png';
+import nexo from '../../../../assets/images/media/nexo.png';
+import pix from '../../../../assets/images/media/pix.png';
+import rtbf from '../../../../assets/images/media/rtbf.png';
+import slate from '../../../../assets/images/media/slate.png';
+import usbek from '../../../../assets/images/media/usbek.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 

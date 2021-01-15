@@ -17,7 +17,7 @@
 import Image from 'next/image';
 import React from 'react';
 
-import box from '../../../assets/images/conversion-box.svg';
+import box from '../../../../assets/images/conversion-box.svg';
 import { Section } from '../Section';
 
 export function AboutSection(): React.ReactElement {

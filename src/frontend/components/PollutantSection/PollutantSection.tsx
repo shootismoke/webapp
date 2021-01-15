@@ -17,7 +17,7 @@
 import { Pollutant } from '@shootismoke/convert';
 import React from 'react';
 
-import skull from '../../../assets/images/icons/skull.svg';
+import skull from '../../../../assets/images/icons/skull.svg';
 import { Section } from '../Section';
 import { Tip } from '../Tip';
 import { HealthSection } from './HealthSection';

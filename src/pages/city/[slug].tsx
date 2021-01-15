@@ -17,8 +17,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
 
-import CityTemplate from '../../components/layout/city';
-import { City, getAllCities } from '../../util';
+import CityTemplate from '../../frontend/components/layout/city';
+import { City, getAllCities } from '../../frontend/util';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const cities = await getAllCities();

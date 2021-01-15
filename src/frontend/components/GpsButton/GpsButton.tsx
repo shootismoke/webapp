@@ -19,7 +19,7 @@ import Image from 'next/image';
 import { NextRouter, useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import location from '../../../assets/images/icons/location_white.svg';
+import location from '../../../../assets/images/icons/location_white.svg';
 import { logEvent } from '../../util';
 import { Button, ButtonProps } from '../Button';
 

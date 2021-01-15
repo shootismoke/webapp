@@ -18,8 +18,8 @@ import c from 'classnames';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 
-import pageLeft from '../../../assets/images/icons/pagination_left.svg';
-import pageRight from '../../../assets/images/icons/pagination_right.svg';
+import pageLeft from '../../../../assets/images/icons/pagination_left.svg';
+import pageRight from '../../../../assets/images/icons/pagination_right.svg';
 
 export * from './CarouselCard';
 

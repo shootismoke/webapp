@@ -25,8 +25,8 @@ import React, { CSSProperties, useEffect, useState } from 'react';
 import { OptionsType, Props as SelectProps, StylesConfig } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-import location from '../../../assets/images/icons/location_orange.svg';
-import search from '../../../assets/images/icons/search.svg';
+import location from '../../../../assets/images/icons/location_orange.svg';
+import search from '../../../../assets/images/icons/search.svg';
 import { City, logEvent, sentryException } from '../../util';
 import { onGpsButtonClick } from '../GpsButton';
 

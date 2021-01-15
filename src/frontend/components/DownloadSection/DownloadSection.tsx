@@ -17,8 +17,8 @@
 import Image from 'next/image';
 import React from 'react';
 
-import appStore from '../../../assets/images/app-store.png';
-import playStore from '../../../assets/images/play-store.png';
+import appStore from '../../../../assets/images/app-store.png';
+import playStore from '../../../../assets/images/play-store.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 
