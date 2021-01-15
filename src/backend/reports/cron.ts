@@ -52,7 +52,7 @@ function usersPipeline(
 		// Get all users matching frequency and timezone.
 		{
 			$match: {
-				[`${report}Report`]: frequency,
+				[`${report}Report.frequency`]: frequency,
 				timezone: {
 					$in: timezones,
 				},

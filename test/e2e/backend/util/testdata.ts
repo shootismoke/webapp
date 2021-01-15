@@ -25,3 +25,12 @@ export const bob = {
 	lastStationId: 'openaq|FR04143',
 	timezone: 'Europe/Berlin',
 };
+
+export const charlie = {
+	expoReport: {
+		expoPushToken: 'expo_token_charlie',
+		frequency: 'daily',
+	},
+	lastStationId: 'openaq|FR04143',
+	timezone: 'Pacific/Apia', // 12h diff with Europe/Berlin
+};
