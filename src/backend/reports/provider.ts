@@ -3,10 +3,6 @@ import { aqicn, openaq, waqi } from '@shootismoke/dataproviders/lib/promise';
 import type { Api } from '@shootismoke/ui/lib/util/api';
 import { createApi } from '@shootismoke/ui/lib/util/race';
 import retry from 'async-retry';
-import { ExpoPushMessage } from 'expo-server-sdk';
-
-import { IUser } from '../types';
-import { constructExpoPushMessage } from './expo/expo';
 
 type AllProviders = 'aqicn' | 'openaq' | 'waqi';
 
@@ -57,37 +53,11 @@ function assertKnownProvider(
  *
  * @param universalId - The universalId of the station
  */
-async function universalFetch(universalId: string): Promise<Api> {
+export async function universalFetch(universalId: string): Promise<Api> {
 	const [provider, station] = universalId.split('|');
 	assertKnownProvider(provider, universalId);
 
-	return providerFetch(provider, station);
-}
-
-/**
- * Generate the correct expo message for our user.
- *
- * @param user - User in our DB.
- */
-export async function expoPushMessageForUser(
-	user: IUser
-): Promise<ExpoPushMessage> {
-	try {
-		// Find the PM2.5 value at the user's last known station (universalId)
-		// If anything throws, we retry
-		const pm25 = await retry(
-			async () => {
-				const {
-					pm25: { value },
-				} = await universalFetch(user.lastStationId);
-
-				return value;
-			},
-			{ retries: 5 }
-		);
-
-		return constructExpoPushMessage(user, pm25);
-	} catch (error) {
-		throw new Error(`User ${user._id}: ${(error as Error).message}`);
-	}
+	// Find the cigarettes at the user's last known station (universalId)
+	// If anything throws, we retry, up to 5 times.
+	return retry(async () => providerFetch(provider, station), { retries: 5 });
 }

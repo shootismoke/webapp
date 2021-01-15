@@ -31,6 +31,7 @@
 		"classnames": "^2.2.6",
 		"expo-server-sdk": "^3.6.0",
 		"i18n-js": "^3.8.0",
+		"mailgun.js": "^2.0.6",
 		"mongodb": "^3.6.3",
 		"mongoose": "^5.11.11",
 		"next": "^10.0.5",

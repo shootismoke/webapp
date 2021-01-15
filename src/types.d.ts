@@ -36,3 +36,31 @@ declare module '*.webp' {
 
 // The following packages don't have typings.
 declare module 'assign-deep';
+
+// https://github.com/mailgun/mailgun-js/issues/19#issuecomment-689303499
+declare module 'mailgun.js' {
+	interface ClientOpts {
+		username: string;
+		key: string;
+	}
+
+	interface MailgunClient {
+		messages: {
+			create(
+				domain: string,
+				opts: CreateMessageOpts
+			): Promise<{ id: string; message: string }>;
+		};
+	}
+
+	interface CreateMessageOpts {
+		from: string;
+		to: string;
+		subject: string;
+		text: string;
+		html: string;
+		'o:tag'?: string[];
+	}
+
+	export function client(opts: ClientOpts): MailgunClient;
+}
