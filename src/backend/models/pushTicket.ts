@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
 
 import { MongoPushTicket } from '../types';
@@ -67,7 +67,7 @@ const PushTicketSchema = new Schema(
 	{ strict: 'throw', timestamps: true }
 );
 
-export const PushTicket = model<MongoPushTicket>(
-	'PushTicket',
-	PushTicketSchema
-);
+// https://stackoverflow.com/questions/19051041/cannot-overwrite-model-once-compiled-mongoose#answer-51351095
+export const PushTicket =
+	(models.PushTicket as Model<MongoPushTicket>) ||
+	model<MongoPushTicket>('PushTicket', PushTicketSchema);

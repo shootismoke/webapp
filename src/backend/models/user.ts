@@ -1,6 +1,6 @@
 import { AllProviders } from '@shootismoke/dataproviders';
 import { timeZonesNames } from '@vvo/tzdb';
-import { model, Schema } from 'mongoose';
+import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
 
 import { MongoUser } from '../types';
@@ -109,4 +109,6 @@ const UserSchema = new Schema<MongoUser>(
 // Send an API call to EasyCron to set up cron jobs for this user.
 // UserSchema.pre('save', () => {});
 
-export const User = model<MongoUser>('User', UserSchema);
+// https://stackoverflow.com/questions/19051041/cannot-overwrite-model-once-compiled-mongoose#answer-51351095
+export const User =
+	(models.User as Model<MongoUser>) || model<MongoUser>('User', UserSchema);
