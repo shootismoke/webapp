@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { connection } from 'mongoose';
 
+import { User } from '../../../src/backend/models';
 import { BackendError } from '../../../src/backend/types';
 import { IUser } from '../../../src/backend/types';
 import { connectToDatabase } from '../../../src/backend/util';
@@ -13,7 +14,7 @@ describe('users::getUser', () => {
 		jest.setTimeout(30000);
 
 		await connectToDatabase();
-		await connection.dropDatabase();
+		await User.deleteMany();
 
 		const { data } = await axios.post<IUser>(
 			`${BACKEND_URL}/api/users`,

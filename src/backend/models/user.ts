@@ -4,6 +4,8 @@ import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
 
 import { MongoUser } from '../types';
+import { logger } from '../util';
+import { PushTicket } from './pushTicket';
 
 const FREQUENCY = ['never', 'daily', 'weekly', 'monthly'];
 
@@ -105,6 +107,14 @@ const UserSchema = new Schema<MongoUser>(
 	},
 	{ strict: 'throw', timestamps: true }
 );
+
+// Cascade delete all related PushTickets.
+UserSchema.pre('remove', () => {
+	// eslint-disable-next-line
+	PushTicket.remove({ userId: ((this as unknown) as MongoUser)._id })
+		.exec()
+		.catch(logger.error);
+});
 
 // Send an API call to EasyCron to set up cron jobs for this user.
 // UserSchema.pre('save', () => {});
