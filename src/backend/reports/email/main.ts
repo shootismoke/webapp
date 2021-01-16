@@ -1,3 +1,4 @@
+import { round } from '@shootismoke/ui/lib/util/api';
 import debug from 'debug';
 import { config } from 'dotenv';
 //eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -41,17 +42,13 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 
 	const api = await universalFetch(user.lastStationId);
 
-	console.log({
-		from: 'Marcelo from Sh**t! I Smoke <hi@shootismoke.app>',
-		subject: `You smoke ${api.shootismoke.dailyCigarettes} cigarettes `,
-		text: 'this is from the text field',
-		to: user.emailReport.email,
-	});
-
 	return {
-		from: 'hi@shootismoke.app',
-		html: '<h1>Testing some Mailgun awesomness!</h1>',
-		subject: `You smoke ${api.shootismoke.dailyCigarettes} cigarettes `,
+		from: 'Marcelo <hi@shootismoke.app>',
+		html:
+			'<h1>Testing some Mailgun awesomness!</h1><p>Yeah, pretty cool</p>',
+		subject: `You smoke ${round(
+			api.shootismoke.dailyCigarettes
+		)} cigarettes `,
 		text: 'this is from the text field',
 		to: user.emailReport.email,
 	};

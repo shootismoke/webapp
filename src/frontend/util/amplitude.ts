@@ -86,7 +86,6 @@ export function logEvent(
 	if ((window as any).cabin) {
 		// eslint-disable-next-line
 		(window as any).cabin.event(event).catch((err: Error) => {
-			console.error(err);
 			sentryException(err);
 		});
 	}
