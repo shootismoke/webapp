@@ -1,4 +1,4 @@
-import '../styles/globals.css';
+import '../frontend/styles/globals.css';
 
 import { FrequencyContextProvider } from '@shootismoke/ui/lib/context';
 import type { AppProps } from 'next/app';

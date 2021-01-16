@@ -20,9 +20,9 @@ import React, { useEffect } from 'react';
 
 import box from '../../assets/images/conversion-box.svg';
 import backArrow from '../../assets/images/icons/back_arrow.svg';
-import { Footer, H1, Nav, Section, Seo } from '../components';
-import { t } from '../localization';
-import { logEvent } from '../util';
+import { Footer, H1, Nav, Section, Seo } from '../frontend/components';
+import { t } from '../frontend/localization';
+import { logEvent } from '../frontend/util';
 
 interface FaqSectionProps extends React.HTMLProps<HTMLDivElement> {
 	children: React.ReactElement;

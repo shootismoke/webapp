@@ -16,11 +16,28 @@ jobs:
             - run: yarn install
             - run: yarn lint
 
-    test:
+    test-unit:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
             - name: Install Dependencies
               run: yarn install
-            - name: Run test and generate coverage report
-              run: yarn test --coverage
+            - name: Run unit test
+              run: yarn test:unit
+
+    test-coverage:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Start MongoDB
+              uses: supercharge/mongodb-github-action@1.3.0
+              with:
+                  mongodb-version: 4.4
+            - name: Install Dependencies
+              run: yarn install
+            - name: Run server, test and generate coverage report
+              run: |
+                  cp .env.example .env.development
+                  yarn dev &
+                  sleep 10
+                  yarn test --coverage

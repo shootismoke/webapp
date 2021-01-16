@@ -18,8 +18,8 @@ import type { LatLng } from '@shootismoke/dataproviders';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-import CityTemplate from '../components/layout/city';
-import { City, getAllCities, sentryException } from '../util';
+import CityTemplate from '../frontend/components/layout/city';
+import { City, getAllCities, sentryException } from '../frontend/util';
 
 export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
 	const cities = await getAllCities();

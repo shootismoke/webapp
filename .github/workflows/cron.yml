@@ -9,3 +9,16 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - run: curl ${{ secrets.REBUILD_MASTER_HOOK }} # Vercel Github hook
+
+    email-report-staging:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - run: yarn install
+            - run: yarn ts-node -P scripts/tsconfig.json scripts/email.ts
+              env:
+                  DEBUG: shootismoke:*
+                  BACKEND_AQICN_TOKEN: ${{ secrets.AQICN_TOKEN }}
+                  BACKEND_MAILGUN_API_KEY: ${{ secrets.STAGING_BACKEND_MAILGUN_API_KEY }}
+                  BACKEND_MAILGUN_DOMAIN: ${{ secrets.STAGING_BACKEND_MAILGUN_DOMAIN }}
+                  BACKEND_MONGODB_ATLAS_URI: ${{ secrets.STAGING_BACKEND_MONGODB_ATLAS_URI }}

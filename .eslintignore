@@ -2,6 +2,7 @@
 *.config.js
 **/.cache/*
 **/.expo/*
+**/coverage/*
 **/node_modules/*
 **/public/*
 **/.next/*
