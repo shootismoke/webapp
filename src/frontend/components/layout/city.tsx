@@ -169,13 +169,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				});
 			})
 			.then(setApi)
-			.catch(() =>
-				setError(
-					new Error(
-						'The closest station currently does not have PM2.5 measurings.'
-					)
-				)
-			);
+			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// Log errors.
@@ -310,7 +304,9 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				) : error ? (
 					<SadFace
 						className="mt-5 px-6 md:px-24"
-						message={error.message}
+						message={
+							'The closest station currently does not have PM2.5 measurings.'
+						}
 					/>
 				) : (
 					<Loading className="mt-5 px-6 md:px-24" />
