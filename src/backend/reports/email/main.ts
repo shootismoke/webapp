@@ -1,10 +1,18 @@
+import { config } from 'dotenv';
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { client, CreateMessageOpts } from 'mailgun.js';
 
 import { IUser } from '../../types';
 import { findUsersForReport } from '../cron';
 import { universalFetch } from '../provider';
 
-if (!process.env.MAILGUN_API_KEY || !process.env.BACKEND_MAILGUN_DOMAIN) {
+config({ path: '.env.staging' });
+
+if (
+	!process.env.BACKEND_MAILGUN_API_KEY ||
+	!process.env.BACKEND_MAILGUN_DOMAIN
+) {
 	throw new Error(
 		'Environment variables BACKEND_MAILGUN_{DOMAIN, API_KEY} need to be set'
 	);
@@ -12,7 +20,7 @@ if (!process.env.MAILGUN_API_KEY || !process.env.BACKEND_MAILGUN_DOMAIN) {
 
 const mg = client({
 	username: 'api',
-	key: process.env.MAILGUN_API_KEY,
+	key: process.env.BACKEND_MAILGUN_API_KEY,
 });
 
 /**
@@ -38,7 +46,7 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 	};
 }
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
 	// Fetch all users to whom we should send an email report.
 	const users = await findUsersForReport('email');
 

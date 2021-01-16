@@ -35,6 +35,7 @@ test/cypress/videos
 
 # Secrets
 .env.development
+.env.staging
 .env.production
 .env.local
 
