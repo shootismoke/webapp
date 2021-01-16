@@ -187,7 +187,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 			// Error message is often like: `1. {error1} 2. {error2}`.
 			const errorParts = error.message.split(' 2. ');
-			if (errorParts.length !== 2) {
+			if (!errorParts[0] || !errorParts[1]) {
 				sentryException(error);
 			}
 			const error1 = errorParts[0].substring(3).trim(); // remove the leading "1."
