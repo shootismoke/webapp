@@ -4,14 +4,18 @@ import { connection } from 'mongoose';
 import { User } from '../../../src/backend/models';
 import { BackendError, IUser } from '../../../src/backend/types';
 import { connectToDatabase } from '../../../src/backend/util';
-import { alice, BACKEND_URL, bob } from './util/testdata';
+import { alice, axiosConfig, BACKEND_URL, bob } from './util/testdata';
 
 let dbAlice: IUser;
 
 function testBadInput<T>(name: string, input: T, expErr: string) {
 	it(`should require correct input: ${name}`, async (done) => {
 		try {
-			await axios.patch(`${BACKEND_URL}/api/users/${dbAlice._id}`, input);
+			await axios.patch(
+				`${BACKEND_URL}/api/users/${dbAlice._id}`,
+				input,
+				axiosConfig
+			);
 			done.fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
@@ -26,7 +30,8 @@ function testGoodInput<T>(name: string, input: T) {
 	it(`should be successful: ${name}`, async (done) => {
 		const { data } = await axios.patch<IUser>(
 			`${BACKEND_URL}/api/users/${dbAlice._id}`,
-			input
+			input,
+			axiosConfig
 		);
 
 		expect(data).toMatchObject(input);
@@ -44,9 +49,10 @@ describe('users::updateUser', () => {
 
 		const { data } = await axios.post<IUser>(
 			`${BACKEND_URL}/api/users`,
-			alice
+			alice,
+			axiosConfig
 		);
-		await axios.post<IUser>(`${BACKEND_URL}/api/users`, bob);
+		await axios.post<IUser>(`${BACKEND_URL}/api/users`, bob, axiosConfig);
 
 		dbAlice = data;
 

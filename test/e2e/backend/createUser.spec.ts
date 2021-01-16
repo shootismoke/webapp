@@ -5,12 +5,12 @@ import { User } from '../../../src/backend/models';
 import { IUser } from '../../../src/backend/types';
 import { BackendError } from '../../../src/backend/types';
 import { connectToDatabase } from '../../../src/backend/util';
-import { alice, BACKEND_URL } from './util/testdata';
+import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 
 function testBadInput<T>(name: string, input: T, expErr: string) {
 	it(`should require correct input: ${name}`, async (done) => {
 		try {
-			await axios.post(`${BACKEND_URL}/api/users`, input);
+			await axios.post(`${BACKEND_URL}/api/users`, input, axiosConfig);
 			done.fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
@@ -84,7 +84,8 @@ describe('users::createUser', () => {
 	it('should successfully create a user', async () => {
 		const { data } = await axios.post<IUser>(
 			`${BACKEND_URL}/api/users`,
-			alice
+			alice,
+			axiosConfig
 		);
 		expect(data._id).toBeTruthy();
 		expect(data).toMatchObject(alice);

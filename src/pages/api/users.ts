@@ -7,6 +7,7 @@ import {
 	connectToDatabase,
 	logger,
 	runMiddleware,
+	secretHeader,
 } from '../../backend/util';
 
 async function users(req: NextApiRequest, res: NextApiResponse): Promise<void> {
@@ -15,9 +16,16 @@ async function users(req: NextApiRequest, res: NextApiResponse): Promise<void> {
 		res,
 		Cors({
 			origin: allowedOrigins,
-			methods: ['GET', 'HEAD', 'PATCH'],
+			methods: ['POST', 'HEAD'],
 		})
 	);
+
+	if (req.headers[secretHeader] !== process.env.BACKEND_SECRET) {
+		res.status(400).json({
+			error: `incorrect ${secretHeader} header`,
+		});
+		return;
+	}
 
 	try {
 		await connectToDatabase();
@@ -40,7 +48,7 @@ async function users(req: NextApiRequest, res: NextApiResponse): Promise<void> {
 
 			default:
 				res.status(405).json({
-					error: `UnkNextApin request method: ${
+					error: `Unknown request method: ${
 						req.method || 'undefined'
 					}`,
 				});

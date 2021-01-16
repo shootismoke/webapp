@@ -5,7 +5,7 @@ import { User } from '../../../src/backend/models';
 import { BackendError } from '../../../src/backend/types';
 import { IUser } from '../../../src/backend/types';
 import { connectToDatabase } from '../../../src/backend/util';
-import { alice, BACKEND_URL } from './util/testdata';
+import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 
 let dbAlice: IUser;
 
@@ -18,7 +18,8 @@ describe('users::getUser', () => {
 
 		const { data } = await axios.post<IUser>(
 			`${BACKEND_URL}/api/users`,
-			alice
+			alice,
+			axiosConfig
 		);
 
 		dbAlice = data;
@@ -28,7 +29,7 @@ describe('users::getUser', () => {
 
 	it('should always require userId', async (done) => {
 		try {
-			await axios.get<IUser>(`${BACKEND_URL}/api/users`);
+			await axios.get<IUser>(`${BACKEND_URL}/api/users`, axiosConfig);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(405);
@@ -39,7 +40,7 @@ describe('users::getUser', () => {
 
 	it('should always fail if userId not found', async (done) => {
 		try {
-			await axios.get<IUser>(`${BACKEND_URL}/api/users/foo`);
+			await axios.get<IUser>(`${BACKEND_URL}/api/users/foo`, axiosConfig);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(500);
@@ -52,7 +53,8 @@ describe('users::getUser', () => {
 
 	it('should fetch correct user', async (done) => {
 		const { data } = await axios.get<IUser>(
-			`${BACKEND_URL}/api/users/${dbAlice?._id}`
+			`${BACKEND_URL}/api/users/${dbAlice?._id}`,
+			axiosConfig
 		);
 
 		expect(data._id).toBe(dbAlice._id);

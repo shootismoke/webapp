@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+export const secretHeader = 'x-shootismoke-secret';
+
 export const allowedOrigins = [
 	'http://localhost:3000',
 	'https://shootismoke.app',

@@ -9,6 +9,7 @@ import {
 	connectToDatabase,
 	logger,
 	runMiddleware,
+	secretHeader,
 } from '../../../backend/util';
 
 export default async function usersUserId(
@@ -23,6 +24,13 @@ export default async function usersUserId(
 			methods: ['GET', 'HEAD', 'PATCH'],
 		})
 	);
+
+	if (req.headers[secretHeader] !== process.env.BACKEND_SECRET) {
+		res.status(400).json({
+			error: `incorrect ${secretHeader} header`,
+		});
+		return;
+	}
 
 	try {
 		await connectToDatabase();

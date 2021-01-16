@@ -4,7 +4,7 @@ import { connection } from 'mongoose';
 import { User } from '../../../src/backend/models';
 import { findUsersForReport } from '../../../src/backend/reports/cron';
 import { connectToDatabase } from '../../../src/backend/util';
-import { alice, BACKEND_URL, bob, charlie } from './util/testdata';
+import { alice, axiosConfig, BACKEND_URL, bob, charlie } from './util/testdata';
 
 describe('findUsersForReport', () => {
 	beforeAll(async (done) => {
@@ -15,7 +15,7 @@ describe('findUsersForReport', () => {
 
 		await Promise.all(
 			[alice, bob, charlie].map((u) =>
-				axios.post(`${BACKEND_URL}/api/users`, u)
+				axios.post(`${BACKEND_URL}/api/users`, u, axiosConfig)
 			)
 		);
 

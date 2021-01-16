@@ -1,4 +1,12 @@
+import { secretHeader } from '../../../../src/backend/util';
+
 export const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000';
+
+export const axiosConfig = {
+	headers: {
+		[secretHeader]: process.env.BACKEND_SECRET,
+	},
+};
 
 export const alice = {
 	emailReport: {
