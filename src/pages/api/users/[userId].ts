@@ -1,20 +1,29 @@
-import { NowRequest, NowResponse } from '@vercel/node';
 import assignDeep from 'assign-deep';
+import Cors from 'cors';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import { PushTicket, User } from '../../../backend/models';
 import {
+	allowedOrigins,
 	assertUser,
 	connectToDatabase,
 	logger,
-	sentrySetup,
+	runMiddleware,
 } from '../../../backend/util';
 
-sentrySetup();
-
 export default async function usersUserId(
-	req: NowRequest,
-	res: NowResponse
+	req: NextApiRequest,
+	res: NextApiResponse
 ): Promise<void> {
+	await runMiddleware(
+		req,
+		res,
+		Cors({
+			origin: allowedOrigins,
+			methods: ['GET', 'HEAD', 'PATCH'],
+		})
+	);
+
 	try {
 		await connectToDatabase();
 

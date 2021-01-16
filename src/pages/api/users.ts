@@ -1,11 +1,24 @@
-import { NowRequest, NowResponse } from '@vercel/node';
+import Cors from 'cors';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import { User } from '../../backend/models';
-import { connectToDatabase, logger, sentrySetup } from '../../backend/util';
+import {
+	allowedOrigins,
+	connectToDatabase,
+	logger,
+	runMiddleware,
+} from '../../backend/util';
 
-sentrySetup();
+async function users(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+	await runMiddleware(
+		req,
+		res,
+		Cors({
+			origin: allowedOrigins,
+			methods: ['GET', 'HEAD', 'PATCH'],
+		})
+	);
 
-async function users(req: NowRequest, res: NowResponse): Promise<void> {
 	try {
 		await connectToDatabase();
 
@@ -27,7 +40,7 @@ async function users(req: NowRequest, res: NowResponse): Promise<void> {
 
 			default:
 				res.status(405).json({
-					error: `Unknown request method: ${
+					error: `UnkNextApin request method: ${
 						req.method || 'undefined'
 					}`,
 				});
