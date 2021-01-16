@@ -1,3 +1,9 @@
+#!/bin/sh
+
+git ls-tree -r --name-only $(git rev-parse --abbrev-ref HEAD) "./" | while read file ; do
+
+if [[ ${file: -3} == ".ts" ]] || [[ ${file: -4} == ".tsx" ]]; then
+cat <<EOF >"${file}.agpl"
 /*
     This file is part of Sh**t! I Smoke.
     Copyright (C) 2018-2021  Marcelo S. Coelho, Amaury Martiny
@@ -13,12 +19,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export function clickOnCityCard(startPage: string): void {
-	it('should redirect to correct city when we click on a city card', () => {
-		cy.visit(startPage);
+EOF
+cat "$file" >> "${file}.agpl"
 
-		cy.get('[data-cy=RankingSection-city-card-0]').click({ force: true });
+echo "$file.agpl"
 
-		cy.url().should('match', /city\/\w+/);
-	});
-}
+mv ${file}.agpl ${file}
+
+fi
+
+done
