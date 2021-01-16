@@ -16,5 +16,6 @@
 
 export * from './amplitude';
 export * from './cities';
+export * from './doNotTrack';
 export * from './sentry';
 export * from './seo';
