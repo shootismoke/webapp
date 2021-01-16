@@ -1,3 +1,9 @@
+#!/bin/sh
+
+git ls-tree -r --name-only $(git rev-parse --abbrev-ref HEAD) "./" | while read file ; do
+
+if [[ ${file: -3} == ".ts" ]] || [[ ${file: -4} == ".tsx" ]]; then
+cat <<EOF >"${file}.agpl"
 /**
  * This file is part of Sh**t! I Smoke.
  *
@@ -15,24 +21,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-	clickOnCityCard,
-	redirectToFaq,
-	searchCityWithGps,
-	searchCityWithSlug,
-} from '../components';
+EOF
+cat "$file" >> "${file}.agpl"
 
-const URL_PATH = '/city/brussels';
+echo "$file.agpl"
 
-describe('City Page', () => {
-	clickOnCityCard(URL_PATH);
-	redirectToFaq(URL_PATH);
-	searchCityWithGps(URL_PATH);
-	searchCityWithSlug(URL_PATH);
+mv ${file}.agpl ${file}
 
-	it('h1 is visible', () => {
-		cy.visit(URL_PATH);
+fi
 
-		cy.get('h1').should('be.visible').should('contain', 'You smoke');
-	});
-});
+done
