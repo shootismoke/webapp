@@ -32,7 +32,9 @@ export function doNotTrack(): boolean {
 		// @ts-ignore
 		return navigator.msDoNotTrack === '1';
 	}
-	if ('msTrackingProtectionEnabled' in window.external) {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	if (typeof window.external?.msTrackingProtectionEnabled === 'function') {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		return window.external.msTrackingProtectionEnabled() as boolean; // eslint-disable-line @typescript-eslint/no-unsafe-call
