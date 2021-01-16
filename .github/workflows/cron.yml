@@ -17,6 +17,7 @@ jobs:
             - run: yarn install
             - run: yarn ts-node -P scripts/tsconfig.json scripts/email.ts
               env:
+                  DEBUG: shootismoke:*
                   BACKEND_AQICN_TOKEN: ${{ secrets.AQICN_TOKEN }}
                   BACKEND_MAILGUN_API_KEY: ${{ secrets.STAGING_BACKEND_MAILGUN_API_KEY }}
                   BACKEND_MAILGUN_DOMAIN: ${{ secrets.STAGING_BACKEND_MAILGUN_DOMAIN }}

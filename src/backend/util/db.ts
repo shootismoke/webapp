@@ -1,7 +1,10 @@
+import debug from 'debug';
 import { connect, connection } from 'mongoose';
 
 import { IUser } from '../types';
 import { logger } from './logger';
+
+const l = debug('shootismoke:db');
 
 /**
  * Assert that we have a user.
@@ -23,6 +26,7 @@ export function assertUser(
 export async function connectToDatabase(): Promise<void> {
 	// If there's already a connection, we do nothing
 	if (connection.readyState === 1) {
+		l('Already connected to db.');
 		return;
 	}
 
@@ -39,4 +43,5 @@ export async function connectToDatabase(): Promise<void> {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});
+	l('Connected to db.');
 }
