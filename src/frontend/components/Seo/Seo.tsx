@@ -57,6 +57,11 @@ export function Seo(props: SeoProps): React.ReactElement {
 				href="https://api.openaq.org"
 				crossOrigin="anonymous"
 			/>
+			<link
+				rel="preconnect"
+				href="https://api.ipdata.co"
+				crossOrigin="anonymous"
+			/>
 
 			<link
 				rel="stylesheet"

@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
 
+import { LatLng } from '@shootismoke/dataproviders';
 import { round } from '@shootismoke/ui/lib/util/api';
+import axios from 'axios';
 import haversine from 'haversine';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { City, logEvent } from '../../util';
+import { City, doNotTrack, logEvent } from '../../util';
 import { Section } from '../Section';
 import { CityCard } from './CityCard';
 
@@ -51,7 +53,11 @@ interface RankingSectionProps {
 const CITIES_TO_SHOW = 6;
 
 export function RankingSection(props: RankingSectionProps): React.ReactElement {
-	const { currentCity, cities } = props;
+	const { currentCity: currentCityFromProps, cities } = props;
+
+	// If currentCity is not provided from props, then we try to find the
+	// current city from IP geolocation.
+	const [currentCity, setCurrentCity] = useState(currentCityFromProps);
 	const [closestCities, setClosestCities] = useState<City[]>([]);
 
 	// Each time we change city, find the closest cities.
@@ -98,6 +104,27 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 		setClosestCities(citiesToShow);
 	}, [currentCity, cities]);
 
+	// Each time we change city and we don't have a city fro props, then get
+	// the current city from IP address geolocation.
+	useEffect(() => {
+		if (doNotTrack()) {
+			return;
+		}
+
+		if (currentCity) {
+			return;
+		}
+
+		axios
+			.get<Partial<LatLng>>('https://api.ipdata.co/?api-key=test')
+			.then(({ data }) => {
+				if (data.latitude && data.longitude) {
+					setCurrentCity({ gps: data as LatLng });
+				}
+			})
+			.catch(() => undefined); // no-op.
+	}, [currentCity]);
+
 	// The cities we want to show are:
 	// - either the closest cities to the current city,
 	// - or just the world most polluted cities.
@@ -117,6 +144,12 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 			<div className="flex flex-col items-center">
 				<p className="-mt-5 mb-5 type-100 text-center text-gray-600">
 					Updated every two hours. Real-time ranking may differ.
+					{currentCity && !currentCityFromProps && (
+						<span>
+							<br />
+							Current location taken from IP address.
+						</span>
+					)}
 				</p>
 				<div className="pt-2 w-full grid grid-flow-row grid-cols-1 grid-rows-5 md:grid-cols-2 md:grid-rows-3 gap-4">
 					{citiesToShow.map((city, index) => (

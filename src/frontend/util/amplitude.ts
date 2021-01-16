@@ -16,6 +16,7 @@
 
 import type { AmplitudeClient } from 'amplitude-js';
 
+import { doNotTrack } from './doNotTrack';
 import { sentryException } from './sentry';
 
 let client: AmplitudeClient;
@@ -60,6 +61,10 @@ export function logEvent(
 	event: string,
 	properties?: Record<string, string | number | undefined>
 ): void {
+	if (doNotTrack()) {
+		return;
+	}
+
 	if (client) {
 		client.logEvent(
 			event,
