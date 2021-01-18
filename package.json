@@ -21,7 +21,7 @@
 		"@types/classnames": "^2.2.11",
 		"@types/cors": "^2.8.9",
 		"@types/i18n-js": "^3.0.3",
-		"@types/node": "^14.14.19",
+		"@types/node": "^14.14.21",
 		"@types/node-uuid": "^0.0.28",
 		"@types/react-native": "^0.63.45",
 		"@types/react-select": "^3.0.27",
