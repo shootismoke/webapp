@@ -32,7 +32,7 @@
 		"cors": "^2.8.5",
 		"expo-server-sdk": "^3.6.0",
 		"i18n-js": "^3.8.0",
-		"mailgun.js": "^2.0.6",
+		"mailgun.js": "^3.0.0",
 		"mongodb": "^3.6.3",
 		"mongoose": "^5.11.12",
 		"next": "^10.0.5",
