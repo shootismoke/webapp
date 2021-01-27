@@ -18,9 +18,8 @@
 import { round } from '@shootismoke/ui/lib/util/api';
 import debug from 'debug';
 import { config } from 'dotenv';
-//eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { client, CreateMessageOpts } from 'mailgun.js';
+import formData from 'form-data';
+import Mailgun from 'mailgun.js';
 
 import { IUser } from '../../types';
 import { connectToDatabase } from '../../util';
@@ -40,10 +39,20 @@ if (
 	);
 }
 
-const mg = client({
+const mg = new Mailgun(formData);
+const mgClient = mg.client({
 	username: 'api',
 	key: process.env.BACKEND_MAILGUN_API_KEY,
 });
+
+interface CreateMessageOpts {
+	from: string;
+	to: string;
+	subject: string;
+	text: string;
+	html: string;
+	'o:tag'?: string[];
+}
 
 /**
  * Craft an email for a user.
@@ -88,7 +97,7 @@ export async function main(): Promise<void> {
 		users.map(async (user) => {
 			const email = await emailForUser(user);
 
-			return mg.messages.create(
+			return mgClient.messages.create(
 				process.env.BACKEND_MAILGUN_DOMAIN as string,
 				email
 			);
