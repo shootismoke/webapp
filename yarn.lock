@@ -7141,11 +7141,6 @@ lodash.map@^4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
   integrity sha1-dx7Hg540c9nEzeKLGTlMNWL09tM=
 
-lodash.merge@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
-  integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
-
 lodash.once@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
@@ -7269,10 +7264,10 @@ lz-string@^1.4.4:
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
   integrity sha1-wNjq82BZ9wV5bh40SBHPTEmNOiY=
 
-mailgun.js@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mailgun.js/-/mailgun.js-3.0.0.tgz#ef6d86b45ba65d838be4b042dee681611d40e7cd"
-  integrity sha512-bZc2sJfkHUXVolrYm2dhHETKEtQQOxi5QmNMYAumfXeI5/yX8/vtnqMExK3Yo0S/HSaD2f44D+LSKUwrQsdakg==
+mailgun.js@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/mailgun.js/-/mailgun.js-3.1.1.tgz#508a735f7b1b3fe53a88d8ecb4ec47c544cf4cf8"
+  integrity sha512-WQq4dqn8GRIgT5HNQ8jD8URssUu45AMtFwdYEVDtv+vyNKo4pm87Y0Dhnegt1qu0jLrwxpyUEZS8jmPjiOWcdg==
   dependencies:
     bluebird "^3.7.2"
     btoa "^1.1.2"
@@ -7281,7 +7276,6 @@ mailgun.js@^3.0.0:
     lodash.defaults "^4.2.0"
     lodash.keyby "^4.6.0"
     lodash.map "^4.6.0"
-    lodash.merge "^4.6.2"
     lodash.partialright "^4.2.1"
     url "^0.11.0"
     url-join "0.0.1"
