@@ -51,9 +51,10 @@ export async function getAllCities(): Promise<City[]> {
 		return cachedCities;
 	}
 
-	// Call an external API endpoint to get all cities.
+	// Call an external API endpoint to get all cities. This is done in one of
+	// our repos too: shootibot/cities.
 	const { data: cities } = await axios.get<City[]>(
-		'https://raw.githubusercontent.com/shootismoke/cities/master/all.json'
+		'https://raw.githubusercontent.com/shootibot/cities/master/all.json'
 	);
 
 	cachedCities = cities;

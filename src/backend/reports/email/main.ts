@@ -18,6 +18,8 @@
 import { round } from '@shootismoke/ui/lib/util/api';
 import debug from 'debug';
 import { config } from 'dotenv';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore I'm not sure why we need this line, if @types/form-data is installed
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 
