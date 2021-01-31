@@ -31,6 +31,7 @@ import Mailgun from 'mailgun.js';
 import { render } from 'mustache';
 
 import {
+	frequencyToPeriod,
 	getPollutantData,
 	getSwearWord,
 } from '../../../frontend/util/cigarettes';
@@ -94,18 +95,19 @@ function getDisplayedCigarettes(
  */
 function getEmailSubject(
 	dailyCigarettes: number,
-	frequency: Frequency
+	frequency: Frequency,
+	swearWord: string
 ): string {
 	if (frequency === 'daily') {
-		return `🚬 Shoot! You'll smoke ${round(
+		return `🚬 ${swearWord}! You'll smoke ${round(
 			dailyCigarettes
 		)} cigarettes today`;
 	}
 
-	return `🚬 Shoot! You smoke ${getDisplayedCigarettes(
+	return `🚬 ${swearWord}! You smoke ${getDisplayedCigarettes(
 		dailyCigarettes,
 		frequency
-	)} cigarettes every ${frequency === 'monthly' ? 'month' : 'week'}.`;
+	)} cigarettes every ${frequencyToPeriod(frequency)}`;
 }
 
 /**
@@ -132,22 +134,18 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 	const primaryPol = primaryPollutant(api.normalized);
 	const aqi = getAQI(api.normalized);
 	const polData = getPollutantData(primaryPol.parameter);
+	const swearWord = getSwearWord(cigarettes);
 
 	const mustacheData = {
 		cigarettes,
-		frequency:
-			user.emailReport.frequency === 'daily'
-				? 'day'
-				: user.emailReport.frequency === 'weekly'
-				? 'week'
-				: 'month',
+		frequency: frequencyToPeriod(user.emailReport.frequency),
 		location:
 			[api.pm25.city, api.pm25.country].join(', ') ||
 			api.pm25.location ||
 			api.pm25.sourceName ||
 			'Unknown City',
 		pollutant: `${polData.name} (${primaryPol.parameter.toUpperCase()})*`,
-		swearWord: getSwearWord(cigarettes),
+		swearWord,
 		tips: tips(aqi),
 	};
 
@@ -158,7 +156,8 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 		html,
 		subject: getEmailSubject(
 			api.shootismoke.dailyCigarettes,
-			user.emailReport.frequency
+			user.emailReport.frequency,
+			swearWord
 		),
 		// Fallback to the same message as the Expo push notification.
 		text: getExpoMessage(
@@ -183,7 +182,7 @@ export async function main(): Promise<void> {
 	// info.
 	users.push({
 		_id: 'foo',
-		lastStationId: 'aqicn|1425',
+		lastStationId: 'aqicn|1426',
 		emailReport: {
 			email: 'amaury@shootismoke.app',
 			frequency: 'weekly',

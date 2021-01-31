@@ -16,8 +16,22 @@
  */
 
 import type { Pollutant } from '@shootismoke/convert';
+import { Frequency } from '@shootismoke/ui/lib/context';
 
 import { t } from '../localization';
+
+/**
+ * Convert a frequency to its equivalent period.
+ *
+ * @param frequency - The frequency to convert.
+ */
+export function frequencyToPeriod(frequency: Frequency): string {
+	return frequency === 'daily'
+		? 'day'
+		: frequency === 'weekly'
+		? 'week'
+		: 'month';
+}
 
 /**
  * Swear words, untranslated.

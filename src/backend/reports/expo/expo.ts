@@ -17,7 +17,6 @@
 
 import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
 import { round } from '@shootismoke/ui/lib/util/api';
-import { pm25ToCigarettes } from '@shootismoke/ui/lib/util/secretSauce';
 import {
 	Expo,
 	ExpoPushMessage,
@@ -26,6 +25,7 @@ import {
 	ExpoPushTicket,
 } from 'expo-server-sdk';
 
+import { frequencyToPeriod } from '../../../frontend/util/cigarettes';
 import { IExpoReport, IUser } from '../../types';
 import { logger } from '../../util/logger';
 
@@ -42,7 +42,7 @@ export function getMessageBody(
 
 	return `Shoot! You smoked ${round(
 		frequency === 'monthly' ? dailyCigarettes * 30 : dailyCigarettes * 7
-	)} cigarettes in the past ${frequency === 'monthly' ? 'month' : 'week'}.`;
+	)} cigarettes in the past ${frequencyToPeriod(frequency)}.`;
 }
 
 /**
