@@ -19,8 +19,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
+import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
+
 import { PushTicket, User } from '../models';
-import { Frequency, IUser } from '../types';
+import { IUser } from '../types';
 import { findTimezonesAt } from './tz';
 
 /**

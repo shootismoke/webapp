@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
 import { round } from '@shootismoke/ui/lib/util/api';
-import { pm25ToCigarettes } from '@shootismoke/ui/lib/util/secretSauce';
 import {
 	Expo,
 	ExpoPushMessage,
@@ -25,22 +25,24 @@ import {
 	ExpoPushTicket,
 } from 'expo-server-sdk';
 
-import { Frequency, IExpoReport, IUser } from '../../types';
+import { frequencyToPeriod } from '../../../frontend/util/cigarettes';
+import { IExpoReport, IUser } from '../../types';
 import { logger } from '../../util/logger';
 
 /**
  * Generate the body of the push notification message.
  */
-function getMessageBody(pm25: number, frequency: Frequency): string {
-	const dailyCigarettes = pm25ToCigarettes(pm25);
-
+export function getMessageBody(
+	dailyCigarettes: number,
+	frequency: Frequency
+): string {
 	if (frequency === 'daily') {
 		return `Shoot! You'll smoke ${round(dailyCigarettes)} cigarettes today`;
 	}
 
 	return `Shoot! You smoked ${round(
 		frequency === 'monthly' ? dailyCigarettes * 30 : dailyCigarettes * 7
-	)} cigarettes in the past ${frequency === 'monthly' ? 'month' : 'week'}.`;
+	)} cigarettes in the past ${frequencyToPeriod(frequency)}.`;
 }
 
 /**
@@ -72,7 +74,7 @@ function assertUserWithExpoReport(
  */
 export function constructExpoPushMessage(
 	user: IUser,
-	pm25: number
+	dailyCigarettes: number
 ): ExpoPushMessage {
 	assertUserWithExpoReport(user);
 
@@ -83,7 +85,7 @@ export function constructExpoPushMessage(
 	}
 
 	return {
-		body: getMessageBody(pm25, frequency),
+		body: getMessageBody(dailyCigarettes, frequency),
 		title:
 			frequency === 'daily'
 				? 'Daily forecast'

@@ -30,11 +30,9 @@ export async function expoPushMessageForUser(
 	user: IUser
 ): Promise<ExpoPushMessage> {
 	try {
-		const {
-			pm25: { value: pm25 },
-		} = await universalFetch(user.lastStationId);
+		const api = await universalFetch(user.lastStationId);
 
-		return constructExpoPushMessage(user, pm25);
+		return constructExpoPushMessage(user, api.shootismoke.dailyCigarettes);
 	} catch (error) {
 		throw new Error(`User ${user._id}: ${(error as Error).message}`);
 	}

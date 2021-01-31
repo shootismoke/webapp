@@ -60,7 +60,7 @@ describe('constructExpoPushMessage', () => {
 
 	it('should work for daily', () => {
 		expect(constructExpoPushMessage(user, 42)).toEqual({
-			body: "Shoot! You'll smoke 1.9 cigarettes today",
+			body: "Shoot! You'll smoke 42 cigarettes today",
 			sound: 'default',
 			title: 'Daily forecast',
 			to: 'ExponentPushToken[0zK3-xM3PgLEfe31-AafjB]',
@@ -80,7 +80,7 @@ describe('constructExpoPushMessage', () => {
 				42
 			)
 		).toEqual({
-			body: 'Shoot! You smoked 13.4 cigarettes in the past week.',
+			body: 'Shoot! You smoked 294 cigarettes in the past week.',
 			sound: 'default',
 			title: 'Weekly report',
 			to: 'ExponentPushToken[0zK3-xM3PgLEfe31-AafjB]',
@@ -100,7 +100,7 @@ describe('constructExpoPushMessage', () => {
 				42
 			)
 		).toEqual({
-			body: 'Shoot! You smoked 57.3 cigarettes in the past month.',
+			body: 'Shoot! You smoked 1260 cigarettes in the past month.',
 			sound: 'default',
 			title: 'Monthly report',
 			to: 'ExponentPushToken[0zK3-xM3PgLEfe31-AafjB]',
