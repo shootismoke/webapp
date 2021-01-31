@@ -17,6 +17,10 @@
 
 import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
 import { round } from '@shootismoke/ui/lib/util/api';
+import {
+	getAQI,
+	primaryPollutant,
+} from '@shootismoke/ui/lib/util/primaryPollutant';
 import debug from 'debug';
 import { config } from 'dotenv';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -35,6 +39,7 @@ import { connectToDatabase } from '../../util';
 import { findUsersForReport } from '../cron';
 import { getMessageBody as getExpoMessage } from '../expo/expo';
 import { universalFetch } from '../provider';
+import { tips } from './tips';
 
 config({ path: '.env.staging' });
 
@@ -124,7 +129,9 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 		api.shootismoke.dailyCigarettes,
 		user.emailReport.frequency
 	);
-	const polData = getPollutantData(api.pm25.parameter);
+	const primaryPol = primaryPollutant(api.normalized);
+	const aqi = getAQI(api.normalized);
+	const polData = getPollutantData(primaryPol.parameter);
 
 	const mustacheData = {
 		cigarettes,
@@ -139,8 +146,9 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 			api.pm25.location ||
 			api.pm25.sourceName ||
 			'Unknown City',
-		pollutant: `${polData.name} (${api.pm25.parameter.toUpperCase()})*`,
+		pollutant: `${polData.name} (${primaryPol.parameter.toUpperCase()})*`,
 		swearWord: getSwearWord(cigarettes),
+		tips: tips(aqi),
 	};
 
 	const html = render(template, mustacheData);
