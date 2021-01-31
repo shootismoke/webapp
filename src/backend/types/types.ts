@@ -15,14 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
 import { ExpoPushTicket } from 'expo-server-sdk';
 import { Document } from 'mongoose';
 
 export interface BackendError {
 	error: string;
 }
-
-export type Frequency = 'never' | 'daily' | 'weekly' | 'monthly';
 
 export interface IEmailReport {
 	email: string;

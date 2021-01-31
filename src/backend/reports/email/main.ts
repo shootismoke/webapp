@@ -15,13 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { round } from '@shootismoke/ui/lib/util/api';
+import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
+import { Api, round } from '@shootismoke/ui/lib/util/api';
 import debug from 'debug';
 import { config } from 'dotenv';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore I'm not sure why we need this line, if @types/form-data is installed
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
+import {} from 'mustache';
 
 import { IUser } from '../../types';
 import { connectToDatabase } from '../../util';
@@ -57,6 +59,45 @@ interface CreateMessageOpts {
 }
 
 /**
+ * Depending on the user's frequency, calculate the number of cigarettes to
+ * display.
+ *
+ * @param api - The Api object.
+ * @param frequency - The user's frequency.
+ */
+function getDisplayedCigarettes(
+	dailyCigarettes: number,
+	frequency: Frequency
+): number {
+	return round(
+		frequency === 'monthly'
+			? dailyCigarettes * 30
+			: frequency === 'weekly'
+			? dailyCigarettes * 7
+			: dailyCigarettes
+	);
+}
+
+/**
+ * Generate the body of the push notification message.
+ */
+function getEmailSubject(
+	dailyCigarettes: number,
+	frequency: Frequency
+): string {
+	if (frequency === 'daily') {
+		return `🚬 Shoot! You'll smoke ${round(
+			dailyCigarettes
+		)} cigarettes today`;
+	}
+
+	return `🚬 Shoot! You smoked ${getDisplayedCigarettes(
+		dailyCigarettes,
+		frequency
+	)} cigarettes in the past ${frequency === 'monthly' ? 'month' : 'week'}.`;
+}
+
+/**
  * Craft an email for a user.
  *
  * @param user - The user to send the email to.
@@ -69,14 +110,27 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 	}
 
 	const api = await universalFetch(user.lastStationId);
+	const mustacheData = {
+		cigarettes: getDisplayedCigarettes(
+			api.shootismoke.dailyCigarettes,
+			user.emailReport.frequency
+		),
+		frequency:
+			user.emailReport.frequency === 'daily'
+				? 'day'
+				: user.emailReport.frequency === 'weekly'
+				? 'week'
+				: 'month',
+	};
 
 	return {
 		from: 'Marcelo <hi@shootismoke.app>',
 		html:
 			'<h1>Testing some Mailgun awesomness!</h1><p>Yeah, pretty cool</p>',
-		subject: `You smoke ${round(
-			api.shootismoke.dailyCigarettes
-		)} cigarettes `,
+		subject: getEmailSubject(
+			api.shootismoke.dailyCigarettes,
+			user.emailReport.frequency
+		),
 		text: 'this is from the text field',
 		to: user.emailReport.email,
 	};

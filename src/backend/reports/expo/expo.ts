@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
 import { round } from '@shootismoke/ui/lib/util/api';
 import { pm25ToCigarettes } from '@shootismoke/ui/lib/util/secretSauce';
 import {
@@ -25,7 +26,7 @@ import {
 	ExpoPushTicket,
 } from 'expo-server-sdk';
 
-import { Frequency, IExpoReport, IUser } from '../../types';
+import { IExpoReport, IUser } from '../../types';
 import { logger } from '../../util/logger';
 
 /**
