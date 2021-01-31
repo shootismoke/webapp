@@ -26,7 +26,10 @@ import { readFileSync } from 'fs';
 import Mailgun from 'mailgun.js';
 import { render } from 'mustache';
 
-import { getSwearWord } from '../../../frontend/util/cigarettes';
+import {
+	getPollutantData,
+	getSwearWord,
+} from '../../../frontend/util/cigarettes';
 import { IUser } from '../../types';
 import { connectToDatabase } from '../../util';
 import { findUsersForReport } from '../cron';
@@ -121,6 +124,8 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 		api.shootismoke.dailyCigarettes,
 		user.emailReport.frequency
 	);
+	const polData = getPollutantData(api.pm25.parameter);
+
 	const mustacheData = {
 		cigarettes,
 		frequency:
@@ -129,6 +134,12 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 				: user.emailReport.frequency === 'weekly'
 				? 'week'
 				: 'month',
+		location:
+			[api.pm25.city, api.pm25.country].join(', ') ||
+			api.pm25.location ||
+			api.pm25.sourceName ||
+			'Unknown City',
+		pollutant: `${polData.name} (${api.pm25.parameter.toUpperCase()})*`,
 		swearWord: getSwearWord(cigarettes),
 	};
 
