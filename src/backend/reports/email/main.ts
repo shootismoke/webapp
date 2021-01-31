@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import countries from '@shootismoke/dataproviders/lib/util/countries.json';
 import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
 import { round } from '@shootismoke/ui/lib/util/api';
 import {
@@ -73,6 +74,16 @@ interface CreateMessageOpts {
 	text: string;
 	html: string;
 	'o:tag'?: string[];
+}
+
+/**
+ * getCountryFromCode gets the country name from its ISO 3166-1 Alpha-2 code.
+ *
+ * @param code - The ISO 3166-1 Alpha-2 code of the country.
+ * @todo This function should live in @shootismoke/common.
+ */
+function getCountryFromCode(code: string): string | undefined {
+	return countries.find((country) => country.code === code)?.name;
 }
 
 /**
@@ -135,6 +146,7 @@ async function emailForUser(
 	).toString('utf-8');
 
 	const api = await universalFetch(user.lastStationId);
+
 	const cigarettes = getDisplayedCigarettes(
 		api.shootismoke.dailyCigarettes,
 		user.emailReport.frequency
@@ -148,7 +160,10 @@ async function emailForUser(
 		: cities.slice(0, 5)
 	).map((city) => ({
 		cigarettes: city.api?.shootismoke.dailyCigarettes
-			? `${round(city.api.shootismoke.dailyCigarettes)} cigarettes today`
+			? `${getDisplayedCigarettes(
+					city.api.shootismoke.dailyCigarettes,
+					user.emailReport?.frequency || 'daily'
+			  )} cigarettes`
 			: '0 cigarette',
 		name: city.name
 			? [city.name, city.adminName, city.country]
@@ -157,12 +172,18 @@ async function emailForUser(
 			: 'Unknown City',
 	}));
 
+	// Render template with mustache.
 	const mustacheData = {
 		closestCities,
 		cigarettes,
 		frequency: frequencyToPeriod(user.emailReport.frequency),
 		location:
-			[api.pm25.city, api.pm25.country].join(', ') ||
+			[
+				api.pm25.city,
+				getCountryFromCode(api.pm25.country) || api.pm25.country,
+			]
+				.filter((x) => !!x)
+				.join(', ') ||
 			api.pm25.location ||
 			api.pm25.sourceName ||
 			'Unknown City',
@@ -170,7 +191,6 @@ async function emailForUser(
 		swearWord,
 		tips: tips(aqi),
 	};
-
 	const html = render(template, mustacheData);
 
 	return {
