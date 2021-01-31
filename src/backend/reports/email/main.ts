@@ -16,18 +16,21 @@
  */
 
 import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
-import { Api, round } from '@shootismoke/ui/lib/util/api';
+import { round } from '@shootismoke/ui/lib/util/api';
 import debug from 'debug';
 import { config } from 'dotenv';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore I'm not sure why we need this line, if @types/form-data is installed
 import formData from 'form-data';
+import { readFileSync } from 'fs';
 import Mailgun from 'mailgun.js';
-import {} from 'mustache';
+import { render } from 'mustache';
 
+import { getSwearWord } from '../../../frontend/util/cigarettes';
 import { IUser } from '../../types';
 import { connectToDatabase } from '../../util';
 import { findUsersForReport } from '../cron';
+import { getMessageBody as getExpoMessage } from '../expo/expo';
 import { universalFetch } from '../provider';
 
 config({ path: '.env.staging' });
@@ -91,10 +94,10 @@ function getEmailSubject(
 		)} cigarettes today`;
 	}
 
-	return `🚬 Shoot! You smoked ${getDisplayedCigarettes(
+	return `🚬 Shoot! You smoke ${getDisplayedCigarettes(
 		dailyCigarettes,
 		frequency
-	)} cigarettes in the past ${frequency === 'monthly' ? 'month' : 'week'}.`;
+	)} cigarettes every ${frequency === 'monthly' ? 'month' : 'week'}.`;
 }
 
 /**
@@ -109,29 +112,40 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 		);
 	}
 
+	const template = readFileSync(
+		'./src/backend/reports/email/template.html'
+	).toString('utf-8');
+
 	const api = await universalFetch(user.lastStationId);
+	const cigarettes = getDisplayedCigarettes(
+		api.shootismoke.dailyCigarettes,
+		user.emailReport.frequency
+	);
 	const mustacheData = {
-		cigarettes: getDisplayedCigarettes(
-			api.shootismoke.dailyCigarettes,
-			user.emailReport.frequency
-		),
+		cigarettes,
 		frequency:
 			user.emailReport.frequency === 'daily'
 				? 'day'
 				: user.emailReport.frequency === 'weekly'
 				? 'week'
 				: 'month',
+		swearWord: getSwearWord(cigarettes),
 	};
 
+	const html = render(template, mustacheData);
+
 	return {
-		from: 'Marcelo <hi@shootismoke.app>',
-		html:
-			'<h1>Testing some Mailgun awesomness!</h1><p>Yeah, pretty cool</p>',
+		from: 'Marcelo <marcelo@shootismoke.app>',
+		html,
 		subject: getEmailSubject(
 			api.shootismoke.dailyCigarettes,
 			user.emailReport.frequency
 		),
-		text: 'this is from the text field',
+		// Fallback to the same message as the Expo push notification.
+		text: getExpoMessage(
+			api.shootismoke.dailyCigarettes,
+			user.emailReport.frequency
+		),
 		to: user.emailReport.email,
 	};
 }
@@ -145,6 +159,18 @@ export async function main(): Promise<void> {
 	// Fetch all users to whom we should send an email report.
 	const users = await findUsersForReport('email');
 	l('Found %d users to send emails to.', users.length);
+
+	// If you wish to test, uncomment the following lines and fill out your
+	// info.
+	users.push({
+		_id: 'foo',
+		lastStationId: 'aqicn|1425',
+		emailReport: {
+			email: 'amaury@shootismoke.app',
+			frequency: 'weekly',
+		},
+		timezone: 'Europe/Berlin',
+	});
 
 	// TODO: To not spam OpenAQ, WAQI and Mailgun servers too hard at once,
 	// should we spread the requests a little bit (by chunks, or with a simple

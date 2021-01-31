@@ -32,9 +32,10 @@ import { logger } from '../../util/logger';
 /**
  * Generate the body of the push notification message.
  */
-function getMessageBody(pm25: number, frequency: Frequency): string {
-	const dailyCigarettes = pm25ToCigarettes(pm25);
-
+export function getMessageBody(
+	dailyCigarettes: number,
+	frequency: Frequency
+): string {
 	if (frequency === 'daily') {
 		return `Shoot! You'll smoke ${round(dailyCigarettes)} cigarettes today`;
 	}
@@ -73,7 +74,7 @@ function assertUserWithExpoReport(
  */
 export function constructExpoPushMessage(
 	user: IUser,
-	pm25: number
+	dailyCigarettes: number
 ): ExpoPushMessage {
 	assertUserWithExpoReport(user);
 
@@ -84,7 +85,7 @@ export function constructExpoPushMessage(
 	}
 
 	return {
-		body: getMessageBody(pm25, frequency),
+		body: getMessageBody(dailyCigarettes, frequency),
 		title:
 			frequency === 'daily'
 				? 'Daily forecast'

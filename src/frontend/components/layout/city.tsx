@@ -29,11 +29,11 @@ import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
 import warning from '../../../../assets/images/icons/warning_red.svg';
-import { t } from '../../localization';
 import {
 	capitalize,
 	City,
 	getSeoTitle,
+	getSwearWord,
 	logEvent,
 	reverseGeocode,
 	sentryException,
@@ -57,32 +57,6 @@ import {
 	Section,
 	Seo,
 } from '..';
-
-/**
- * Swear words, untranslated.
- */
-const swearWords = [
-	'home_swear_word_shoot',
-	'home_swear_word_dang',
-	'home_swear_word_darn',
-	'home_swear_word_geez',
-	'home_swear_word_omg',
-	'home_swear_word_crap',
-	'home_swear_word_arrgh',
-];
-
-/**
- * Return a random swear word, untranslated.
- *
- * @param cigaretteCount - The cigarette count for which we show the swear
- * word.
- */
-function getSwearWord(cigaretteCount: number): string {
-	if (cigaretteCount <= 1) return 'home_cigarettes_oh';
-
-	// Return a random swear word, untranslated.
-	return swearWords[Math.floor(Math.random() * swearWords.length)];
-}
 
 /**
  * These are errors that we know are okay, so we don't log them on Sentry.
@@ -256,7 +230,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 								title={
 									<H1>
 										<>
-											{t(swearWord)}! You smoke{' '}
+											{swearWord}! You smoke{' '}
 											<span className="text-orange">
 												{cigarettes >= 100
 													? Math.round(cigarettes)
