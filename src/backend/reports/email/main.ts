@@ -35,6 +35,11 @@ import {
 	getPollutantData,
 	getSwearWord,
 } from '../../../frontend/util/cigarettes';
+import {
+	City,
+	getAllCities,
+	rankClosestCities,
+} from '../../../frontend/util/cities';
 import { IUser } from '../../types';
 import { connectToDatabase } from '../../util';
 import { findUsersForReport } from '../cron';
@@ -115,7 +120,10 @@ function getEmailSubject(
  *
  * @param user - The user to send the email to.
  */
-async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
+async function emailForUser(
+	user: IUser,
+	cities: City[]
+): Promise<CreateMessageOpts> {
 	if (!user.emailReport) {
 		throw new Error(
 			`User ${user._id} has emailReport field per our query. qed.`
@@ -135,8 +143,22 @@ async function emailForUser(user: IUser): Promise<CreateMessageOpts> {
 	const aqi = getAQI(api.normalized);
 	const polData = getPollutantData(primaryPol.parameter);
 	const swearWord = getSwearWord(cigarettes);
+	const closestCities = (api.pm25.coordinates
+		? rankClosestCities(cities, api.pm25.coordinates, 5)
+		: cities.slice(0, 5)
+	).map((city) => ({
+		cigarettes: city.api?.shootismoke.dailyCigarettes
+			? `${round(city.api.shootismoke.dailyCigarettes)} cigarettes today`
+			: '0 cigarette',
+		name: city.name
+			? [city.name, city.adminName, city.country]
+					.filter((x) => !!x)
+					.join(', ')
+			: 'Unknown City',
+	}));
 
 	const mustacheData = {
+		closestCities,
 		cigarettes,
 		frequency: frequencyToPeriod(user.emailReport.frequency),
 		location:
@@ -190,12 +212,14 @@ export async function main(): Promise<void> {
 		timezone: 'Europe/Berlin',
 	});
 
+	const cities = await getAllCities();
+
 	// TODO: To not spam OpenAQ, WAQI and Mailgun servers too hard at once,
 	// should we spread the requests a little bit (by chunks, or with a simple
 	// queue)?
 	const emails = await Promise.allSettled(
 		users.map(async (user) => {
-			const email = await emailForUser(user);
+			const email = await emailForUser(user, cities);
 
 			return mgClient.messages.create(
 				process.env.BACKEND_MAILGUN_DOMAIN as string,
