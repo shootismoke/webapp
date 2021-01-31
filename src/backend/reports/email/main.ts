@@ -222,15 +222,15 @@ export async function main(): Promise<void> {
 
 	// If you wish to test, uncomment the following lines and fill out your
 	// info.
-	users.push({
-		_id: 'foo',
-		lastStationId: 'aqicn|1426',
-		emailReport: {
-			email: 'amaury@shootismoke.app',
-			frequency: 'weekly',
-		},
-		timezone: 'Europe/Berlin',
-	});
+	// users.push({
+	// 	_id: 'foo',
+	// 	lastStationId: 'aqicn|1426',
+	// 	emailReport: {
+	// 		email: 'amaury@shootismoke.app',
+	// 		frequency: 'weekly',
+	// 	},
+	// 	timezone: 'Europe/Berlin',
+	// });
 
 	const cities = await getAllCities();
 
