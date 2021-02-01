@@ -176,7 +176,8 @@ async function emailForUser(
 	const mustacheData = {
 		closestCities,
 		cigarettes,
-		frequency: frequencyToPeriod(user.emailReport.frequency),
+		frequency: user.emailReport.frequency,
+		frequencyPeriod: frequencyToPeriod(user.emailReport.frequency),
 		location:
 			[
 				api.pm25.city,
