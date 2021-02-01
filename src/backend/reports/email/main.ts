@@ -191,6 +191,7 @@ async function emailForUser(
 		pollutant: `${polData.name} (${primaryPol.parameter.toUpperCase()})`,
 		swearWord,
 		tips: tips(aqi),
+		userId: user._id,
 	};
 	const html = render(template, mustacheData);
 
