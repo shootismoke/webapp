@@ -53,7 +53,7 @@ const swearWords = [
  * word.
  */
 export function getSwearWord(cigaretteCount: number): string {
-	if (cigaretteCount <= 1) return 'home_cigarettes_oh';
+	if (cigaretteCount <= 1) return t('home_cigarettes_oh');
 
 	// Return a random swear word, untranslated.
 	return t(swearWords[Math.floor(Math.random() * swearWords.length)]);

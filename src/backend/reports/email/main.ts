@@ -176,7 +176,8 @@ async function emailForUser(
 	const mustacheData = {
 		closestCities,
 		cigarettes,
-		frequency: frequencyToPeriod(user.emailReport.frequency),
+		frequency: user.emailReport.frequency,
+		frequencyPeriod: frequencyToPeriod(user.emailReport.frequency),
 		location:
 			[
 				api.pm25.city,
@@ -187,7 +188,7 @@ async function emailForUser(
 			api.pm25.location ||
 			api.pm25.sourceName ||
 			'Unknown City',
-		pollutant: `${polData.name} (${primaryPol.parameter.toUpperCase()})*`,
+		pollutant: `${polData.name} (${primaryPol.parameter.toUpperCase()})`,
 		swearWord,
 		tips: tips(aqi),
 	};
@@ -224,7 +225,7 @@ export async function main(): Promise<void> {
 	// info.
 	// users.push({
 	// 	_id: 'foo',
-	// 	lastStationId: 'aqicn|1426',
+	// 	lastStationId: 'aqicn|3092',
 	// 	emailReport: {
 	// 		email: 'amaury@shootismoke.app',
 	// 		frequency: 'weekly',
