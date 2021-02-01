@@ -81,9 +81,12 @@ export default async function usersUserId(
 			}
 
 			case 'DELETE': {
-				await User.deleteOne({ _id: req.query.userId }).exec();
+				const user = await User.findOneAndDelete({
+					_id: req.query.userId as string,
+				}).exec();
+				assertUser(user, req.query.userId as string);
 
-				res.status(200).json('successfully deleted user');
+				res.status(200).json(user);
 
 				break;
 			}

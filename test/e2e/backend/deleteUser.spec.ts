@@ -31,12 +31,15 @@ let dbBob: IUser;
  */
 async function userNotExist(userId: string, done: jest.DoneCallback) {
 	try {
-		await axios.get<IUser>(`${BACKEND_URL}/api/users/${userId}`);
+		await axios.get<IUser>(
+			`${BACKEND_URL}/api/users/${userId}`,
+			axiosConfig
+		);
 		done.fail();
 	} catch (err) {
 		const e = err as AxiosError<BackendError>;
 		expect(e.response?.status).toBe(500);
-		expect(e.response?.data.error).toContain('ABC');
+		expect(e.response?.data.error).toContain('No user with userId');
 	}
 }
 
@@ -64,7 +67,7 @@ describe('users::updateUser', () => {
 		done();
 	});
 
-	it('should require userId DELETE /{userId}', async (done) => {
+	it('should require userId in DELETE /{userId}', async (done) => {
 		try {
 			await axios.delete<IUser>(
 				`${BACKEND_URL}/api/users/foo`,
@@ -74,7 +77,9 @@ describe('users::updateUser', () => {
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(500);
-			expect(e.response?.data.error).toContain('ABC');
+			expect(e.response?.data.error).toBe(
+				'No user with userId "foo" found'
+			);
 			done();
 		}
 
@@ -94,14 +99,15 @@ describe('users::updateUser', () => {
 	it('should require userId GET /email/unsubscribe/{userId}', async (done) => {
 		try {
 			await axios.get<IUser>(
-				`${BACKEND_URL}/api/users/email/unsubscribe/foo`,
-				axiosConfig
+				`${BACKEND_URL}/api/users/email/unsubscribe/foo`
 			);
 			done.fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(500);
-			expect(e.response?.data.error).toContain('ABC');
+			expect(e.response?.data.error).toBe(
+				'No user with userId "foo" found'
+			);
 			done();
 		}
 
@@ -109,9 +115,9 @@ describe('users::updateUser', () => {
 	});
 
 	it('should delete user from GET /email/unsubscribe/{userId}', async (done) => {
+		// Note: no axiosConfig here.
 		await axios.get<IUser>(
-			`${BACKEND_URL}/api/users/email/unsubscribe/${dbBob._id}`,
-			axiosConfig
+			`${BACKEND_URL}/api/users/email/unsubscribe/${dbBob._id}`
 		);
 
 		await userNotExist(dbBob._id, done);

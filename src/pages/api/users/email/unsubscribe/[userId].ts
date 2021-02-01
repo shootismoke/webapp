@@ -20,6 +20,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { User } from '../../../../../backend/models';
 import {
+	assertUser,
 	connectToDatabase,
 	logger,
 	runMiddleware,
@@ -43,7 +44,10 @@ export default async function emailUnsubscribe(
 
 		switch (req.method) {
 			case 'GET': {
-				await User.deleteOne({ _id: req.query.userId }).exec();
+				const user = await User.findOneAndDelete({
+					_id: req.query.userId as string,
+				}).exec();
+				assertUser(user, req.query.userId as string);
 
 				res.status(200).send(
 					'successfully unsubscribed from email notifications'
