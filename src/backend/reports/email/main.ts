@@ -188,7 +188,7 @@ async function emailForUser(
 			api.pm25.location ||
 			api.pm25.sourceName ||
 			'Unknown City',
-		pollutant: `${polData.name} (${primaryPol.parameter.toUpperCase()})*`,
+		pollutant: `${polData.name} (${primaryPol.parameter.toUpperCase()})`,
 		swearWord,
 		tips: tips(aqi),
 	};

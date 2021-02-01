@@ -17,6 +17,7 @@
 
 /**
  * Health tips depending on AQI.
+ * This component is the pure HTML equivalent of the <Tips /> component.
  *
  * @param aqi - Air Quality Index.
  * @see https://taqm.epa.gov.tw/taqm/en/b0201.html
