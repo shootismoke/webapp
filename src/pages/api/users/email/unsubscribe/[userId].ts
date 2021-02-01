@@ -15,21 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import assignDeep from 'assign-deep';
 import Cors from 'cors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { PushTicket, User } from '../../../backend/models';
+import { User } from '../../../../../backend/models';
 import {
-	allowedOrigins,
-	assertUser,
 	connectToDatabase,
 	logger,
 	runMiddleware,
-	secretHeader,
-} from '../../../backend/util';
+} from '../../../../../backend/util';
 
-export default async function usersUserId(
+export default async function emailUnsubscribe(
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> {
@@ -37,53 +33,21 @@ export default async function usersUserId(
 		req,
 		res,
 		Cors({
-			origin: allowedOrigins,
-			methods: ['GET', 'HEAD', 'PATCH'],
+			origin: '*',
+			methods: ['GET', 'HEAD'],
 		})
 	);
-
-	if (req.headers[secretHeader] !== process.env.BACKEND_SECRET) {
-		res.status(400).json({
-			error: `incorrect ${secretHeader} header`,
-		});
-		return;
-	}
 
 	try {
 		await connectToDatabase();
 
 		switch (req.method) {
 			case 'GET': {
-				const user = await User.findById(req.query.userId).exec();
-				assertUser(user, req.query.userId as string);
-
-				res.status(200).json(user);
-
-				break;
-			}
-
-			case 'PATCH': {
-				const user = await User.findById(req.query.userId).exec();
-				assertUser(user, req.query.userId as string);
-
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-				assignDeep(user, req.body);
-
-				const newUser = await user.save();
-
-				// Everytime we update user, we also delete all the pushTickets he/she
-				// might have.
-				await PushTicket.deleteMany({ userId: user._id }).exec();
-
-				res.status(200).json(newUser);
-
-				break;
-			}
-
-			case 'DELETE': {
 				await User.deleteOne({ _id: req.query.userId }).exec();
 
-				res.status(200).json('successfully deleted user');
+				res.status(200).send(
+					'successfully unsubscribed from email notifications'
+				);
 
 				break;
 			}

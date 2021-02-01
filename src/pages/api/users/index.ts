@@ -18,14 +18,14 @@
 import Cors from 'cors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { User } from '../../backend/models';
+import { User } from '../../../backend/models';
 import {
 	allowedOrigins,
 	connectToDatabase,
 	logger,
 	runMiddleware,
 	secretHeader,
-} from '../../backend/util';
+} from '../../../backend/util';
 
 async function users(req: NextApiRequest, res: NextApiResponse): Promise<void> {
 	await runMiddleware(
