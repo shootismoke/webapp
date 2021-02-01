@@ -225,7 +225,7 @@ export async function main(): Promise<void> {
 	// info.
 	// users.push({
 	// 	_id: 'foo',
-	// 	lastStationId: 'aqicn|1426',
+	// 	lastStationId: 'aqicn|3092',
 	// 	emailReport: {
 	// 		email: 'amaury@shootismoke.app',
 	// 		frequency: 'weekly',
