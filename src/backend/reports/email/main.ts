@@ -194,7 +194,24 @@ async function emailForUser(
 		tips: tips(aqi),
 		userId: user._id,
 	};
-	const html = minify(render(template, mustacheData));
+	// We render the HTML using the mustach template and the data above. We
+	// also minify the rendered HTML, so that it doesn't get bigger than 102KB.
+	// https://mailchimp.com/help/gmail-is-clipping-my-email/
+	const html = minify(render(template, mustacheData), {
+		collapseBooleanAttributes: true,
+		collapseInlineTagWhitespace: true,
+		decodeEntities: true,
+		minifyCSS: true,
+		removeComments: true,
+		removeAttributeQuotes: true,
+		removeEmptyAttributes: true,
+		removeEmptyElements: true,
+		removeOptionalTags: true,
+		removeRedundantAttributes: true,
+		removeScriptTypeAttributes: true,
+		removeStyleLinkTypeAttributes: true,
+		removeTagWhitespace: true,
+	});
 
 	return {
 		from: 'Marcelo <marcelo@shootismoke.app>',
@@ -225,15 +242,15 @@ export async function main(): Promise<void> {
 
 	// If you wish to test, uncomment the following lines and fill out your
 	// info.
-	// users.push({
-	// 	_id: 'foo',
-	// 	lastStationId: 'aqicn|3092',
-	// 	emailReport: {
-	// 		email: 'amaury@shootismoke.app',
-	// 		frequency: 'weekly',
-	// 	},
-	// 	timezone: 'Europe/Berlin',
-	// });
+	users.push({
+		_id: 'foo',
+		lastStationId: 'aqicn|3092',
+		emailReport: {
+			email: 'amaury@shootismoke.app',
+			frequency: 'weekly',
+		},
+		timezone: 'Europe/Berlin',
+	});
 
 	const cities = await getAllCities();
 
