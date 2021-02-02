@@ -28,6 +28,7 @@ import { config } from 'dotenv';
 // @ts-ignore I'm not sure why we need this line, if @types/form-data is installed
 import formData from 'form-data';
 import { readFileSync } from 'fs';
+import { minify } from 'html-minifier';
 import Mailgun from 'mailgun.js';
 import { render } from 'mustache';
 
@@ -193,7 +194,7 @@ async function emailForUser(
 		tips: tips(aqi),
 		userId: user._id,
 	};
-	const html = render(template, mustacheData);
+	const html = minify(render(template, mustacheData));
 
 	return {
 		from: 'Marcelo <marcelo@shootismoke.app>',
