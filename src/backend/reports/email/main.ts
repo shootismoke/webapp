@@ -28,6 +28,7 @@ import { config } from 'dotenv';
 // @ts-ignore I'm not sure why we need this line, if @types/form-data is installed
 import formData from 'form-data';
 import { readFileSync } from 'fs';
+import { minify } from 'html-minifier';
 import Mailgun from 'mailgun.js';
 import { render } from 'mustache';
 
@@ -193,7 +194,24 @@ async function emailForUser(
 		tips: tips(aqi),
 		userId: user._id,
 	};
-	const html = render(template, mustacheData);
+	// We render the HTML using the mustach template and the data above. We
+	// also minify the rendered HTML, so that it doesn't get bigger than 102KB.
+	// https://mailchimp.com/help/gmail-is-clipping-my-email/
+	const html = minify(render(template, mustacheData), {
+		collapseBooleanAttributes: true,
+		collapseInlineTagWhitespace: true,
+		decodeEntities: true,
+		minifyCSS: true,
+		removeComments: true,
+		removeAttributeQuotes: true,
+		removeEmptyAttributes: true,
+		removeEmptyElements: true,
+		removeOptionalTags: true,
+		removeRedundantAttributes: true,
+		removeScriptTypeAttributes: true,
+		removeStyleLinkTypeAttributes: true,
+		removeTagWhitespace: true,
+	});
 
 	return {
 		from: 'Marcelo <marcelo@shootismoke.app>',

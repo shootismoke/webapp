@@ -42,7 +42,7 @@ export function assertUser(
  */
 export async function connectToDatabase(): Promise<void> {
 	// If there's already a connection, we do nothing
-	if (connection.readyState === 1) {
+	if (connection.readyState >= 1) {
 		l('Already connected to db.');
 		return;
 	}
