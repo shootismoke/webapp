@@ -15,23 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { CSSObject } from '@emotion/serialize';
 import { fetchAlgolia } from '@shootismoke/ui/lib/util/fetchAlgolia';
 import slugify from '@sindresorhus/slugify';
 import c from 'classnames';
 import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
-import { useRouter } from 'next/router';
-import React, { CSSProperties, useEffect, useState } from 'react';
-import { OptionsType, Props as SelectProps, StylesConfig } from 'react-select';
+import { NextRouter, useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { Props as SelectProps, StylesConfig } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
 import location from '../../../../assets/images/icons/location_orange.svg';
 import search from '../../../../assets/images/icons/search.svg';
 import { City, logEvent, sentryException } from '../../util';
-import { onGpsButtonClick } from '../GpsButton';
 
-interface SearchBarProps extends SelectProps {
+interface SearchBarProps extends SelectProps<AlgoliaOption, false> {
 	cities: City[];
 	className?: string;
 	showGps?: boolean;
@@ -51,7 +51,7 @@ interface AlgoliaOption {
  */
 function algoliaLoadOptions(
 	inputValue: string
-): Promise<OptionsType<AlgoliaOption>> {
+): Promise<ReadonlyArray<AlgoliaOption>> {
 	return pipe(
 		fetchAlgolia(inputValue),
 		TE.map((items) =>
@@ -78,7 +78,7 @@ function algoliaLoadOptions(
 	)();
 }
 
-function defaultCustomStyle(provided: CSSProperties): CSSProperties {
+function defaultCustomStyle(provided: CSSObject): CSSObject {
 	return {
 		...provided,
 		color: '#44464A',
@@ -86,7 +86,7 @@ function defaultCustomStyle(provided: CSSProperties): CSSProperties {
 	};
 }
 
-const customStyles: StylesConfig<{ label: string; value: string }, false> = {
+const customStyles: StylesConfig<AlgoliaOption, false> = {
 	control: (provided) => ({
 		...provided,
 		borderRadius: '10px',
@@ -97,7 +97,7 @@ const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 		...provided,
 		display: 'none',
 	}),
-	input: (provided: CSSProperties): CSSProperties => {
+	input: (provided: CSSObject): CSSObject => {
 		return {
 			...provided,
 			color: '#44464A',
@@ -108,7 +108,7 @@ const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 	noOptionsMessage: defaultCustomStyle,
 	loadingMessage: defaultCustomStyle,
 	option: defaultCustomStyle,
-	placeholder: (provided: CSSProperties): CSSProperties => {
+	placeholder: (provided: CSSObject): CSSObject => {
 		return {
 			...provided,
 			color: '#44464A',
@@ -121,6 +121,41 @@ const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 		width: '80%',
 	}),
 };
+
+/**
+ * Handler when a user clicks on a button to fetch browser's GPS.
+ *
+ * @param setStatus - A function to set the status of the GPS fetch.
+ */
+function onGpsButtonClick(
+	setStatus: (status: string | undefined) => void,
+	router: NextRouter
+): void {
+	setStatus("Fetching browser's GPS location...");
+	if (!navigator.geolocation) {
+		setStatus(
+			'❌ Error: Geolocation is not supported for this Browser/OS.'
+		);
+		setTimeout(() => setStatus(undefined), 1500);
+	} else {
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				router
+					.push(
+						`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
+					)
+					.catch((err) => {
+						setStatus(`❌ Error: ${(err as Error).message}`);
+						setTimeout(() => setStatus(undefined), 1500);
+					});
+			},
+			(err) => {
+				setStatus(`❌ Error: ${err.message}`);
+				setTimeout(() => setStatus(undefined), 1500);
+			}
+		);
+	}
+}
 
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
@@ -155,27 +190,33 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 
 	return (
 		<div className="relative" data-cy="SearchBar-AsyncSelect">
-			<AsyncSelect<{ label: string; value: string }>
+			<AsyncSelect<AlgoliaOption, false>
 				className={c('w-full rounded text-gray-700', className)}
 				loadOptions={algoliaLoadOptions}
 				// https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
 				instanceId={1}
 				noOptionsMessage={(): string => 'Type something...'}
-				/* eslint-disable */
-				// @ts-ignore FIXME How to fix this?
-				onChange={({ label, value }): void => {
+				onChange={(option): void => {
+					if (!option) {
+						return;
+					}
+
+					const { label, value } = option;
 					// If the input matches one of the slugs, then we redirect
 					// to the slugged page.
 					const sluggifiedCity = slugify(value.localeName || '');
 					if (citiesMap[sluggifiedCity]) {
-						router.push(`/city/${sluggifiedCity}`);
+						router
+							.push(`/city/${sluggifiedCity}`)
+							.catch(sentryException);
 					} else {
-						router.push(
-							`/city?lat=${value.lat}&lng=${value.lng}&name=${label}`
-						);
+						router
+							.push(
+								`/city?lat=${value.lat}&lng=${value.lng}&name=${label}`
+							)
+							.catch(sentryException);
 					}
 				}}
-				/* eslint-enable */
 				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
 				placeholder={
 					<div className="flex items-center">

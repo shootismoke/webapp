@@ -23,7 +23,6 @@ export * from './Cigarettes';
 export * from './DownloadSection';
 export * from './FeaturedSection';
 export * from './Footer';
-export * from './GpsButton';
 export * from './H1';
 export * from './HeroLayout';
 export * from './Loading';
