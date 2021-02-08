@@ -45,7 +45,7 @@
 		"react": "^16.14.0",
 		"react-dom": "^16.14.0",
 		"react-native": "^0.63.4",
-		"react-native-web": "^0.14.10",
+		"react-native-web": "^0.14.13",
 		"react-select": "^4.0.2",
 		"timezones.json": "^1.5.2"
 	},
