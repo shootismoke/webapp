@@ -24,7 +24,6 @@ import {
 	DownloadSection,
 	FeaturedSection,
 	Footer,
-	GpsButton,
 	H1,
 	Nav,
 	RankingSection,
@@ -65,14 +64,7 @@ export default function IndexPage(props: IndexProps): React.ReactElement {
 						urban air?
 					</>
 				</H1>
-				<SearchBar cities={cities} className="mt-6" showGps={false} />
-
-				<div className="my-3 flex flex-row items-center">
-					<hr className="flex-grow border-t border-gray-200" />
-					<p className="mx-4 text-gray-600">or</p>
-					<hr className="flex-grow border-gray-200" />
-				</div>
-				<GpsButton />
+				<SearchBar cities={cities} className="mt-6" />
 			</Section>
 
 			<RankingSection cities={cities} />

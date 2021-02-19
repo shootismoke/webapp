@@ -15,35 +15,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { CSSObject } from '@emotion/serialize';
 import { fetchAlgolia } from '@shootismoke/ui/lib/util/fetchAlgolia';
 import slugify from '@sindresorhus/slugify';
 import c from 'classnames';
 import { pipe } from 'fp-ts/lib/pipeable';
 import * as T from 'fp-ts/lib/Task';
 import * as TE from 'fp-ts/lib/TaskEither';
-import { useRouter } from 'next/router';
-import React, { CSSProperties, useEffect, useState } from 'react';
-import { OptionsType, Props as SelectProps, StylesConfig } from 'react-select';
+import { NextRouter, useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { Props as SelectProps, StylesConfig } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
 import location from '../../../../assets/images/icons/location_orange.svg';
 import search from '../../../../assets/images/icons/search.svg';
 import { City, logEvent, sentryException } from '../../util';
-import { onGpsButtonClick } from '../GpsButton';
 
-interface SearchBarProps extends SelectProps {
+interface SearchBarProps extends SelectProps<AlgoliaOption, false> {
 	cities: City[];
 	className?: string;
 	showGps?: boolean;
 }
 
 interface AlgoliaOption {
-	label: string;
-	value: {
-		localeName: string;
-		lat: number;
-		lng: number;
-	};
+	label: string | React.ReactElement;
+	value:
+		| {
+				localeName: string;
+				lat: number;
+				lng: number;
+		  }
+		| 'USE_GPS';
 }
 
 /**
@@ -51,7 +53,7 @@ interface AlgoliaOption {
  */
 function algoliaLoadOptions(
 	inputValue: string
-): Promise<OptionsType<AlgoliaOption>> {
+): Promise<ReadonlyArray<AlgoliaOption>> {
 	return pipe(
 		fetchAlgolia(inputValue),
 		TE.map((items) =>
@@ -78,7 +80,7 @@ function algoliaLoadOptions(
 	)();
 }
 
-function defaultCustomStyle(provided: CSSProperties): CSSProperties {
+function defaultCustomStyle(provided: CSSObject): CSSObject {
 	return {
 		...provided,
 		color: '#44464A',
@@ -86,7 +88,7 @@ function defaultCustomStyle(provided: CSSProperties): CSSProperties {
 	};
 }
 
-const customStyles: StylesConfig<{ label: string; value: string }, false> = {
+const customStyles: StylesConfig<AlgoliaOption, false> = {
 	control: (provided) => ({
 		...provided,
 		borderRadius: '10px',
@@ -97,7 +99,7 @@ const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 		...provided,
 		display: 'none',
 	}),
-	input: (provided: CSSProperties): CSSProperties => {
+	input: (provided: CSSObject): CSSObject => {
 		return {
 			...provided,
 			color: '#44464A',
@@ -105,10 +107,16 @@ const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 			zIndex: 100, // This is so that the <input> is above the <Image>, mainly for cypress tests to pass.
 		};
 	},
+	menu: (provided: CSSObject): CSSObject => {
+		return {
+			...provided,
+			minHeight: '200px',
+		};
+	},
 	noOptionsMessage: defaultCustomStyle,
 	loadingMessage: defaultCustomStyle,
 	option: defaultCustomStyle,
-	placeholder: (provided: CSSProperties): CSSProperties => {
+	placeholder: (provided: CSSObject): CSSObject => {
 		return {
 			...provided,
 			color: '#44464A',
@@ -121,6 +129,78 @@ const customStyles: StylesConfig<{ label: string; value: string }, false> = {
 		width: '80%',
 	}),
 };
+
+/**
+ * Handler when a user clicks on a button to fetch browser's GPS.
+ *
+ * @param setStatus - A function to set the status of the GPS fetch.
+ */
+function onGps(
+	setStatus: (status: string | undefined) => void,
+	router: NextRouter
+): void {
+	setStatus("Fetching browser's GPS location...");
+	if (!navigator.geolocation) {
+		setStatus(
+			'❌ Error: Geolocation is not supported for this Browser/OS.'
+		);
+		setTimeout(() => setStatus(undefined), 1500);
+	} else {
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				router
+					.push(
+						`/city?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
+					)
+					.catch((err) => {
+						setStatus(`❌ Error: ${(err as Error).message}`);
+						setTimeout(() => setStatus(undefined), 1500);
+					});
+			},
+			(err) => {
+				setStatus(`❌ Error: ${err.message}`);
+				setTimeout(() => setStatus(undefined), 1500);
+			}
+		);
+	}
+}
+
+// Default options to show when user didn't type anything in the input.
+const defaultOptions: AlgoliaOption[] = [
+	{
+		label: (
+			<div className="flex items-center">
+				<img
+					alt="location"
+					className="mr-2 flex-shrink-0"
+					src={location}
+				/>
+				<span className="overflow-hidden truncate text-orange">
+					Use my location instead
+				</span>
+			</div>
+		),
+		value: 'USE_GPS',
+	},
+];
+
+/**
+ * Render an option in the dropdown.
+ */
+function renderOption(
+	text: string,
+	img?: string,
+	imgAlt?: string
+): React.ReactElement {
+	return (
+		<div className="flex items-center">
+			{img && (
+				<img alt={imgAlt} className="mr-2 flex-shrink-0" src={img} />
+			)}
+			<span className="overflow-hidden truncate">{text}</span>
+		</div>
+	);
+}
 
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
@@ -147,6 +227,45 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 		);
 	}, [cities]);
 
+	// Is the input focused?
+	const [isFocused, setIsFocused] = useState(false);
+
+	// The current chosen option in the dropdown.
+	const [option, setOption] = useState<AlgoliaOption | null>(null);
+	// When the option is;
+	// - a city: we change URL to the city page,
+	// - USE_GPS: we ask for user's location.
+	useEffect(() => {
+		if (!option) {
+			return;
+		}
+
+		const { label, value } = option;
+
+		if (value === 'USE_GPS') {
+			setOption(null);
+			logEvent('SearchBar.Input.Gps');
+			onGps(setOverridePlaceholder, router);
+
+			return;
+		}
+
+		// If the input matches one of the slugs, then we redirect
+		// to the slugged page.
+		const sluggifiedCity = slugify(value.localeName || '');
+		if (citiesMap[sluggifiedCity]) {
+			router.push(`/city/${sluggifiedCity}`).catch(sentryException);
+		} else {
+			router
+				.push(
+					`/city?lat=${value.lat}&lng=${value.lng}&name=${
+						label as string
+					}`
+				)
+				.catch(sentryException);
+		}
+	}, [option, citiesMap, router]);
+
 	// If we have a more important message to show in the placeholder, we put
 	// it here.
 	const [overridePlaceholder, setOverridePlaceholder] = useState<
@@ -155,52 +274,38 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 
 	return (
 		<div className="relative" data-cy="SearchBar-AsyncSelect">
-			<AsyncSelect<{ label: string; value: string }>
+			<AsyncSelect<AlgoliaOption, false>
 				className={c('w-full rounded text-gray-700', className)}
-				loadOptions={algoliaLoadOptions}
+				defaultOptions={defaultOptions}
 				// https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
 				instanceId={1}
-				noOptionsMessage={(): string => 'Type something...'}
-				/* eslint-disable */
-				// @ts-ignore FIXME How to fix this?
-				onChange={({ label, value }): void => {
-					// If the input matches one of the slugs, then we redirect
-					// to the slugged page.
-					const sluggifiedCity = slugify(value.localeName || '');
-					if (citiesMap[sluggifiedCity]) {
-						router.push(`/city/${sluggifiedCity}`);
-					} else {
-						router.push(
-							`/city?lat=${value.lat}&lng=${value.lng}&name=${label}`
-						);
-					}
+				loadOptions={algoliaLoadOptions}
+				onChange={setOption}
+				onFocus={(): void => {
+					setIsFocused(true);
+					logEvent('SearchBar.Input.Focus');
 				}}
-				/* eslint-enable */
-				onFocus={(): void => logEvent('SearchBar.Input.Focus')}
+				onBlur={() => setIsFocused(false)}
 				placeholder={
-					<div className="flex items-center">
-						<img
-							alt="search"
-							className="mr-2 flex-shrink-0"
-							src={search}
-						/>
-						<span className="overflow-hidden truncate">
-							{overridePlaceholder || placeholder}
-						</span>
-
-						{showGps && <div className="mr-4 w-6 flex-shrink-0" />}
-					</div>
+					overridePlaceholder ? (
+						renderOption(overridePlaceholder)
+					) : isFocused ? (
+						<span className="text-gray-600">Type something...</span>
+					) : (
+						renderOption(placeholder as string, search, 'search')
+					)
 				}
 				styles={customStyles}
+				value={option}
 				{...rest}
 			/>
-			{showGps && (
+			{showGps && !isFocused && (
 				<img
 					alt="location"
 					className="absolute top-0 mt-4 mr-4 right-0 w-4 cursor-pointer"
 					onClick={(): void => {
 						logEvent('SearchBar.LocationIcon.Click');
-						onGpsButtonClick(setOverridePlaceholder, router);
+						onGps(setOverridePlaceholder, router);
 					}}
 					src={location}
 				/>
