@@ -19,7 +19,7 @@
 		"@types/amplitude-js": "^7.0.0",
 		"@types/async-retry": "^1.4.2",
 		"@types/classnames": "^2.2.11",
-		"@types/cors": "^2.8.9",
+		"@types/cors": "^2.8.10",
 		"@types/form-data": "^2.5.0",
 		"@types/html-minifier": "^4.0.0",
 		"@types/i18n-js": "^3.0.3",
