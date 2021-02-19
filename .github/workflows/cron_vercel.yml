@@ -2,7 +2,7 @@ name: cron_vercel
 
 on:
     schedule:
-        - cron: '0 * * * *' # Run every hour
+        - cron: '0 */2 * * *' # Run every 2 hours.
 
 jobs:
     cron:
