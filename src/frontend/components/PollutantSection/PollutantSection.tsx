@@ -41,7 +41,7 @@ export function PollutantSection(
 				<p className="type-400 md:type-500">
 					Your primary pollutant is{' '}
 					<span className="text-orange">
-						{polData.name} (${pollutant.toUpperCase()})*
+						{polData.name} ({pollutant.toUpperCase()})*
 					</span>
 				</p>
 			</Tip>
