@@ -1,7 +1,7 @@
 /**
  * This file is part of Sh**t! I Smoke.
  *
- * Copyright (C) 2018-2021  Marcelo S. Coelho, Amaury Martiny.
+ * Copyright (C) 2018-2021  Marcelo S. Coelho, Amaury M.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -48,12 +48,12 @@ export function Footer(): React.ReactElement {
 				&amp;{' '}
 				<a
 					className="text-orange"
-					href="https://amaurymartiny.com"
+					href="https://amaurym.com"
 					onClick={(): void => logEvent('Footer.Amaury.Click')}
 					rel="noreferrer"
 					target="_blank"
 				>
-					Amaury Martiny
+					Amaury M
 				</a>
 				.
 			</p>

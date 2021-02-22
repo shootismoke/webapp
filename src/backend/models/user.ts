@@ -1,7 +1,7 @@
 /**
  * This file is part of Sh**t! I Smoke.
  *
- * Copyright (C) 2018-2021  Marcelo S. Coelho, Amaury Martiny.
+ * Copyright (C) 2018-2021  Marcelo S. Coelho, Amaury M.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -99,8 +99,8 @@ const UserSchema = new Schema<MongoUser>(
 			required: true,
 			type: Schema.Types.String,
 			validate: {
-				message: ({ value }): string =>
-					`${value as string} is not a valid universalId`,
+				message: ({ value }: { value: string }): string =>
+					`${value} is not a valid universalId`,
 				validator: (universalId: string): boolean => {
 					const [provider, station] = universalId.split('|');
 

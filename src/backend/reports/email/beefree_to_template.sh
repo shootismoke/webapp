@@ -25,7 +25,7 @@ sed -i '' -e 's/Fine Particle (PM 2.5)*/{{pollutant}}/g' template.html
 sed -i '' -e 's/Oh!/{{swearWord}}!/g' template.html
 sed -i '' -e 's|Avoid jogging between <span style="color: #f2934e;">11am and 17pm</span> to avoid air pollution today.|{{{tips.0}}}|g' template.html
 sed -i '' -e 's|<span style="color: #f2934e;">Enjoy </span><span style="">your usual physical activities.</span>|{{{tips.1}}}|g' template.html
-sed -i '' -e 's|View privacy policy <a href="_blank"|View privacy policy <a href="https://github.com/amaurymartiny/shoot-i-smoke/blob/master/docs/PRIVACY.md"|g' template.html
+sed -i '' -e 's|View privacy policy <a href="_blank"|View privacy policy <a href="https://github.com/amaurym/shoot-i-smoke/blob/master/docs/PRIVACY.md"|g' template.html
 sed -i '' -e 's|Unsubscribe <a href="_blank"|Unsubscribe <a href="https://shootismoke.app/api/users/email/unsubscribe/{{userId}}"|g' template.html
 
 # Manual steps to be done after:

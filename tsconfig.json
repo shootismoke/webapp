@@ -14,7 +14,7 @@
 		"moduleResolution": "node",
 		"isolatedModules": true
 	},
-	"extends": "./node_modules/@amaurymartiny/tsconfig/tsconfig",
+	"extends": "./node_modules/@amaurym/tsconfig/tsconfig",
 	"exclude": ["node_modules"],
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
