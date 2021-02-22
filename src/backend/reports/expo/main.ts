@@ -15,25 +15,95 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ExpoPushMessage } from 'expo-server-sdk';
+import debug from 'debug';
+import { config } from 'dotenv';
+import { Expo, ExpoPushMessage, ExpoPushSuccessTicket } from 'expo-server-sdk';
 
+import { PushTicket } from '../../models';
+import type { MongoPushTicket } from '../../types';
 import { IUser } from '../../types';
+import { connectToDatabase } from '../../util';
+import { findUsersForReport } from '../cron';
 import { universalFetch } from '../provider';
-import { constructExpoPushMessage } from './expo';
+import { constructExpoPushMessage, sendBatchToExpo } from './expo';
+
+config({ path: '.env.staging' });
+
+const l = debug('shootismoke:emailReport');
+
+/**
+ * ExpoPushMessageWithUser is ExpoPushMessage with the associated userId.
+ */
+interface ExpoPushMessageWithUser {
+	pushMessage: ExpoPushMessage;
+	userId: string;
+}
 
 /**
  * Generate the correct expo push notification message for our user.
  *
  * @param user - User in our DB.
  */
-export async function expoPushMessageForUser(
+async function expoPushMessageForUser(
 	user: IUser
-): Promise<ExpoPushMessage> {
+): Promise<ExpoPushMessageWithUser> {
 	try {
 		const api = await universalFetch(user.lastStationId);
 
-		return constructExpoPushMessage(user, api.shootismoke.dailyCigarettes);
+		return {
+			userId: user._id,
+			pushMessage: constructExpoPushMessage(
+				user,
+				api.shootismoke.dailyCigarettes
+			),
+		};
 	} catch (error) {
 		throw new Error(`User ${user._id}: ${(error as Error).message}`);
+	}
+}
+
+/**
+ * Main entry point of the script to send email reports to all users.
+ */
+export async function main(): Promise<void> {
+	l('Starting expo report script.');
+	await connectToDatabase();
+
+	// Fetch all users to whom we should send an email report.
+	const users = await findUsersForReport('expo');
+	l('Found %d users to send expo push notifications to.', users.length);
+
+	// TODO: To not spam OpenAQ, WAQI and Mailgun servers too hard at once,
+	// should we spread the requests a little bit (by chunks, or with a simple
+	// queue)?
+	const emails = await Promise.allSettled(users.map(expoPushMessageForUser));
+
+	const rejected = emails.filter(
+		(p) => p.status === 'rejected'
+	) as PromiseRejectedResult[];
+	const successful = emails.filter(
+		(p) => p.status === 'fulfilled'
+	) as PromiseFulfilledResult<ExpoPushMessageWithUser>[];
+
+	const tickets = await sendBatchToExpo(
+		new Expo(),
+		successful.map(({ value: { pushMessage } }) => pushMessage)
+	);
+
+	await PushTicket.insertMany(
+		tickets.map(
+			(ticket, index) =>
+				({
+					...ticket,
+					receiptId: (ticket as ExpoPushSuccessTicket).id, // Will be empty if ticket is not successful.
+					userId: successful[index].value.userId,
+				} as MongoPushTicket)
+		)
+	);
+
+	l(`Sent ${successful.length}/${users.length} successful emails.`);
+	if (rejected.length) {
+		l(`${rejected.length}/${users.length} rejected:`);
+		l(rejected);
 	}
 }
