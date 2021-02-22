@@ -36,7 +36,7 @@
 		"expo-server-sdk": "^3.6.0",
 		"html-minifier": "^4.0.0",
 		"i18n-js": "^3.8.0",
-		"mailgun.js": "^3.1.1",
+		"mailgun.js": "^3.2.0",
 		"mongodb": "^3.6.4",
 		"mongoose": "^5.11.12",
 		"mustache": "^4.1.0",
