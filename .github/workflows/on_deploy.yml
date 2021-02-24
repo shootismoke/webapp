@@ -9,8 +9,6 @@ jobs:
         # only runs this job on successful deploy
         if: github.event.deployment_status.state == 'success'
         runs-on: ubuntu-latest
-        container:
-            options: --shm-size 2gb # https://github.com/cypress-io/cypress/issues/6695#issuecomment-627376828
         steps:
             - uses: actions/checkout@v2
 
