@@ -1,11 +1,11 @@
-name: cron_email_staging
+name: cron_expo_staging
 
 on:
     schedule:
         - cron: '0 * * * *' # Run every hour
 
 jobs:
-    email-report-staging:
+    expo-report-staging:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2

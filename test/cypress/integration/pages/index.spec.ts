@@ -19,7 +19,7 @@ import {
 	clickOnCityCard,
 	redirectToFaq,
 	searchCityWithGps,
-	searchCityWithSlug,
+	// searchCityWithSlug, // FIXME This test makes CI hang.
 } from '../components';
 
 const URL_PATH = '/';
@@ -28,7 +28,7 @@ describe('Homepage', () => {
 	clickOnCityCard(URL_PATH);
 	redirectToFaq(URL_PATH);
 	searchCityWithGps(URL_PATH);
-	searchCityWithSlug(URL_PATH);
+	// searchCityWithSlug,
 
 	it('h1 is visible', () => {
 		cy.visit(URL_PATH);
