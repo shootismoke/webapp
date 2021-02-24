@@ -29,7 +29,7 @@ import { constructExpoPushMessage, sendBatchToExpo } from './expo';
 
 config({ path: '.env.staging' });
 
-const l = debug('shootismoke:emailReport');
+const l = debug('shootismoke:expoReport');
 
 /**
  * ExpoPushMessageWithUser is ExpoPushMessage with the associated userId.
@@ -63,25 +63,27 @@ async function expoPushMessageForUser(
 }
 
 /**
- * Main entry point of the script to send email reports to all users.
+ * Main entry point of the script to send expo reports to all users.
  */
 export async function main(): Promise<void> {
 	l('Starting expo report script.');
 	await connectToDatabase();
 
-	// Fetch all users to whom we should send an email report.
+	// Fetch all users to whom we should send an expo report.
 	const users = await findUsersForReport('expo');
 	l('Found %d users to send expo push notifications to.', users.length);
 
 	// TODO: To not spam OpenAQ, WAQI and Mailgun servers too hard at once,
 	// should we spread the requests a little bit (by chunks, or with a simple
 	// queue)?
-	const emails = await Promise.allSettled(users.map(expoPushMessageForUser));
+	const expoMessages = await Promise.allSettled(
+		users.map(expoPushMessageForUser)
+	);
 
-	const rejected = emails.filter(
+	const rejected = expoMessages.filter(
 		(p) => p.status === 'rejected'
 	) as PromiseRejectedResult[];
-	const successful = emails.filter(
+	const successful = expoMessages.filter(
 		(p) => p.status === 'fulfilled'
 	) as PromiseFulfilledResult<ExpoPushMessageWithUser>[];
 
@@ -101,7 +103,9 @@ export async function main(): Promise<void> {
 		)
 	);
 
-	l(`Sent ${successful.length}/${users.length} successful emails.`);
+	l(
+		`Sent ${successful.length}/${users.length} successful expo notifications.`
+	);
 	if (rejected.length) {
 		l(`${rejected.length}/${users.length} rejected:`);
 		l(rejected);
