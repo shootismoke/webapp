@@ -15,10 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { MongoPushTicket } from '@shootismoke/ui/lib/util/types';
 import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
-
-import { MongoPushTicket } from '../types';
 
 const PushTicketErrorDetailsSchema = new Schema({
 	error: {

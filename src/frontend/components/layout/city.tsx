@@ -15,25 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { BoxButton } from '@shootismoke/ui/lib/BoxButton';
+import { BoxButton } from '@shootismoke/ui/lib/components/BoxButton';
 import { FrequencyContext } from '@shootismoke/ui/lib/context';
 import type { Api } from '@shootismoke/ui/lib/util/api';
 import { round } from '@shootismoke/ui/lib/util/api';
-import {
-	getAQI,
-	primaryPollutant,
-} from '@shootismoke/ui/lib/util/primaryPollutant';
+import { getAQI, primaryPollutant } from '@shootismoke/ui/lib/util/pollutant';
 import { distanceToStation } from '@shootismoke/ui/lib/util/station';
+import { getSwearWord } from '@shootismoke/ui/lib/util/swearWords';
 import c from 'classnames';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
 import warning from '../../../../assets/images/icons/warning_red.svg';
+import { t } from '../../localization';
 import {
 	capitalize,
 	City,
 	getSeoTitle,
-	getSwearWord,
 	logEvent,
 	reverseGeocode,
 	sentryException,
@@ -108,14 +106,14 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	// Decide on a swear word. The effect says that the swear word only changes
 	// when the cigarettes count changes.
 	const [swearWord, setSwearWord] = useState<string | undefined>(
-		cigarettes ? getSwearWord(cigarettes) : undefined
+		cigarettes ? t(getSwearWord(cigarettes)) : undefined
 	);
 	useEffect(() => {
 		if (!cigarettes) {
 			return;
 		}
 
-		setSwearWord(getSwearWord(cigarettes));
+		setSwearWord(t(getSwearWord(cigarettes)));
 	}, [cigarettes]);
 
 	// Evertime we change city, reset, and fetch new values.

@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { BackendError, MongoUser } from '@shootismoke/ui/lib/util/types';
 import axios, { AxiosError } from 'axios';
 import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
-import { BackendError, IUser } from '../../../src/backend/types';
 import { connectToDatabase } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL, bob } from './util/testdata';
 
-let dbAlice: IUser;
+let dbAlice: MongoUser;
 
 function testBadInput<T>(name: string, input: T, expErr: string) {
 	it(`should require correct input: ${name}`, async (done) => {
@@ -45,7 +45,7 @@ function testBadInput<T>(name: string, input: T, expErr: string) {
 
 function testGoodInput<T>(name: string, input: T) {
 	it(`should be successful: ${name}`, async (done) => {
-		const { data } = await axios.patch<IUser>(
+		const { data } = await axios.patch<MongoUser>(
 			`${BACKEND_URL}/api/users/${dbAlice._id}`,
 			input,
 			axiosConfig
@@ -64,12 +64,16 @@ describe('users::updateUser', () => {
 		await connectToDatabase();
 		await User.deleteMany();
 
-		const { data } = await axios.post<IUser>(
+		const { data } = await axios.post<MongoUser>(
 			`${BACKEND_URL}/api/users`,
 			alice,
 			axiosConfig
 		);
-		await axios.post<IUser>(`${BACKEND_URL}/api/users`, bob, axiosConfig);
+		await axios.post<MongoUser>(
+			`${BACKEND_URL}/api/users`,
+			bob,
+			axiosConfig
+		);
 
 		dbAlice = data;
 

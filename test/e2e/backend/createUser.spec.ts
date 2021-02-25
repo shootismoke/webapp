@@ -15,12 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { BackendError, MongoUser } from '@shootismoke/ui/lib/util/types';
 import axios, { AxiosError } from 'axios';
 import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
-import { IUser } from '../../../src/backend/types';
-import { BackendError } from '../../../src/backend/types';
 import { connectToDatabase } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 
@@ -99,7 +98,7 @@ describe('users::createUser', () => {
 	);
 
 	it('should successfully create a user', async () => {
-		const { data } = await axios.post<IUser>(
+		const { data } = await axios.post<MongoUser>(
 			`${BACKEND_URL}/api/users`,
 			alice,
 			axiosConfig

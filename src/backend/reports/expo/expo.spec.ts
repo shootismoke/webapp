@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { MongoUser } from '@shootismoke/ui/lib/util/types';
 import Expo, { ExpoPushMessage } from 'expo-server-sdk';
 
-import { IUser } from '../../types';
 import {
 	constructExpoPushMessage,
 	handleReceipts,
@@ -33,11 +33,14 @@ describe('constructExpoPushMessage', () => {
 		},
 		timezone: 'Europe/Berlin',
 		lastStationId: 'openaq|FR04143',
-	} as IUser;
+	} as MongoUser;
 
 	it('should return Error on wrong notifications', () => {
 		expect(() =>
-			constructExpoPushMessage({ ...user, expoReport: undefined }, 42)
+			constructExpoPushMessage(
+				{ ...user, expoReport: undefined } as MongoUser,
+				42
+			)
 		).toThrowError(
 			new Error('User alice has notifications, as per our db query. qed.')
 		);
@@ -52,7 +55,7 @@ describe('constructExpoPushMessage', () => {
 						...user.expoReport,
 						expoPushToken: 'foo',
 					},
-				} as IUser,
+				} as MongoUser,
 				42
 			)
 		).toThrowError(new Error('Invalid ExpoPushToken: foo'));
@@ -76,7 +79,7 @@ describe('constructExpoPushMessage', () => {
 						...user.expoReport,
 						frequency: 'weekly',
 					},
-				} as IUser,
+				} as MongoUser,
 				42
 			)
 		).toEqual({
@@ -96,7 +99,7 @@ describe('constructExpoPushMessage', () => {
 						...user.expoReport,
 						frequency: 'monthly',
 					},
-				} as IUser,
+				} as MongoUser,
 				42
 			)
 		).toEqual({

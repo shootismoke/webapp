@@ -15,23 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { BackendError, MongoUser } from '@shootismoke/ui/lib/util/types';
 import axios, { AxiosError } from 'axios';
 import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
-import { BackendError, IUser } from '../../../src/backend/types';
 import { connectToDatabase } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL, bob } from './util/testdata';
 
-let dbAlice: IUser;
-let dbBob: IUser;
+let dbAlice: MongoUser;
+let dbBob: MongoUser;
 
 /**
  * Make sure the user is deleted and does not exist in the DB anymore.
  */
 async function userNotExist(userId: string, done: jest.DoneCallback) {
 	try {
-		await axios.get<IUser>(
+		await axios.get<MongoUser>(
 			`${BACKEND_URL}/api/users/${userId}`,
 			axiosConfig
 		);
@@ -50,12 +50,12 @@ describe('users::updateUser', () => {
 		await connectToDatabase();
 		await User.deleteMany();
 
-		const { data: dataAlice } = await axios.post<IUser>(
+		const { data: dataAlice } = await axios.post<MongoUser>(
 			`${BACKEND_URL}/api/users`,
 			alice,
 			axiosConfig
 		);
-		const { data: dataBob } = await axios.post<IUser>(
+		const { data: dataBob } = await axios.post<MongoUser>(
 			`${BACKEND_URL}/api/users`,
 			bob,
 			axiosConfig
@@ -69,7 +69,7 @@ describe('users::updateUser', () => {
 
 	it('should require userId in DELETE /{userId}', async (done) => {
 		try {
-			await axios.delete<IUser>(
+			await axios.delete<MongoUser>(
 				`${BACKEND_URL}/api/users/foo`,
 				axiosConfig
 			);
@@ -87,7 +87,7 @@ describe('users::updateUser', () => {
 	});
 
 	it('should delete user from DELETE /{userId}', async (done) => {
-		await axios.delete<IUser>(
+		await axios.delete<MongoUser>(
 			`${BACKEND_URL}/api/users/${dbAlice._id}`,
 			axiosConfig
 		);
@@ -98,7 +98,7 @@ describe('users::updateUser', () => {
 
 	it('should require userId GET /email/unsubscribe/{userId}', async (done) => {
 		try {
-			await axios.get<IUser>(
+			await axios.get<MongoUser>(
 				`${BACKEND_URL}/api/users/email/unsubscribe/foo`
 			);
 			done.fail();
@@ -116,7 +116,7 @@ describe('users::updateUser', () => {
 
 	it('should delete user from GET /email/unsubscribe/{userId}', async (done) => {
 		// Note: no axiosConfig here.
-		await axios.get<IUser>(
+		await axios.get<MongoUser>(
 			`${BACKEND_URL}/api/users/email/unsubscribe/${dbBob._id}`
 		);
 

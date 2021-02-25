@@ -16,12 +16,15 @@
  */
 
 import countries from '@shootismoke/dataproviders/lib/util/countries.json';
-import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
 import { round } from '@shootismoke/ui/lib/util/api';
+import { frequencyToPeriod } from '@shootismoke/ui/lib/util/frequency';
 import {
 	getAQI,
+	getPollutantData,
 	primaryPollutant,
-} from '@shootismoke/ui/lib/util/primaryPollutant';
+} from '@shootismoke/ui/lib/util/pollutant';
+import { getSwearWord } from '@shootismoke/ui/lib/util/swearWords';
+import type { Frequency, MongoUser } from '@shootismoke/ui/lib/util/types';
 import debug from 'debug';
 import { config } from 'dotenv';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -32,17 +35,12 @@ import { minify } from 'html-minifier';
 import Mailgun from 'mailgun.js';
 import { render } from 'mustache';
 
-import {
-	frequencyToPeriod,
-	getPollutantData,
-	getSwearWord,
-} from '../../../frontend/util/cigarettes';
+import { t } from '../../../frontend/localization';
 import {
 	City,
 	getAllCities,
 	rankClosestCities,
 } from '../../../frontend/util/cities';
-import { IUser } from '../../types';
 import { connectToDatabase } from '../../util';
 import { findUsersForReport } from '../cron';
 import { getMessageBody as getExpoMessage } from '../expo/expo';
@@ -133,7 +131,7 @@ function getEmailSubject(
  * @param user - The user to send the email to.
  */
 async function emailForUser(
-	user: IUser,
+	user: MongoUser,
 	cities: City[]
 ): Promise<CreateMessageOpts> {
 	if (!user.emailReport) {
@@ -155,7 +153,7 @@ async function emailForUser(
 	const primaryPol = primaryPollutant(api.normalized);
 	const aqi = getAQI(api.normalized);
 	const polData = getPollutantData(primaryPol.parameter);
-	const swearWord = getSwearWord(cigarettes);
+	const swearWord = t(getSwearWord(cigarettes));
 	const closestCities = (api.pm25.coordinates
 		? rankClosestCities(cities, api.pm25.coordinates, 5)
 		: cities.slice(0, 5)

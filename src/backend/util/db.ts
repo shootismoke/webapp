@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { IUser } from '@shootismoke/ui/lib/util/types';
 import debug from 'debug';
 import { connect, connection } from 'mongoose';
 
-import { IUser } from '../types';
 import { logger } from './logger';
 
 const l = debug('shootismoke:db');

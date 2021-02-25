@@ -15,16 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { BackendError, MongoUser } from '@shootismoke/ui/lib/util/types';
 import axios, { AxiosError } from 'axios';
 import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
-import { BackendError } from '../../../src/backend/types';
-import { IUser } from '../../../src/backend/types';
 import { connectToDatabase } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 
-let dbAlice: IUser;
+let dbAlice: MongoUser;
 
 describe('users::getUser', () => {
 	beforeAll(async (done) => {
@@ -33,7 +32,7 @@ describe('users::getUser', () => {
 		await connectToDatabase();
 		await User.deleteMany();
 
-		const { data } = await axios.post<IUser>(
+		const { data } = await axios.post<MongoUser>(
 			`${BACKEND_URL}/api/users`,
 			alice,
 			axiosConfig
@@ -46,7 +45,7 @@ describe('users::getUser', () => {
 
 	it('should always require userId', async (done) => {
 		try {
-			await axios.get<IUser>(`${BACKEND_URL}/api/users`, axiosConfig);
+			await axios.get<MongoUser>(`${BACKEND_URL}/api/users`, axiosConfig);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(405);
@@ -57,7 +56,10 @@ describe('users::getUser', () => {
 
 	it('should always fail if userId not found', async (done) => {
 		try {
-			await axios.get<IUser>(`${BACKEND_URL}/api/users/foo`, axiosConfig);
+			await axios.get<MongoUser>(
+				`${BACKEND_URL}/api/users/foo`,
+				axiosConfig
+			);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(500);
@@ -69,7 +71,7 @@ describe('users::getUser', () => {
 	});
 
 	it('should fetch correct user', async (done) => {
-		const { data } = await axios.get<IUser>(
+		const { data } = await axios.get<MongoUser>(
 			`${BACKEND_URL}/api/users/${dbAlice?._id}`,
 			axiosConfig
 		);
