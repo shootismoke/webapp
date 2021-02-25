@@ -15,13 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {
+	MongoPushTicket,
+	MongoUser,
+} from '@shootismoke/ui/lib/util/types';
 import debug from 'debug';
 import { config } from 'dotenv';
 import { Expo, ExpoPushMessage, ExpoPushSuccessTicket } from 'expo-server-sdk';
 
 import { PushTicket } from '../../models';
-import type { MongoPushTicket } from '../../types';
-import { IUser } from '../../types';
 import { connectToDatabase } from '../../util';
 import { findUsersForReport } from '../cron';
 import { universalFetch } from '../provider';
@@ -45,7 +47,7 @@ interface ExpoPushMessageWithUser {
  * @param user - User in our DB.
  */
 async function expoPushMessageForUser(
-	user: IUser
+	user: MongoUser
 ): Promise<ExpoPushMessageWithUser> {
 	try {
 		const api = await universalFetch(user.lastStationId);

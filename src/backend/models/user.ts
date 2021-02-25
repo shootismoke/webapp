@@ -16,11 +16,11 @@
  */
 
 import { AllProviders } from '@shootismoke/dataproviders';
+import type { MongoUser } from '@shootismoke/ui/lib/util/types';
 import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
 import timezones from 'timezones.json';
 
-import { MongoUser } from '../types';
 import { PushTicket } from './pushTicket';
 
 const FREQUENCY = ['never', 'daily', 'weekly', 'monthly'];

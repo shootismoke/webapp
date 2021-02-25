@@ -16,7 +16,6 @@
  */
 
 export * from './amplitude';
-export * from './cigarettes';
 export * from './cities';
 export * from './doNotTrack';
 export * from './sentry';

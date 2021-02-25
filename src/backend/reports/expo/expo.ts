@@ -15,8 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
 import { round } from '@shootismoke/ui/lib/util/api';
+import { frequencyToPeriod } from '@shootismoke/ui/lib/util/frequency';
+import type {
+	Frequency,
+	IExpoReport,
+	MongoUser,
+} from '@shootismoke/ui/lib/util/types';
 import {
 	Expo,
 	ExpoPushMessage,
@@ -25,8 +30,6 @@ import {
 	ExpoPushTicket,
 } from 'expo-server-sdk';
 
-import { frequencyToPeriod } from '../../../frontend/util/cigarettes';
-import { IExpoReport, IUser } from '../../types';
 import { logger } from '../../util/logger';
 
 /**
@@ -48,7 +51,7 @@ export function getMessageBody(
 /**
  * A user that has notifications.
  */
-interface IUserWithExpoReport extends IUser {
+interface MongoUserWithExpoReport extends MongoUser {
 	expoReport: IExpoReport;
 }
 
@@ -58,8 +61,8 @@ interface IUserWithExpoReport extends IUser {
  * @param user - User to test if she/he has notifications.
  */
 function assertUserWithExpoReport(
-	user: IUser
-): asserts user is IUserWithExpoReport {
+	user: MongoUser
+): asserts user is MongoUserWithExpoReport {
 	if (!user.expoReport) {
 		throw new Error(
 			`User ${user._id} has notifications, as per our db query. qed.`
@@ -73,7 +76,7 @@ function assertUserWithExpoReport(
  * @param user - The user to construct the message for
  */
 export function constructExpoPushMessage(
-	user: IUser,
+	user: MongoUser,
 	dailyCigarettes: number
 ): ExpoPushMessage {
 	assertUserWithExpoReport(user);

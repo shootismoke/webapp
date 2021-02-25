@@ -16,10 +16,10 @@
  */
 
 import type { Pollutant } from '@shootismoke/convert';
+import { getPollutantData } from '@shootismoke/ui/lib/util/pollutant';
 import React from 'react';
 
 import skull from '../../../../assets/images/icons/skull.svg';
-import { getPollutantData } from '../../util';
 import { Section } from '../Section';
 import { Tip } from '../Tip';
 import { HealthSection } from './HealthSection';

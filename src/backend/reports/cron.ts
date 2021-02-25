@@ -19,10 +19,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
-import type { Frequency } from '@shootismoke/ui/lib/context/Frequency';
+import type { Frequency, MongoUser } from '@shootismoke/ui/lib/util/types';
 
 import { PushTicket, User } from '../models';
-import { IUser } from '../types';
 import { findTimezonesAt } from './tz';
 
 /**
@@ -112,11 +111,11 @@ function usersPipeline(
 export async function findUsersForReport(
 	report: 'email' | 'expo',
 	now = new Date()
-): Promise<IUser[]> {
+): Promise<MongoUser[]> {
 	// Return a tuple [dailyUsers, weeklyUsers, monthlyUsers]
 	const allUsers = await Promise.all(
 		(['daily', 'weekly', 'monthly'] as const).map((frequency) =>
-			User.aggregate<IUser>(usersPipeline(frequency, report, now))
+			User.aggregate<MongoUser>(usersPipeline(frequency, report, now))
 		)
 	);
 
