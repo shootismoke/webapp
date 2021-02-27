@@ -15,8 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { getCountryFromCode } from '@shootismoke/dataproviders/lib/util/countryCode';
+import { getCountryFromCode } from '@shootismoke/dataproviders';
 import {
+	fetchStation,
 	Frequency,
 	frequencyToPeriod,
 	getAQI,
@@ -26,7 +27,6 @@ import {
 	primaryPollutant,
 	round,
 } from '@shootismoke/ui';
-import { fetchStation } from '@shootismoke/ui/lib/util/provider';
 import debug from 'debug';
 import { config } from 'dotenv';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

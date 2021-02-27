@@ -15,8 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { MongoPushTicket, MongoUser } from '@shootismoke/ui';
-import { fetchStation } from '@shootismoke/ui/lib/util/provider';
+import { fetchStation, MongoPushTicket, MongoUser } from '@shootismoke/ui';
 import debug from 'debug';
 import { config } from 'dotenv';
 import { Expo, ExpoPushMessage, ExpoPushSuccessTicket } from 'expo-server-sdk';
