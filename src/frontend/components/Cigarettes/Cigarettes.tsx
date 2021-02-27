@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Cigarettes as CigarettesBase } from '@shootismoke/ui/lib/components/Cigarettes';
+import { Cigarettes as CigarettesBase } from '@shootismoke/ui';
 import React from 'react';
 
 // Total height of the box containing cigarettes.

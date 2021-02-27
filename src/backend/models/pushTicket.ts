@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { MongoPushTicket } from '@shootismoke/ui/lib/util/types';
+import type { MongoPushTicket } from '@shootismoke/ui';
 import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
 

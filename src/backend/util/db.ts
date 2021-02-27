@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { IUser } from '@shootismoke/ui/lib/util/types';
+import type { IUser } from '@shootismoke/ui';
 import debug from 'debug';
 import createHttpError from 'http-errors';
 import { connect, connection } from 'mongoose';

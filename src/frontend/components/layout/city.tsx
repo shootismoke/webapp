@@ -15,13 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { BoxButton } from '@shootismoke/ui/lib/components/BoxButton';
-import { FrequencyContext } from '@shootismoke/ui/lib/context';
-import type { Api } from '@shootismoke/ui/lib/util/api';
-import { round } from '@shootismoke/ui/lib/util/api';
-import { getAQI, primaryPollutant } from '@shootismoke/ui/lib/util/pollutant';
-import { distanceToStation } from '@shootismoke/ui/lib/util/station';
-import { getSwearWord } from '@shootismoke/ui/lib/util/swearWords';
+import {
+	Api,
+	BoxButton,
+	distanceToStation,
+	FrequencyContext,
+	getAQI,
+	getSwearWord,
+	primaryPollutant,
+	round,
+} from '@shootismoke/ui';
 import c from 'classnames';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
@@ -126,8 +129,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 		reverseGeocode(city.gps).then(setReverseGeoName).catch(sentryException);
 
-		// This `race` file imports a bunch of stuff, so we run it lazily.
-		import('@shootismoke/ui/lib/util/race')
+		// This `api` file imports a bunch of stuff, so we run it lazily.
+		import('@shootismoke/ui/lib/util/api')
 			.then(({ raceApiPromise }) => {
 				const sixHoursAgo = new Date();
 				sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
@@ -169,8 +172,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	const distance = api ? distanceToStation(city.gps, api.pm25) : undefined;
 
-	const primaryPol = api && primaryPollutant(api.normalized);
-	const aqi = api && getAQI(api.normalized);
+	const primaryPol = api && primaryPollutant(api.results);
+	const aqi = api && getAQI(api.results);
 
 	return (
 		<>
