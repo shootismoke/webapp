@@ -17,7 +17,6 @@
 
 import {
 	Api,
-	BoxButton,
 	distanceToStation,
 	FrequencyContext,
 	getAQI,
@@ -25,6 +24,7 @@ import {
 	primaryPollutant,
 	round,
 } from '@shootismoke/ui';
+import { BoxButton } from '@shootismoke/ui/lib/components/BoxButton';
 import c from 'classnames';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
