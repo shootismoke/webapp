@@ -28,8 +28,8 @@ if (process.env.NEXT_PUBLIC_SENTRY_API_KEY) {
  *
  * @param error - Error to log
  */
-function error(error: Error): void {
-	console.error(error.message);
+function error(error: unknown): void {
+	console.error((error as Error).message || error);
 
 	if (process.env.NEXT_PUBLIC_SENTRY_API_KEY) {
 		captureException(error);

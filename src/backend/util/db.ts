@@ -17,9 +17,8 @@
 
 import type { IUser } from '@shootismoke/ui/lib/util/types';
 import debug from 'debug';
+import createHttpError from 'http-errors';
 import { connect, connection } from 'mongoose';
-
-import { logger } from './logger';
 
 const l = debug('shootismoke:db');
 
@@ -28,12 +27,10 @@ const l = debug('shootismoke:db');
  */
 export function assertUser(
 	user: IUser | null,
-	userId: string
+	id: string
 ): asserts user is IUser {
 	if (!user) {
-		const e = new Error(`No user with userId "${userId}" found`);
-		logger.error(e);
-		throw e;
+		throw createHttpError(404, `No user with "${id}" found`);
 	}
 }
 
@@ -44,15 +41,15 @@ export async function connectToDatabase(): Promise<void> {
 	// If there's already a connection, we do nothing
 	if (connection.readyState >= 1) {
 		l('Already connected to db.');
+
 		return;
 	}
 
 	if (!process.env.BACKEND_MONGODB_ATLAS_URI) {
-		const e = new Error(
+		throw createHttpError(
+			500,
 			'connectToDatabase: `BACKEND_MONGODB_ATLAS_URI` is not defined'
 		);
-		logger.error(e);
-		throw e;
 	}
 
 	await connect(process.env.BACKEND_MONGODB_ATLAS_URI, {
@@ -60,5 +57,6 @@ export async function connectToDatabase(): Promise<void> {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});
+
 	l('Connected to db.');
 }

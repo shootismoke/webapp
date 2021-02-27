@@ -15,9 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import createHttpError, { HttpError } from 'http-errors';
+import { Error as MongooseError } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export const secretHeader = 'x-shootismoke-secret';
+import { logger } from './logger';
 
 export const allowedOrigins = [
 	'http://localhost:3000',
@@ -46,4 +48,35 @@ export function runMiddleware<T>(
 			return resolve(result);
 		});
 	});
+}
+
+export const secretHeader = 'x-shootismoke-secret';
+
+/**
+ * Makes sure that the correct header is populated in the request.
+ *
+ * @param req - The Next request.
+ */
+export function assertHeader(req: NextApiRequest): void {
+	if (req.headers[secretHeader] !== process.env.BACKEND_SECRET) {
+		throw createHttpError(401, `incorrect ${secretHeader} header`);
+	}
+}
+
+/**
+ * Gracefully handle all types of error from APIs.
+ *
+ * @param err - The error thrown.
+ * @param res - The next response to send the error to.
+ */
+export function handlerError(err: unknown, res: NextApiResponse): void {
+	logger.error(err);
+
+	if (err instanceof HttpError) {
+		res.status(err.statusCode).json({ error: err.message });
+	} else if (err instanceof Error || err instanceof MongooseError) {
+		res.status(500).json({ error: err.message });
+	} else {
+		res.status(500).json({ error: err });
+	}
 }
