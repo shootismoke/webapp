@@ -38,8 +38,8 @@ async function userNotExist(userId: string, done: jest.DoneCallback) {
 		done.fail();
 	} catch (err) {
 		const e = err as AxiosError<BackendError>;
-		expect(e.response?.status).toBe(500);
-		expect(e.response?.data.error).toContain('No user with userId');
+		expect(e.response?.status).toBe(404);
+		expect(e.response?.data.error).toContain('No user with');
 	}
 }
 
@@ -76,10 +76,8 @@ describe('users::updateUser', () => {
 			done.fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
-			expect(e.response?.status).toBe(500);
-			expect(e.response?.data.error).toBe(
-				'No user with userId "foo" found'
-			);
+			expect(e.response?.status).toBe(404);
+			expect(e.response?.data.error).toBe('No user with "foo" found');
 			done();
 		}
 
@@ -104,10 +102,8 @@ describe('users::updateUser', () => {
 			done.fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
-			expect(e.response?.status).toBe(500);
-			expect(e.response?.data.error).toBe(
-				'No user with userId "foo" found'
-			);
+			expect(e.response?.status).toBe(404);
+			expect(e.response?.data.error).toBe('No user with "foo" found');
 			done();
 		}
 

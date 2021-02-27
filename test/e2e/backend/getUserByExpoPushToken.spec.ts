@@ -25,7 +25,7 @@ import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 
 let dbAlice: MongoUser;
 
-describe('users::getUser', () => {
+describe('users::getUserByExpoPushToken', () => {
 	beforeAll(async (done) => {
 		jest.setTimeout(30000);
 
@@ -45,11 +45,16 @@ describe('users::getUser', () => {
 
 	it('should always require userId', async (done) => {
 		try {
-			await axios.get<MongoUser>(`${BACKEND_URL}/api/users`, axiosConfig);
+			await axios.get<MongoUser>(
+				`${BACKEND_URL}/api/users/expoPushToken`,
+				axiosConfig
+			);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
-			expect(e.response?.status).toBe(405);
-			expect(e.response?.data.error).toBe('Unknown request method: GET');
+			expect(e.response?.status).toBe(404);
+			expect(e.response?.data.error).toBe(
+				'No user with "expoPushToken" found'
+			);
 			done();
 		}
 	});
@@ -57,7 +62,7 @@ describe('users::getUser', () => {
 	it('should always fail if userId not found', async (done) => {
 		try {
 			await axios.get<MongoUser>(
-				`${BACKEND_URL}/api/users/foo`,
+				`${BACKEND_URL}/api/users/expoPushToken/foo`,
 				axiosConfig
 			);
 		} catch (err) {
@@ -72,7 +77,9 @@ describe('users::getUser', () => {
 
 	it('should fetch correct user', async (done) => {
 		const { data } = await axios.get<MongoUser>(
-			`${BACKEND_URL}/api/users/${dbAlice?._id}`,
+			`${BACKEND_URL}/api/users/expoPushToken/${
+				dbAlice?.expoReport?.expoPushToken as string
+			}`,
 			axiosConfig
 		);
 

@@ -16,34 +16,41 @@
  */
 
 import Cors from 'cors';
+import createHttpError from 'http-errors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { User } from '../../../../../backend/models';
 import {
 	assertUser,
 	connectToDatabase,
-	logger,
+	handlerError,
 	runMiddleware,
 } from '../../../../../backend/util';
 
-export default async function emailUnsubscribe(
+export default async function (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> {
-	await runMiddleware(
-		req,
-		res,
-		Cors({
-			origin: '*',
-			methods: ['GET', 'HEAD'],
-		})
-	);
-
 	try {
-		await connectToDatabase();
+		await runMiddleware(
+			req,
+			res,
+			Cors({
+				origin: '*', // Note: We allow all origins.
+				methods: ['GET', 'HEAD'],
+			})
+		);
+		// Note: We don't assertHeader on this route.
 
 		switch (req.method) {
+			/**
+			 * GET /api/users/email/{userId}
+			 * Delete a user by userId.
+			 */
 			case 'GET': {
+				await connectToDatabase();
+
+				// We unsubscribe the email notification by deleting the user.
 				const user = await User.findOneAndDelete({
 					_id: req.query.userId as string,
 				}).exec();
@@ -57,14 +64,12 @@ export default async function emailUnsubscribe(
 			}
 
 			default:
-				res.status(405).json({
-					error: `Unknown request method: ${
-						req.method || 'undefined'
-					}`,
-				});
+				throw createHttpError(
+					405,
+					`Unknown request method: ${req.method || 'undefined'}`
+				);
 		}
 	} catch (err) {
-		logger.error(err);
-		res.status(500).json({ error: (err as Error).message });
+		handlerError(err, res);
 	}
 }

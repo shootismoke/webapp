@@ -33,7 +33,7 @@ describe('users::getUser', () => {
 			});
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
-			expect(e.response?.status).toBe(400);
+			expect(e.response?.status).toBe(401);
 			expect(e.response?.data.error).toBe(
 				'incorrect x-shootismoke-secret header'
 			);

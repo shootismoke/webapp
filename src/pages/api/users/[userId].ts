@@ -17,43 +17,42 @@
 
 import assignDeep from 'assign-deep';
 import Cors from 'cors';
+import createHttpError from 'http-errors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { PushTicket, User } from '../../../backend/models';
 import {
 	allowedOrigins,
+	assertHeader,
 	assertUser,
 	connectToDatabase,
-	logger,
+	handlerError,
 	runMiddleware,
-	secretHeader,
 } from '../../../backend/util';
 
-export default async function usersUserId(
+export default async function (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> {
-	await runMiddleware(
-		req,
-		res,
-		Cors({
-			origin: allowedOrigins,
-			methods: ['GET', 'HEAD', 'PATCH'],
-		})
-	);
-
-	if (req.headers[secretHeader] !== process.env.BACKEND_SECRET) {
-		res.status(400).json({
-			error: `incorrect ${secretHeader} header`,
-		});
-		return;
-	}
-
 	try {
-		await connectToDatabase();
+		await runMiddleware(
+			req,
+			res,
+			Cors({
+				origin: allowedOrigins,
+				methods: ['GET', 'DELETE', 'HEAD', 'PATCH'],
+			})
+		);
+		assertHeader(req);
 
 		switch (req.method) {
+			/**
+			 * GET /api/users/{userId}
+			 * Get a user by id.
+			 */
 			case 'GET': {
+				await connectToDatabase();
+
 				const user = await User.findById(req.query.userId).exec();
 				assertUser(user, req.query.userId as string);
 
@@ -62,14 +61,23 @@ export default async function usersUserId(
 				break;
 			}
 
+			/**
+			 * PATCH /api/users/{userId}
+			 * Patch a user by id.
+			 */
 			case 'PATCH': {
+				await connectToDatabase();
+
 				const user = await User.findById(req.query.userId).exec();
 				assertUser(user, req.query.userId as string);
 
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 				assignDeep(user, req.body);
 
-				const newUser = await user.save();
+				const newUser = await user.save().catch((err: Error) => {
+					// Throw 400 on validation error.
+					throw createHttpError(400, err.message);
+				});
 
 				// Everytime we update user, we also delete all the pushTickets he/she
 				// might have.
@@ -80,7 +88,13 @@ export default async function usersUserId(
 				break;
 			}
 
+			/**
+			 * GET /api/users/{userId}
+			 * Delete a user by id.
+			 */
 			case 'DELETE': {
+				await connectToDatabase();
+
 				const user = await User.findOneAndDelete({
 					_id: req.query.userId as string,
 				}).exec();
@@ -92,14 +106,12 @@ export default async function usersUserId(
 			}
 
 			default:
-				res.status(405).json({
-					error: `Unknown request method: ${
-						req.method || 'undefined'
-					}`,
-				});
+				throw createHttpError(
+					405,
+					`Unknown request method: ${req.method || 'undefined'}`
+				);
 		}
 	} catch (err) {
-		logger.error(err);
-		res.status(500).json({ error: (err as Error).message });
+		handlerError(err, res);
 	}
 }

@@ -1647,6 +1647,11 @@
     "@types/relateurl" "*"
     "@types/uglify-js" "*"
 
+"@types/http-errors@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@types/http-errors/-/http-errors-1.8.0.tgz#682477dbbbd07cd032731cb3b0e7eaee3d026b69"
+  integrity sha512-2aoSC4UUbHDj2uCsCxcG/vRMXey/m17bC7UwitVm5hn22nI8O8Y9iDpA76Orc+DWkQ4zZrOKEshCqR/jSuXAHA==
+
 "@types/i18n-js@^3.8.0":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@types/i18n-js/-/i18n-js-3.8.0.tgz#686d0a5c39fd6b6e45c4c5d1341fac8d52f1781f"

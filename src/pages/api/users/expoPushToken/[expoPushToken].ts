@@ -19,14 +19,15 @@ import Cors from 'cors';
 import createHttpError from 'http-errors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { User } from '../../../backend/models';
+import { User } from '../../../../backend/models';
 import {
 	allowedOrigins,
 	assertHeader,
+	assertUser,
 	connectToDatabase,
 	handlerError,
 	runMiddleware,
-} from '../../../backend/util';
+} from '../../../../backend/util';
 
 export default async function (
 	req: NextApiRequest,
@@ -38,26 +39,25 @@ export default async function (
 			res,
 			Cors({
 				origin: allowedOrigins,
-				methods: ['POST', 'HEAD'],
+				methods: ['GET', 'HEAD'],
 			})
 		);
 		assertHeader(req);
 
 		switch (req.method) {
 			/**
-			 * POST /api/users
-			 * Create a new user.
+			 * GET /api/users/expoPushToken/{expoPushToken}
+			 * Get a user by expoPushToken.
 			 */
-			case 'POST': {
+			case 'GET': {
 				await connectToDatabase();
 
-				const user = new User(req.body);
-				await user.save().catch((err: Error) => {
-					// Throw 400 on validation error.
-					throw createHttpError(400, err.message);
-				});
+				const user = await User.findOne({
+					'expoReport.expoPushToken': req.query.expoPushToken,
+				}).exec();
+				assertUser(user, req.query.expoPushToken as string);
 
-				res.status(201).json(user);
+				res.status(200).json(user);
 
 				break;
 			}
