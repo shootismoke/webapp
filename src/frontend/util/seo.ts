@@ -16,15 +16,6 @@
  */
 
 /**
- * Capitalize a string.
- *
- * @param s - The string to capitalize
- */
-export function capitalize(s: string): string {
-	return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-/**
  * Decide on a SEO title for the page.
  */
 export function getSeoTitle(cigarettes?: number, cityName?: string): string {

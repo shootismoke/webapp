@@ -17,6 +17,7 @@
 
 import {
 	Api,
+	capitalize,
 	distanceToStation,
 	FrequencyContext,
 	getAQI,
@@ -32,7 +33,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import warning from '../../../../assets/images/icons/warning_red.svg';
 import { t } from '../../localization';
 import {
-	capitalize,
 	City,
 	getSeoTitle,
 	logEvent,
@@ -172,6 +172,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	const distance = api ? distanceToStation(city.gps, api.pm25) : undefined;
 
+	console.log(api);
 	const primaryPol = api && primaryPollutant(api.results);
 	const aqi = api && getAQI(api.results);
 
