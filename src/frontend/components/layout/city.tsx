@@ -171,8 +171,6 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 	}, [error]);
 
 	const distance = api ? distanceToStation(city.gps, api.pm25) : undefined;
-
-	console.log(api);
 	const primaryPol = api && primaryPollutant(api.results);
 	const aqi = api && getAQI(api.results);
 
