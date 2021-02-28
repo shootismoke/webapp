@@ -16,7 +16,7 @@
  */
 
 import type { Pollutant } from '@shootismoke/convert';
-import { getPollutantData } from '@shootismoke/ui/lib/util/pollutant';
+import { getPollutantData } from '@shootismoke/ui';
 import React from 'react';
 
 import skull from '../../../../assets/images/icons/skull.svg';

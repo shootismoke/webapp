@@ -16,7 +16,7 @@
  */
 
 import type { CSSObject } from '@emotion/serialize';
-import { fetchAlgolia } from '@shootismoke/ui/lib/util/fetchAlgolia';
+import { fetchAlgolia } from '@shootismoke/ui';
 import slugify from '@sindresorhus/slugify';
 import c from 'classnames';
 import { pipe } from 'fp-ts/lib/pipeable';

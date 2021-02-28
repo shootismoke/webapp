@@ -15,16 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import countries from '@shootismoke/dataproviders/lib/util/countries.json';
-import { round } from '@shootismoke/ui/lib/util/api';
-import { frequencyToPeriod } from '@shootismoke/ui/lib/util/frequency';
+import { getCountryFromCode } from '@shootismoke/dataproviders';
 import {
+	fetchStation,
+	Frequency,
+	frequencyToPeriod,
 	getAQI,
 	getPollutantData,
+	getSwearWord,
+	MongoUser,
 	primaryPollutant,
-} from '@shootismoke/ui/lib/util/pollutant';
-import { getSwearWord } from '@shootismoke/ui/lib/util/swearWords';
-import type { Frequency, MongoUser } from '@shootismoke/ui/lib/util/types';
+	round,
+} from '@shootismoke/ui';
 import debug from 'debug';
 import { config } from 'dotenv';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -44,7 +46,6 @@ import {
 import { connectToDatabase } from '../../util';
 import { findUsersForReport } from '../cron';
 import { getMessageBody as getExpoMessage } from '../expo/expo';
-import { universalFetch } from '../provider';
 import { tips } from './tips';
 
 config({ path: '.env.staging' });
@@ -73,16 +74,6 @@ interface CreateMessageOpts {
 	text: string;
 	html: string;
 	'o:tag'?: string[];
-}
-
-/**
- * getCountryFromCode gets the country name from its ISO 3166-1 Alpha-2 code.
- *
- * @param code - The ISO 3166-1 Alpha-2 code of the country.
- * @todo This function should live in @shootismoke/common.
- */
-function getCountryFromCode(code: string): string | undefined {
-	return countries.find((country) => country.code === code)?.name;
 }
 
 /**
@@ -144,14 +135,14 @@ async function emailForUser(
 		'./src/backend/reports/email/template.html'
 	).toString('utf-8');
 
-	const api = await universalFetch(user.lastStationId);
+	const api = await fetchStation(user.lastStationId);
 
 	const cigarettes = getDisplayedCigarettes(
 		api.shootismoke.dailyCigarettes,
 		user.emailReport.frequency
 	);
-	const primaryPol = primaryPollutant(api.normalized);
-	const aqi = getAQI(api.normalized);
+	const primaryPol = primaryPollutant(api.results);
+	const aqi = getAQI(api.results);
 	const polData = getPollutantData(primaryPol.parameter);
 	const swearWord = t(getSwearWord(cigarettes));
 	const closestCities = (api.pm25.coordinates

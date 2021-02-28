@@ -16,7 +16,7 @@
  */
 
 import { LatLng } from '@shootismoke/dataproviders';
-import type { Api } from '@shootismoke/ui/lib/util/api';
+import type { Api } from '@shootismoke/ui';
 import axios from 'axios';
 import haversine from 'haversine';
 

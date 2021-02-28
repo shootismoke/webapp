@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { BackendError, MongoUser } from '@shootismoke/ui/lib/util/types';
+import type { BackendError, MongoUser } from '@shootismoke/ui';
 import axios, { AxiosError } from 'axios';
 
 import { secretHeader } from '../../../src/backend/util';

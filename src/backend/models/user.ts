@@ -16,7 +16,7 @@
  */
 
 import { AllProviders } from '@shootismoke/dataproviders';
-import type { MongoUser } from '@shootismoke/ui/lib/util/types';
+import type { MongoUser } from '@shootismoke/ui';
 import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
 import timezones from 'timezones.json';
