@@ -17,7 +17,7 @@
 
 import { getCountryFromCode } from '@shootismoke/dataproviders';
 import {
-	fetchStation,
+	fetchStationId,
 	Frequency,
 	frequencyToPeriod,
 	getAQI,
@@ -135,14 +135,14 @@ async function emailForUser(
 		'./src/backend/reports/email/template.html'
 	).toString('utf-8');
 
-	const api = await fetchStation(user.lastStationId);
+	const api = await fetchStationId(user.lastStationId);
 
 	const cigarettes = getDisplayedCigarettes(
 		api.shootismoke.dailyCigarettes,
 		user.emailReport.frequency
 	);
-	const primaryPol = primaryPollutant(api.results);
-	const aqi = getAQI(api.results);
+	const primaryPol = primaryPollutant(api.results) || api.results[0]; // We fallback to first value. FIXME.
+	const aqi = getAQI(api.results) || api.results[0].value; // We fallback to first value. FIXME.
 	const polData = getPollutantData(primaryPol.parameter);
 	const swearWord = t(getSwearWord(cigarettes));
 	const closestCities = (api.pm25.coordinates

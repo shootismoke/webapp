@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { fetchStation, MongoPushTicket, MongoUser } from '@shootismoke/ui';
+import { fetchStationId, MongoPushTicket, MongoUser } from '@shootismoke/ui';
 import debug from 'debug';
 import { config } from 'dotenv';
 import { Expo, ExpoPushMessage, ExpoPushSuccessTicket } from 'expo-server-sdk';
@@ -46,7 +46,7 @@ async function expoPushMessageForUser(
 	user: MongoUser
 ): Promise<ExpoPushMessageWithUser> {
 	try {
-		const api = await fetchStation(user.lastStationId);
+		const api = await fetchStationId(user.lastStationId);
 
 		return {
 			userId: user._id,
