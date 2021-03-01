@@ -110,7 +110,7 @@ export default async function (
 					405,
 					`Unknown request method: ${
 						req.method || 'unknown method'
-					} /users/{userId}`
+					} /api/users/{userId}`
 				);
 		}
 	} catch (err) {

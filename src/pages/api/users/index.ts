@@ -67,7 +67,7 @@ export default async function (
 					405,
 					`Unknown request method: ${
 						req.method || 'unknown method'
-					} /users`
+					} /api/users`
 				);
 		}
 	} catch (err) {
