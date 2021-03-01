@@ -15,7 +15,7 @@
 	"dependencies": {
 		"@sentry/browser": "^6.2.0",
 		"@sentry/node": "^6.2.0",
-		"@shootismoke/ui": "^0.8.6",
+		"@shootismoke/ui": "^0.8.7",
 		"@types/amplitude-js": "^7.0.1",
 		"@types/classnames": "^2.2.11",
 		"@types/cors": "^2.8.10",
