@@ -37,7 +37,7 @@
 		"i18n-js": "^3.8.0",
 		"mailgun.js": "^3.2.0",
 		"mongodb": "^3.6.4",
-		"mongoose": "^5.11.17",
+		"mongoose": "^5.11.18",
 		"mustache": "^4.1.0",
 		"next": "^10.0.7",
 		"node-uuid": "^1.4.8",
