@@ -10,7 +10,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - run: yarn install
-            - run: yarn ts-node -P scripts/tsconfig.json scripts/email.ts
+            - run: echo Skipped for now. # yarn ts-node -P scripts/tsconfig.json scripts/email.ts
               env:
                   DEBUG: shootismoke:*
                   BACKEND_AQICN_TOKEN: ${{ secrets.AQICN_TOKEN }}
