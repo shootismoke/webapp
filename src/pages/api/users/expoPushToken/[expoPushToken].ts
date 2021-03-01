@@ -29,7 +29,7 @@ import {
 	runMiddleware,
 } from '../../../../backend/util';
 
-export default async function (
+export default async function apiUsersExpoPushTokenExpoPushToken(
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> {

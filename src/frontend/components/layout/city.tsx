@@ -112,7 +112,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		cigarettes ? t(getSwearWord(cigarettes)) : undefined
 	);
 	useEffect(() => {
-		if (!cigarettes) {
+		if (cigarettes === undefined) {
 			return;
 		}
 
@@ -222,7 +222,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					</p>
 				</div>
 
-				{cigarettes && swearWord ? (
+				{cigarettes !== undefined && swearWord ? (
 					<>
 						<div className="mt-5 px-6 md:px-24">
 							<HeroLayout

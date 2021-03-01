@@ -30,7 +30,7 @@ import {
 	runMiddleware,
 } from '../../../backend/util';
 
-export default async function (
+export default async function apiUsersuserId(
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> {

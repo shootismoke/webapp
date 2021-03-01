@@ -27,7 +27,7 @@ import {
 	runMiddleware,
 } from '../../../../../backend/util';
 
-export default async function (
+export default async function apiUsersEmailUnsubscribe(
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> {
