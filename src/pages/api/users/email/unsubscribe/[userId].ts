@@ -66,7 +66,9 @@ export default async function (
 			default:
 				throw createHttpError(
 					405,
-					`Unknown request method: ${req.method || 'undefined'}`
+					`Unknown request method: ${
+						req.method || 'unknown method'
+					} /api/users/email/unsubscribe/{userId}`
 				);
 		}
 	} catch (err) {

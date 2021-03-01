@@ -65,7 +65,9 @@ export default async function (
 			default:
 				throw createHttpError(
 					405,
-					`Unknown request method: ${req.method || 'undefined'}`
+					`Unknown request method: ${
+						req.method || 'unknown method'
+					} /api/users/expoPushToken/{expoPushToken}`
 				);
 		}
 	} catch (err) {

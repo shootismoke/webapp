@@ -49,7 +49,9 @@ describe('users::getUser', () => {
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(405);
-			expect(e.response?.data.error).toBe('Unknown request method: GET');
+			expect(e.response?.data.error).toBe(
+				'Unknown request method: GET /api/users'
+			);
 			done();
 		}
 	});

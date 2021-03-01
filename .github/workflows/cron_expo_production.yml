@@ -1,19 +1,17 @@
-name: cron_email_production
+name: cron_expo_production
 
 on:
     schedule:
         - cron: '0 * * * *' # Run every hour
 
 jobs:
-    email-report-staging:
+    expo-report-production:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
             - run: yarn install
-            - run: echo Skipped for now. # yarn ts-node -P scripts/tsconfig.json scripts/email.ts
+            - run: yarn ts-node -P scripts/tsconfig.json scripts/expo.ts
               env:
                   DEBUG: shootismoke:*
                   BACKEND_AQICN_TOKEN: ${{ secrets.AQICN_TOKEN }}
-                  BACKEND_MAILGUN_API_KEY: ${{ secrets.PRODUCTION_BACKEND_MAILGUN_API_KEY }}
-                  BACKEND_MAILGUN_DOMAIN: ${{ secrets.PRODUCTION_BACKEND_MAILGUN_DOMAIN }}
                   BACKEND_MONGODB_ATLAS_URI: ${{ secrets.PRODUCTION_BACKEND_MONGODB_ATLAS_URI }}
