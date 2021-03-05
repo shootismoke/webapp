@@ -27,8 +27,6 @@ import React, { useEffect, useState } from 'react';
 import { Props as SelectProps, StylesConfig } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-import location from '../../../../assets/images/icons/location_orange.svg';
-import search from '../../../../assets/images/icons/search.svg';
 import { City, logEvent, sentryException } from '../../util';
 
 interface SearchBarProps extends SelectProps<AlgoliaOption, false> {
@@ -173,7 +171,7 @@ const defaultOptions: AlgoliaOption[] = [
 				<img
 					alt="location"
 					className="mr-2 flex-shrink-0"
-					src={location}
+					src="/images/icons/location_orange.svg"
 				/>
 				<span className="overflow-hidden truncate text-orange">
 					Use my location instead
@@ -292,7 +290,11 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 					) : isFocused ? (
 						<span className="text-gray-600">Type something...</span>
 					) : (
-						renderOption(placeholder as string, search, 'search')
+						renderOption(
+							placeholder as string,
+							'/images/icons/search.svg',
+							'search'
+						)
 					)
 				}
 				styles={customStyles}
@@ -307,7 +309,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 						logEvent('SearchBar.LocationIcon.Click');
 						onGps(setOverridePlaceholder, router);
 					}}
-					src={location}
+					src="/images/icons/location_orange.svg"
 				/>
 			)}
 		</div>

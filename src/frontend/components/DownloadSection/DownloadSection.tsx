@@ -18,8 +18,6 @@
 import Image from 'next/image';
 import React from 'react';
 
-import appStore from '../../../../assets/images/app-store.png';
-import playStore from '../../../../assets/images/play-store.png';
 import { logEvent } from '../../util';
 import { Section } from '../Section';
 
@@ -55,7 +53,7 @@ export function DownloadSection(): React.ReactElement {
 								alt="download on Play Store"
 								layout="fill"
 								objectFit="contain"
-								src={playStore}
+								src="/images/play-store.png"
 							/>
 						</div>
 					</a>
@@ -73,7 +71,7 @@ export function DownloadSection(): React.ReactElement {
 								alt="download on Apple Store"
 								layout="fill"
 								objectFit="contain"
-								src={appStore}
+								src="/app-store.png"
 							/>
 						</div>
 					</a>
