@@ -17,14 +17,8 @@
 
 import React from 'react';
 
-import { AusAir } from './AusAir';
 import { Section } from '../Section';
-
-interface Ad {
-	image: string;
-	title: string;
-	affiliateLink: string;
-}
+import { AusAir } from './AusAir';
 
 export function AdSection(): React.ReactElement {
 	return (
