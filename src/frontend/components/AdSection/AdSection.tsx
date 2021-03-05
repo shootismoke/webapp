@@ -24,7 +24,6 @@ export function AdSection(): React.ReactElement {
 	return (
 		<Section
 			className="md:px-24"
-			noPadding={true}
 			title="Recommended mask"
 			titleClassName="px-6 md:px-0"
 		>

@@ -16,40 +16,73 @@
  */
 
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '../Button';
 
 export function AusAir(): React.ReactElement {
+	const [size, setSize] = useState({
+		x: typeof window !== 'undefined' ? window.innerWidth : 0,
+	});
+	const updateSize = () =>
+		setSize({
+			x: window.innerWidth,
+		});
+	useEffect(() => {
+		window.onresize = updateSize;
+	}, []);
+
 	return (
-		<div className="rounded grid grid-cols-3 h-64">
-			<div className="col-span-2">
-				<div className="next-images relative w-full h-full">
+		<div
+			className="border border-gray-200 rounded-xl shadow-md overflow-hidden
+				h-64
+				md:grid md:grid-cols-3"
+		>
+			<div className="overflow-hidden h-32 md:h-64 md:col-span-2">
+				<div
+					className="next-images relative w-full h-full"
+					style={{
+						transform: size.x > 1024 ? 'scale(1.5)' : undefined,
+					}}
+				>
 					<Image
 						alt="cigarettes-conversion"
 						layout="fill"
-						objectFit="contain"
+						objectFit="cover"
+						objectPosition={
+							size.x > 1024 ? 'center -500%' : 'center top'
+						}
 						src="/images/ausair/black-man-white-mask.webp"
 					/>
 				</div>
 			</div>
-			<div className="px-6 py-4">
-				<div className="next-images relative w-full h-20">
+			<div className="px-6 py-4 flex flex-col justify-between items-center md:items-start">
+				<div className="hidden md:block next-images relative w-32 h-24">
 					<Image
 						alt="cigarettes-conversion"
 						layout="fill"
-						objectFit="contain"
+						objectFit="cover"
+						objectPosition="left"
 						src="/images/ausair/product-8.png"
 					/>
 				</div>
-				<h3 className="type-200">AirFlex Filtration Mask Pack</h3>
-				<p className="mt-2 type-100">
-					All days comform meets &gt;99% filtration.
-				</p>
-				<Button className="mt-2 px-3 py-1 text-center">
-					<span className="leading-4 type-300 text-orange uppercase">
-						Save 10% with code &apos;STOPSMOKING&apos;
-					</span>
+
+				<div className="text-center md:text-left">
+					<h3 className="type-200">AirFlex Filtration Mask Pack</h3>
+					<p className="mt-1 md:mt-2 type-100 text-gray-600">
+						All days comformt meets &gt;99%{' '}
+						<br className="hidden lg:block" />
+						filtration.
+					</p>
+				</div>
+
+				<Button className="mt-2 px-10 md:px-6 py-2 text-center">
+					<div className="leading-4 type-300 text-orange uppercase">
+						Save 10% with code
+					</div>
+					<div className="leading-4 type-300 text-orange uppercase">
+						&apos;STOPSMOKING&apos;
+					</div>
 				</Button>
 			</div>
 		</div>
