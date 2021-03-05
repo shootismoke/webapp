@@ -20,7 +20,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import download from '../../../../assets/images/icons/download.svg';
 import { logEvent } from '../../util';
 
 /**
@@ -71,7 +70,7 @@ export function Nav(props: NavProps): React.ReactElement {
 								layout="fill"
 								objectFit="contain"
 								objectPosition="left"
-								src={download}
+								src="/images/icons/download.svg"
 							/>
 						</div>
 					</div>

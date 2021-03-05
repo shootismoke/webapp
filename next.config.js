@@ -8,7 +8,11 @@ const withTM = nextTM(['@shootismoke/ui']);
 module.exports = {
 	images: {
 		// https://github.com/vercel/next.js/blob/master/errors/next-image-unconfigured-host.md
-		domains: ['m.media-amazon.com', 'live.staticflickr.com'],
+		domains: [
+			'm.media-amazon.com',
+			'live.staticflickr.com',
+			'images.pexels.com',
+		],
 	},
 	...withTM(
 		withFonts(

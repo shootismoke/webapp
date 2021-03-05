@@ -71,7 +71,7 @@ export function DownloadSection(): React.ReactElement {
 								alt="download on Apple Store"
 								layout="fill"
 								objectFit="contain"
-								src="/app-store.png"
+								src="/images/app-store.png"
 							/>
 						</div>
 					</a>

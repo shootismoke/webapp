@@ -17,13 +17,6 @@
 
 import React from 'react';
 
-import cry from '../../../../../assets/images/health/cry.svg';
-import fitness from '../../../../../assets/images/health/fitness.svg';
-import happy from '../../../../../assets/images/health/happy.svg';
-import house from '../../../../../assets/images/health/house.svg';
-import mask from '../../../../../assets/images/health/mask.svg';
-import pause from '../../../../../assets/images/health/pause.svg';
-import warning from '../../../../../assets/images/health/warning.svg';
 import { Tip, TipProps } from '../../Tip';
 
 function HealthTip(props: TipProps): React.ReactElement {
@@ -52,14 +45,18 @@ interface HealthSectionProps {
 function tips(aqi: number): React.ReactElement[] {
 	if (aqi <= 50) {
 		return [
-			<HealthTip imgAlt="happy" imgSrc={happy} key={1}>
+			<HealthTip imgAlt="happy" imgSrc="/images/health/happy.svg" key={1}>
 				<p className="type-400 md:type-500">
 					Air quality is considered{' '}
 					<span className="text-orange">satisfactory</span>, and air
 					pollution poses little or no risk.
 				</p>
 			</HealthTip>,
-			<HealthTip imgAlt="fitness" imgSrc={fitness} key={2}>
+			<HealthTip
+				imgAlt="fitness"
+				imgSrc="/images/health/fitness.svg"
+				key={2}
+			>
 				<p className="type-400 md:type-500">
 					<span className="text-orange">Enjoy</span> your usual
 					outdoor activities.
@@ -68,14 +65,18 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else if (aqi <= 100) {
 		return [
-			<HealthTip imgAlt="happy" imgSrc={happy} key={1}>
+			<HealthTip imgAlt="happy" imgSrc="/images/health/happy.svg" key={1}>
 				<p className="type-400 md:type-500">
 					Air quality is{' '}
 					<span className="text-orange">acceptable.</span> Enjoy your
 					usual outdoor activities.
 				</p>
 			</HealthTip>,
-			<HealthTip imgAlt="warning" imgSrc={warning} key={2}>
+			<HealthTip
+				imgAlt="warning"
+				imgSrc="/images/health/warning.svg"
+				key={2}
+			>
 				<p className="type-400 md:type-500">
 					For some pollutants there may be a{' '}
 					<span className="text-orange">moderate health concern</span>{' '}
@@ -86,7 +87,7 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else if (aqi <= 150) {
 		return [
-			<HealthTip imgAlt="cry" imgSrc={cry} key={1}>
+			<HealthTip imgAlt="cry" imgSrc="/images/health/cry.svg" key={1}>
 				<p className="type-400 md:type-500">
 					Experiencing discomfort such as sore eyes, cough or sore
 					throat?{' '}
@@ -95,7 +96,11 @@ function tips(aqi: number): React.ReactElement[] {
 					</span>
 				</p>
 			</HealthTip>,
-			<HealthTip imgAlt="fitness" imgSrc={fitness} key={2}>
+			<HealthTip
+				imgAlt="fitness"
+				imgSrc="/images/health/fitness.svg"
+				key={2}
+			>
 				<p className="type-400 md:type-500">
 					It’s ok to be active outside, but we recommended to{' '}
 					<span className="text-orange">
@@ -106,7 +111,7 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else if (aqi <= 200) {
 		return [
-			<HealthTip imgAlt="cry" imgSrc={cry} key={1}>
+			<HealthTip imgAlt="cry" imgSrc="/images/health/cry.svg" key={1}>
 				<p className="type-400 md:type-500">
 					Everyone experiencing discomfort such as sore eyes, cough or
 					sore throat{' '}
@@ -115,7 +120,7 @@ function tips(aqi: number): React.ReactElement[] {
 					</span>
 				</p>
 			</HealthTip>,
-			<HealthTip imgAlt="pause" imgSrc={pause} key={2}>
+			<HealthTip imgAlt="pause" imgSrc="/images/health/pause.svg" key={2}>
 				<p className="type-400 md:type-500">
 					Avoid prolonged strenuous exercise, and{' '}
 					<span className="text-orange">take more breaks</span> during
@@ -125,13 +130,17 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else if (aqi <= 300) {
 		return [
-			<HealthTip imgAlt="warning" imgSrc={warning} key={1}>
+			<HealthTip
+				imgAlt="warning"
+				imgSrc="/images/health/warning.svg"
+				key={1}
+			>
 				<p className="type-400 md:type-500">
 					<span className="text-orange">Health alert:</span> everyone
 					may experience more serious health effects.
 				</p>
 			</HealthTip>,
-			<HealthTip imgAlt="house" imgSrc={house} key={2}>
+			<HealthTip imgAlt="house" imgSrc="/images/health/house.svg" key={2}>
 				<p className="type-400 md:type-500">
 					Everyone should{' '}
 					<span className="text-orange">
@@ -143,13 +152,17 @@ function tips(aqi: number): React.ReactElement[] {
 		];
 	} else {
 		return [
-			<HealthTip imgAlt="warning" imgSrc={warning} key={1}>
+			<HealthTip
+				imgAlt="warning"
+				imgSrc="/images/health/warning.svg"
+				key={1}
+			>
 				<p className="type-400 md:type-500">
 					<span className="text-orange">Health alert:</span> Stop
 					outdoor activities and move all activities indoors.
 				</p>
 			</HealthTip>,
-			<HealthTip imgAlt="mask" imgSrc={mask} key={2}>
+			<HealthTip imgAlt="mask" imgSrc="/images/health/mask.svg" key={2}>
 				<p className="type-400 md:type-500">
 					If it is necessary to go out, please{' '}
 					<span className="text-orange">wear a mask</span>.
