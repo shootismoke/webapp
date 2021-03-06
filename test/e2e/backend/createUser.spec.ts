@@ -21,7 +21,7 @@ import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
 import { connectToDatabase } from '../../../src/backend/util';
-import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
+import { alice, axiosConfig, BACKEND_URL, bob } from './util/testdata';
 
 function testBadInput<T>(name: string, input: T, expErr: string) {
 	it(`should require correct input: ${name}`, async (done) => {
@@ -56,7 +56,7 @@ describe('users::createUser', () => {
 	testBadInput(
 		'invalid lastStationId',
 		{ ...alice, lastStationId: 'foo' },
-		'lastStationId: foo is not a valid universalId'
+		'lastStationId: foo is not a valid stationId'
 	);
 	testBadInput(
 		'no timezone',
@@ -86,36 +86,60 @@ describe('users::createUser', () => {
 	testBadInput(
 		'no expoPushToken',
 		{
-			...alice,
-			expoReport: { ...alice.expoReport, expoPushToken: undefined },
+			...bob,
+			expoReport: { ...bob.expoReport, expoPushToken: undefined },
 		},
 		'expoReport.expoPushToken: Path `expoPushToken` is required'
 	);
 	testBadInput(
 		'wrong expo frequency',
-		{ ...alice, expoReport: { ...alice.expoReport, frequency: 'foo' } },
+		{ ...bob, expoReport: { ...bob.expoReport, frequency: 'foo' } },
 		'expoReport.frequency: `foo` is not a valid enum value for path `frequency`'
 	);
 
-	it('should successfully create a user', async () => {
-		const { data } = await axios.post<MongoUser>(
-			`${BACKEND_URL}/api/users`,
-			alice,
-			axiosConfig
-		);
-		expect(data._id).toBeTruthy();
-		expect(data).toMatchObject(alice);
+	testBadInput(
+		'must set either email and expo notifications',
+		{ ...alice, emailReport: undefined },
+		'emailReport: Path `emailReport` is required., expoReport: Path `expoReport` is required.'
+	);
+
+	testBadInput(
+		'cannot set both email and expo notifications',
+		{ ...alice, expoReport: { expoPushToken: 'foo', frequency: 'daily' } },
+		'either email or expo report must be set, but not both'
+	);
+
+	it('should successfully create two users', async () => {
+		const aliceData = (
+			await axios.post<MongoUser>(
+				`${BACKEND_URL}/api/users`,
+				alice,
+				axiosConfig
+			)
+		).data;
+		expect(aliceData._id).toBeTruthy();
+		expect(aliceData).toMatchObject(alice);
+
+		const bobData = (
+			await axios.post<MongoUser>(
+				`${BACKEND_URL}/api/users`,
+				bob,
+				axiosConfig
+			)
+		).data;
+		expect(bobData._id).toBeTruthy();
+		expect(bobData).toMatchObject(bob);
 	});
 
 	testBadInput(
 		'duplicate expoPushToken',
-		alice,
+		bob,
 		'E11000 duplicate key error collection: shootismoke.users index: expoReport.expoPushToken_1 dup key'
 	);
 
 	testBadInput(
 		'duplicate email',
-		{ ...alice, expoReport: undefined },
+		alice,
 		'E11000 duplicate key error collection: shootismoke.users index: emailReport.email_1 dup key'
 	);
 

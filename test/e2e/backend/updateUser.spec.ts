@@ -89,7 +89,7 @@ describe('users::updateUser', () => {
 	testBadInput(
 		'invalid lastStationId',
 		{ lastStationId: 'foo' },
-		'lastStationId: foo is not a valid universalId'
+		'lastStationId: foo is not a valid stationId'
 	);
 	testBadInput(
 		'no timezone',
