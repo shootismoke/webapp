@@ -84,7 +84,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	// Log telemetry each time we change city.
 	useEffect(() => {
-		logEvent(city.slug ? 'Page.City.Slug.View' : 'Page.City.GPS.View', {
+		logEvent('Page.City.View', {
 			name: city.name,
 			gps: JSON.stringify(city.gps),
 			slug: city.slug,
