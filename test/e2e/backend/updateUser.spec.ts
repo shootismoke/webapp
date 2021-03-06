@@ -24,12 +24,19 @@ import { connectToDatabase } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL, bob } from './util/testdata';
 
 let dbAlice: MongoUser;
+let dbBob: MongoUser;
 
-function testBadInput<T>(name: string, input: T, expErr: string) {
+function testBadInput<T>(
+	name: string,
+	user: 'alice' | 'bob',
+	input: T,
+	expErr: string
+) {
 	it(`should require correct input: ${name}`, async (done) => {
+		const dbUser = user === 'alice' ? dbAlice : dbBob;
 		try {
 			await axios.patch(
-				`${BACKEND_URL}/api/users/${dbAlice._id}`,
+				`${BACKEND_URL}/api/users/${dbUser._id}`,
 				input,
 				axiosConfig
 			);
@@ -43,10 +50,11 @@ function testBadInput<T>(name: string, input: T, expErr: string) {
 	});
 }
 
-function testGoodInput<T>(name: string, input: T) {
+function testGoodInput<T>(name: string, user: 'alice' | 'bob', input: T) {
 	it(`should be successful: ${name}`, async (done) => {
+		const dbUser = user === 'alice' ? dbAlice : dbBob;
 		const { data } = await axios.patch<MongoUser>(
-			`${BACKEND_URL}/api/users/${dbAlice._id}`,
+			`${BACKEND_URL}/api/users/${dbUser._id}`,
 			input,
 			axiosConfig
 		);
@@ -64,70 +72,86 @@ describe('users::updateUser', () => {
 		await connectToDatabase();
 		await User.deleteMany();
 
-		const { data } = await axios.post<MongoUser>(
-			`${BACKEND_URL}/api/users`,
-			alice,
-			axiosConfig
-		);
-		await axios.post<MongoUser>(
-			`${BACKEND_URL}/api/users`,
-			bob,
-			axiosConfig
-		);
+		dbAlice = (
+			await axios.post<MongoUser>(
+				`${BACKEND_URL}/api/users`,
+				alice,
+				axiosConfig
+			)
+		).data;
 
-		dbAlice = data;
+		dbBob = (
+			await axios.post<MongoUser>(
+				`${BACKEND_URL}/api/users`,
+				bob,
+				axiosConfig
+			)
+		).data;
 
 		done();
 	});
 
-	testGoodInput('empty input', {});
+	testGoodInput('empty input', 'alice', {});
 	testBadInput(
 		'no lastStationId',
+		'alice',
 		{ lastStationId: null },
 		'Path `lastStationId` is required'
 	);
 	testBadInput(
 		'invalid lastStationId',
+		'alice',
 		{ lastStationId: 'foo' },
 		'lastStationId: foo is not a valid stationId'
 	);
 	testBadInput(
 		'no timezone',
+		'alice',
 		{ ...alice, timezone: null },
 		'Path `timezone` is required'
 	);
 	testBadInput(
 		'invalid timezone',
+		'alice',
 		{ timezone: 'foo' },
 		'timezone: `foo` is not a valid enum value for path `timezone`'
 	);
+
+	// Email-specific tests.
 	testBadInput(
 		'no email',
+		'alice',
 		{ emailReport: { email: null } },
 		'emailReport.email: Path `email` is required'
 	);
 	testBadInput(
 		'bad email',
+		'alice',
 		{ emailReport: { email: 'foo' } },
 		'emailReport.email: Please enter a valid email'
 	);
 	testBadInput(
 		'wrong email frequency',
+		'alice',
 		{ emailReport: { frequency: 'foo' } },
 		'emailReport.frequency: `foo` is not a valid enum value for path `frequency`'
 	);
-	testGoodInput('change emailReport frequency', {
+	testGoodInput('change emailReport frequency', 'alice', {
 		emailReport: { frequency: 'monthly' },
 	});
 	testBadInput(
-		'no emailReport',
+		'no emailReport nor expoReport',
+		'bob',
 		{
-			emailReport: { email: null },
+			emailReport: null,
 		},
-		'Path `email` is required'
+		'emailReport: either email or expo report must be set, but not both'
 	);
+
+	// Expo-specific tests.
 	testBadInput(
 		'no expoPushToken',
+		'bob',
 		{
 			expoReport: { expoPushToken: null },
 		},
@@ -135,30 +159,41 @@ describe('users::updateUser', () => {
 	);
 	testBadInput(
 		'wrong expo frequency',
+		'bob',
 		{ expoReport: { frequency: 'foo' } },
 		'expoReport.frequency: `foo` is not a valid enum value for path `frequency`'
 	);
-	testGoodInput('change expoReport frequency', {
+	testGoodInput('change expoReport frequency', 'bob', {
 		expoReport: { frequency: 'monthly' },
 	});
-	testGoodInput('no expoReport', {
-		expoReport: null,
-	});
+	testBadInput(
+		'no expoReport nor emailReport',
+		'bob',
+		{
+			expoReport: null,
+		},
+		'emailReport: Path `emailReport` is required., expoReport: Path `expoReport` is required.'
+	);
 
+	// Cannot change from email to expo, or vice versa.
 	testBadInput(
 		'duplicate expoPushToken',
+		'alice',
 		{
+			emailReport: null,
 			expoReport: { expoPushToken: bob.expoReport.expoPushToken },
 		},
-		'E11000 duplicate key error collection: shootismoke.users index: expoReport.expoPushToken_1 dup key'
+		'either email or expo report must be set, but not both'
 	);
 
 	testBadInput(
 		'duplicate email',
+		'bob',
 		{
-			emailReport: { email: bob.emailReport.email },
+			expoReport: null,
+			emailReport: { email: alice.emailReport.email },
 		},
-		'E11000 duplicate key error collection: shootismoke.users index: emailReport.email_1 dup key'
+		'either email or expo report must be set, but not both'
 	);
 
 	afterAll(() => connection.close());
