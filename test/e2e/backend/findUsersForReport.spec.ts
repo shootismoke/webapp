@@ -45,7 +45,7 @@ describe('findUsersForReport', () => {
 		const now = new Date('2021-01-15T08:27:21.771Z');
 		const users = await findUsersForReport('email', now);
 
-		expect(users.length).toBe(2);
+		expect(users.length).toBe(1); // Bob
 	});
 
 	it('should work for at UTC 21:00 on a Sunday', async () => {
@@ -55,7 +55,7 @@ describe('findUsersForReport', () => {
 		const now = new Date('2021-01-17T20:27:21.771Z');
 		const users = await findUsersForReport('expo', now);
 
-		expect(users.length).toBe(2);
+		expect(users.length).toBe(1); // Alice
 	});
 
 	it('should work for at UTC 21:00 on the 1st of the month', async () => {
@@ -65,7 +65,16 @@ describe('findUsersForReport', () => {
 		const now = new Date('2021-01-01T20:27:21.771Z');
 		const users = await findUsersForReport('expo', now);
 
-		expect(users.length).toBe(2);
+		expect(users.length).toBe(2); // Bob and Charlie
+	});
+
+	it('should work at a random time', async () => {
+		const now = new Date('2021-01-01T10:27:21.771Z');
+
+		let users = await findUsersForReport('expo', now);
+		expect(users.length).toBe(0);
+		users = await findUsersForReport('email', now);
+		expect(users.length).toBe(0);
 	});
 
 	afterAll(() => connection.close());

@@ -21,9 +21,9 @@ import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
 import { connectToDatabase } from '../../../src/backend/util';
-import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
+import { axiosConfig, BACKEND_URL, bob } from './util/testdata';
 
-let dbAlice: MongoUser;
+let dbBob: MongoUser;
 
 describe('users::getUserByExpoPushToken', () => {
 	beforeAll(async (done) => {
@@ -34,11 +34,11 @@ describe('users::getUserByExpoPushToken', () => {
 
 		const { data } = await axios.post<MongoUser>(
 			`${BACKEND_URL}/api/users`,
-			alice,
+			bob,
 			axiosConfig
 		);
 
-		dbAlice = data;
+		dbBob = data;
 
 		done();
 	});
@@ -77,14 +77,12 @@ describe('users::getUserByExpoPushToken', () => {
 
 	it('should fetch correct user', async (done) => {
 		const { data } = await axios.get<MongoUser>(
-			`${BACKEND_URL}/api/users/expoPushToken/${
-				dbAlice?.expoReport?.expoPushToken as string
-			}`,
+			`${BACKEND_URL}/api/users/expoPushToken/${bob.expoReport.expoPushToken}`,
 			axiosConfig
 		);
 
-		expect(data._id).toBe(dbAlice._id);
-		expect(data).toMatchObject(dbAlice);
+		expect(data._id).toBe(dbBob._id);
+		expect(data).toMatchObject(dbBob);
 
 		done();
 	});
