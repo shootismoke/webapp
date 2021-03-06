@@ -138,6 +138,10 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					},
 					openaq: {
 						dateFrom: sixHoursAgo,
+						// Limiting to only fetch pm25. Sometimes, when
+						// we search for all pollutants, the pm25 ones
+						// don't get returned within the result limits.
+						parameter: ['pm25'],
 					},
 				});
 			})
