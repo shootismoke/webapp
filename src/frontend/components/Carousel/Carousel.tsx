@@ -19,6 +19,9 @@ import c from 'classnames';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 
+import pageLeft from '../../../../assets/images/icons/pagination_left.svg';
+import pageRight from '../../../../assets/images/icons/pagination_right.svg';
+
 export * from './CarouselCard';
 
 interface CarouselProps extends React.HTMLProps<HTMLDivElement> {
@@ -66,7 +69,7 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 					layout="fill"
 					objectFit="contain"
 					onClick={scrollLeft}
-					src="/images/icons/pagination_left.svg"
+					src={pageLeft}
 				/>
 			</div>
 
@@ -76,7 +79,7 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 					layout="fill"
 					objectFit="contain"
 					onClick={scrollRight}
-					src="/images/icons/pagination_right.svg"
+					src={pageRight}
 				/>
 			</div>
 
