@@ -19,6 +19,23 @@ import c from 'classnames';
 import Image from 'next/image';
 import React from 'react';
 
+import blogfolha from '../../../../assets/images/blogs/blogfolha.jpg';
+import bloomberg from '../../../../assets/images/blogs/bloomberg.jpg';
+import france3Regions from '../../../../assets/images/blogs/france3_regions.jpg';
+import highsnobiety from '../../../../assets/images/blogs/highsnobiety.jpg';
+import hindustantimes from '../../../../assets/images/blogs/hindustantimes.jpg';
+import hln from '../../../../assets/images/blogs/hln.webp';
+import huffpostKorea from '../../../../assets/images/blogs/huffpost_korea.jpeg';
+import lifehacker from '../../../../assets/images/blogs/lifehacker.webp';
+import okdiario from '../../../../assets/images/blogs/okdiario.jpg';
+import pix11 from '../../../../assets/images/blogs/pix11.jpg';
+import rppNoticias from '../../../../assets/images/blogs/rpp-noticias.jpg';
+import sfgate from '../../../../assets/images/blogs/sfgate.jpg';
+import slate from '../../../../assets/images/blogs/slate.jpg';
+import tencentqq from '../../../../assets/images/blogs/tencentqq.webp';
+import thedailybeast from '../../../../assets/images/blogs/thedailybeast.webp';
+import usbeketrica from '../../../../assets/images/blogs/usbeketrica.jpg';
+import webmd from '../../../../assets/images/blogs/webmd.jpg';
 import { logEvent } from '../../util';
 import { Carousel, CarouselCard } from '../Carousel';
 import { Section } from '../Section';
@@ -33,7 +50,7 @@ interface Blog {
 
 const blogs: Blog[] = [
 	{
-		image: '/images/blogs/bloomberg.jpg',
+		image: bloomberg,
 		title: "How Much Are You 'Smoking' by Breathing Urban Air?",
 		subtitle: 'Bloomberg',
 		link:
@@ -41,7 +58,7 @@ const blogs: Blog[] = [
 		slug: 'bloomberg',
 	},
 	{
-		image: '/images/blogs/lifehacker.webp',
+		image: lifehacker,
 		title: "See Your City's Air Pollution Measured in Daily Cigarettes",
 		subtitle: 'Lifehacker',
 		link:
@@ -49,7 +66,7 @@ const blogs: Blog[] = [
 		slug: 'lifehacker',
 	},
 	{
-		image: '/images/blogs/huffpost_korea.jpeg',
+		image: huffpostKorea,
 		title: '도시 공기 호흡은 어느 정도의 흡연에 해당할까?',
 		subtitle: 'Huffpost Korea',
 		link:
@@ -57,7 +74,7 @@ const blogs: Blog[] = [
 		slug: 'huffpost_korea',
 	},
 	{
-		image: '/images/blogs/france3_regions.jpg',
+		image: france3Regions,
 		title:
 			"Pollution de l'air : comme si vous aviez fumé 2 cigarettes à Toulouse aujourd'hui !",
 		subtitle: 'FranceInfo',
@@ -66,7 +83,7 @@ const blogs: Blog[] = [
 		slug: 'france3Regions',
 	},
 	{
-		image: '/images/blogs/usbeketrica.jpg',
+		image: usbeketrica,
 		title:
 			'Une appli calcule le nombre de cigarettes qu’on fume à notre insu à cause de la pollution de l’air',
 		subtitle: 'Usbek & Rica',
@@ -75,7 +92,7 @@ const blogs: Blog[] = [
 		slug: 'usbeketrica',
 	},
 	{
-		image: '/images/blogs/hindustantimes.jpg',
+		image: hindustantimes,
 		title:
 			'Breathing Mumbai’s air as bad as puffing 4 cigarettes a day, Delhi worse at 7.7',
 		subtitle: 'Hindustan Times',
@@ -84,7 +101,7 @@ const blogs: Blog[] = [
 		slug: 'hindustantimes',
 	},
 	{
-		image: '/images/blogs/highsnobiety.jpg',
+		image: highsnobiety,
 		title:
 			'This app tells you how many cigarettes you "smoke" by breathing urban air',
 		subtitle: 'Highsnobiety',
@@ -92,7 +109,7 @@ const blogs: Blog[] = [
 		slug: 'highsnobiety',
 	},
 	{
-		image: '/images/blogs/pix11.jpg',
+		image: pix11,
 		title:
 			'How much do you ‘smoke’? App translates air pollution into cigarettes smoked',
 		subtitle: 'Pix11 New York',
@@ -101,7 +118,7 @@ const blogs: Blog[] = [
 		slug: 'pix11',
 	},
 	{
-		image: '/images/blogs/thedailybeast.webp',
+		image: thedailybeast,
 		title: 'The Air Is So Bad in These Cities, You May as Well Be Smoking',
 		subtitle: 'Daily Beast',
 		link:
@@ -109,7 +126,7 @@ const blogs: Blog[] = [
 		slug: 'thedailybeast',
 	},
 	{
-		image: '/images/blogs/blogfolha.jpg',
+		image: blogfolha,
 		title:
 			'App soma quantos cigarros cada pessoa ‘fuma’ só por respirar em áreas poluídas',
 		subtitle: 'Folha de São Paulo',
@@ -118,7 +135,7 @@ const blogs: Blog[] = [
 		slug: 'blogfolha',
 	},
 	{
-		image: '/images/blogs/hln.webp',
+		image: hln,
 		title: "App vertelt hoeveel sigaretten je 'rookt' door luchtvervuiling",
 		subtitle: 'HLN.be',
 		link:
@@ -126,14 +143,14 @@ const blogs: Blog[] = [
 		slug: 'hln',
 	},
 	{
-		image: '/images/blogs/tencentqq.webp',
+		image: tencentqq,
 		title: '呼吸成了新型的吸烟？',
 		subtitle: 'Tencent QQ',
 		link: 'https://new.qq.com/omn/20180710/20180710A1S9BA.html',
 		slug: 'tencentqq',
 	},
 	{
-		image: '/images/blogs/webmd.jpg',
+		image: webmd,
 		title: 'Air Pollution Kills as Many People as Cigarettes',
 		subtitle: 'WebMD',
 		link:
@@ -141,7 +158,7 @@ const blogs: Blog[] = [
 		slug: 'webmd',
 	},
 	{
-		image: '/images/blogs/sfgate.jpg',
+		image: sfgate,
 		title:
 			"Here's why researchers say breathing San Francisco air today is like smoking 11 cigarettes",
 		subtitle: 'San Francisco Gate',
@@ -150,7 +167,7 @@ const blogs: Blog[] = [
 		slug: 'sfgate',
 	},
 	{
-		image: '/images/blogs/rpp-noticias.jpg',
+		image: rppNoticias,
 		title:
 			'Descubre cuántos cigarrillos fumas al día por la contaminación del lugar donde vives',
 		subtitle: 'RPP Peru',
@@ -159,7 +176,7 @@ const blogs: Blog[] = [
 		slug: 'rpp-noticias',
 	},
 	{
-		image: '/images/blogs/slate.jpg',
+		image: slate,
 		title:
 			"L'équivalent de combien de cigarettes fumez-vous en respirant l'air des villes?",
 		subtitle: 'Slate',
@@ -168,7 +185,7 @@ const blogs: Blog[] = [
 		slug: 'slate',
 	},
 	{
-		image: '/images/blogs/okdiario.jpg',
+		image: okdiario,
 		title:
 			'Shit! I Smoke, la aplicación que te dice cuantos cigarrillos te fumas con solo salir a la calle',
 		subtitle: 'Ok Diario',

@@ -18,6 +18,7 @@
 import Image from 'next/image';
 import React from 'react';
 
+import box from '../../../../assets/images/conversion-box.svg';
 import { Section } from '../Section';
 
 export function AboutSection(): React.ReactElement {
@@ -48,7 +49,7 @@ export function AboutSection(): React.ReactElement {
 							alt="cigarettes-conversion"
 							layout="fill"
 							objectFit="contain"
-							src="/images/conversion-box.svg"
+							src={box}
 						/>
 					</div>
 					Use location to discover the air quality near you, or search
