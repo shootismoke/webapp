@@ -15,6 +15,8 @@
 	"dependencies": {
 		"@sentry/browser": "^6.2.0",
 		"@sentry/node": "^6.2.0",
+		"@sentry/browser": "^6.2.1",
+		"@sentry/node": "^6.2.1",
 		"@shootismoke/ui": "^0.8.9",
 		"@types/amplitude-js": "^7.0.1",
 		"@types/classnames": "^2.2.11",
@@ -24,11 +26,11 @@
 		"@types/http-errors": "^1.8.0",
 		"@types/i18n-js": "^3.8.0",
 		"@types/mustache": "^4.1.1",
-		"@types/node": "^14.14.31",
+		"@types/node": "^14.14.32",
 		"@types/node-uuid": "^0.0.28",
-		"@types/react-native": "^0.63.50",
+		"@types/react-native": "^0.63.51",
 		"@types/react-select": "^4.0.13",
-		"amplitude-js": "^7.4.3",
+		"amplitude-js": "^7.4.4",
 		"assign-deep": "^1.0.1",
 		"classnames": "^2.2.6",
 		"cors": "^2.8.5",
@@ -37,7 +39,7 @@
 		"i18n-js": "^3.8.0",
 		"mailgun.js": "^3.2.0",
 		"mongodb": "^3.6.4",
-		"mongoose": "^5.11.18",
+		"mongoose": "^5.11.19",
 		"mustache": "^4.1.0",
 		"next": "^10.0.7",
 		"node-uuid": "^1.4.8",
@@ -45,7 +47,7 @@
 		"react-dom": "^17.0.1",
 		"react-native": "^0.63.4",
 		"react-native-web": "^0.15.0",
-		"react-select": "^4.1.0",
+		"react-select": "^4.2.1",
 		"timezones.json": "^1.5.2"
 	},
 	"devDependencies": {
@@ -54,7 +56,7 @@
 		"@testing-library/react": "^11.2.5",
 		"@types/jest": "^26.0.20",
 		"@types/react-test-renderer": "^17.0.1",
-		"autoprefixer": "^10.2.4",
+		"autoprefixer": "^10.2.5",
 		"babel-jest": "^26.6.3",
 		"babel-plugin-react-native-web": "^0.15.0",
 		"cypress": "^6.5.0",
@@ -68,6 +70,6 @@
 		"react-test-renderer": "^17.0.1",
 		"tailwindcss": "^1.9.6",
 		"ts-node": "^9.1.1",
-		"typescript": "^4.2.2"
+		"typescript": "^4.2.3"
 	}
 }
