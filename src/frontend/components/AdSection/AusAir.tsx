@@ -16,26 +16,14 @@
  */
 
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import dreads from '../../../../assets/images/ausair/dreads-guy.webp';
+import dreadsWide from '../../../../assets/images/ausair/dreads-guy-cropped-wide.png';
 import product8 from '../../../../assets/images/ausair/product-8.png';
 import { logEvent } from '../../util';
 import { Button } from '../Button';
 
 export function AusAir(): React.ReactElement {
-	const [size, setSize] = useState({
-		x: typeof window !== 'undefined' ? window.innerWidth : 0,
-	});
-
-	useEffect(() => {
-		setSize({ x: window.innerWidth });
-		window.onresize = () =>
-			setSize({
-				x: window.innerWidth,
-			});
-	}, []);
-
 	return (
 		<div
 			className="border border-gray-200 rounded-xl shadow-md overflow-hidden
@@ -46,15 +34,10 @@ export function AusAir(): React.ReactElement {
 				<div className="next-images relative w-full h-full">
 					<Image
 						alt="cigarettes-conversion"
-						className="transform scale-125 sm:scale-100 lg:scale-150"
 						layout="fill"
-						objectFit={
-							size.x > 768 && size.x <= 1024 ? 'none' : 'cover'
-						}
-						objectPosition={
-							size.x > 1024 ? 'center -500%' : 'center top'
-						}
-						src={dreads}
+						objectFit="cover"
+						objectPosition="center top"
+						src={dreadsWide}
 					/>
 				</div>
 			</div>
@@ -81,9 +64,7 @@ export function AusAir(): React.ReactElement {
 				<a
 					href="https://shopausair.com/?ref=shootismoke"
 					onClick={() => {
-						logEvent('AdSection.AusAir.v1DreadsGuy.Click', {
-							screenSize: size.x,
-						});
+						logEvent('AdSection.AusAir.v1DreadsGuy.Click');
 					}}
 					rel="noreferrer"
 					target="_blank"
