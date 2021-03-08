@@ -28,7 +28,7 @@
 		"@types/node-uuid": "^0.0.28",
 		"@types/react-native": "^0.63.51",
 		"@types/react-select": "^4.0.13",
-		"amplitude-js": "^7.4.3",
+		"amplitude-js": "^7.4.4",
 		"assign-deep": "^1.0.1",
 		"classnames": "^2.2.6",
 		"cors": "^2.8.5",
