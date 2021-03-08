@@ -19,6 +19,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
+import box from '../../assets/images/conversion-box.svg';
+import backArrow from '../../assets/images/icons/back_arrow.svg';
 import { Footer, H1, Nav, Section, Seo } from '../frontend/components';
 import { t } from '../frontend/localization';
 import { logEvent } from '../frontend/util';
@@ -55,7 +57,7 @@ export default function Faq(): React.ReactElement {
 								alt="back"
 								layout="fill"
 								objectFit="contain"
-								src="/images/icons/back_arrow.svg"
+								src={backArrow}
 							/>
 						</span>
 
@@ -95,7 +97,7 @@ export default function Faq(): React.ReactElement {
 						<Image
 							alt="conversion-box"
 							height={124}
-							src="/images/conversion-box.svg"
+							src={box}
 							width={390}
 						/>
 					</div>

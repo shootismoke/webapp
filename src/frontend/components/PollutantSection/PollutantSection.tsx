@@ -19,6 +19,7 @@ import type { Pollutant } from '@shootismoke/convert';
 import { getPollutantData } from '@shootismoke/ui';
 import React from 'react';
 
+import skull from '../../../../assets/images/icons/skull.svg';
 import { Section } from '../Section';
 import { Tip } from '../Tip';
 import { HealthSection } from './HealthSection';
@@ -36,7 +37,7 @@ export function PollutantSection(
 
 	return (
 		<Section title="Today's tips">
-			<Tip imgAlt="skull" imgSrc="/images/icons/skull.svg">
+			<Tip imgAlt="skull" imgSrc={skull}>
 				<p className="type-400 md:type-500">
 					Your primary pollutant is{' '}
 					<span className="text-orange">

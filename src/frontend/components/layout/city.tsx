@@ -30,6 +30,7 @@ import c from 'classnames';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
+import warning from '../../../../assets/images/icons/warning_red.svg';
 import { t } from '../../localization';
 import {
 	City,
@@ -210,7 +211,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										<img
 											alt="warning"
 											className="ml-1 inline"
-											src="/images/icons/warning_red.svg"
+											src={warning}
 										/>
 									</a>
 								</Link>
