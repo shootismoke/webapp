@@ -18,18 +18,22 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
+import dreads from '../../../../assets/images/ausair/dreads-guy.webp';
+import product8 from '../../../../assets/images/ausair/product-8.png';
+import { logEvent } from '../../util';
 import { Button } from '../Button';
 
 export function AusAir(): React.ReactElement {
 	const [size, setSize] = useState({
 		x: typeof window !== 'undefined' ? window.innerWidth : 0,
 	});
-	const updateSize = () =>
-		setSize({
-			x: window.innerWidth,
-		});
+
 	useEffect(() => {
-		window.onresize = updateSize;
+		setSize({ x: window.innerWidth });
+		window.onresize = () =>
+			setSize({
+				x: window.innerWidth,
+			});
 	}, []);
 
 	return (
@@ -39,20 +43,18 @@ export function AusAir(): React.ReactElement {
 				md:grid md:grid-cols-3"
 		>
 			<div className="overflow-hidden h-32 md:h-64 md:col-span-2">
-				<div
-					className="next-images relative w-full h-full"
-					style={{
-						transform: size.x > 1024 ? 'scale(1.5)' : undefined,
-					}}
-				>
+				<div className="next-images relative w-full h-full">
 					<Image
 						alt="cigarettes-conversion"
+						className="transform scale-125 sm:scale-100 lg:scale-150"
 						layout="fill"
-						objectFit="cover"
+						objectFit={
+							size.x > 768 && size.x <= 1024 ? 'none' : 'cover'
+						}
 						objectPosition={
 							size.x > 1024 ? 'center -500%' : 'center top'
 						}
-						src="/images/ausair/black-man-white-mask.webp"
+						src={dreads}
 					/>
 				</div>
 			</div>
@@ -63,7 +65,7 @@ export function AusAir(): React.ReactElement {
 						layout="fill"
 						objectFit="cover"
 						objectPosition="left"
-						src="/images/ausair/product-8.png"
+						src={product8}
 					/>
 				</div>
 
@@ -76,14 +78,28 @@ export function AusAir(): React.ReactElement {
 					</p>
 				</div>
 
-				<Button className="mt-2 px-10 md:px-6 py-2 text-center">
-					<div className="leading-4 type-300 text-orange uppercase">
-						Save 10% with code
-					</div>
-					<div className="leading-4 type-300 text-orange uppercase">
-						&apos;STOPSMOKING&apos;
-					</div>
-				</Button>
+				<a
+					href="https://shopausair.com/?ref=shootismoke"
+					onClick={() => {
+						logEvent('AdSection.AusAir.v1DreadsGuy.Click', {
+							screenSize: size.x,
+						});
+					}}
+					rel="noreferrer"
+					target="_blank"
+				>
+					<Button className="mt-2 px-10 md:px-6 py-2 text-center">
+						<div className="leading-4 type-300 text-orange uppercase">
+							<span className="inline md:hidden lg:inline">
+								Save{' '}
+							</span>
+							10% with code
+						</div>
+						<div className="leading-4 type-300 text-orange uppercase">
+							&apos;STOPSMOKING&apos;
+						</div>
+					</Button>
+				</a>
 			</div>
 		</div>
 	);
