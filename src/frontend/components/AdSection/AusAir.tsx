@@ -45,7 +45,12 @@ export function AusAir(): React.ReactElement {
 					/>
 				</div>
 			</div>
-			<div className="md:col-span-3 lg:col-span-1 px-6 py-4 flex flex-col justify-between items-center md:items-start">
+			<div
+				className="border-gray-200 border-t md:border-t-0 md:border-l
+				md:col-span-3 lg:col-span-1
+				px-6 py-4
+				flex flex-col justify-between items-center md:items-start"
+			>
 				<div className="hidden md:block next-images relative w-32 h-24">
 					<Image
 						alt="cigarettes-conversion"
