@@ -45,12 +45,12 @@ export function tips(aqi: number): string[] {
 		];
 	} else if (aqi <= 300) {
 		return [
-			`span style="color: #f2934e;">Health alert:</span> everyone may experience more serious health effects.`,
+			`<span style="color: #f2934e;">Health alert:</span> everyone may experience more serious health effects.`,
 			`Everyone should <span style="color: #f2934e;"> reduce outdoor activities,</span> especially vulnerable people.`,
 		];
 	} else {
 		return [
-			`span style="color: #f2934e;">Health alert:</span> Stop outdoor activities and move all activities indoors.`,
+			`<span style="color: #f2934e;">Health alert:</span> Stop outdoor activities and move all activities indoors.`,
 			`If it is necessary to go out, please <span style="color: #f2934e;">wear a mask</span>.`,
 		];
 	}

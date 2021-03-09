@@ -85,13 +85,11 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 	// Log telemetry each time we change city.
 	useEffect(() => {
-		logEvent(
-			city.slug ? `Page.City.${city.slug}.View` : 'Page.City.GPS.View',
-			{
-				name: city.name,
-				slug: city.slug,
-			}
-		);
+		logEvent('Page.City.View', {
+			name: city.name,
+			gps: JSON.stringify(city.gps),
+			slug: city.slug,
+		});
 	}, [city]);
 
 	// Number of cigarettes to display.
@@ -141,6 +139,10 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					},
 					openaq: {
 						dateFrom: sixHoursAgo,
+						// Limiting to only fetch pm25. Sometimes, when
+						// we search for all pollutants, the pm25 ones
+						// don't get returned within the result limits.
+						parameter: ['pm25'],
 					},
 				});
 			})

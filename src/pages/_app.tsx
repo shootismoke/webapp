@@ -19,12 +19,21 @@ import '../frontend/styles/globals.css';
 
 import { FrequencyContextProvider } from '@shootismoke/ui';
 import type { AppProps } from 'next/app';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+
+import { logEvent } from '../frontend/util';
 
 export default function App({
 	Component,
 	pageProps,
 }: AppProps): React.ReactElement {
+	const router = useRouter();
+
+	useEffect(() => {
+		logEvent('Route.Update', { location: router.pathname });
+	}, [router.pathname]);
+
 	return (
 		<FrequencyContextProvider>
 			<Component {...pageProps} />
