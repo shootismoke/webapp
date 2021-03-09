@@ -19,7 +19,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import dreadsWide from '../../../../assets/images/ausair/dreads-guy-cropped-wide.webp';
-import product8 from '../../../../assets/images/ausair/product-8.webp';
+import product8 from '../../../../assets/images/ausair/product-8-optimized.webp';
 import { logEvent } from '../../util';
 import { Button } from '../Button';
 
