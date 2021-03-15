@@ -13,7 +13,7 @@
 		"test:unit": "jest --testPathIgnorePatterns \"/e2e|cypress/\""
 	},
 	"dependencies": {
-		"@sentry/browser": "^6.2.1",
+		"@sentry/browser": "^6.2.2",
 		"@sentry/node": "^6.2.1",
 		"@shootismoke/ui": "^0.8.9",
 		"@types/amplitude-js": "^7.0.1",
