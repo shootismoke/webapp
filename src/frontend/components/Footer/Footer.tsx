@@ -111,6 +111,29 @@ export function Footer(): React.ReactElement {
 					Github
 				</a>
 				.
+				<br />
+				<br />
+				See{' '}
+				<a
+					className="text-orange"
+					href="https://github.com/shootismoke/policies/blob/main/terms/index.md"
+					onClick={(): void => logEvent('Footer.Terms.Click')}
+					rel="noreferrer"
+					target="_blank"
+				>
+					Terms of Service
+				</a>{' '}
+				and{' '}
+				<a
+					className="text-orange"
+					href="https://github.com/shootismoke/policies/blob/main/privacy/index.md"
+					onClick={(): void => logEvent('Footer.Privacy.Click')}
+					rel="noreferrer"
+					target="_blank"
+				>
+					Privacy Policy
+				</a>
+				.
 			</p>
 		</footer>
 	);
