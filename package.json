@@ -30,7 +30,7 @@
 		"@types/react-select": "^4.0.14",
 		"amplitude-js": "^8.1.0",
 		"assign-deep": "^1.0.1",
-		"classnames": "^2.2.6",
+		"classnames": "^2.3.1",
 		"cors": "^2.8.5",
 		"expo-server-sdk": "^3.6.0",
 		"html-minifier": "^4.0.0",
