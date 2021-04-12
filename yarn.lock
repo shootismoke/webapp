@@ -2602,10 +2602,10 @@ babel-plugin-jest-hoist@^26.6.2:
     "@types/babel__core" "^7.0.0"
     "@types/babel__traverse" "^7.0.6"
 
-babel-plugin-react-native-web@^0.15.5:
-  version "0.15.5"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-native-web/-/babel-plugin-react-native-web-0.15.5.tgz#1424c9100541b647210553ca73577f65db783d6e"
-  integrity sha512-LxRXV2Q2Q/E2CoHWGC4W9RPTHDhInDG/nT+GIzeLRlSCCb+9ivbP/PRxxQp3e/DW6wlXYqeAN0JiCWCZEd40fA==
+babel-plugin-react-native-web@^0.15.6:
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-native-web/-/babel-plugin-react-native-web-0.15.6.tgz#d7519eb6d766cdc2d27c389067e15d6456e5cf1f"
+  integrity sha512-iXIqNdB03gKK3M/vJ+5I9NInozFhNfdJ9Q+K3RvXAHxE2pCEh3ddyJQs5xrfUstjJ+PLRiG49Avc7QzR18i6pw==
 
 babel-plugin-syntax-jsx@6.18.0:
   version "6.18.0"
