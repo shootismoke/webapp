@@ -17,7 +17,7 @@
 		"@sentry/node": "^6.2.5",
 		"@shootismoke/ui": "^0.8.9",
 		"@types/amplitude-js": "^7.0.1",
-		"@types/classnames": "^2.2.11",
+		"@types/classnames": "^2.3.1",
 		"@types/cors": "^2.8.10",
 		"@types/form-data": "^2.5.0",
 		"@types/html-minifier": "^4.0.0",
