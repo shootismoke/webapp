@@ -2166,10 +2166,10 @@ ajv@^7.0.2:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-amplitude-js@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.1.0.tgz#1d5b95f5fbe660cbf78e403d1d18d78c18a9e5ec"
-  integrity sha512-S52cbLElI2qO3qqREYHsg1UBbEsq7bM6mpc62dF/m8eT3XgiOKs11nVBnVYk5JwmSgjIxw2pMgVdLYZ7833GSw==
+amplitude-js@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.2.0.tgz#590bc82a9d69e608e3bee40272fbd88dc4a69145"
+  integrity sha512-Gab03w27UdbyDvsKWUTL45DOsO6wxx36bzTSNWPq9VcGSy9cRLen+7ugIUfkUW7EXh02WJf1ZyCdE8FQX+ztBA==
   dependencies:
     "@amplitude/ua-parser-js" "0.7.24"
     "@amplitude/utils" "^1.0.5"
