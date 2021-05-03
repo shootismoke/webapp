@@ -1,33 +1,9 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    time: "02:00"
-    timezone: Europe/Berlin
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: react-native-web
-    versions:
-    - 0.15.5
-  - dependency-name: mailgun.js
-    versions:
-    - 3.2.0
-  - dependency-name: "@sentry/browser"
-    versions:
-    - 6.2.0
-  - dependency-name: "@types/node"
-    versions:
-    - 14.14.31
-  - dependency-name: "@types/react-native"
-    versions:
-    - 0.63.50
-  - dependency-name: mongoose
-    versions:
-    - 5.11.16
-    - 5.11.17
-  - dependency-name: "@types/react-select"
-    versions:
-    - 4.0.11
-    - 4.0.13
+    - package-ecosystem: npm
+      directory: '/'
+      schedule:
+          interval: weekly
+          time: '02:00'
+          timezone: Europe/Berlin
+      open-pull-requests-limit: 10
