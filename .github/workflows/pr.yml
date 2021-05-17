@@ -4,7 +4,7 @@ on:
     push:
         branches:
             - master
-    pull_request:
+    pull_request_target:
         branches:
             - master
 
@@ -19,6 +19,7 @@ jobs:
     # Dry-run the email reporting script.
     test-email:
         runs-on: ubuntu-latest
+        if: ${{ github.actor == 'dependabot[bot]' }}
         steps:
             - uses: actions/checkout@v2
             - name: Install Dependencies
@@ -38,6 +39,7 @@ jobs:
     # Dry-run the expo reporting script.
     test-expo:
         runs-on: ubuntu-latest
+        if: ${{ github.actor == 'dependabot[bot]' }}
         steps:
             - uses: actions/checkout@v2
             - name: Install Dependencies
