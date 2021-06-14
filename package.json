@@ -24,7 +24,7 @@
 		"@types/http-errors": "^1.8.0",
 		"@types/i18n-js": "^3.8.1",
 		"@types/mustache": "^4.1.1",
-		"@types/node": "^15.6.1",
+		"@types/node": "^15.12.2",
 		"@types/node-uuid": "^0.0.28",
 		"@types/react-native": "^0.64.5",
 		"@types/react-select": "^4.0.15",
