@@ -6858,10 +6858,10 @@ lz-string@^1.4.4:
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
   integrity sha1-wNjq82BZ9wV5bh40SBHPTEmNOiY=
 
-mailgun.js@^3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/mailgun.js/-/mailgun.js-3.3.2.tgz#f2894c98102c1e61b47036c3097c8e5b52d8d2bf"
-  integrity sha512-Y2C8tUUb/npLus3zpMMkkrz7CmYlo9NS+IM8IUu9psV/F+f8Lrd8q8egfTix10L2eUIO1j/aFHr5XX7RrR9/0A==
+mailgun.js@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/mailgun.js/-/mailgun.js-3.4.1.tgz#d4544129528fbe5c74d6ae0f47c5088f51f63842"
+  integrity sha512-h6ZxLcxkzRiZ+w5hjqU1WGSlw8LwgGgHLk/YrCpbz+TWIpP78vq2ucr0JhVOdMi2wA7hXAet4O53b/01YRLlKQ==
   dependencies:
     bluebird "^3.7.2"
     btoa "^1.1.2"
