@@ -26,7 +26,7 @@
 		"@types/mustache": "^4.1.1",
 		"@types/node": "^15.6.1",
 		"@types/node-uuid": "^0.0.28",
-		"@types/react-native": "^0.64.5",
+		"@types/react-native": "^0.64.12",
 		"@types/react-select": "^4.0.15",
 		"amplitude-js": "^8.3.0",
 		"assign-deep": "^1.0.1",
