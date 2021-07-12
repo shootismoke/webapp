@@ -90,7 +90,7 @@ const UserSchema = new Schema<MongoUser>(
 			type: Schema.Types.String,
 		},
 		/**
-		 * Station of the user to get the notifications. The value is an universalId,
+		 * Station of the user to get the notifications. The value is a stationId,
 		 * e.g. `openaq|FR1012` or `aqicn|1047`. For privacy reasons, we do not store
 		 * the user's exact lat/lng.
 		 */
@@ -100,32 +100,60 @@ const UserSchema = new Schema<MongoUser>(
 			type: Schema.Types.String,
 			validate: {
 				message: ({ value }: { value: string }): string =>
-					`${value} is not a valid universalId`,
-				validator: (universalId: string): boolean => {
-					const [provider, station] = universalId.split('|');
+					`${value} is not a valid stationId`,
+				validator: (stationId: string): boolean => {
+					const [provider, station] = stationId.split('|');
 
 					return !!station && AllProviders.includes(provider);
 				},
 			},
 		},
 		/**
-		 * User's Expo repots preferences.
+		 * User's Expo reports preferences.
 		 */
 		expoReport: {
 			type: ExpoReportSchema,
+			required: function () {
+				return !((this as unknown) as MongoUser).emailReport;
+			},
+			validate: {
+				message:
+					'either email or expo report must be set, but not both',
+				validator: function () {
+					if (((this as unknown) as MongoUser).emailReport) {
+						return false;
+					}
+
+					return true;
+				},
+			},
 		},
 		/**
 		 * User's email repots preferences.
 		 */
 		emailReport: {
 			type: EmailReportSchema,
+			required: function () {
+				return !((this as unknown) as MongoUser).expoReport;
+			},
+			validate: {
+				message:
+					'either email or expo report must be set, but not both',
+				validator: function () {
+					if (((this as unknown) as MongoUser).expoReport) {
+						return false;
+					}
+
+					return true;
+				},
+			},
 		},
 	},
 	{ strict: 'throw', timestamps: true }
 );
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-UserSchema.pre('remove', async () => {
+UserSchema.pre('remove', async function () {
 	const userId = ((this as unknown) as MongoUser)._id;
 
 	// Cascade delete all related PushTickets.

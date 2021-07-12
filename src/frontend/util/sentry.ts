@@ -23,6 +23,14 @@ if (typeof window !== 'undefined') {
 	});
 }
 
+// We don't send the following errors to Sentry to not pollute it.
+const UNTRACKED_ERRORS = [
+	// Weird amplitude error.
+	'0 No request sent',
+	// First time fetching a user
+	'No user with',
+];
+
 /**
  * Capture an  error, and send it to Sentry.
  *
@@ -35,5 +43,7 @@ export function sentryException(err: Error): void {
 		return;
 	}
 	console.error(err);
-	captureException(err);
+	if (!UNTRACKED_ERRORS.some((msg) => err.message.includes(msg))) {
+		captureException(err);
+	}
 }

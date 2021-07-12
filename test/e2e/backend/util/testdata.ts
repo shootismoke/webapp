@@ -30,19 +30,11 @@ export const alice = {
 		email: 'alice@example.org',
 		frequency: 'daily',
 	},
-	expoReport: {
-		expoPushToken: 'expo_token_alice',
-		frequency: 'weekly',
-	},
 	lastStationId: 'openaq|FR04143',
 	timezone: 'Europe/Berlin',
 };
 
 export const bob = {
-	emailReport: {
-		email: 'bob@example.org',
-		frequency: 'daily',
-	},
 	expoReport: {
 		expoPushToken: 'ExponentPushToken[0zK3-xM3PgLEfe31-AafjB]', // real one, unused',
 		frequency: 'monthly',
