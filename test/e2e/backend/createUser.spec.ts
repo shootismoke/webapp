@@ -24,27 +24,24 @@ import { connectToDatabase } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 
 function testBadInput<T>(name: string, input: T, expErr: string) {
-	it(`should require correct input: ${name}`, async (done) => {
+	it(`should require correct input: ${name}`, async () => {
 		try {
 			await axios.post(`${BACKEND_URL}/api/users`, input, axiosConfig);
-			done.fail();
+			fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(400);
 			expect(e.response?.data.error).toContain(expErr);
-			done();
 		}
 	});
 }
 
 describe('users::createUser', () => {
-	beforeAll(async (done) => {
+	beforeAll(async () => {
 		jest.setTimeout(30000);
 
 		await connectToDatabase();
 		await User.deleteMany();
-
-		done();
 	});
 
 	testBadInput('empty input', {}, 'User validation failed');

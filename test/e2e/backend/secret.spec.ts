@@ -24,7 +24,7 @@ import { axiosConfig, BACKEND_URL } from './util/testdata';
 describe('users::getUser', () => {
 	beforeAll(() => jest.setTimeout(30000));
 
-	it('should disallow wrong secret header', async (done) => {
+	it('should disallow wrong secret header', async () => {
 		try {
 			await axios.get<MongoUser>(`${BACKEND_URL}/api/users`, {
 				headers: {
@@ -37,11 +37,10 @@ describe('users::getUser', () => {
 			expect(e.response?.data.error).toBe(
 				'incorrect x-shootismoke-secret header'
 			);
-			done();
 		}
 	});
 
-	it('should disallow GET on /api/users', async (done) => {
+	it('should disallow GET on /api/users', async () => {
 		try {
 			await axios.get<MongoUser>(`${BACKEND_URL}/api/users`, axiosConfig);
 		} catch (err) {
@@ -50,7 +49,6 @@ describe('users::getUser', () => {
 			expect(e.response?.data.error).toBe(
 				'Unknown request method: GET /api/users'
 			);
-			done();
 		}
 	});
 

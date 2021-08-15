@@ -112,7 +112,7 @@ describe('constructExpoPushMessage', () => {
 });
 
 describe('sendBatchToExpo', () => {
-	it('should call sendPushNotificationsAsync', async (done) => {
+	it('should call sendPushNotificationsAsync', async () => {
 		const expo = ({
 			chunkPushNotifications: jest.fn(<T>(a: T[]) =>
 				a.map((value) => [value])
@@ -124,13 +124,11 @@ describe('sendBatchToExpo', () => {
 		await sendBatchToExpo(expo, messages);
 		expect(expo.chunkPushNotifications).toBeCalledTimes(1); // eslint-disable-line @typescript-eslint/unbound-method
 		expect(expo.sendPushNotificationsAsync).toBeCalledTimes(2); // eslint-disable-line @typescript-eslint/unbound-method
-
-		done();
 	});
 });
 
 describe('handleReceipts', () => {
-	it('should correctly call onOk and onError', async (done) => {
+	it('should correctly call onOk and onError', async () => {
 		const receipts = {
 			receiptA: { status: 'ok' },
 			receiptB: { status: 'error', message: 'foo' },
@@ -149,7 +147,5 @@ describe('handleReceipts', () => {
 		await handleReceipts(expo, Object.keys(receipts), onOk, onError);
 		expect(onOk).toHaveBeenCalledTimes(1);
 		expect(onError).toHaveBeenCalledTimes(1);
-
-		done();
 	});
 });

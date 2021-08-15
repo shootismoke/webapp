@@ -24,7 +24,7 @@ import { connectToDatabase } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL, bob, charlie } from './util/testdata';
 
 describe('findUsersForReport', () => {
-	beforeAll(async (done) => {
+	beforeAll(async () => {
 		jest.setTimeout(30000);
 
 		await connectToDatabase();
@@ -35,8 +35,6 @@ describe('findUsersForReport', () => {
 				axios.post(`${BACKEND_URL}/api/users`, u, axiosConfig)
 			)
 		);
-
-		done();
 	});
 
 	it('should work for at UTC 9:00 on a Friday', async () => {

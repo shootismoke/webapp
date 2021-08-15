@@ -26,25 +26,24 @@ import { alice, axiosConfig, BACKEND_URL, bob } from './util/testdata';
 let dbAlice: MongoUser;
 
 function testBadInput<T>(name: string, input: T, expErr: string) {
-	it(`should require correct input: ${name}`, async (done) => {
+	it(`should require correct input: ${name}`, async () => {
 		try {
 			await axios.patch(
 				`${BACKEND_URL}/api/users/${dbAlice._id}`,
 				input,
 				axiosConfig
 			);
-			done.fail();
+			fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(400);
 			expect(e.response?.data.error).toContain(expErr);
-			done();
 		}
 	});
 }
 
 function testGoodInput<T>(name: string, input: T) {
-	it(`should be successful: ${name}`, async (done) => {
+	it(`should be successful: ${name}`, async () => {
 		const { data } = await axios.patch<MongoUser>(
 			`${BACKEND_URL}/api/users/${dbAlice._id}`,
 			input,
@@ -52,13 +51,11 @@ function testGoodInput<T>(name: string, input: T) {
 		);
 
 		expect(data).toMatchObject(input);
-
-		done();
 	});
 }
 
 describe('users::updateUser', () => {
-	beforeAll(async (done) => {
+	beforeAll(async () => {
 		jest.setTimeout(30000);
 
 		await connectToDatabase();
@@ -76,8 +73,6 @@ describe('users::updateUser', () => {
 		);
 
 		dbAlice = data;
-
-		done();
 	});
 
 	testGoodInput('empty input', {});
