@@ -29,13 +29,13 @@ let dbBob: MongoUser;
 /**
  * Make sure the user is deleted and does not exist in the DB anymore.
  */
-async function userNotExist(userId: string, done: jest.DoneCallback) {
+async function userNotExist(userId: string) {
 	try {
 		await axios.get<MongoUser>(
 			`${BACKEND_URL}/api/users/${userId}`,
 			axiosConfig
 		);
-		done.fail();
+		fail();
 	} catch (err) {
 		const e = err as AxiosError<BackendError>;
 		expect(e.response?.status).toBe(404);
@@ -44,7 +44,7 @@ async function userNotExist(userId: string, done: jest.DoneCallback) {
 }
 
 describe('users::updateUser', () => {
-	beforeAll(async (done) => {
+	beforeAll(async () => {
 		jest.setTimeout(30000);
 
 		await connectToDatabase();
@@ -63,61 +63,51 @@ describe('users::updateUser', () => {
 
 		dbAlice = dataAlice;
 		dbBob = dataBob;
-
-		done();
 	});
 
-	it('should require userId in DELETE /{userId}', async (done) => {
+	it('should require userId in DELETE /{userId}', async () => {
 		try {
 			await axios.delete<MongoUser>(
 				`${BACKEND_URL}/api/users/foo`,
 				axiosConfig
 			);
-			done.fail();
+			fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(404);
 			expect(e.response?.data.error).toBe('No user with "foo" found');
-			done();
 		}
-
-		done();
 	});
 
-	it('should delete user from DELETE /{userId}', async (done) => {
+	it('should delete user from DELETE /{userId}', async () => {
 		await axios.delete<MongoUser>(
 			`${BACKEND_URL}/api/users/${dbAlice._id}`,
 			axiosConfig
 		);
 
-		await userNotExist(dbAlice._id, done);
-		done();
+		await userNotExist(dbAlice._id);
 	});
 
-	it('should require userId GET /email/unsubscribe/{userId}', async (done) => {
+	it('should require userId GET /email/unsubscribe/{userId}', async () => {
 		try {
 			await axios.get<MongoUser>(
 				`${BACKEND_URL}/api/users/email/unsubscribe/foo`
 			);
-			done.fail();
+			fail();
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(404);
 			expect(e.response?.data.error).toBe('No user with "foo" found');
-			done();
 		}
-
-		done();
 	});
 
-	it('should delete user from GET /email/unsubscribe/{userId}', async (done) => {
+	it('should delete user from GET /email/unsubscribe/{userId}', async () => {
 		// Note: no axiosConfig here.
 		await axios.get<MongoUser>(
 			`${BACKEND_URL}/api/users/email/unsubscribe/${dbBob._id}`
 		);
 
-		await userNotExist(dbBob._id, done);
-		done();
+		await userNotExist(dbBob._id);
 	});
 
 	afterAll(() => connection.close());

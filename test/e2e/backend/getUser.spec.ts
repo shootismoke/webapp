@@ -26,7 +26,7 @@ import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 let dbAlice: MongoUser;
 
 describe('users::getUser', () => {
-	beforeAll(async (done) => {
+	beforeAll(async () => {
 		jest.setTimeout(30000);
 
 		await connectToDatabase();
@@ -39,11 +39,9 @@ describe('users::getUser', () => {
 		);
 
 		dbAlice = data;
-
-		done();
 	});
 
-	it('should always require userId', async (done) => {
+	it('should always require userId', async () => {
 		try {
 			await axios.get<MongoUser>(`${BACKEND_URL}/api/users`, axiosConfig);
 		} catch (err) {
@@ -52,11 +50,10 @@ describe('users::getUser', () => {
 			expect(e.response?.data.error).toBe(
 				'Unknown request method: GET /api/users'
 			);
-			done();
 		}
 	});
 
-	it('should always fail if userId not found', async (done) => {
+	it('should always fail if userId not found', async () => {
 		try {
 			await axios.get<MongoUser>(
 				`${BACKEND_URL}/api/users/foo`,
@@ -68,11 +65,10 @@ describe('users::getUser', () => {
 			expect(e.response?.data.error).toContain(
 				'No user with "foo" found'
 			);
-			done();
 		}
 	});
 
-	it('should fetch correct user', async (done) => {
+	it('should fetch correct user', async () => {
 		const { data } = await axios.get<MongoUser>(
 			`${BACKEND_URL}/api/users/${dbAlice?._id}`,
 			axiosConfig
@@ -80,8 +76,6 @@ describe('users::getUser', () => {
 
 		expect(data._id).toBe(dbAlice._id);
 		expect(data).toMatchObject(dbAlice);
-
-		done();
 	});
 
 	afterAll(() => connection.close());
