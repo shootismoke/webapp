@@ -63,7 +63,7 @@ export function findTimezonesAt(hour: number, now: Date): string[] {
 	}
 
 	// Is DST currently observed?
-	const isDstNow = isDstObserved();
+	const isDstNow = isDstObserved(now);
 
 	const tzs = timezones.filter(
 		(tz) =>
