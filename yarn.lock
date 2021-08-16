@@ -2952,6 +2952,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
+base-64@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/base-64/-/base-64-1.0.0.tgz#09d0f2084e32a3fd08c2475b973788eee6ae8f4a"
+  integrity sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg==
+
 base64-js@^1.0.2, base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.3.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
@@ -3175,11 +3180,6 @@ bson@^4.4.0:
   integrity sha512-Uu4OCZa0jouQJCKOk1EmmyqtdWAP5HVLru4lQxTwzJzxT+sJ13lVpEZU/MATDxtHiekWMAL84oQY3Xn1LpJVSg==
   dependencies:
     buffer "^5.6.0"
-
-btoa@^1.1.2:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/btoa/-/btoa-1.2.1.tgz#01a9909f8b2c93f6bf680ba26131eb30f7fa3d73"
-  integrity sha512-SB4/MIGlsiVkMcHmT+pSmIPoNDoHg+7cMzmt3Uxt628MTz2487DKSqK/fuhFBrkuqrYv5UCEnACpF4dTFNKc/g==
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
@@ -6880,13 +6880,13 @@ lz-string@^1.4.4:
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
   integrity sha1-wNjq82BZ9wV5bh40SBHPTEmNOiY=
 
-mailgun.js@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/mailgun.js/-/mailgun.js-3.3.2.tgz#f2894c98102c1e61b47036c3097c8e5b52d8d2bf"
-  integrity sha512-Y2C8tUUb/npLus3zpMMkkrz7CmYlo9NS+IM8IUu9psV/F+f8Lrd8q8egfTix10L2eUIO1j/aFHr5XX7RrR9/0A==
+mailgun.js@3.5.6:
+  version "3.5.6"
+  resolved "https://registry.yarnpkg.com/mailgun.js/-/mailgun.js-3.5.6.tgz#01e13a08208df26555c44a3a23ec74aa8c971d23"
+  integrity sha512-+WpfVLvUZDdw11J3xAD/iDF7bEdgW9GxdpABcsaSmlVfeSTe7s5tQgmI1pBe+lmJDMHz+u3O3zl+DUvO0jTPXA==
   dependencies:
+    base-64 "^1.0.0"
     bluebird "^3.7.2"
-    btoa "^1.1.2"
     ky "^0.25.1"
     ky-universal "^0.8.2"
     url "^0.11.0"
