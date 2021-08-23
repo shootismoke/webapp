@@ -24,7 +24,7 @@
 		"@types/http-errors": "^1.8.1",
 		"@types/i18n-js": "^3.8.2",
 		"@types/mustache": "^4.1.2",
-		"@types/node": "^16.6.1",
+		"@types/node": "^16.7.1",
 		"@types/node-uuid": "^0.0.29",
 		"@types/react-native": "^0.64.13",
 		"@types/react-select": "^4.0.17",
@@ -43,7 +43,7 @@
 		"node-uuid": "^1.4.8",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
-		"react-native": "^0.64.1",
+		"react-native": "^0.65.1",
 		"react-native-web": "^0.16.3",
 		"react-select": "^4.3.1",
 		"timezones.json": "^1.5.3"
