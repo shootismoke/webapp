@@ -35,10 +35,10 @@
   resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.5.0.tgz#cf34d0f304558d8b0d847a6217d506e6226e653c"
   integrity sha512-XspuOsUzUcxwAptHeGiIn4giuLWs285xTJa7h8kAEEynxtEI3/krWCoDYZSB9PekaPXB6phxiO/tMd9t5V9LgQ==
 
-"@amplitude/ua-parser-js@0.7.24":
-  version "0.7.24"
-  resolved "https://registry.yarnpkg.com/@amplitude/ua-parser-js/-/ua-parser-js-0.7.24.tgz#2ce605af7d2c38d4a01313fb2385df55fbbd69aa"
-  integrity sha512-VbQuJymJ20WEw0HtI2np7EdC3NJGUWi8+Xdbc7uk8WfMIF308T0howpzkQ3JFMN7ejnrcSM/OyNGveeE3TP3TA==
+"@amplitude/ua-parser-js@0.7.25":
+  version "0.7.25"
+  resolved "https://registry.yarnpkg.com/@amplitude/ua-parser-js/-/ua-parser-js-0.7.25.tgz#ccbeb0bd24fca3759cfc09a3b9ba95a23ea32756"
+  integrity sha512-AUeO9T6vLkUNw0iYxchFBw3FylJAMv5g2sPUsS5XCulAP3TpZg9Y/QESOl+oCLGqTQYumUJZHfoQBemN22eghw==
 
 "@amplitude/utils@^1.0.5":
   version "1.5.0"
@@ -2430,12 +2430,12 @@ ajv@^7.0.2:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-amplitude-js@^8.5.0:
-  version "8.5.0"
-  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.5.0.tgz#17f75ca84f5ebee7dab212f4a0a100d606dbd989"
-  integrity sha512-qRt5JghdluTGyaSGJ4Ae1DKX5ObZj46OJPTlI66ewxFCyOPbkxeO22LybIfxDoL6ZylnXVIuICNp0BbzZ6A4tg==
+amplitude-js@^8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.8.0.tgz#bb520fcce0315db352e78032e9c79f3fcc58e3b4"
+  integrity sha512-CYPW2QI0X9F5omeZ/dE+vfll0RKb3fTYfLvsaV3vOhJIGuVkVIc8NydRtkMWtZOXTRcW9XJi0HNLx3u/NuvGrA==
   dependencies:
-    "@amplitude/ua-parser-js" "0.7.24"
+    "@amplitude/ua-parser-js" "0.7.25"
     "@amplitude/utils" "^1.0.5"
     blueimp-md5 "^2.10.0"
     query-string "5"
