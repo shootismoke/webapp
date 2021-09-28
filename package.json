@@ -57,7 +57,7 @@
 		"autoprefixer": "^10.3.4",
 		"babel-jest": "^27.0.6",
 		"babel-plugin-react-native-web": "^0.17.1",
-		"cypress": "^8.3.0",
+		"cypress": "^8.4.1",
 		"dotenv": "^10.0.0",
 		"identity-obj-proxy": "^3.0.0",
 		"jest": "^27.0.6",
