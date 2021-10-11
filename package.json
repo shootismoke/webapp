@@ -13,7 +13,7 @@
 		"test:unit": "jest --testPathIgnorePatterns \"/e2e|cypress/\""
 	},
 	"dependencies": {
-		"@sentry/browser": "^6.11.0",
+		"@sentry/browser": "^6.13.3",
 		"@sentry/node": "^6.13.2",
 		"@shootismoke/ui": "^0.8.9",
 		"@types/amplitude-js": "^8.0.1",
@@ -45,7 +45,7 @@
 		"react-dom": "^17.0.2",
 		"react-native": "^0.65.1",
 		"react-native-web": "^0.17.1",
-		"react-select": "^4.3.1",
+		"react-select": "^5.1.0",
 		"timezones.json": "^1.5.3"
 	},
 	"devDependencies": {
@@ -54,13 +54,13 @@
 		"@testing-library/react": "^12.0.0",
 		"@types/jest": "^27.0.2",
 		"@types/react-test-renderer": "^17.0.1",
-		"autoprefixer": "^10.3.4",
+		"autoprefixer": "^10.3.7",
 		"babel-jest": "^27.0.6",
 		"babel-plugin-react-native-web": "^0.17.1",
 		"cypress": "^8.4.1",
 		"dotenv": "^10.0.0",
 		"identity-obj-proxy": "^3.0.0",
-		"jest": "^27.0.6",
+		"jest": "^27.2.5",
 		"next-fonts": "^1.5.1",
 		"next-images": "^1.8.1",
 		"next-transpile-modules": "^7.2.0",
