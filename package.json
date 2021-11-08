@@ -36,7 +36,7 @@
 		"html-minifier": "^4.0.0",
 		"i18n-js": "^3.8.0",
 		"mailgun.js": "3.5.8",
-		"mongodb": "^4.1.0",
+		"mongodb": "^4.1.4",
 		"mongoose": "^5.13.7",
 		"mustache": "^4.2.0",
 		"next": "^10.2.3",
