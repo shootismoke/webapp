@@ -60,7 +60,7 @@
 		"cypress": "^9.1.0",
 		"dotenv": "^10.0.0",
 		"identity-obj-proxy": "^3.0.0",
-		"jest": "^27.4.3",
+		"jest": "^27.5.0",
 		"next-fonts": "^1.5.1",
 		"next-images": "^1.8.1",
 		"next-transpile-modules": "^7.2.0",
