@@ -21,6 +21,7 @@ import React from 'react';
 export type CardProps = React.HTMLProps<HTMLDivElement>;
 
 export function Card(props: CardProps): React.ReactElement {
+	// eslint-disable-next-line react/prop-types
 	const { className, children, ...rest } = props;
 
 	return (

@@ -145,9 +145,10 @@ async function emailForUser(
 	const aqi = getAQI(api.results) || api.results[0].value; // We fallback to first value. FIXME.
 	const polData = getPollutantData(primaryPol.parameter);
 	const swearWord = t(getSwearWord(cigarettes));
-	const closestCities = (api.pm25.coordinates
-		? rankClosestCities(cities, api.pm25.coordinates, 5)
-		: cities.slice(0, 5)
+	const closestCities = (
+		api.pm25.coordinates
+			? rankClosestCities(cities, api.pm25.coordinates, 5)
+			: cities.slice(0, 5)
 	).map((city) => ({
 		cigarettes: city.api?.shootismoke.dailyCigarettes
 			? `${getDisplayedCigarettes(

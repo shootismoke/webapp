@@ -20,8 +20,10 @@
  * @see https://dev.to/corbindavenport/how-to-correctly-check-for-do-not-track-with-javascript-135d
  */
 export function doNotTrack(): boolean {
-	if (window.doNotTrack) {
-		return window.doNotTrack === '1';
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+	if ((window as any).doNotTrack) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+		return (window as any).doNotTrack === '1';
 	}
 	if (navigator.doNotTrack) {
 		return navigator.doNotTrack === 'yes' || navigator.doNotTrack === '1';

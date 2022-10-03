@@ -42,7 +42,8 @@ function testBadInput<T>(name: string, input: T, expErr: string) {
 	});
 }
 
-function testGoodInput<T>(name: string, input: T) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function testGoodInput<T extends {}>(name: string, input: T) {
 	it(`should be successful: ${name}`, async () => {
 		const { data } = await axios.patch<MongoUser>(
 			`${BACKEND_URL}/api/users/${dbAlice._id}`,

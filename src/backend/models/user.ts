@@ -126,7 +126,7 @@ const UserSchema = new Schema<MongoUser>(
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 UserSchema.pre('remove', async () => {
-	const userId = ((this as unknown) as MongoUser)._id;
+	const userId = (this as unknown as MongoUser)._id;
 
 	// Cascade delete all related PushTickets.
 	await PushTicket.remove({ userId }).exec();
