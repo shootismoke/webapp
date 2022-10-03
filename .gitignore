@@ -4,6 +4,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+tsconfig.tsbuildinfo
 
 # Runtime data
 pids
@@ -34,6 +35,7 @@ test/cypress/screenshots
 test/cypress/videos
 
 # Secrets
+.env
 .env.development
 .env.staging
 .env.production

@@ -37,4 +37,3 @@ declare module '*.webp' {
 
 // The following packages don't have typings.
 declare module 'assign-deep';
-declare module 'form-data';

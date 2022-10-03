@@ -168,7 +168,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			!isKnownError(error1) && sentryException(new Error(error1));
 			!isKnownError(error2) && sentryException(new Error(error2));
 		} catch (err) {
-			sentryException(err);
+			sentryException(err as Error);
 		}
 	}, [error]);
 

@@ -1,20 +1,33 @@
 {
-	"compilerOptions": {
-		"downlevelIteration": true,
-		"jsx": "preserve",
-		"lib": ["DOM", "ES2020"],
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-		"types": ["cypress", "node"],
-		"target": "es5",
-		"allowJs": false,
-		"forceConsistentCasingInFileNames": true,
-		"noEmit": true,
-		"module": "esnext",
-		"moduleResolution": "node",
-		"isolatedModules": true
-	},
-	"extends": "./node_modules/@amaurym/tsconfig/tsconfig",
-	"exclude": ["node_modules"],
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "jsx": "preserve",
+    "lib": [
+      "DOM",
+      "ES2020"
+    ],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "types": [
+      "cypress",
+      "node"
+    ],
+    "target": "es5",
+    "allowJs": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "incremental": true
+  },
+  "extends": "./node_modules/@amaurym/tsconfig/tsconfig",
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

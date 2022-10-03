@@ -9,6 +9,8 @@ module.exports = {
 	images: {
 		// https://github.com/vercel/next.js/blob/master/errors/next-image-unconfigured-host.md
 		domains: ['m.media-amazon.com', 'live.staticflickr.com'],
+		// https://stackoverflow.com/questions/68008498/nextjs-typeerror-unsupported-file-type-undefined-after-update-to-v-11
+		disableStaticImages: true
 	},
 	...withTM(
 		withFonts(

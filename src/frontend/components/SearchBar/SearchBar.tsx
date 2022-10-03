@@ -16,7 +16,7 @@
  */
 
 import type { CSSObject } from '@emotion/serialize';
-import { fetchAlgolia } from '@shootismoke/ui';
+import { geoapify } from '@shootismoke/ui';
 import slugify from '@sindresorhus/slugify';
 import c from 'classnames';
 import { pipe } from 'fp-ts/lib/pipeable';
@@ -31,13 +31,13 @@ import location from '../../../../assets/images/icons/location_orange.svg';
 import search from '../../../../assets/images/icons/search.svg';
 import { City, logEvent, sentryException } from '../../util';
 
-interface SearchBarProps extends SelectProps<AlgoliaOption, false> {
+interface SearchBarProps extends SelectProps<GeoapifyOption, false> {
 	cities: City[];
 	className?: string;
 	showGps?: boolean;
 }
 
-interface AlgoliaOption {
+interface GeoapifyOption {
 	label: string | React.ReactElement;
 	value:
 		| {
@@ -53,25 +53,34 @@ interface AlgoliaOption {
  */
 function algoliaLoadOptions(
 	inputValue: string
-): Promise<ReadonlyArray<AlgoliaOption>> {
+): Promise<ReadonlyArray<GeoapifyOption>> {
 	return pipe(
-		fetchAlgolia(inputValue),
-		TE.map((items) =>
-			items.map((item) => ({
-				label: [
-					item.locale_names && item.locale_names[0],
-					item.city && item.city[0],
-					item.county && item.county[0],
-					item.country,
-				]
-					.filter((_) => _)
-					.join(', '),
-				value: {
-					localeName: item.locale_names && item.locale_names[0],
-					...item._geoloc,
-				},
-			}))
+		geoapify(
+			inputValue,
+			process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY as string
 		),
+		TE.map((items) => {
+			const found: Record<string, boolean> = {};
+
+			// Remove duplicates
+			return items
+				.filter((item) => {
+					if (found[item.formatted]) {
+						return false;
+					}
+
+					found[item.formatted] = true;
+					return true;
+				})
+				.map((item) => ({
+					label: item.formatted,
+					value: {
+						localeName: item.city || item.formatted,
+						lat: item.lat,
+						lng: item.lon,
+					},
+				}));
+		}),
 		TE.fold((err) => {
 			sentryException(err);
 
@@ -88,7 +97,7 @@ function defaultCustomStyle(provided: CSSObject): CSSObject {
 	};
 }
 
-const customStyles: StylesConfig<AlgoliaOption, false> = {
+const customStyles: StylesConfig<GeoapifyOption, false> = {
 	control: (provided) => ({
 		...provided,
 		borderRadius: '10px',
@@ -166,7 +175,7 @@ function onGps(
 }
 
 // Default options to show when user didn't type anything in the input.
-const defaultOptions: AlgoliaOption[] = [
+const defaultOptions: GeoapifyOption[] = [
 	{
 		label: (
 			<div className="flex items-center">
@@ -231,11 +240,12 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const [isFocused, setIsFocused] = useState(false);
 
 	// The current chosen option in the dropdown.
-	const [option, setOption] = useState<AlgoliaOption | null>(null);
+	const [option, setOption] = useState<GeoapifyOption | null>(null);
+
 	// When the option is;
 	// - a city: we change URL to the city page,
 	// - USE_GPS: we ask for user's location.
-	useEffect(() => {
+	function navigateToOption(option: GeoapifyOption | null): void {
 		if (!option) {
 			return;
 		}
@@ -264,7 +274,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				)
 				.catch(sentryException);
 		}
-	}, [option, citiesMap, router]);
+	}
 
 	// If we have a more important message to show in the placeholder, we put
 	// it here.
@@ -274,13 +284,16 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 
 	return (
 		<div className="relative" data-cy="SearchBar-AsyncSelect">
-			<AsyncSelect<AlgoliaOption, false>
+			<AsyncSelect<GeoapifyOption, false>
 				className={c('w-full rounded text-gray-700', className)}
 				defaultOptions={defaultOptions}
 				// https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
 				instanceId={1}
 				loadOptions={algoliaLoadOptions}
-				onChange={setOption}
+				onChange={(e) => {
+					setOption(e);
+					navigateToOption(e);
+				}}
 				onFocus={(): void => {
 					setIsFocused(true);
 					logEvent('SearchBar.Input.Focus');
