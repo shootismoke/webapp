@@ -75,7 +75,7 @@ function algoliaLoadOptions(
 				.map((item) => ({
 					label: item.formatted,
 					value: {
-						localeName: item.city||item.formatted,
+						localeName: item.city || item.formatted,
 						lat: item.lat,
 						lng: item.lon,
 					},
@@ -245,7 +245,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 	// When the option is;
 	// - a city: we change URL to the city page,
 	// - USE_GPS: we ask for user's location.
-	function navigateToOption(option: GeoapifyOption | null) : void{
+	function navigateToOption(option: GeoapifyOption | null): void {
 		if (!option) {
 			return;
 		}
@@ -266,14 +266,13 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 		if (citiesMap[sluggifiedCity]) {
 			router.push(`/city/${sluggifiedCity}`).catch(sentryException);
 		} else {
-				router
+			router
 				.push(
 					`/city?lat=${value.lat}&lng=${value.lng}&name=${
 						label as string
 					}`
 				)
 				.catch(sentryException);
-			
 		}
 	}
 
@@ -291,9 +290,9 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				// https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
 				instanceId={1}
 				loadOptions={algoliaLoadOptions}
-				onChange={(e)=>{
-					setOption(e)
-					navigateToOption(e)
+				onChange={(e) => {
+					setOption(e);
+					navigateToOption(e);
 				}}
 				onFocus={(): void => {
 					setIsFocused(true);
