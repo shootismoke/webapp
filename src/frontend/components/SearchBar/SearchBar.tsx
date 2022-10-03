@@ -75,7 +75,7 @@ function algoliaLoadOptions(
 				.map((item) => ({
 					label: item.formatted,
 					value: {
-						localeName: item.formatted,
+						localeName: item.city||item.formatted,
 						lat: item.lat,
 						lng: item.lon,
 					},
@@ -241,10 +241,11 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 
 	// The current chosen option in the dropdown.
 	const [option, setOption] = useState<GeoapifyOption | null>(null);
+
 	// When the option is;
 	// - a city: we change URL to the city page,
 	// - USE_GPS: we ask for user's location.
-	useEffect(() => {
+	function navigateToOption(option: GeoapifyOption | null) : void{
 		if (!option) {
 			return;
 		}
@@ -265,15 +266,16 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 		if (citiesMap[sluggifiedCity]) {
 			router.push(`/city/${sluggifiedCity}`).catch(sentryException);
 		} else {
-			router
+				router
 				.push(
 					`/city?lat=${value.lat}&lng=${value.lng}&name=${
 						label as string
 					}`
 				)
 				.catch(sentryException);
+			
 		}
-	}, [option, citiesMap, router]);
+	}
 
 	// If we have a more important message to show in the placeholder, we put
 	// it here.
@@ -289,7 +291,10 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				// https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
 				instanceId={1}
 				loadOptions={algoliaLoadOptions}
-				onChange={setOption}
+				onChange={(e)=>{
+					setOption(e)
+					navigateToOption(e)
+				}}
 				onFocus={(): void => {
 					setIsFocused(true);
 					logEvent('SearchBar.Input.Focus');
