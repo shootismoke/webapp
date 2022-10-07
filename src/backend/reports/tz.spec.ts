@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { expect } from '@jest/globals';
+
 import { findTimezonesAt } from './tz';
 
 describe('findTimezonesAt', () => {

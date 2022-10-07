@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import type { BackendError, MongoUser } from '@shootismoke/ui';
 import axios, { AxiosError } from 'axios';
 import { connection } from 'mongoose';
@@ -27,7 +28,7 @@ function testBadInput<T>(name: string, input: T, expErr: string) {
 	it(`should require correct input: ${name}`, async () => {
 		try {
 			await axios.post(`${BACKEND_URL}/api/users`, input, axiosConfig);
-			fail();
+			expect(true).toBe(false);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(400);
@@ -117,5 +118,7 @@ describe('users::createUser', () => {
 	);
 
 	afterAll(() => connection.close());
-	afterAll(() => jest.setTimeout(5000));
+	afterAll(() => {
+		jest.setTimeout(5000);
+	});
 });

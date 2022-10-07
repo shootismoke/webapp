@@ -1,4 +1,5 @@
 module.exports = {
+	preset: "ts-jest",
 	testPathIgnorePatterns: [
 		'<rootDir>/.next/',
 		'<rootDir>/node_modules/',
@@ -7,6 +8,5 @@ module.exports = {
 	moduleNameMapper: {
 		'\\.(scss|sass|css)$': 'identity-obj-proxy',
 	},
-	setupFilesAfterEnv: ['<rootDir>/../../test/jest.setup.ts'],
 	testEnvironment: 'jsdom',
 };
