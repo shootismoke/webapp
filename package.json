@@ -72,7 +72,7 @@
 		"typescript": "^4.8.4"
 	},
 	"resolutions": {
-		"@jest/core": "27.4.3",y
+		"@jest/core": "27.4.3",
 		"@types/react": "17.0.2",
 		"@types/react-dom": "17.0.2",
 		"@types/react-native": "0.65.1",
