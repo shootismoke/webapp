@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
- import { expect, jest, afterAll, beforeAll } from '@jest/globals';
- import type { MongoUser } from '@shootismoke/ui';
+import { expect, jest } from '@jest/globals';
+import type { MongoUser } from '@shootismoke/ui';
 import Expo, { ExpoPushMessage } from 'expo-server-sdk';
 
 import {

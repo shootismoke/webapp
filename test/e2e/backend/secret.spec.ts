@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import type { BackendError, MongoUser } from '@shootismoke/ui';
 import axios, { AxiosError } from 'axios';
 
@@ -22,7 +23,9 @@ import { secretHeader } from '../../../src/backend/util';
 import { axiosConfig, BACKEND_URL } from './util/testdata';
 
 describe('users::getUser', () => {
-	beforeAll(() => jest.setTimeout(30000));
+	beforeAll(() => {
+		jest.setTimeout(30000);
+	});
 
 	it('should disallow wrong secret header', async () => {
 		try {
@@ -52,5 +55,7 @@ describe('users::getUser', () => {
 		}
 	});
 
-	afterAll(() => jest.setTimeout(5000));
+	afterAll(() => {
+		jest.setTimeout(5000);
+	});
 });

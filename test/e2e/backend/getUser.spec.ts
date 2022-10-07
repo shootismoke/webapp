@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import type { BackendError, MongoUser } from '@shootismoke/ui';
 import axios, { AxiosError } from 'axios';
 import { connection } from 'mongoose';
@@ -75,9 +76,13 @@ describe('users::getUser', () => {
 		);
 
 		expect(data._id).toBe(dbAlice._id);
-		expect(data).toMatchObject(dbAlice);
+		expect(data).toMatchObject(
+			dbAlice as unknown as Record<string, unknown>
+		);
 	});
 
 	afterAll(() => connection.close());
-	afterAll(() => jest.setTimeout(5000));
+	afterAll(() => {
+		jest.setTimeout(5000);
+	});
 });

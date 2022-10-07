@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import type { BackendError, MongoUser } from '@shootismoke/ui';
 import axios, { AxiosError } from 'axios';
 import { connection } from 'mongoose';
@@ -35,7 +36,7 @@ async function userNotExist(userId: string) {
 			`${BACKEND_URL}/api/users/${userId}`,
 			axiosConfig
 		);
-		fail();
+		expect(true).toBe(false);
 	} catch (err) {
 		const e = err as AxiosError<BackendError>;
 		expect(e.response?.status).toBe(404);
@@ -71,7 +72,7 @@ describe('users::updateUser', () => {
 				`${BACKEND_URL}/api/users/foo`,
 				axiosConfig
 			);
-			fail();
+			expect(true).toBe(false);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(404);
@@ -93,7 +94,7 @@ describe('users::updateUser', () => {
 			await axios.get<MongoUser>(
 				`${BACKEND_URL}/api/users/email/unsubscribe/foo`
 			);
-			fail();
+			expect(true).toBe(false);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(404);
@@ -111,5 +112,7 @@ describe('users::updateUser', () => {
 	});
 
 	afterAll(() => connection.close());
-	afterAll(() => jest.setTimeout(5000));
+	afterAll(() => {
+		jest.setTimeout(5000);
+	});
 });

@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import axios from 'axios';
 import { connection } from 'mongoose';
 
@@ -67,5 +68,7 @@ describe('findUsersForReport', () => {
 	});
 
 	afterAll(() => connection.close());
-	afterAll(() => jest.setTimeout(5000));
+	afterAll(() => {
+		jest.setTimeout(5000);
+	});
 });
