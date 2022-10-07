@@ -57,7 +57,7 @@
 		"@types/react-test-renderer": "^18.0.0",
 		"autoprefixer": "^10.4.12",
 		"babel-jest": "^29.1.2",
-		"babel-plugin-react-native-web": "^0.18.9",
+		"babel-plugin-react-native-web": "~0.17.1",
 		"cypress": "^10.9.0",
 		"dotenv": "^16.0.3",
 		"identity-obj-proxy": "^3.0.0",
@@ -73,6 +73,7 @@
 	},
 	"resolutions": {
 		"axios": "0.21.4",
-		"mongoose": "5.12.7"
+		"mongoose": "5.12.7",
+		"react-native-web": "~0.17.1"
 	}
 }
