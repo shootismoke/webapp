@@ -71,9 +71,7 @@ jobs:
               run: yarn install
             - name: Run server, test and generate coverage report
               run: |
-                  cp .env.example .env.development
+                  cp .env.example .env
                   yarn dev &
                   sleep 10
                   yarn test --coverage
-              env:
-                  BACKEND_MONGODB_ATLAS_URI: mongodb://localhost/shootismoke
