@@ -61,7 +61,7 @@
 		"cypress": "^10.9.0",
 		"dotenv": "^16.0.3",
 		"identity-obj-proxy": "^3.0.0",
-		"jest": "^27.4.3",
+		"jest": "27.4.3",
 		"next-fonts": "^1.5.1",
 		"next-images": "^1.8.4",
 		"next-transpile-modules": "^7.2.0",
@@ -72,10 +72,12 @@
 		"typescript": "^4.8.4"
 	},
 	"resolutions": {
+		"@jest/core": "27.4.3",y
 		"@types/react": "17.0.2",
 		"@types/react-dom": "17.0.2",
 		"@types/react-native": "0.65.1",
 		"axios": "0.21.4",
+		"jest": "27.4.3",
 		"mongoose": "5.12.7",
 		"next": "10.2.3",
 		"react": "17.0.2",
