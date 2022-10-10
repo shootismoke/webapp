@@ -15,10 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { config } from 'dotenv';
-
-config({ path: '.env' });
-
 import { secretHeader } from '../../../../src/backend/util';
 
 export const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000';
