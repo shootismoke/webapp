@@ -54,7 +54,7 @@
 		"@types/jest": "^29.1.1",
 		"@types/react-test-renderer": "^18.0.0",
 		"autoprefixer": "^10.4.12",
-		"babel-jest": "^27.4.6",
+		"babel-jest": "^29.2.1",
 		"babel-plugin-react-native-web": "~0.17.1",
 		"cypress": "^10.9.0",
 		"dotenv": "^16.0.3",
