@@ -35,7 +35,7 @@
 		"cors": "^2.8.5",
 		"expo-server-sdk": "^3.6.0",
 		"html-minifier": "^4.0.0",
-		"i18n-js": "^3.8.0",
+		"i18n-js": "^4.2.0",
 		"mailgun.js": "8.0.1",
 		"mongodb": "^4.2.0",
 		"mongoose": "^5.13.7",
