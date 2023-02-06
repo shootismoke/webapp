@@ -16,7 +16,7 @@
 		"@sentry/browser": "^7.14.0",
 		"@sentry/node": "^7.14.0",
 		"@shootismoke/ui": "^0.9.3",
-		"@sindresorhus/slugify": "^1.1.0",
+		"@sindresorhus/slugify": "^2.2.0",
 		"@types/amplitude-js": "8.9.3",
 		"@types/classnames": "^2.3.1",
 		"@types/cors": "^2.8.12",
