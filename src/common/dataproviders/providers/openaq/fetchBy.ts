@@ -139,10 +139,15 @@ function findSensor(
 	return undefined;
 }
 
+function isFresh(utc: string, dateFrom?: Date): boolean {
+	return !dateFrom || new Date(utc).getTime() >= dateFrom.getTime();
+}
+
 async function latestForLocation(
 	location: OpenAQLocation,
 	sensor: OpenAQSensorBase,
-	apiKey: string
+	apiKey: string,
+	dateFrom?: Date
 ): Promise<OpenAQMeasurements | undefined> {
 	const { results } = await fetchAndDecode<
 		OpenAQLatestResponse,
@@ -153,8 +158,11 @@ async function latestForLocation(
 	});
 
 	const latest = results.find((r) => r.sensorsId === sensor.id);
+	if (!latest || !isFresh(latest.datetime.utc, dateFrom)) {
+		return undefined;
+	}
 
-	return latest ? { latest, location, sensor } : undefined;
+	return { latest, location, sensor };
 }
 
 export async function fetchByGps(
@@ -191,16 +199,30 @@ export async function fetchByGps(
 			continue;
 		}
 
-		const measurement = await latestForLocation(location, sensor, apiKey);
+		// `datetimeLast` is on the search result, so we can skip a station that
+		// has gone quiet without paying for its /latest call.
+		if (
+			location.datetimeLast &&
+			!isFresh(location.datetimeLast.utc, options?.dateFrom)
+		) {
+			continue;
+		}
+
+		const measurement = await latestForLocation(
+			location,
+			sensor,
+			apiKey,
+			options?.dateFrom
+		);
 		if (measurement) {
 			return measurement;
 		}
 	}
 
 	throw new Error(
-		`No OpenAQ station within ${radius}m of ${latitude},${longitude} reports ${wanted.join(
+		`No OpenAQ station within ${radius}m of ${latitude},${longitude} has a recent ${wanted.join(
 			' or '
-		)}`
+		)} reading`
 	);
 }
 
@@ -211,13 +233,20 @@ export async function fetchByStation(
 	const apiKey = assertApiKey(options);
 	const wanted = options?.parameter?.length ? options.parameter : ['pm25'];
 
-	const location = await fetchAndDecode<
-		OpenAQLocation,
+	// `/locations/{id}` wraps the location in the same `results` array the
+	// search endpoint uses.
+	const { results } = await fetchAndDecode<
+		OpenAQLocationsResponse,
 		AxiosError<OpenAQError>
 	>(`${OPENAQ_V3}/locations/${stationId}`, {
 		formatError,
 		headers: headers(apiKey),
 	});
+
+	const [location] = results;
+	if (!location) {
+		throw new Error(`No OpenAQ location with id ${stationId}`);
+	}
 
 	const sensor = findSensor(location, wanted as Pollutant[]);
 	if (!sensor) {
@@ -228,9 +257,18 @@ export async function fetchByStation(
 		);
 	}
 
-	const measurement = await latestForLocation(location, sensor, apiKey);
+	const measurement = await latestForLocation(
+		location,
+		sensor,
+		apiKey,
+		options?.dateFrom
+	);
 	if (!measurement) {
-		throw new Error(`OpenAQ station ${stationId} has no latest reading`);
+		throw new Error(
+			`OpenAQ station ${stationId} has no recent ${wanted.join(
+				' or '
+			)} reading`
+		);
 	}
 
 	return measurement;
