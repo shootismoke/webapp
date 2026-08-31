@@ -9,8 +9,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - run: yarn install
-            - run: echo Skipped for now. # yarn ts-node -P scripts/tsconfig.json scripts/email.ts
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
+            - run: npm ci
+            - run: echo Skipped for now. # npx ts-node -P scripts/tsconfig.json scripts/email.ts
               env:
                   DEBUG: shootismoke:*
                   BACKEND_AQICN_TOKEN: ${{ secrets.AQICN_TOKEN }}
