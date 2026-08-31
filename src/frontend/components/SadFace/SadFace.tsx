@@ -37,9 +37,11 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 					<div className="next-images relative | h-full">
 						<Image
 							alt="error"
-							layout="fill"
-							objectFit="contain"
-							objectPosition="left"
+							fill
+							style={{
+								objectFit: 'contain',
+								objectPosition: 'left',
+							}}
 							src={sadFace}
 						/>
 					</div>

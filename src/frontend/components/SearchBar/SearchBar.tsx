@@ -15,21 +15,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { CSSObject } from '@emotion/serialize';
 import { geoapify } from '@shootismoke/ui';
 import slugify from '@sindresorhus/slugify';
 import c from 'classnames';
-import { pipe } from 'fp-ts/lib/pipeable';
-import * as T from 'fp-ts/lib/Task';
-import * as TE from 'fp-ts/lib/TaskEither';
+import type { StaticImageData } from 'next/image';
 import { NextRouter, useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { Props as SelectProps, StylesConfig } from 'react-select';
+import {
+	CSSObjectWithLabel,
+	Props as SelectProps,
+	StylesConfig,
+} from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-import location from '../../../../assets/images/icons/location_orange.svg';
-import search from '../../../../assets/images/icons/search.svg';
+import locationSvg from '../../../../assets/images/icons/location_orange.svg';
+import searchSvg from '../../../../assets/images/icons/search.svg';
 import { City, logEvent, sentryException } from '../../util';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const location = locationSvg as StaticImageData;
+const search = searchSvg as StaticImageData;
 
 interface SearchBarProps extends SelectProps<GeoapifyOption, false> {
 	cities: City[];
@@ -51,45 +57,43 @@ interface GeoapifyOption {
 /**
  * Populate the search bar results with user's input.
  */
-function algoliaLoadOptions(
+async function algoliaLoadOptions(
 	inputValue: string
 ): Promise<ReadonlyArray<GeoapifyOption>> {
-	return pipe(
-		geoapify(
+	try {
+		const items = await geoapify(
 			inputValue,
 			process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY as string
-		),
-		TE.map((items) => {
-			const found: Record<string, boolean> = {};
+		);
 
-			// Remove duplicates
-			return items
-				.filter((item) => {
-					if (found[item.formatted]) {
-						return false;
-					}
+		const found: Record<string, boolean> = {};
 
-					found[item.formatted] = true;
-					return true;
-				})
-				.map((item) => ({
-					label: item.formatted,
-					value: {
-						localeName: item.city || item.formatted,
-						lat: item.lat,
-						lng: item.lon,
-					},
-				}));
-		}),
-		TE.fold((err) => {
-			sentryException(err);
+		// Remove duplicates
+		return items
+			.filter((item) => {
+				if (found[item.formatted]) {
+					return false;
+				}
 
-			return T.of([]);
-		}, T.of)
-	)();
+				found[item.formatted] = true;
+				return true;
+			})
+			.map((item) => ({
+				label: item.formatted,
+				value: {
+					localeName: item.city || item.formatted,
+					lat: item.lat,
+					lng: item.lon,
+				},
+			}));
+	} catch (err) {
+		sentryException(err as Error);
+
+		return [];
+	}
 }
 
-function defaultCustomStyle(provided: CSSObject): CSSObject {
+function defaultCustomStyle(provided: CSSObjectWithLabel): CSSObjectWithLabel {
 	return {
 		...provided,
 		color: '#44464A',
@@ -108,7 +112,7 @@ const customStyles: StylesConfig<GeoapifyOption, false> = {
 		...provided,
 		display: 'none',
 	}),
-	input: (provided: CSSObject): CSSObject => {
+	input: (provided: CSSObjectWithLabel): CSSObjectWithLabel => {
 		return {
 			...provided,
 			color: '#44464A',
@@ -116,7 +120,7 @@ const customStyles: StylesConfig<GeoapifyOption, false> = {
 			zIndex: 100, // This is so that the <input> is above the <Image>, mainly for cypress tests to pass.
 		};
 	},
-	menu: (provided: CSSObject): CSSObject => {
+	menu: (provided: CSSObjectWithLabel): CSSObjectWithLabel => {
 		return {
 			...provided,
 			minHeight: '200px',
@@ -125,7 +129,7 @@ const customStyles: StylesConfig<GeoapifyOption, false> = {
 	noOptionsMessage: defaultCustomStyle,
 	loadingMessage: defaultCustomStyle,
 	option: defaultCustomStyle,
-	placeholder: (provided: CSSObject): CSSObject => {
+	placeholder: (provided: CSSObjectWithLabel): CSSObjectWithLabel => {
 		return {
 			...provided,
 			color: '#44464A',
@@ -182,7 +186,7 @@ const defaultOptions: GeoapifyOption[] = [
 				<img
 					alt="location"
 					className="mr-2 flex-shrink-0"
-					src={location}
+					src={location.src}
 				/>
 				<span className="overflow-hidden truncate text-orange">
 					Use my location instead
@@ -305,7 +309,11 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 					) : isFocused ? (
 						<span className="text-gray-600">Type something...</span>
 					) : (
-						renderOption(placeholder as string, search, 'search')
+						renderOption(
+							placeholder as string,
+							search.src,
+							'search'
+						)
 					)
 				}
 				styles={customStyles}
@@ -320,7 +328,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 						logEvent('SearchBar.LocationIcon.Click');
 						onGps(setOverridePlaceholder, router);
 					}}
-					src={location}
+					src={location.src}
 				/>
 			)}
 		</div>

@@ -15,13 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import logo from '@shootismoke/ui/assets/logos/logo_text_2lines.svg';
-import Image from 'next/image';
+import logoSvg from '@shootismoke/ui/assets/logos/logo_text_2lines.svg';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import download from '../../../../assets/images/icons/download.svg';
+import downloadSvg from '../../../../assets/images/icons/download.svg';
 import { logEvent } from '../../util';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const download = downloadSvg as StaticImageData;
+const logo = logoSvg as StaticImageData;
 
 /**
  * Scroll to the bottom of the page.
@@ -43,20 +48,20 @@ export function Nav(props: NavProps): React.ReactElement {
 		<header className="mt-3 md:mt-9 mx-3 md:mx-9">
 			<nav className="flex flex-row justify-between">
 				<Link href="/">
-					<a>
-						<div className="next-images relative w-40 | h-10 md:h-12">
-							<Image
-								alt="logo"
-								layout="fill"
-								objectFit="contain"
-								objectPosition="left"
-								onClick={(): void =>
-									logEvent('Nav.HomeButton.Click')
-								}
-								src={logo}
-							/>
-						</div>
-					</a>
+					<div className="next-images relative w-40 | h-10 md:h-12">
+						<Image
+							alt="logo"
+							fill
+							style={{
+								objectFit: 'contain',
+								objectPosition: 'left',
+							}}
+							onClick={(): void =>
+								logEvent('Nav.HomeButton.Click')
+							}
+							src={logo}
+						/>
+					</div>
 				</Link>
 				{showDownloadApp && (
 					<div
@@ -68,9 +73,11 @@ export function Nav(props: NavProps): React.ReactElement {
 						<div className="next-images relative w-8 | ml-2 md:ml-4 h-6 md:h-10">
 							<Image
 								alt="download"
-								layout="fill"
-								objectFit="contain"
-								objectPosition="left"
+								fill
+								style={{
+									objectFit: 'contain',
+									objectPosition: 'left',
+								}}
 								src={download}
 							/>
 						</div>

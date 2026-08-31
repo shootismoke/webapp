@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { AllProviders } from '@shootismoke/dataproviders';
 import type { MongoUser } from '@shootismoke/ui';
 import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
@@ -24,6 +23,16 @@ import timezones from 'timezones.json';
 import { PushTicket } from './pushTicket';
 
 const FREQUENCY = ['never', 'daily', 'weekly', 'monthly'];
+
+/**
+ * The providers a `universalId` may refer to.
+ *
+ * `@shootismoke/dataproviders` used to export this as `AllProviders`; as of
+ * 0.10.0 the list lives inside `@shootismoke/ui`'s `fetchStationId` and is no
+ * longer exported, so we mirror it here. Keep it in sync with that function:
+ * anything it can fetch, this schema has to accept.
+ */
+const ALL_PROVIDERS = ['aqicn', 'openaq', 'waqi'];
 
 const EmailReportSchema = new Schema({
 	/**
@@ -104,7 +113,7 @@ const UserSchema = new Schema<MongoUser>(
 				validator: (universalId: string): boolean => {
 					const [provider, station] = universalId.split('|');
 
-					return !!station && AllProviders.includes(provider);
+					return !!station && ALL_PROVIDERS.includes(provider);
 				},
 			},
 		},

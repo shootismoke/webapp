@@ -1,43 +1,51 @@
-@responsive {
+/*
+ * Tailwind v3 generates responsive variants for everything in `@layer`, so the
+ * old `@responsive` wrapper is gone. `@apply` must also come *before* the
+ * explicit `line-height` declarations: unlike v1, v3's `text-*` utilities set a
+ * default line-height of their own, which would otherwise win.
+ */
+@layer components {
 	.type-700 {
+		@apply font-extrabold text-5xl; /* 48px */
 		letter-spacing: -0.03rem;
 		line-height: 3.38rem; /* 54px */
-		@apply font-extrabold text-5xl; /* 48px */
 	}
 
 	.type-600 {
+		@apply font-extrabold text-4xl; /* 36px */
 		letter-spacing: -0.03rem;
 		line-height: 2.63rem; /* 42px */
-		@apply font-extrabold text-4xl; /* 36px */
 	}
 
 	.type-500 {
+		@apply font-extrabold text-2xl; /* 24px */
 		letter-spacing: -0.01rem;
-		@apply font-extrabold leading-7 text-2xl; /* 28px, 24px */
+		line-height: 1.75rem; /* 28px */
 	}
 
 	.type-400 {
+		@apply font-extrabold;
 		font-size: 1.13rem; /* 18px */
 		letter-spacing: -0.01rem;
 		line-height: normal;
-		@apply font-extrabold;
 	}
 
 	.type-300 {
+		@apply font-extrabold text-xs; /* 12px */
 		letter-spacing: 0.06rem;
 		line-height: normal;
-		@apply font-extrabold text-xs; /* 12px */
 	}
 
 	.type-200 {
+		@apply font-medium;
 		font-size: 0.88rem; /* 14px */
 		letter-spacing: normal;
 		line-height: normal;
-		@apply font-medium;
 	}
 
 	.type-100 {
+		@apply font-medium text-xs; /* 12px */
 		letter-spacing: normal;
-		@apply font-medium leading-5 text-xs; /* 20px, 12px */
+		line-height: 1.25rem; /* 20px */
 	}
 }

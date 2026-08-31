@@ -41,8 +41,8 @@ export function CityCard(props: CityCardProps): React.ReactElement {
 				<div className="next-images relative | h-full w-full object-cover">
 					<Image
 						alt={title}
-						layout="fill"
-						objectFit="cover"
+						fill
+						style={{ objectFit: 'cover' }}
 						src={photoUrl || FALLBACK_IMAGE}
 					/>
 				</div>

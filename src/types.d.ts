@@ -15,25 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-declare module '*.jpg' {
-	export default img as string;
-}
-
-declare module '*.jpeg' {
-	export default img as string;
-}
-
-declare module '*.png' {
-	export default img as string;
-}
-
-declare module '*.svg' {
-	export default img as string;
-}
-
-declare module '*.webp' {
-	export default img as string;
-}
-
 // The following packages don't have typings.
 declare module 'assign-deep';

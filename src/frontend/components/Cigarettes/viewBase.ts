@@ -15,41 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import c from 'classnames';
-import Image, { ImageProps } from 'next/image';
-import React from 'react';
+import type { CSSProperties } from 'react';
 
-export interface TipProps {
-	children:
-		| React.ReactElement
-		| undefined
-		| (React.ReactElement | undefined)[];
-	className?: string;
-	imgAlt: string;
-	imgSrc: ImageProps['src'];
-}
-
-export function Tip({
-	children,
-	className,
-	imgAlt,
-	imgSrc,
-}: TipProps): React.ReactElement {
-	return (
-		<div className={c('flex flex-row items-center', className)}>
-			<div
-				className="next-images relative | mr-4"
-				style={{ minHeight: '42px', minWidth: '42px' }}
-			>
-				<Image
-					alt={imgAlt}
-					fill
-					style={{ objectFit: 'contain' }}
-					src={imgSrc}
-				/>
-			</div>
-
-			{children}
-		</div>
-	);
-}
+/**
+ * The default styling that React Native applies to every `<View>`, which
+ * `react-native-web` used to emit for us. These components were ported from
+ * React Native primitives to plain DOM elements, so we reproduce the defaults
+ * explicitly rather than inheriting `<div>`'s block layout.
+ *
+ * @see https://necolas.github.io/react-native-web/docs/styling/
+ */
+export const viewBase: CSSProperties = {
+	alignItems: 'stretch',
+	boxSizing: 'border-box',
+	display: 'flex',
+	flexDirection: 'column',
+	flexShrink: 0,
+	minHeight: 0,
+	minWidth: 0,
+	position: 'relative',
+};

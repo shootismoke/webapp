@@ -25,12 +25,12 @@ import {
 	primaryPollutant,
 	round,
 } from '@shootismoke/ui';
-import { BoxButton } from '@shootismoke/ui/lib/components/BoxButton';
 import c from 'classnames';
+import type { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
-import warning from '../../../../assets/images/icons/warning_red.svg';
+import warningSvg from '../../../../assets/images/icons/warning_red.svg';
 import { t } from '../../localization';
 import {
 	City,
@@ -43,6 +43,7 @@ import {
 	AboutSection,
 	AdSection,
 	BlogSection,
+	BoxButton,
 	Cigarettes,
 	DownloadSection,
 	FeaturedSection,
@@ -58,6 +59,10 @@ import {
 	Section,
 	Seo,
 } from '..';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const warning = warningSvg as StaticImageData;
 
 /**
  * These are errors that we know are okay, so we don't log them on Sentry.
@@ -205,15 +210,16 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					<p className="mt-2 type-100 text-gray-600">
 						{distance !== undefined ? (
 							api?.shootismoke.isAccurate === false ? (
-								<Link href="/faq#station-so-far">
-									<a className="text-red hover:underline">
-										Air Quality Station: {distance}km away
-										<img
-											alt="warning"
-											className="ml-1 inline"
-											src={warning}
-										/>
-									</a>
+								<Link
+									href="/faq#station-so-far"
+									className="text-red hover:underline"
+								>
+									Air Quality Station: {distance}km away
+									<img
+										alt="warning"
+										className="ml-1 inline"
+										src={warning.src}
+									/>
 								</Link>
 							) : (
 								`Air Quality Station: ${distance}km away`
@@ -254,7 +260,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										key={f}
 									>
 										<BoxButton
-											onPress={(): void => {
+											onClick={(): void => {
 												logEvent(
 													`City.FrequencyButton.${capitalize(
 														f

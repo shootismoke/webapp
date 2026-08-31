@@ -52,11 +52,9 @@ export async function connectToDatabase(): Promise<void> {
 		);
 	}
 
-	await connect(process.env.BACKEND_MONGODB_ATLAS_URI, {
-		useCreateIndex: true,
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	});
+	// Mongoose 6 dropped `useCreateIndex`/`useNewUrlParser`/`useUnifiedTopology`;
+	// they are all the default behaviour now.
+	await connect(process.env.BACKEND_MONGODB_ATLAS_URI);
 
 	l('Connected to db.');
 }

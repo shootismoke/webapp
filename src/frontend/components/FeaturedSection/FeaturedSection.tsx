@@ -118,8 +118,8 @@ export function FeaturedSection(): React.ReactElement {
 						<div className="next-images relative h-12 | w-32">
 							<Image
 								alt={media.slug}
-								layout="fill"
-								objectFit="contain"
+								fill
+								style={{ objectFit: 'contain' }}
 								src={media.image}
 							/>
 						</div>

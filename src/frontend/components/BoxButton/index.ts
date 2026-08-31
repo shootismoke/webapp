@@ -15,41 +15,4 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import c from 'classnames';
-import Image, { ImageProps } from 'next/image';
-import React from 'react';
-
-export interface TipProps {
-	children:
-		| React.ReactElement
-		| undefined
-		| (React.ReactElement | undefined)[];
-	className?: string;
-	imgAlt: string;
-	imgSrc: ImageProps['src'];
-}
-
-export function Tip({
-	children,
-	className,
-	imgAlt,
-	imgSrc,
-}: TipProps): React.ReactElement {
-	return (
-		<div className={c('flex flex-row items-center', className)}>
-			<div
-				className="next-images relative | mr-4"
-				style={{ minHeight: '42px', minWidth: '42px' }}
-			>
-				<Image
-					alt={imgAlt}
-					fill
-					style={{ objectFit: 'contain' }}
-					src={imgSrc}
-				/>
-			</div>
-
-			{children}
-		</div>
-	);
-}
+export * from './BoxButton';

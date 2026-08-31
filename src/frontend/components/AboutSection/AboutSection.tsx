@@ -15,11 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import React from 'react';
 
-import box from '../../../../assets/images/conversion-box.svg';
+import boxSvg from '../../../../assets/images/conversion-box.svg';
 import { Section } from '../Section';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const box = boxSvg as StaticImageData;
 
 export function AboutSection(): React.ReactElement {
 	return (
@@ -47,8 +51,8 @@ export function AboutSection(): React.ReactElement {
 					<div className="next-images relative w-full h-32 | -mt-4 mb-6 mx-auto">
 						<Image
 							alt="cigarettes-conversion"
-							layout="fill"
-							objectFit="contain"
+							fill
+							style={{ objectFit: 'contain' }}
 							src={box}
 						/>
 					</div>

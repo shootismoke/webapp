@@ -15,12 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import logo from '@shootismoke/ui/assets/logos/logo.svg';
-import Image from 'next/image';
+import logoSvg from '@shootismoke/ui/assets/logos/logo.svg';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
 import { logEvent } from '../../util';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const logo = logoSvg as StaticImageData;
 
 export function Footer(): React.ReactElement {
 	return (
@@ -28,8 +32,8 @@ export function Footer(): React.ReactElement {
 			<div className="next-images relative h-10 | w-10">
 				<Image
 					alt="logo"
-					layout="fill"
-					objectFit="contain"
+					fill
+					style={{ objectFit: 'contain' }}
 					src={logo}
 				/>
 			</div>
@@ -91,13 +95,12 @@ export function Footer(): React.ReactElement {
 
 			<p className="mt-4 type-100 text-center text-white">
 				Learn more about the initiative in our{' '}
-				<Link href="/faq">
-					<a
-						className="text-orange"
-						onClick={(): void => logEvent('Footer.Faq.Click')}
-					>
-						F.A.Q.
-					</a>
+				<Link
+					href="/faq"
+					className="text-orange"
+					onClick={(): void => logEvent('Footer.Faq.Click')}
+				>
+					F.A.Q.
 				</Link>
 				<br />
 				Source code available on{' '}

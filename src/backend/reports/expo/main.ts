@@ -78,12 +78,8 @@ export async function main(): Promise<void> {
 		users.map(expoPushMessageForUser)
 	);
 
-	const rejected = expoMessages.filter(
-		(p) => p.status === 'rejected'
-	) as PromiseRejectedResult[];
-	const successful = expoMessages.filter(
-		(p) => p.status === 'fulfilled'
-	) as PromiseFulfilledResult<ExpoPushMessageWithUser>[];
+	const rejected = expoMessages.filter((p) => p.status === 'rejected');
+	const successful = expoMessages.filter((p) => p.status === 'fulfilled');
 
 	const tickets = await sendBatchToExpo(
 		new Expo(),

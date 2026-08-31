@@ -15,15 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
-import box from '../../assets/images/conversion-box.svg';
-import backArrow from '../../assets/images/icons/back_arrow.svg';
+import boxSvg from '../../assets/images/conversion-box.svg';
+import backArrowSvg from '../../assets/images/icons/back_arrow.svg';
 import { Footer, H1, Nav, Section, Seo } from '../frontend/components';
 import { t } from '../frontend/localization';
 import { logEvent } from '../frontend/util';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const backArrow = backArrowSvg as StaticImageData;
+const box = boxSvg as StaticImageData;
 
 interface FaqSectionProps extends React.HTMLProps<HTMLDivElement> {
 	children: React.ReactElement;
@@ -50,19 +55,20 @@ export default function Faq(): React.ReactElement {
 			<Nav showDownloadApp={false} />
 
 			<Section className="pt-3">
-				<Link href="/">
-					<a className="flex items-center type-300 text-orange uppercase">
-						<span className="next-images relative w-3 h-3 | mr-3">
-							<Image
-								alt="back"
-								layout="fill"
-								objectFit="contain"
-								src={backArrow}
-							/>
-						</span>
+				<Link
+					href="/"
+					className="flex items-center type-300 text-orange uppercase"
+				>
+					<span className="next-images relative w-3 h-3 | mr-3">
+						<Image
+							alt="back"
+							fill
+							style={{ objectFit: 'contain' }}
+							src={backArrow}
+						/>
+					</span>
 
-						<span>Back to Homepage</span>
-					</a>
+					<span>Back to Homepage</span>
 				</Link>
 				<H1 className="pt-3 text-orange">Frequently Asked Questions</H1>
 			</Section>

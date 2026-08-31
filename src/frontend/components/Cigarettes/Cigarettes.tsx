@@ -15,8 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Cigarettes as CigarettesBase } from '@shootismoke/ui/lib/components/Cigarettes';
 import React from 'react';
+
+import { CigarettesBase } from './CigarettesBase';
 
 // Total height of the box containing cigarettes.
 const BOX_HEIGHT = 128; // Or 8rem.
@@ -96,8 +97,6 @@ export function Cigarettes(props: CigarettesProps): React.ReactElement {
 			showVerticalAfter={SHOW_VERTICAL_AFTER}
 			{...cigaretteConfig}
 			cigaretteStyle={{
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore Not yet supported on RN, but works on browser.
 				transform: 'translateY(2px)', // Empirically, without the -2, the cigarette is cut off.
 				transformOrigin: 'top left',
 			}}
@@ -111,8 +110,6 @@ export function Cigarettes(props: CigarettesProps): React.ReactElement {
 
 				// This is so that horizontal cigarettes wrap correctly.
 				maxWidth: cigarettes <= SHOW_VERTICAL_AFTER ? '300px' : '100%',
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore Not yet supported on RN, but works on browser.
 				overflowX:
 					SHOW_VERTICAL_AFTER < cigarettes &&
 					cigarettes <= N_CIGARETTES_1_LINE

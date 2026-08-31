@@ -53,8 +53,8 @@ export function DownloadSection(): React.ReactElement {
 						<div className="next-images relative h-16 | rounded-2xl">
 							<Image
 								alt="download on Play Store"
-								layout="fill"
-								objectFit="contain"
+								fill
+								style={{ objectFit: 'contain' }}
 								src={playStore}
 							/>
 						</div>
@@ -71,8 +71,8 @@ export function DownloadSection(): React.ReactElement {
 						<div className="next-images relative h-16 | rounded-2xl">
 							<Image
 								alt="download on Apple Store"
-								layout="fill"
-								objectFit="contain"
+								fill
+								style={{ objectFit: 'contain' }}
 								src={appStore}
 							/>
 						</div>
