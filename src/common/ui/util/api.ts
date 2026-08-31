@@ -23,7 +23,7 @@ import type {
 	OpenAQResults,
 	Provider,
 } from '@common/dataproviders';
-import { aqicn, openaq } from '@common/dataproviders';
+import { aqicn, openaq, waqi } from '@common/dataproviders';
 import { differenceInHours, subHours } from 'date-fns';
 import debug from 'debug';
 import promiseAny, { AggregateError } from 'p-any';
@@ -166,11 +166,23 @@ export function raceApiPromise(
 		fetchForProvider(gps, aqicn, options.aqicn).then((results) =>
 			createApi(gps, results)
 		),
-		fetchForProvider(gps, openaq, {
-			dateFrom: subHours(now, RESULTS_WITHIN_HOURS),
-			...options.openaq,
-		}).then((results) => createApi(gps, results)),
+		// aqicn's tokened feed returns the nearest station, which often carries
+		// no pm25 at all (e.g. `aqicn|3092`, Place de l'Opera, reports only no2
+		// and pm10). waqi hits a different endpoint on the same network that
+		// does expose pm25 for those stations, so it covers that gap.
+		fetchForProvider(gps, waqi).then((results) => createApi(gps, results)),
 	];
+
+	// OpenAQ v3 requires an API key on every request, so it only joins the race
+	// when one is configured. Without it we run on aqicn and waqi alone.
+	if (options.openaq?.apiKey) {
+		tasks.push(
+			fetchForProvider(gps, openaq, {
+				dateFrom: subHours(now, RESULTS_WITHIN_HOURS),
+				...options.openaq,
+			}).then((results) => createApi(gps, results))
+		);
+	}
 
 	return promiseAny(tasks).catch((errors: AggregateError) => {
 		// Transform an AggregateError into a JS native Error

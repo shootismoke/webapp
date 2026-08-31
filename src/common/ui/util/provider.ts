@@ -28,6 +28,7 @@ async function providerFetch(
 			? waqi.normalize(await waqi.fetchByStation(station))
 			: openaq.normalize(
 					await openaq.fetchByStation(station, {
+						apiKey: process.env.BACKEND_OPENAQ_API_KEY as string,
 						limit: 1,
 						parameter: ['pm25'],
 					})

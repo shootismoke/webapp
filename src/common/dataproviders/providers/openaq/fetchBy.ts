@@ -1,125 +1,237 @@
+// Sh**t! I Smoke
+// Copyright (C) 2018-2021  Marcelo S. Coelho, Amaury M.
+
+// Sh**t! I Smoke is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// Sh**t! I Smoke is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with Sh**t! I Smoke.  If not, see <http://www.gnu.org/licenses/>.
+
 import { Pollutant } from '@common/convert';
 import type { AxiosError } from 'axios';
 
 import { LatLng } from '../../types';
-import { ACCURATE_RADIUS, OpenAQError, OpenAQErrorObject } from '../../util';
+import { ACCURATE_RADIUS, OpenAQError } from '../../util';
 import { fetchAndDecode } from '../../util/fetch';
-import { OpenAQMeasurements } from './types';
+import {
+	OpenAQLatestResponse,
+	OpenAQLocation,
+	OpenAQLocationsResponse,
+	OpenAQMeasurements,
+	OpenAQSensorBase,
+} from './types';
 
-const RESULT_LIMIT = 10;
-const OPENAQ_MEASUREMENTS_V2 = `https://api.openaq.org/v2/measurements`;
+const OPENAQ_V3 = 'https://api.openaq.org/v3';
 
 /**
- * @see https://docs.openaq.org/#api-Latest
+ * How many nearby locations to consider before giving up. The nearest station
+ * does not always carry the pollutant we want.
  */
+const LOCATION_LIMIT = 10;
+
+/**
+ * v3 caps the search radius at 25km.
+ */
+const MAX_RADIUS = 25000;
+
 export interface OpenAQOptions {
 	/**
-	 * Show results after a certain date. This acts on the utc timestamp of each
-	 * measurement.
+	 * OpenAQ v3 requires an API key on every request, sent as `X-API-Key`.
+	 *
+	 * @see https://docs.openaq.org/using-the-api/api-key
+	 */
+	apiKey: string;
+	/**
+	 * Kept for source compatibility with the v2 client. v3's `/latest`
+	 * endpoints have no date filter, so freshness is enforced downstream by
+	 * `createApi`, which drops anything older than six hours.
 	 */
 	dateFrom?: Date;
 	/**
-	 * Show results before a certain date. This acts on the utc timestamp of each measurement.
+	 * Kept for source compatibility with the v2 client. See `dateFrom`.
 	 */
 	dateTo?: Date;
 	/**
-	 * Include extra fields in the output in addition to default values.
-	 */
-	includeFields?: string[];
-	/**
-	 * Change the number of results returned, max is 10000.
+	 * How many nearby locations to consider.
+	 *
 	 * @default 10
 	 */
 	limit?: number;
 	/**
-	 * Limit to certain one or more parameters.
+	 * Which pollutants we are willing to accept, most preferred first.
+	 *
+	 * @default ['pm25']
 	 */
 	parameter?: Pollutant[];
+	/**
+	 * Search radius in meters, capped at 25000 by the API.
+	 *
+	 * @default 10000
+	 */
+	radius?: number;
 }
 
-function additionalOptions(options: OpenAQOptions = {}): string {
-	let query = '';
-
-	// dateFrom
-	if (options.dateFrom) {
-		query += `&date_from=${options.dateFrom.toISOString()}`;
-	}
-
-	// dateTo
-	if (options.dateTo) {
-		query += `&date_to=${options.dateTo.toISOString()}`;
-	}
-
-	// includeFields
-	// We add attribution by default
-	query += `&include_fields=${(options.includeFields || ['attribution']).join(
-		','
-	)}`;
-
-	// limit
-	query += `&limit=${options.limit || RESULT_LIMIT}`;
-
-	// parameter
-	query += (options.parameter || []).map((p) => `&parameter[]=${p}`).join('');
-
-	return query;
-}
-
-/**
- * Handle error from OpenAQ response
- */
 function formatError(err: AxiosError<OpenAQError>): Error {
-	// We had occasions from OpenAQ where the error had an empty response field
-	// so we check that the data is populated first.
-	if (err?.response?.data) {
-		const e = err.response.data as OpenAQErrorObject;
+	// We have had occasions where the error had an empty response field, so
+	// check that the data is populated first. v3 is inconsistent about the
+	// shape: `{detail: [...]}` for validation errors, `{detail: "..."}` for a
+	// rejected key, and `{message: "..."}` when the header is missing.
+	const data = err?.response?.data;
 
-		if (e.detail) {
+	if (typeof data === 'string') {
+		return new Error(data);
+	}
+
+	if (data && typeof data === 'object') {
+		if ('detail' in data) {
+			const { detail } = data;
 			return new Error(
-				e.detail.map((err) => JSON.stringify(err)).join(', ')
+				Array.isArray(detail)
+					? detail.map((d) => JSON.stringify(d)).join(', ')
+					: String(detail)
 			);
-		} else {
-			return new Error(err.response.data as string);
+		}
+
+		if ('message' in data) {
+			return new Error(String(data.message));
 		}
 	}
 
-	return new Error(JSON.stringify(err));
+	return new Error(err?.message ?? JSON.stringify(err));
+}
+
+function assertApiKey(options?: OpenAQOptions): string {
+	if (!options?.apiKey) {
+		throw new Error('OpenAQ requires an apiKey.');
+	}
+
+	return options.apiKey;
+}
+
+function headers(apiKey: string): Record<string, string> {
+	return { 'X-API-Key': apiKey };
 }
 
 /**
- * Fetch the closest station to the user's current position
- *
- * @param gps - Latitude and longitude of the user's current position
+ * Find the first sensor on `location` measuring one of `wanted`, preferring
+ * earlier entries.
  */
-export function fetchByGps(
+function findSensor(
+	location: OpenAQLocation,
+	wanted: Pollutant[]
+): OpenAQSensorBase | undefined {
+	for (const parameter of wanted) {
+		const sensor = location.sensors.find(
+			(s) => s.parameter.name === parameter
+		);
+		if (sensor) {
+			return sensor;
+		}
+	}
+
+	return undefined;
+}
+
+async function latestForLocation(
+	location: OpenAQLocation,
+	sensor: OpenAQSensorBase,
+	apiKey: string
+): Promise<OpenAQMeasurements | undefined> {
+	const { results } = await fetchAndDecode<
+		OpenAQLatestResponse,
+		AxiosError<OpenAQError>
+	>(`${OPENAQ_V3}/locations/${location.id}/latest`, {
+		formatError,
+		headers: headers(apiKey),
+	});
+
+	const latest = results.find((r) => r.sensorsId === sensor.id);
+
+	return latest ? { latest, location, sensor } : undefined;
+}
+
+export async function fetchByGps(
 	gps: LatLng,
 	options?: OpenAQOptions
 ): Promise<OpenAQMeasurements> {
-	// OpenAQ doesn't allow arbitrary number of decimals, we round to 3.
-	const latitude = Math.round(gps.latitude * 1000) / 1000;
-	const longitude = Math.round(gps.longitude * 1000) / 1000;
+	const apiKey = assertApiKey(options);
+	const wanted = options?.parameter?.length ? options.parameter : ['pm25'];
+	// v3 truncates beyond 4 decimals of precision.
+	const latitude = Math.round(gps.latitude * 10000) / 10000;
+	const longitude = Math.round(gps.longitude * 10000) / 10000;
+	const radius = Math.min(options?.radius ?? ACCURATE_RADIUS, MAX_RADIUS);
 
-	return fetchAndDecode(
-		`${OPENAQ_MEASUREMENTS_V2}?coordinates=${latitude},${longitude}&radius=${ACCURATE_RADIUS}${additionalOptions(
-			options
-		)}`,
-		{ formatError }
+	const { results } = await fetchAndDecode<
+		OpenAQLocationsResponse,
+		AxiosError<OpenAQError>
+	>(
+		`${OPENAQ_V3}/locations?coordinates=${latitude},${longitude}` +
+			`&radius=${radius}&limit=${options?.limit ?? LOCATION_LIMIT}`,
+		{ formatError, headers: headers(apiKey) }
+	);
+
+	if (!results.length) {
+		throw new Error(
+			`No OpenAQ location within ${radius}m of ${latitude},${longitude}`
+		);
+	}
+
+	// `results` comes back nearest-first. Walk outwards until we find a station
+	// that both measures what we want and has actually reported a value.
+	for (const location of results) {
+		const sensor = findSensor(location, wanted as Pollutant[]);
+		if (!sensor) {
+			continue;
+		}
+
+		const measurement = await latestForLocation(location, sensor, apiKey);
+		if (measurement) {
+			return measurement;
+		}
+	}
+
+	throw new Error(
+		`No OpenAQ station within ${radius}m of ${latitude},${longitude} reports ${wanted.join(
+			' or '
+		)}`
 	);
 }
 
-/**
- * Fetch data by station
- *
- * @param stationId - The station ID to search
- */
-export function fetchByStation(
+export async function fetchByStation(
 	stationId: string,
 	options?: OpenAQOptions
 ): Promise<OpenAQMeasurements> {
-	return fetchAndDecode(
-		`${OPENAQ_MEASUREMENTS_V2}?location=${stationId}${additionalOptions(
-			options
-		)}`,
-		{ formatError }
-	);
+	const apiKey = assertApiKey(options);
+	const wanted = options?.parameter?.length ? options.parameter : ['pm25'];
+
+	const location = await fetchAndDecode<
+		OpenAQLocation,
+		AxiosError<OpenAQError>
+	>(`${OPENAQ_V3}/locations/${stationId}`, {
+		formatError,
+		headers: headers(apiKey),
+	});
+
+	const sensor = findSensor(location, wanted as Pollutant[]);
+	if (!sensor) {
+		throw new Error(
+			`OpenAQ station ${stationId} does not measure ${wanted.join(
+				' or '
+			)}`
+		);
+	}
+
+	const measurement = await latestForLocation(location, sensor, apiKey);
+	if (!measurement) {
+		throw new Error(`OpenAQ station ${stationId} has no latest reading`);
+	}
+
+	return measurement;
 }

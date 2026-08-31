@@ -143,6 +143,8 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 						token: process.env.NEXT_PUBLIC_AQICN_TOKEN as string,
 					},
 					openaq: {
+						apiKey: process.env
+							.NEXT_PUBLIC_OPENAQ_API_KEY as string,
 						dateFrom: sixHoursAgo,
 						// Limiting to only fetch pm25. Sometimes, when
 						// we search for all pollutants, the pm25 ones

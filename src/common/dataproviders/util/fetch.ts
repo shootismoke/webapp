@@ -7,11 +7,12 @@ export function fetchAndDecode<T, E = Error>(
 	url: string,
 	options: {
 		formatError?: (error: E) => Error;
+		headers?: Record<string, string>;
 	} = {}
 ): Promise<T> {
 	l(`Fetching URL ${url}`);
 	return axios
-		.get<T>(url)
+		.get<T>(url, { headers: options.headers })
 		.then(({ data }) => data)
 		.catch((error: E) => {
 			throw options.formatError ? options.formatError(error) : error;

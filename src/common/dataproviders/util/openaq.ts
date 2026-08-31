@@ -58,10 +58,15 @@ export type OpenAQErrorObject = {
  */
 export type OpenAQError =
 	| string
+	// v2, and v3 validation errors (422), use an array of details.
 	| {
 			detail: {
 				loc: string[];
 				msg: string;
 				type: string;
 			}[];
-	  };
+	  }
+	// v3 uses a bare string for auth failures, e.g. `Invalid credentials`.
+	| { detail: string }
+	// ...and `message` when the X-API-Key header is missing entirely.
+	| { message: string };
