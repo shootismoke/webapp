@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-	// Emit a self-contained server bundle (`.next/standalone`) so the runtime
-	// image does not need node_modules.
-	output: 'standalone',
+	// Deploys build in place on the server, so a release is built into a
+	// staging directory and swapped in. `next start` reads the same variable.
+	distDir: process.env.NEXT_DIST_DIR || '.next',
 	images: {
 		// https://nextjs.org/docs/messages/next-image-unconfigured-host
 		remotePatterns: [

@@ -1,131 +1,170 @@
 # Deploying shootismoke.app
 
-The site runs as a single Docker container (Next.js in standalone mode) behind
-Caddy on one host, with Cloudflare proxying in front. Images are built by GitHub
-Actions and pulled by the host; the host never builds.
+One Hetzner box runs the Next server under systemd, with Caddy in front of it
+and Cloudflare in front of that. No containers. Deploys build **on the server**;
+GitHub Actions only triggers them over SSH.
 
 ```
 Cloudflare (proxy, edge cache, TLS to visitors)
         │  Full (strict)
         ▼
-Caddy   (TLS via Cloudflare Origin CA, gzip/zstd, cache headers)
+Caddy      (apt, TLS via Cloudflare Origin CA, compression, cache headers)
         ▼
-app     (node server.js, port 3000)  ──►  MongoDB Atlas   (only /api/users/*)
-                                     ──►  aqicn / waqi / openaq
+127.0.0.1:3000   shootismoke.service  ──►  MongoDB Atlas (only /api/users/*)
+                                      ──►  aqicn / waqi / openaq
 ```
 
 ## One-time setup
 
-### 1. The host
+### 1. The box
 
-Any small Linux box works; a Hetzner CX22 is about €4/month and has plenty of
-headroom. The site is almost entirely static and served from cache.
+A Hetzner CX22 (2 vCPU, 4 GB) is about €4/month and enough. See the note on
+build memory at the bottom before going smaller.
 
 ```bash
-# on the host
-curl -fsSL https://get.docker.com | sh
-sudo usermod -aG docker "$USER"      # log out and back in
+sudo adduser --system --group --home /srv/shootismoke shootismoke
 
-mkdir -p /srv/shootismoke/certs && cd /srv/shootismoke
+# Node 22 (matches .nvmrc)
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs git
+
+# Caddy
+sudo apt-get install -y debian-keyring debian-archive-keyring apt-transport-https curl
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' \
+  | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' \
+  | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt-get update && sudo apt-get install -y caddy
 ```
 
-Copy `compose.yaml` and `Caddyfile` from this repo into `/srv/shootismoke`, then
-create `/srv/shootismoke/.env` with the **BACKEND_** values from
-`.env.example`. `NEXT_PUBLIC_*` values are **not** read here — they are compiled
-into the client bundle at build time (see step 4).
+### 2. The checkout
 
-### 2. Cloudflare
+```bash
+sudo -u shootismoke git clone https://github.com/shootismoke/webapp \
+  /srv/shootismoke/webapp
+cd /srv/shootismoke/webapp
+sudo -u shootismoke git checkout production
+```
+
+Create `/srv/shootismoke/webapp/.env` from `.env.example` and fill it in. Since
+the build runs here, this file needs **both** the `BACKEND_*` values and the
+`NEXT_PUBLIC_*` ones — the latter are compiled into the client bundle at build
+time.
+
+```bash
+sudo chown shootismoke:shootismoke .env && sudo chmod 600 .env
+```
+
+### 3. The service
+
+```bash
+sudo cp deploy/shootismoke.service /etc/systemd/system/
+sudo systemctl daemon-reload
+
+# First build, by hand.
+sudo -u shootismoke bash -c 'cd /srv/shootismoke/webapp && npm ci && npm run build'
+sudo systemctl enable --now shootismoke
+curl localhost:3000/api/health
+```
+
+The deploy script restarts the unit, so let the app user do that without a
+password:
+
+```bash
+echo 'shootismoke ALL=(root) NOPASSWD: /bin/systemctl start shootismoke, /bin/systemctl stop shootismoke, /bin/systemctl restart shootismoke' \
+  | sudo tee /etc/sudoers.d/shootismoke
+sudo chmod 440 /etc/sudoers.d/shootismoke
+```
+
+### 4. Caddy
+
+```bash
+sudo cp deploy/Caddyfile /etc/caddy/Caddyfile
+sudo mkdir -p /etc/caddy/certs
+# put the Cloudflare Origin CA cert and key here (next step)
+sudo systemctl reload caddy
+```
+
+### 5. Cloudflare
 
 1. Move `shootismoke.app`'s nameservers to Cloudflare.
-2. `A` record for `shootismoke.app` → the host's IP, **proxied** (orange cloud).
-   Same for `www`.
+2. `A` records for `shootismoke.app` and `www` → the box's IP, **proxied**
+   (orange cloud).
 3. SSL/TLS mode: **Full (strict)**.
 4. SSL/TLS → Origin Server → *Create Certificate*. Save the certificate to
-   `/srv/shootismoke/certs/origin.pem` and the key to
-   `/srv/shootismoke/certs/origin.key`.
+   `/etc/caddy/certs/origin.pem` and the key to `/etc/caddy/certs/origin.key`,
+   both readable by the `caddy` user.
 
    Caddy cannot use Let's Encrypt here: with the domain proxied, the HTTP-01
-   challenge never reaches the host. The Origin CA certificate is free and
-   valid for 15 years.
+   challenge never reaches the box. The Origin CA certificate is free and valid
+   for 15 years.
 
-5. Optionally add a cache rule for `/_next/static/*` with a long edge TTL. Caddy
-   already sends `immutable` for those, so this is belt and braces.
+### 6. GitHub secrets
 
-### 3. SSH access for deploys
-
-On the host, add a deploy key:
-
-```bash
-ssh-keygen -t ed25519 -f ~/.ssh/gh-deploy -N ''
-cat ~/.ssh/gh-deploy.pub >> ~/.ssh/authorized_keys
-cat ~/.ssh/gh-deploy         # the private half goes into GitHub secrets
-```
-
-### 4. GitHub secrets
-
-Settings → Secrets and variables → Actions:
+Settings → Secrets and variables → Actions. Only SSH access is needed — the
+API keys live in `.env` on the box, not in CI.
 
 | Secret | What it is |
 | --- | --- |
-| `DEPLOY_HOST` | host IP or hostname |
-| `DEPLOY_USER` | SSH user |
-| `DEPLOY_SSH_KEY` | the private key from step 3 |
-| `DEPLOY_PATH` | `/srv/shootismoke` |
-| `NEXT_PUBLIC_AQICN_TOKEN` | |
-| `NEXT_PUBLIC_GEOAPIFY_API_KEY` | |
-| `NEXT_PUBLIC_OPENAQ_API_KEY` | optional; without it openaq sits out |
-| `NEXT_PUBLIC_SENTRY_API_KEY` | |
-| `NEXT_PUBLIC_AMPLITUDE_API_KEY` | |
-
-`NEXT_PUBLIC_*` values are inlined into the JavaScript that ships to browsers.
-They are public by definition, but it does mean the built image embeds them —
-treat the image as no more secret than the site itself.
-
-### 5. First run
-
-```bash
-# on the host
-cd /srv/shootismoke
-docker compose up -d
-```
-
-Then push to `production` and the `deploy` workflow takes over.
+| `DEPLOY_HOST` | box IP or hostname |
+| `DEPLOY_USER` | SSH user allowed to run `deploy/deploy.sh` |
+| `DEPLOY_SSH_KEY` | its private key |
 
 ## Deploying
 
-Merge to `production`. The workflow builds the image, pushes it to
-`ghcr.io/shootismoke/webapp`, SSHes in, pulls, restarts the app container, and
-polls `/api/health` until the site answers.
-
-To roll back, pin a previous image on the host:
+Merge to `production`. The workflow SSHes in and runs `deploy/deploy.sh`, which
+fetches, installs, builds, swaps the build in and waits for health. You can run
+the same thing by hand:
 
 ```bash
-IMAGE_TAG=<short-sha> docker compose up -d --no-deps app
+sudo -u shootismoke /srv/shootismoke/webapp/deploy/deploy.sh production
 ```
 
-Tags are the first 12 characters of the commit SHA.
+`next build` rewrites the dist directory, and a running `next start` reads from
+it lazily — building straight over a live `.next` makes the site throw
+`Cannot find module './xyz.js'` until the build finishes. So the script builds
+into `.next-staging` and swaps, which keeps the outage to a service restart
+(~2 s) rather than the length of a build (minutes).
+
+The previous build is kept as `.next-previous`, and the script rolls back to it
+automatically if the new one does not come up healthy. To roll back later:
+
+```bash
+cd /srv/shootismoke/webapp
+sudo systemctl stop shootismoke
+rm -rf .next && mv .next-previous .next
+sudo systemctl start shootismoke
+```
 
 ## How pages stay fresh
 
-The city list upstream changes every couple of hours. Previously a cron
-triggered a full rebuild of all ~1000 pages on Vercel. Now the pages carry
-`revalidate: 7200`, so Next regenerates each one in the background the first
-time it is requested after it goes stale. Deploys only happen on code changes.
-
-Two consequences:
-
-- `.next/cache` is a named volume. Without it, every restart throws away the
-  regenerated pages and the next visitor to each city pays full price.
-- `getStaticPaths` uses `fallback: 'blocking'`, so cities added upstream get a
-  page on first request rather than needing a redeploy.
+The upstream city list changes every couple of hours. Vercel used to run a cron
+that rebuilt all ~1000 pages. Now pages carry `revalidate: 7200`, so Next
+regenerates each one in the background the first time it is requested after
+going stale, and deploys only happen on code changes. `getStaticPaths` uses
+`fallback: 'blocking'`, so cities added upstream get a page on first request
+rather than needing a redeploy.
 
 ## Health and logs
 
 ```bash
 curl https://shootismoke.app/api/health   # {"status":"ok","uptime":...}
-docker compose logs -f app
-docker compose ps                         # healthcheck state
+sudo journalctl -u shootismoke -f
+sudo journalctl -u caddy -f
 ```
 
 `/api/health` deliberately does not touch MongoDB: only the four `/api/users/*`
 routes need it, and the rest of the site should stay up without it.
+
+## A note on build memory
+
+Prerendering ~1000 city pages is the heaviest thing this box does. If the build
+gets OOM-killed on a small instance, add swap:
+
+```bash
+sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile
+sudo mkswap /swapfile && sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
+Or cap Node: `NODE_OPTIONS=--max-old-space-size=2048` in `.env`.

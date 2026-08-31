@@ -1,7 +1,7 @@
 name: deploy
 
-# The production branch is what Vercel used to deploy. Keeping it means the
-# release ritual does not change: merge to `production` to ship.
+# The production branch is what Vercel used to deploy. Merging to it still
+# ships. The build happens on the server, so this workflow only triggers it.
 on:
     push:
         branches:
@@ -12,70 +12,22 @@ concurrency:
     group: deploy
     cancel-in-progress: false
 
-env:
-    IMAGE: ghcr.io/${{ github.repository }}
-
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            packages: write
-        outputs:
-            tag: ${{ steps.meta.outputs.tag }}
-        steps:
-            - uses: actions/checkout@v4
-
-            - id: meta
-              run: echo "tag=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
-
-            - uses: docker/setup-buildx-action@v3
-
-            - uses: docker/login-action@v3
-              with:
-                  registry: ghcr.io
-                  username: ${{ github.actor }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
-
-            # NEXT_PUBLIC_* are inlined into the client bundle at build time, so
-            # they are build args rather than runtime env.
-            - uses: docker/build-push-action@v6
-              with:
-                  context: .
-                  push: true
-                  tags: |
-                      ${{ env.IMAGE }}:${{ steps.meta.outputs.tag }}
-                      ${{ env.IMAGE }}:latest
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max
-                  build-args: |
-                      NEXT_PUBLIC_AQICN_TOKEN=${{ secrets.NEXT_PUBLIC_AQICN_TOKEN }}
-                      NEXT_PUBLIC_GEOAPIFY_API_KEY=${{ secrets.NEXT_PUBLIC_GEOAPIFY_API_KEY }}
-                      NEXT_PUBLIC_OPENAQ_API_KEY=${{ secrets.NEXT_PUBLIC_OPENAQ_API_KEY }}
-                      NEXT_PUBLIC_SENTRY_API_KEY=${{ secrets.NEXT_PUBLIC_SENTRY_API_KEY }}
-                      NEXT_PUBLIC_AMPLITUDE_API_KEY=${{ secrets.NEXT_PUBLIC_AMPLITUDE_API_KEY }}
-
     deploy:
-        needs: build
         runs-on: ubuntu-latest
         steps:
-            - name: Pull and restart on the host
+            - name: Build and release on the host
               uses: appleboy/ssh-action@v1
               with:
                   host: ${{ secrets.DEPLOY_HOST }}
                   username: ${{ secrets.DEPLOY_USER }}
                   key: ${{ secrets.DEPLOY_SSH_KEY }}
+                  command_timeout: 30m
                   script: |
                       set -euo pipefail
-                      cd ${{ secrets.DEPLOY_PATH }}
-                      echo "${{ secrets.GITHUB_TOKEN }}" \
-                        | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-                      export IMAGE_TAG=${{ needs.build.outputs.tag }}
-                      docker compose pull app
-                      docker compose up -d --no-deps app
-                      docker image prune -f
+                      /srv/shootismoke/webapp/deploy/deploy.sh production
 
-            - name: Wait for the site to answer
+            - name: Confirm the public site is answering
               run: |
                   for i in $(seq 1 30); do
                     code=$(curl -s -o /dev/null -w '%{http_code}' https://shootismoke.app/api/health || true)

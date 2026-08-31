@@ -52,3 +52,5 @@ test/cypress/videos
 
 # Cloudflare Origin CA cert/key, if compose is run from a checkout
 certs/
+.next-staging/
+.next-previous/
