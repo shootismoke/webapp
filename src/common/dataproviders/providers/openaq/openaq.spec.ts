@@ -24,14 +24,11 @@ config();
 /**
  * OpenAQ v3 needs an API key, so the live checks below only run when one is
  * present. Get one at https://explore.openaq.org/register and put it in
- * `.env`, or pass it inline:
+ * `.env` as BACKEND_OPENAQ_API_KEY, or pass it inline:
  *
  *     OPENAQ_API_KEY=xxx npx jest openaq
  */
-const apiKey =
-	process.env.OPENAQ_API_KEY ||
-	process.env.NEXT_PUBLIC_OPENAQ_API_KEY ||
-	process.env.BACKEND_OPENAQ_API_KEY;
+const apiKey = process.env.OPENAQ_API_KEY || process.env.BACKEND_OPENAQ_API_KEY;
 
 const live = apiKey ? it : it.skip;
 

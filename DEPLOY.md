@@ -46,10 +46,14 @@ cd /srv/shootismoke/webapp
 sudo -u shootismoke git checkout production
 ```
 
-Create `/srv/shootismoke/webapp/.env` from `.env.example` and fill it in. Since
-the build runs here, this file needs **both** the `BACKEND_*` values and the
-`NEXT_PUBLIC_*` ones — the latter are compiled into the client bundle at build
-time.
+Create `/srv/shootismoke/webapp/.env` from `.env.example` and fill it in. The
+build runs here, so this file holds everything.
+
+Only two values reach browsers: `NEXT_PUBLIC_SENTRY_API_KEY` (a Sentry DSN —
+write-only ingestion) and `NEXT_PUBLIC_AMPLITUDE_API_KEY` (a client-side
+analytics key). Both are meant to be public. Every other credential —
+aqicn, geoapify, openaq, mailgun, mongo — stays on the server: the browser
+reaches those providers through `/api/aq` and `/api/geocode` instead.
 
 ```bash
 sudo chown shootismoke:shootismoke .env && sudo chmod 600 .env
@@ -155,6 +159,19 @@ sudo journalctl -u caddy -f
 
 `/api/health` deliberately does not touch MongoDB: only the four `/api/users/*`
 routes need it, and the rest of the site should stay up without it.
+
+## API routes
+
+| Route | Cached | Notes |
+| --- | --- | --- |
+| `/api/health` | no | liveness; no database |
+| `/api/aq?lat=&lng=` | `s-maxage=300` | air quality, raced across providers |
+| `/api/geocode?q=` | `s-maxage=3600` | place search for the search bar |
+| `/api/users/*` | `no-store` | the mobile app's subscriptions; needs Mongo |
+
+`/api/aq` and `/api/geocode` exist so the provider credentials stay on the
+server. Their `Cache-Control` lets Cloudflare absorb repeat lookups, which is
+why the Caddyfile only forces `no-store` on `/api/users/*`.
 
 ## A note on build memory
 

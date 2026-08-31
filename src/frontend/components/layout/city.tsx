@@ -25,6 +25,7 @@ import {
 	primaryPollutant,
 	round,
 } from '@common/ui';
+import axios from 'axios';
 import c from 'classnames';
 import type { StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -140,28 +141,17 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 		reverseGeocode(city.gps).then(setReverseGeoName).catch(sentryException);
 
-		// This `api` file imports a bunch of stuff, so we run it lazily.
-		import('@common/ui/util/api')
-			.then(({ raceApiPromise }) => {
-				const sixHoursAgo = new Date();
-				sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
-
-				return raceApiPromise(city.gps, {
-					aqicn: {
-						token: process.env.NEXT_PUBLIC_AQICN_TOKEN as string,
-					},
-					openaq: {
-						apiKey: process.env
-							.NEXT_PUBLIC_OPENAQ_API_KEY as string,
-						dateFrom: sixHoursAgo,
-						// Limiting to only fetch pm25. Sometimes, when
-						// we search for all pollutants, the pm25 ones
-						// don't get returned within the result limits.
-						parameter: ['pm25'],
-					},
-				});
+		// Raced across our providers server-side, so their credentials never
+		// reach the browser. This also keeps the provider clients out of the
+		// client bundle entirely.
+		axios
+			.get<Api>('/api/aq', {
+				params: {
+					lat: city.gps.latitude,
+					lng: city.gps.longitude,
+				},
 			})
-			.then(setApi)
+			.then(({ data }) => setApi(data))
 			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
 

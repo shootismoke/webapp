@@ -15,8 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { geoapify } from '@common/ui';
+import type { GeoapifyRes } from '@common/ui';
 import slugify from '@sindresorhus/slugify';
+import axios from 'axios';
 import c from 'classnames';
 import type { StaticImageData } from 'next/image';
 import { NextRouter, useRouter } from 'next/router';
@@ -65,10 +66,10 @@ async function algoliaLoadOptions(
 	inputValue: string
 ): Promise<ReadonlyArray<GeoapifyOption>> {
 	try {
-		const items = await geoapify(
-			inputValue,
-			process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY as string
-		);
+		// Proxied through our own API so the Geoapify key stays server-side.
+		const { data: items } = await axios.get<GeoapifyRes[]>('/api/geocode', {
+			params: { q: inputValue },
+		});
 
 		const found: Record<string, boolean> = {};
 
