@@ -18,27 +18,51 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
 
+import { CITIES_TO_SHOW } from '../../frontend/components';
 import CityTemplate from '../../frontend/components/layout/city';
-import { City, getAllCities } from '../../frontend/util';
+import { City, getAllCities, rankClosestCities } from '../../frontend/util';
+
+/**
+ * How often, in seconds, Next regenerates these pages in the background.
+ *
+ * The city list is refreshed upstream every couple of hours. On Vercel a cron
+ * triggered a full rebuild of all ~1000 pages to pick that up; self-hosted we
+ * let ISR do it per page, on demand.
+ */
+export const REVALIDATE_SECONDS = 2 * 60 * 60;
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const cities = await getAllCities();
 
 	const city = cities.find((c) => c.slug === params?.slug);
+	// With `fallback: 'blocking'` an unknown slug reaches us at request time,
+	// so this is a 404 rather than an impossible state.
 	if (!city) {
-		throw new Error(
-			'`city` will never be undefined, because of getStaticPaths. qed.'
-		);
+		return { notFound: true, revalidate: REVALIDATE_SECONDS };
 	}
 
-	return { props: { city, cities } };
+	// Sending all ~1000 cities to every page cost 1.45 MB per page, which is
+	// ~3 GB across the prerendered site. RankingSection only ever shows
+	// CITIES_TO_SHOW of them and SearchBar only needs slugs, so compute both
+	// here instead.
+	return {
+		props: {
+			city,
+			rankingCities: rankClosestCities(cities, city.gps, CITIES_TO_SHOW),
+			citySlugs: cities
+				.map(({ slug }) => slug)
+				.filter((slug): slug is string => !!slug),
+		},
+		revalidate: REVALIDATE_SECONDS,
+	};
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
 	const cities = await getAllCities();
 
 	return {
-		fallback: false,
+		// Cities added upstream become available without a redeploy.
+		fallback: 'blocking',
 		paths: cities
 			.filter((city) => !!city.slug) // Just to be sure, though all cities should have a slug.
 			.map((city) => ({
@@ -51,12 +75,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 interface CityProps {
 	city: City;
-	cities: City[];
-	slug: string;
+	rankingCities: City[];
+	citySlugs: string[];
 }
 
 export default function CityPage(props: CityProps): React.ReactElement | null {
-	const { cities, city } = props;
+	const { citySlugs, city, rankingCities } = props;
 
-	return <CityTemplate city={city} cities={cities} />;
+	return (
+		<CityTemplate
+			city={city}
+			citySlugs={citySlugs}
+			rankingCities={rankingCities}
+		/>
+	);
 }

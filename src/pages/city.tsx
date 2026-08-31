@@ -20,12 +20,29 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import CityTemplate from '../frontend/components/layout/city';
-import { City, getAllCities, sentryException } from '../frontend/util';
+import {
+	City,
+	citySlugs,
+	getAllCities,
+	sentryException,
+} from '../frontend/util';
 
-export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
+/**
+ * How often, in seconds, Next regenerates these pages in the background.
+ *
+ * The city list is refreshed upstream every couple of hours. On Vercel a cron
+ * triggered a full rebuild of all ~1000 pages to pick that up; self-hosted we
+ * let ISR do it per page, on demand.
+ */
+export const REVALIDATE_SECONDS = 2 * 60 * 60;
+
+export async function getStaticProps(): Promise<{
+	props: { cities: City[] };
+	revalidate: number;
+}> {
 	const cities = await getAllCities();
 
-	return { props: { cities } };
+	return { props: { cities }, revalidate: REVALIDATE_SECONDS };
 }
 
 interface CityProps {
@@ -49,7 +66,8 @@ export default function CityPage(props: CityProps): React.ReactElement | null {
 	return gps ? (
 		<CityTemplate
 			city={{ gps, name: router.query.name as string }}
-			cities={cities}
+			citySlugs={citySlugs(cities)}
+			rankingCities={cities}
 		/>
 	) : null;
 }

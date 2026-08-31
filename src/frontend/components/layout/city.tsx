@@ -78,12 +78,20 @@ function isKnownError(error: string): boolean {
 
 interface CityProps {
 	city: City;
-	cities: City[];
+	/** Slugs of every city with a dedicated page, for the search bar. */
+	citySlugs: string[];
+	/**
+	 * Candidates for the ranking section. On `/city/[slug]` this is already
+	 * narrowed to the handful that will be shown, since the city is known at
+	 * build time; on `/city` it is the full list, because the coordinates only
+	 * arrive in the query string.
+	 */
+	rankingCities: City[];
 }
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
-	const { city, cities } = props;
+	const { city, citySlugs, rankingCities } = props;
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
@@ -200,7 +208,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Section noPadding>
 				<div className="px-6 md:px-24">
 					<SearchBar
-						cities={cities}
+						citySlugs={citySlugs}
 						placeholder={
 							city.name
 								? [city.name, city.adminName, city.country]
@@ -302,7 +310,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<PollutantSection aqi={aqi} pollutant={primaryPol.parameter} />
 			)}
 
-			<RankingSection cities={cities} currentCity={city} />
+			<RankingSection cities={rankingCities} currentCity={city} />
 			<AdSection />
 			<AboutSection />
 			<FeaturedSection />

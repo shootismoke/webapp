@@ -50,7 +50,7 @@ interface RankingSectionProps {
 /**
  * Number of cities to show in the ranking.
  */
-const CITIES_TO_SHOW = 6;
+export const CITIES_TO_SHOW = 6;
 
 export function RankingSection(props: RankingSectionProps): React.ReactElement {
 	const { currentCity: currentCityFromProps, cities } = props;

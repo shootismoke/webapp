@@ -30,7 +30,7 @@ import AsyncSelect from 'react-select/async';
 
 import locationSvg from '../../../../assets/images/icons/location_orange.svg';
 import searchSvg from '../../../../assets/images/icons/search.svg';
-import { City, logEvent, sentryException } from '../../util';
+import { logEvent, sentryException } from '../../util';
 
 // Next types `*.svg` imports as `any` to leave room for SVGR; every other
 // image format comes back as `StaticImageData`. Restore that here.
@@ -38,7 +38,11 @@ const location = locationSvg as StaticImageData;
 const search = searchSvg as StaticImageData;
 
 interface SearchBarProps extends SelectProps<GeoapifyOption, false> {
-	cities: City[];
+	/**
+	 * Slugs of the cities that have a dedicated page. Only the slugs are
+	 * needed, and sending the full objects to every page costs megabytes.
+	 */
+	citySlugs: string[];
 	className?: string;
 	showGps?: boolean;
 }
@@ -217,7 +221,7 @@ function renderOption(
 
 export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const {
-		cities,
+		citySlugs,
 		className,
 		placeholder = 'Search a city or address',
 		showGps = true,
@@ -230,7 +234,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 	const [citiesMap, setCitiesMap] = useState<Record<string, true>>({});
 	useEffect(() => {
 		setCitiesMap(
-			cities.reduce((acc, { slug }) => {
+			citySlugs.reduce((acc, slug) => {
 				if (slug) {
 					acc[slug] = true;
 				}
@@ -238,7 +242,7 @@ export function SearchBar(props: SearchBarProps): React.ReactElement {
 				return acc;
 			}, {} as Record<string, true>)
 		);
-	}, [cities]);
+	}, [citySlugs]);
 
 	// Is the input focused?
 	const [isFocused, setIsFocused] = useState(false);
