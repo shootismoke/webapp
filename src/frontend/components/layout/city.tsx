@@ -24,7 +24,7 @@ import {
 	getSwearWord,
 	primaryPollutant,
 	round,
-} from '@shootismoke/ui';
+} from '@common/ui';
 import c from 'classnames';
 import type { StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -133,7 +133,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 		reverseGeocode(city.gps).then(setReverseGeoName).catch(sentryException);
 
 		// This `api` file imports a bunch of stuff, so we run it lazily.
-		import('@shootismoke/ui/lib/util/api')
+		import('@common/ui/util/api')
 			.then(({ raceApiPromise }) => {
 				const sixHoursAgo = new Date();
 				sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);

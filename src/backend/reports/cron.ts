@@ -19,7 +19,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
-import type { Frequency, MongoUser } from '@shootismoke/ui';
+import type { Frequency, MongoUser } from '@common/ui';
 
 import { PushTicket, User } from '../models';
 import { findTimezonesAt } from './tz';

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { disabledOpacity, spacing, textColor } from '@shootismoke/ui';
+import { disabledOpacity, spacing, textColor } from '@common/ui';
 import React, { ButtonHTMLAttributes, CSSProperties } from 'react';
 
 interface BoxButtonProps

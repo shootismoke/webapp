@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { geoapify } from '@shootismoke/ui';
+import { geoapify } from '@common/ui';
 import slugify from '@sindresorhus/slugify';
 import c from 'classnames';
 import type { StaticImageData } from 'next/image';

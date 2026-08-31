@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { Pollutant } from '@shootismoke/convert';
-import { getPollutantData } from '@shootismoke/ui';
+import type { Pollutant } from '@common/convert';
+import { getPollutantData } from '@common/ui';
 import type { StaticImageData } from 'next/image';
 import React from 'react';
 

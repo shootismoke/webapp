@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { LatLng } from '@shootismoke/dataproviders';
-import { round } from '@shootismoke/ui';
+import { LatLng } from '@common/dataproviders';
+import { round } from '@common/ui';
 import axios from 'axios';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';

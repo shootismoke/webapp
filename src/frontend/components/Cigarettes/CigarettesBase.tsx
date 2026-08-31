@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { round } from '@shootismoke/ui';
+import { round } from '@common/ui';
 import React, { CSSProperties } from 'react';
 
 import { Cigarette, CigaretteOrientation } from './Cigarette';

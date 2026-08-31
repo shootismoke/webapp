@@ -17,7 +17,7 @@
 
 import '../frontend/styles/globals.css';
 
-import { FrequencyContextProvider } from '@shootismoke/ui';
+import { FrequencyContextProvider } from '@common/ui';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';

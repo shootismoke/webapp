@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { LatLng } from '@shootismoke/dataproviders';
+import type { LatLng } from '@common/dataproviders';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 

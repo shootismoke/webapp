@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { LatLng } from '@shootismoke/dataproviders';
-import type { Api } from '@shootismoke/ui';
+import { LatLng } from '@common/dataproviders';
+import type { Api } from '@common/ui';
 import axios from 'axios';
 import haversine from 'haversine';
 

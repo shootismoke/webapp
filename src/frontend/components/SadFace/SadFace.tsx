@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import sadFace from '@shootismoke/ui/assets/images/error@3x.png';
 import Image from 'next/image';
 import React from 'react';
 
+import sadFace from '../../../../assets/images/error.png';
 import { H1 } from '../H1';
 import { HeroLayout } from '../HeroLayout';
 

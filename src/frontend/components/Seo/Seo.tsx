@@ -15,9 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import favicon from '@shootismoke/ui/assets/logos/AppIcons/Assets.xcassets/AppIcon.appiconset/64.png';
 import Head from 'next/head';
 import React from 'react';
+
+import favicon from '../../../../assets/logos/favicon-64.png';
 
 interface SeoProps {
 	description?: string;

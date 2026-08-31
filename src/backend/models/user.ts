@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { MongoUser } from '@shootismoke/ui';
+import type { MongoUser } from '@common/ui';
 import { Model, model, models, Schema } from 'mongoose';
 import { v4 } from 'node-uuid';
 import timezones from 'timezones.json';

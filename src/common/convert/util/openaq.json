@@ -1,0 +1,191 @@
+{
+	"pm10": {
+		"id": 1,
+		"name": "pm10",
+		"displayName": "PM10",
+		"description": "Particulate matter less than 10 micrometers in diameter mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": true,
+		"maxColorValue": 275
+	},
+	"pm25": {
+		"id": 2,
+		"name": "pm25",
+		"displayName": "PM2.5",
+		"description": "Particulate matter less than 2.5 micrometers in diameter mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": true,
+		"maxColorValue": 110
+	},
+	"o3": {
+		"id": 3,
+		"name": "o3",
+		"displayName": "O₃ mass",
+		"description": "Ozone mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": false,
+		"maxColorValue": 312.764190964337
+	},
+	"co": {
+		"id": 4,
+		"name": "co",
+		"displayName": "CO mass",
+		"description": "Carbon Monoxide mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": false,
+		"maxColorValue": 12163.0422643604
+	},
+	"no2": {
+		"id": 5,
+		"name": "no2",
+		"displayName": "NO₂ mass",
+		"description": "Nitrogen Dioxide mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": false,
+		"maxColorValue": 1180.7619365949
+	},
+	"so2": {
+		"id": 6,
+		"name": "so2",
+		"displayName": "SO₂ mass",
+		"description": "Sulfur Dioxide mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": false,
+		"maxColorValue": 556.024525736353
+	},
+	"no2-ppm": {
+		"id": 7,
+		"name": "no2",
+		"displayName": "NO₂",
+		"description": "Nitrogen Dioxide concentration",
+		"preferredUnit": "ppm",
+		"isCore": true,
+		"maxColorValue": 0.65
+	},
+	"co-ppm": {
+		"id": 8,
+		"name": "co",
+		"displayName": "CO",
+		"description": "Carbon Monoxide concentration",
+		"preferredUnit": "ppm",
+		"isCore": true,
+		"maxColorValue": 11
+	},
+	"so2-ppm": {
+		"id": 9,
+		"name": "so2",
+		"displayName": "SO₂",
+		"description": "Sulfur Dioxide concentration",
+		"preferredUnit": "ppm",
+		"isCore": true,
+		"maxColorValue": 0.22
+	},
+	"o3-ppm": {
+		"id": 10,
+		"name": "o3",
+		"displayName": "O₃",
+		"description": "Ozone concentration",
+		"preferredUnit": "ppm",
+		"isCore": true,
+		"maxColorValue": 0.165
+	},
+	"bc": {
+		"id": 11,
+		"name": "bc",
+		"displayName": "BC",
+		"description": "Black Carbon mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": true,
+		"maxColorValue": 3
+	},
+	"pm1": {
+		"id": 19,
+		"name": "pm1",
+		"displayName": "PM1",
+		"description": "Particulate matter less than 1 micrometer in diameter mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"co2": {
+		"id": 21,
+		"name": "co2",
+		"displayName": "CO₂",
+		"description": "Carbon Dioxide concentration",
+		"preferredUnit": "ppm",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"nox": {
+		"id": 27,
+		"name": "nox",
+		"displayName": "NOx mass",
+		"description": "Nitrogen Oxides mass concentration",
+		"preferredUnit": "µg/m³",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"ch4": {
+		"id": 28,
+		"name": "ch4",
+		"displayName": "CH₄",
+		"description": "Methane concentration",
+		"preferredUnit": "ppm",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"ufp": {
+		"id": 33,
+		"name": "ufp",
+		"displayName": "UFP count",
+		"description": "Ultrafine Particles count concentration",
+		"preferredUnit": "particles/cm³",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"no": {
+		"id": 35,
+		"name": "no",
+		"displayName": "NO",
+		"description": "Nitrogen Monoxide concentration",
+		"preferredUnit": "ppm",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"um010": {
+		"id": 126,
+		"name": "um010",
+		"displayName": "PM1 count",
+		"description": "PM1 count",
+		"preferredUnit": "particles/cm³",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"um025": {
+		"id": 130,
+		"name": "um025",
+		"displayName": "PM2.5 count",
+		"description": "PM2.5 count",
+		"preferredUnit": "particles/cm³",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"um100": {
+		"id": 135,
+		"name": "um100",
+		"displayName": "PM10 count",
+		"description": "PM10 count",
+		"preferredUnit": "particles/cm³",
+		"isCore": false,
+		"maxColorValue": null
+	},
+	"nox-ppm": {
+		"id": 19840,
+		"name": "nox",
+		"displayName": "NOx",
+		"description": "Nitrogen Oxides concentration",
+		"preferredUnit": "ppm",
+		"isCore": false,
+		"maxColorValue": null
+	}
+}

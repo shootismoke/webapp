@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import logoSvg from '@shootismoke/ui/assets/logos/logo.svg';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import logoSvg from '../../../../assets/logos/logo.svg';
 import { logEvent } from '../../util';
 
 // Next types `*.svg` imports as `any` to leave room for SVGR; every other

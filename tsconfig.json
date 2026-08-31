@@ -19,7 +19,13 @@
     "module": "esnext",
     "moduleResolution": "node",
     "isolatedModules": true,
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": [
+        "./src/common/*"
+      ]
+    }
   },
   "extends": "./node_modules/@amaurym/tsconfig/tsconfig",
   "exclude": [
