@@ -1,0 +1,12 @@
+# The one OVH VPS. Both environments live here; the roles keep them apart with
+# separate users, separate checkouts and separate systemd units.
+all:
+  hosts:
+    shootismoke:
+      # Replace with the VPS IP or its ovh.net hostname.
+      ansible_host: 164.132.198.175
+      # OVH's images ship a sudo-capable non-root user and disable root SSH
+      # login. The name follows the image: `ubuntu` on Ubuntu, `debian` on
+      # Debian. The play escalates with become, so this is all it needs.
+      ansible_user: ubuntu
+      ansible_python_interpreter: /usr/bin/python3

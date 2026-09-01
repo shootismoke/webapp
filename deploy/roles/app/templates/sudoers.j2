@@ -1,0 +1,13 @@
+# Managed by Ansible. Each environment user may drive its own unit, nothing else.
+#
+# Both paths are listed on purpose: sudo matches the command as written, and on
+# a merged-/usr Ubuntu `systemctl` resolves to /usr/bin while older habits (and
+# some PATHs) say /bin. Listing one and invoking the other fails to match.
+{% for u in [
+    {'user': prod_user, 'unit': 'shootismoke'},
+    {'user': staging_user, 'unit': 'shootismoke-staging'}
+] %}
+{% for bin in ['/usr/bin/systemctl', '/bin/systemctl'] %}
+{{ u.user }} ALL=(root) NOPASSWD: {{ bin }} start {{ u.unit }}, {{ bin }} stop {{ u.unit }}, {{ bin }} restart {{ u.unit }}, {{ bin }} is-active {{ u.unit }}
+{% endfor %}
+{% endfor %}

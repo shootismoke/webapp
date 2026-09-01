@@ -1,0 +1,31 @@
+# Managed by Ansible. Production: serves a build pushed by deploy/push-build.sh.
+[Unit]
+Description=shootismoke.app (production)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User={{ prod_user }}
+WorkingDirectory={{ prod_dir }}
+EnvironmentFile={{ prod_dir }}/.env
+ExecStart=/usr/bin/npm run start -- --port {{ prod_port }} --hostname 127.0.0.1
+Restart=always
+RestartSec=5
+
+# Staging shares this box. Keep production's ceiling low enough that it is not
+# the thing the OOM killer reaches for first.
+MemoryHigh={{ prod_memory_high }}
+MemoryMax={{ prod_memory_max }}
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths={{ prod_home }}
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target

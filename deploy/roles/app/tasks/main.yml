@@ -1,0 +1,166 @@
+---
+# Two environments, deliberately kept apart:
+#
+#   production  built elsewhere, pushed here as an artifact, run by next start
+#   staging     a live next dev over a working tree you edit yourself
+#
+# Separate users matter on a shared box: it is what stops a slip in the staging
+# tree from writing over production's files.
+
+- name: Create the environment users
+  ansible.builtin.user:
+      name: "{{ item.user }}"
+      home: "{{ item.home }}"
+      shell: /bin/bash # both are SSH targets: CI for prod, VSCode for staging
+      system: true
+      create_home: true
+      state: present
+  loop:
+      - { user: "{{ prod_user }}", home: "{{ prod_home }}" }
+      - { user: "{{ staging_user }}", home: "{{ staging_home }}" }
+      
+- name: Create the .ssh directories
+  ansible.builtin.file:
+      path: "{{ item.home }}/.ssh"
+      state: directory
+      owner: "{{ item.user }}"
+      group: "{{ item.user }}"
+      mode: '0700'
+  loop:
+      - { user: "{{ prod_user }}", home: "{{ prod_home }}" }
+      - { user: "{{ staging_user }}", home: "{{ staging_home }}" }
+  loop_control:
+      label: "{{ item.user }}"
+
+- name: Install authorized keys
+  # Written whole rather than appended: the file then says exactly who has
+  # access, and revoking a key means deleting a line from vars.yml.
+  ansible.builtin.template:
+      src: authorized_keys.j2
+      dest: "{{ item.home }}/.ssh/authorized_keys"
+      owner: "{{ item.user }}"
+      group: "{{ item.user }}"
+      mode: '0600'
+  loop:
+      - { user: "{{ prod_user }}", home: "{{ prod_home }}", pubkeys: "{{ prod_ssh_keys }}" }
+      - { user: "{{ staging_user }}", home: "{{ staging_home }}", pubkeys: "{{ staging_ssh_keys }}" }
+  loop_control:
+      label: "{{ item.user }}"
+
+# --- Checkouts ---------------------------------------------------------------
+# Both use `creates`, not the git module, so a re-run can never reset a tree.
+# Production's ref is owned by push-build.sh; staging's is owned by you.
+
+- name: Clone production (first run only)
+  ansible.builtin.command:
+      cmd: "git clone {{ repo_url }} {{ prod_dir }}"
+      creates: "{{ prod_dir }}/.git"
+  become_user: "{{ prod_user }}"
+
+- name: Clone staging (first run only, never touched again)
+  ansible.builtin.command:
+      cmd: "git clone --branch {{ staging_branch }} {{ repo_url }} {{ staging_dir }}"
+      creates: "{{ staging_dir }}/.git"
+  become_user: "{{ staging_user }}"
+
+- name: Mark both checkouts as safe for root's git
+  # They are owned by the service users, but you will poke at them as root.
+  # `--replace-all` rather than `--add`, so re-running cannot pile up
+  # duplicate entries in /root/.gitconfig.
+  ansible.builtin.command:
+      cmd: "git config --global --replace-all safe.directory {{ item }} {{ item }}"
+  loop:
+      - "{{ prod_dir }}"
+      - "{{ staging_dir }}"
+  changed_when: false
+
+# --- Environment files -------------------------------------------------------
+
+- name: Write the environment files
+  ansible.builtin.template:
+      src: env.j2
+      dest: "{{ item.dir }}/.env"
+      owner: "{{ item.user }}"
+      group: "{{ item.user }}"
+      mode: '0600'
+  loop:
+      - dir: "{{ prod_dir }}"
+        user: "{{ prod_user }}"
+        mongodb_uri: "{{ vault_prod_mongodb_uri }}"
+        port: "{{ prod_port }}"
+      - dir: "{{ staging_dir }}"
+        user: "{{ staging_user }}"
+        mongodb_uri: "{{ vault_staging_mongodb_uri }}"
+        port: "{{ staging_port }}"
+  loop_control:
+      label: "{{ item.dir }}"
+  notify:
+      - Restart production
+      - Restart staging
+
+# --- Staging dependencies ----------------------------------------------------
+# Only on the first run; after that the tree is yours, npm included.
+
+- name: Check for staging node_modules
+  ansible.builtin.stat:
+      path: "{{ staging_dir }}/node_modules"
+  register: staging_modules
+
+- name: Install staging dependencies (first run only)
+  ansible.builtin.command:
+      cmd: npm ci --no-audit --no-fund
+      chdir: "{{ staging_dir }}"
+  become_user: "{{ staging_user }}"
+  environment:
+      CYPRESS_INSTALL_BINARY: '0'
+  when: not staging_modules.stat.exists
+  changed_when: true
+
+# --- Services ----------------------------------------------------------------
+
+- name: Install the systemd units
+  ansible.builtin.template:
+      src: "{{ item }}.service.j2"
+      dest: "/etc/systemd/system/{{ item }}.service"
+      mode: '0644'
+  loop:
+      - shootismoke
+      - shootismoke-staging
+  notify:
+      - Reload systemd
+      - Restart production
+      - Restart staging
+
+- name: Allow each user to manage only its own unit
+  ansible.builtin.template:
+      src: sudoers.j2
+      dest: /etc/sudoers.d/shootismoke
+      mode: '0440'
+      validate: 'visudo -cf %s'
+
+- name: Enable staging
+  ansible.builtin.systemd:
+      name: shootismoke-staging
+      enabled: true
+      state: started
+      daemon_reload: true
+
+# Production is enabled but not started here: with no pushed build there is no
+# .next to serve, and a crash-looping unit on a fresh box is just noise.
+- name: Enable production
+  ansible.builtin.systemd:
+      name: shootismoke
+      enabled: true
+      daemon_reload: true
+
+- name: Report whether production has a build yet
+  ansible.builtin.stat:
+      path: "{{ prod_dir }}/.next"
+  register: prod_build
+
+- name: Note that production is waiting for its first release
+  ansible.builtin.debug:
+      msg: >-
+          No build in {{ prod_dir }}/.next yet. Production stays down until you
+          push one: `deploy/push-build.sh prod-v1` from a checkout of that tag.
+  when: not prod_build.stat.exists

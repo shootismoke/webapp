@@ -1,0 +1,100 @@
+# Managed by Ansible -- edit deploy/roles/caddy/templates/Caddyfile.j2.
+#
+{% if caddy_tls_mode == 'origin_ca' %}
+# Cloudflare (proxied, Full (strict))
+#     |
+#     v
+# Caddy :443  --  Origin CA cert, valid 15 years
+{% else %}
+# visitors
+#     |
+#     v
+# Caddy :443  --  Let's Encrypt, HTTP-01, renewed automatically
+{% endif %}
+#     |
+#     +-- {{ domain_production }} -> 127.0.0.1:{{ prod_port }} (next start, production)
+#     +-- {{ domain_staging }} -> 127.0.0.1:{{ staging_port }} (next dev, staging)
+
+{
+	admin off
+	email hi@{{ domain_production }}
+}
+
+# In letsencrypt mode no tls directive appears at all: Caddy provisions and
+# renews from Let's Encrypt on its own, which needs :80 reachable for the
+# HTTP-01 challenge. In origin_ca mode it is pointed at the file on disk.
+
+(hardening) {
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Frame-Options "SAMEORIGIN"
+		-Server
+	}
+{% if caddy_tls_mode == 'origin_ca' %}
+
+	# Trust Cloudflare for the client IP; without this every request looks as
+	# though it came from Cloudflare.
+	request_header X-Real-IP {http.request.header.CF-Connecting-IP}
+{% endif %}
+}
+
+www.{{ domain_production }} {
+{% if caddy_tls_mode == 'origin_ca' %}
+	tls {{ caddy_cert }} {{ caddy_key }}
+{% endif %}
+	redir https://{{ domain_production }}{uri} permanent
+}
+
+{{ domain_production }} {
+{% if caddy_tls_mode == 'origin_ca' %}
+	tls {{ caddy_cert }} {{ caddy_key }}
+{% endif %}
+	import hardening
+	encode zstd gzip
+
+	# Next fingerprints everything under /_next/static, so it is safe to cache
+	# hard. Browsers honour this directly; behind Cloudflare the edge does too.
+	@immutable path /_next/static/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	# Per-user and never cacheable. The other API routes set their own
+	# Cache-Control so a cache in front can absorb repeat lookups.
+	@private path /api/users/*
+	header @private Cache-Control "no-store"
+
+	reverse_proxy 127.0.0.1:{{ prod_port }} {
+		health_uri /api/health
+		health_interval 30s
+	}
+}
+
+{{ domain_staging }} {
+{% if caddy_tls_mode == 'origin_ca' %}
+	tls {{ caddy_cert }} {{ caddy_key }}
+{% endif %}
+	import hardening
+
+	# Staging serves the same ~1000 city pages as production. Without this it
+	# competes with the real site in search results.
+	header X-Robots-Tag "noindex, nofollow"
+	header Cache-Control "no-store"
+
+	# To put staging behind a password:
+	#   caddy hash-password --plaintext 'yours'
+	# then uncomment, pasting the hash.
+	# basic_auth {
+	# 	amaury <bcrypt-hash>
+	# }
+
+	# No health_uri and no compression. A dev server is often mid-compile, and
+	# an unhealthy upstream would take the site out exactly when you want to
+	# look at it. Websockets (hot reload) upgrade through here automatically.
+	reverse_proxy 127.0.0.1:{{ staging_port }} {
+		# First compile after a restart can be slow.
+		transport http {
+			response_header_timeout 120s
+		}
+	}
+}

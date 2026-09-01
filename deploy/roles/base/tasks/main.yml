@@ -1,0 +1,141 @@
+---
+# Deliberately ansible.builtin only: no galaxy collections to install before a
+# rebuild, on a box that needs three roles and nothing exotic.
+
+- name: Install base packages
+  ansible.builtin.apt:
+      name:
+          # setfacl. Ansible needs it to hand a temp file to an unprivileged
+          # become_user, which every task running as shootismoke or
+          # shootismoke-staging does. Without it those tasks fail on chmod.
+          - acl
+          - git
+          - curl
+          - ca-certificates
+          - gnupg
+          - rsync # push-build.sh ships .next over rsync
+          - ufw
+      state: present
+      update_cache: true
+      cache_valid_time: 3600
+
+# --- Swap --------------------------------------------------------------------
+# Production no longer builds here, so this is headroom rather than a
+# necessity: npm ci during a release, and next dev on staging, both spike.
+
+- name: Ensure the apt keyring directory exists
+  ansible.builtin.file:
+      path: /etc/apt/keyrings
+      state: directory
+      mode: '0755'
+
+- name: Check for the swapfile
+  ansible.builtin.stat:
+      path: /swapfile
+  register: swapfile
+
+- name: Create the swapfile
+  ansible.builtin.command:
+      cmd: "fallocate -l {{ swap_size_mb }}M /swapfile"
+  when: not swapfile.stat.exists
+  changed_when: true
+
+- name: Lock down the swapfile
+  ansible.builtin.file:
+      path: /swapfile
+      owner: root
+      group: root
+      mode: '0600'
+
+- name: Format and enable the swapfile
+  ansible.builtin.shell:
+      cmd: mkswap /swapfile && swapon /swapfile
+  when: not swapfile.stat.exists
+  changed_when: true
+
+- name: Keep swap across reboots
+  ansible.builtin.lineinfile:
+      path: /etc/fstab
+      line: '/swapfile none swap sw 0 0'
+      regexp: '^/swapfile\s'
+      state: present
+
+# --- Kernel tunables ---------------------------------------------------------
+
+- name: Write sysctl overrides
+  ansible.builtin.copy:
+      dest: /etc/sysctl.d/60-shootismoke.conf
+      mode: '0644'
+      content: |
+          # Managed by Ansible.
+
+          # next dev's file watcher plus a VSCode remote server exhaust the
+          # default and fail with ENOSPC, which looks like "hot reload just
+          # stopped working".
+          fs.inotify.max_user_watches = {{ inotify_max_user_watches }}
+
+          # 4 GB shared between two Node servers: reach for swap late.
+          vm.swappiness = 10
+  notify: Reload sysctl
+
+# --- Node --------------------------------------------------------------------
+
+- name: Check the installed Node version
+  ansible.builtin.command:
+      cmd: node --version
+  register: node_version
+  changed_when: false
+  failed_when: false
+
+- name: Decide whether Node needs installing
+  ansible.builtin.set_fact:
+      node_needed: "{{ node_version.rc != 0 or not node_version.stdout.startswith('v' ~ node_major ~ '.') }}"
+
+- name: Fetch the NodeSource key
+  ansible.builtin.get_url:
+      url: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+      dest: /etc/apt/keyrings/nodesource.asc
+      mode: '0644'
+  when: node_needed
+
+- name: Add the NodeSource repository
+  ansible.builtin.apt_repository:
+      repo: >-
+          deb [signed-by=/etc/apt/keyrings/nodesource.asc]
+          https://deb.nodesource.com/node_{{ node_major }}.x nodistro main
+      filename: nodesource
+      state: present
+  when: node_needed
+
+- name: Install Node
+  ansible.builtin.apt:
+      name: "nodejs={{ node_major }}.*"
+      state: present
+      update_cache: true
+  when: node_needed
+
+# --- Firewall ----------------------------------------------------------------
+# Both app ports are bound to 127.0.0.1 and are never exposed; only Caddy and
+# SSH need to be reachable.
+
+- name: Allow SSH, HTTP and HTTPS
+  ansible.builtin.command:
+      cmd: "ufw allow {{ item }}"
+  register: ufw_rule
+  changed_when: "'existing' not in ufw_rule.stdout"
+  loop:
+      - OpenSSH
+      - 80/tcp
+      - 443/tcp
+
+- name: Check whether the firewall is on
+  ansible.builtin.command:
+      cmd: ufw status
+  register: ufw_status
+  changed_when: false
+
+- name: Enable the firewall
+  ansible.builtin.command:
+      cmd: ufw --force enable
+  when: "'Status: active' not in ufw_status.stdout"
+  changed_when: true

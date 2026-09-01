@@ -1,0 +1,5 @@
+# Managed by Ansible -- edit {{ 'prod_ssh_keys' if item.user == prod_user else 'staging_ssh_keys' }}
+# in deploy/group_vars/all/vars.yml.
+{% for key in item.pubkeys %}
+{{ key }}
+{% endfor %}

@@ -1,0 +1,34 @@
+# Managed by Ansible. Staging: a live `next dev` over a tree you edit yourself.
+#
+# There is no deploy for staging. Save a file over SSH and hot reload picks it
+# up; the unit only needs restarting if the dev server itself dies.
+[Unit]
+Description=staging.shootismoke.app (next dev)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User={{ staging_user }}
+WorkingDirectory={{ staging_dir }}
+EnvironmentFile={{ staging_dir }}/.env
+ExecStart=/usr/bin/npm run dev -- --port {{ staging_port }} --hostname 127.0.0.1
+Restart=always
+RestartSec=5
+
+# A dev server holds far more than next start does, and a bad edit can make it
+# balloon. This ceiling is what keeps production alive when that happens.
+MemoryHigh={{ staging_memory_high }}
+MemoryMax={{ staging_memory_max }}
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+# Writable: the dev server rewrites .next constantly, and you edit the tree.
+ReadWritePaths={{ staging_home }}
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target

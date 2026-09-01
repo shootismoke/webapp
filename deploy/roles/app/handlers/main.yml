@@ -1,0 +1,16 @@
+---
+- name: Reload systemd
+  ansible.builtin.systemd:
+      daemon_reload: true
+
+- name: Restart production
+  # Only if it is already running: on a fresh box there is no build to serve.
+  ansible.builtin.systemd:
+      name: shootismoke
+      state: restarted
+  when: prod_build.stat.exists | default(false)
+
+- name: Restart staging
+  ansible.builtin.systemd:
+      name: shootismoke-staging
+      state: restarted

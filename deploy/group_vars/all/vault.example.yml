@@ -1,0 +1,28 @@
+---
+# Copy to vault.yml, fill in, then ENCRYPT IT before committing:
+#
+#   cp group_vars/all/vault.example.yml group_vars/all/vault.yml
+#   $EDITOR group_vars/all/vault.yml
+#   ansible-vault encrypt group_vars/all/vault.yml
+#
+# This repository is public. Vault ciphertext is safe to publish; plaintext is
+# not. Install the guard in deploy/scripts/ to make committing plaintext hard.
+
+# Public to browsers by design (Sentry DSN is write-only ingestion; the
+# Amplitude key is a client-side analytics key). Kept here only so one file
+# describes a whole environment.
+vault_next_public_amplitude_api_key: ''
+vault_next_public_sentry_api_key: ''
+
+# Server-side only. These never reach a browser -- the frontend goes through
+# /api/aq and /api/geocode precisely so they stay here.
+vault_backend_secret: ''
+vault_backend_aqicn_token: ''
+vault_backend_geoapify_api_key: ''
+vault_backend_mailgun_api_key: ''
+vault_backend_mailgun_domain: ''
+vault_backend_openaq_api_key: ''
+
+# Separate databases per environment. Only /api/users/* touches Mongo.
+vault_prod_mongodb_uri: ''
+vault_staging_mongodb_uri: ''

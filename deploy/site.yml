@@ -1,0 +1,28 @@
+---
+# Provision the OVH VPS that serves shootismoke.app and
+# staging.shootismoke.app.
+#
+#   ansible-playbook site.yml --ask-vault-pass
+#
+# Safe to re-run. It never touches the staging working tree after the first
+# clone, and never touches production's .next -- releases are pushed by
+# deploy/push-build.sh, not by this playbook.
+
+- name: shootismoke.app
+  hosts: all
+  become: true
+
+  pre_tasks:
+      - name: Check the vault was decrypted
+        ansible.builtin.assert:
+            that: vault_backend_aqicn_token is defined
+            fail_msg: >-
+                Vault variables are missing. Run with --ask-vault-pass (or
+                --vault-password-file), and make sure group_vars/all/vault.yml
+                exists -- copy it from vault.example.yml.
+        run_once: true
+
+  roles:
+      - base
+      - app
+      - caddy

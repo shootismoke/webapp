@@ -1,12 +1,21 @@
 name: deploy
 
-# The production branch is what Vercel used to deploy. Merging to it still
-# ships. The build happens on the server, so this workflow only triggers it.
+# Production ships on a tag: `git tag prod-v1 && git push origin prod-v1`.
+#
+# The build runs here rather than on the box -- the box has 4 GB and also runs
+# the staging dev server, and prerendering ~1000 city pages is the heaviest
+# thing this project does. A runner is also Linux, so the build it produces
+# matches the box; a build made on a Mac would not carry usable binaries, which
+# is why only .next travels and the box runs its own npm ci.
 on:
     push:
-        branches:
-            - production
+        tags:
+            - 'prod-v*'
     workflow_dispatch:
+        inputs:
+            tag:
+                description: 'Tag to release (prod-vN)'
+                required: true
 
 concurrency:
     group: deploy
@@ -15,17 +24,45 @@ concurrency:
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        env:
+            TAG: ${{ github.event.inputs.tag || github.ref_name }}
         steps:
-            - name: Build and release on the host
-              uses: appleboy/ssh-action@v1
+            - uses: actions/checkout@v4
               with:
-                  host: ${{ secrets.DEPLOY_HOST }}
-                  username: ${{ secrets.DEPLOY_USER }}
-                  key: ${{ secrets.DEPLOY_SSH_KEY }}
-                  command_timeout: 30m
-                  script: |
-                      set -euo pipefail
-                      /srv/shootismoke/webapp/deploy/deploy.sh production
+                  ref: ${{ github.event.inputs.tag || github.ref_name }}
+                  fetch-depth: 0
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm ci --no-audit --no-fund
+              env:
+                  CYPRESS_INSTALL_BINARY: 0
+
+            - name: Build
+              run: npm run build
+              env:
+                  NEXT_DIST_DIR: .next-release
+
+            - name: Authorize against the box
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+                  chmod 600 ~/.ssh/id_ed25519
+                  ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+            - name: Ship the build
+              run: |
+                  rsync -az --delete .next-release/ \
+                    "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/srv/shootismoke/production/webapp/.next-incoming/"
+
+            - name: Release
+              run: |
+                  ssh "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
+                    "/srv/shootismoke/production/webapp/deploy/release.sh $TAG"
 
             - name: Confirm the public site is answering
               run: |

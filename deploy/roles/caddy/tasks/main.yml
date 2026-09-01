@@ -1,0 +1,62 @@
+---
+- name: Fetch the Caddy signing key
+  ansible.builtin.get_url:
+      url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+      dest: /etc/apt/keyrings/caddy-stable.asc
+      mode: '0644'
+
+- name: Add the Caddy repository
+  ansible.builtin.apt_repository:
+      repo: >-
+          deb [signed-by=/etc/apt/keyrings/caddy-stable.asc]
+          https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main
+      filename: caddy-stable
+      state: present
+
+- name: Install Caddy
+  ansible.builtin.apt:
+      name: caddy
+      state: present
+      update_cache: true
+
+- name: Create the certificate directory
+  ansible.builtin.file:
+      path: "{{ caddy_cert_dir }}"
+      state: directory
+      owner: caddy
+      group: caddy
+      mode: '0750'
+  when: caddy_tls_mode == 'origin_ca'
+
+- name: Check for the Cloudflare Origin CA certificate
+  ansible.builtin.stat:
+      path: "{{ caddy_cert }}"
+  register: origin_cert
+  when: caddy_tls_mode == 'origin_ca'
+
+- name: Fail if the certificate is missing
+  when: caddy_tls_mode == 'origin_ca' and not origin_cert.stat.exists
+  ansible.builtin.fail:
+      msg: >-
+          {{ caddy_cert }} not found. Create a Cloudflare Origin CA certificate
+          covering shootismoke.app and *.shootismoke.app (SSL/TLS -> Origin
+          Server -> Create Certificate), copy it to {{ caddy_cert }} and its key
+          to {{ caddy_key }}, both owned by caddy and mode 0640. See
+          deploy/README.md. Let's Encrypt cannot be used: the domain is proxied,
+          so the HTTP-01 challenge never reaches this box.
+
+- name: Write the Caddyfile
+  ansible.builtin.template:
+      src: Caddyfile.j2
+      dest: /etc/caddy/Caddyfile
+      owner: root
+      group: caddy
+      mode: '0640'
+      validate: 'caddy validate --adapter caddyfile --config %s'
+  notify: Reload Caddy
+
+- name: Enable Caddy
+  ansible.builtin.systemd:
+      name: caddy
+      enabled: true
+      state: started

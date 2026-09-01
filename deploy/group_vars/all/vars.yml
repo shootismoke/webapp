@@ -1,0 +1,66 @@
+---
+# Non-secret configuration. Secrets live in vault.yml (encrypted).
+
+repo_url: https://github.com/shootismoke/webapp.git
+node_major: 22
+
+domain_production: shootismoke.app
+domain_staging: staging.shootismoke.app
+
+# --- Production -------------------------------------------------------------
+# Built elsewhere (your laptop or CI) and pushed here; see deploy/push-build.sh.
+prod_user: shootismoke
+prod_home: /srv/shootismoke/production
+prod_dir: /srv/shootismoke/production/webapp
+prod_port: 3000
+
+# --- Staging ----------------------------------------------------------------
+# A live `next dev`. Ansible creates the checkout once and then never touches
+# it again -- it is your working tree, edited over SSH from VSCode.
+staging_user: shootismoke-staging
+staging_home: /srv/shootismoke/staging
+staging_dir: /srv/shootismoke/staging/webapp
+staging_port: 3001
+staging_branch: master
+
+# --- Box ---------------------------------------------------------------------
+swap_size_mb: 2048
+
+# next dev plus a VSCode remote server watch a lot of files. Ubuntu's default
+# (8192 on older releases) is not enough and fails with ENOSPC.
+inotify_max_user_watches: 524288
+
+# Memory ceilings, so staging can never take production down with it. The box
+# has 4 GB; these leave headroom for npm ci during a release.
+prod_memory_high: 700M
+prod_memory_max: 1G
+staging_memory_high: 1200M
+staging_memory_max: 1600M
+
+# --- TLS ---------------------------------------------------------------------
+# Two ways to terminate TLS, and which one is correct depends entirely on
+# whether the domain is proxied by Cloudflare:
+#
+#   letsencrypt  DNS points straight at this box (currently Porkbun A records).
+#                Caddy solves HTTP-01 itself and renews on its own. Requires
+#                ports 80 and 443 reachable from the internet.
+#   origin_ca    DNS is proxied by Cloudflare on Full (strict). HTTP-01 can
+#                never work then -- the challenge stops at the edge -- so the
+#                Cloudflare Origin CA cert below is placed by hand instead.
+#                See deploy/README.md.
+#
+# Switching is this one line plus the DNS change; nothing else here cares.
+caddy_tls_mode: letsencrypt
+
+caddy_cert_dir: /etc/caddy/certs
+caddy_cert: /etc/caddy/certs/origin.pem
+caddy_key: /etc/caddy/certs/origin.key
+
+# --- SSH access --------------------------------------------------------------
+# Public keys, as strings. Put real values here (they are not secret).
+# staging: your laptop key, so VSCode Remote-SSH can connect as staging_user.
+# prod:    the CI deploy key, matching the DEPLOY_SSH_KEY GitHub secret.
+staging_ssh_keys:
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXhcVDwEf8m38ksinht4Y76Yv4TzztT7HI7n5Qg/YYr amori1729@protonmail.com'
+prod_ssh_keys:
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXhcVDwEf8m38ksinht4Y76Yv4TzztT7HI7n5Qg/YYr amori1729@protonmail.com'
