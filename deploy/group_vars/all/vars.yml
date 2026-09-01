@@ -8,7 +8,7 @@ domain_production: shootismoke.app
 domain_staging: staging.shootismoke.app
 
 # --- Production -------------------------------------------------------------
-# Built elsewhere (your laptop or CI) and pushed here; see deploy/push-build.sh.
+# Built on your laptop and pushed here; see deploy/push-build.sh.
 prod_user: shootismoke
 prod_home: /srv/shootismoke/production
 prod_dir: /srv/shootismoke/production/webapp
@@ -59,7 +59,8 @@ caddy_key: /etc/caddy/certs/origin.key
 # --- SSH access --------------------------------------------------------------
 # Public keys, as strings. Put real values here (they are not secret).
 # staging: your laptop key, so VSCode Remote-SSH can connect as staging_user.
-# prod:    the CI deploy key, matching the DEPLOY_SSH_KEY GitHub secret.
+# prod:    your laptop key too, so push-build.sh can rsync a release in.
+#          Nothing in CI holds a key to this box.
 staging_ssh_keys:
     - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXhcVDwEf8m38ksinht4Y76Yv4TzztT7HI7n5Qg/YYr amori1729@protonmail.com'
 prod_ssh_keys:

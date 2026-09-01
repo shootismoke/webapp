@@ -23,7 +23,7 @@ Caddy   (apt, TLS via Cloudflare Origin CA)
 | Runs | `next start` | `next dev`, hot reload |
 | User | `shootismoke` | `shootismoke-staging` |
 | Path | `/srv/shootismoke/production/webapp` | `/srv/shootismoke/staging/webapp` |
-| Updated by | pushing a `prod-vN` tag | saving a file in VSCode |
+| Updated by | `deploy/push-build.sh prod-vN` | saving a file in VSCode |
 | Database | its own Atlas cluster | its own Atlas cluster |
 
 The two run as different users on purpose. It is what stops a slip in the
@@ -33,8 +33,8 @@ staging tree — the one you edit by hand, daily — from writing over productio
 
 The box has 4 GB and is running a dev server at the same time. Prerendering
 ~1000 city pages is the heaviest thing this project does, and it is the one
-step that does not need to be there. So it runs on a CI runner (or your laptop)
-and only the output travels.
+step that does not need to be there. So it runs on your laptop and only the
+output travels.
 
 Only `.next` travels. `node_modules` cannot: a checkout on a Mac carries
 `@next/swc-darwin-arm64` and a darwin `sharp` binary, neither of which runs on
@@ -100,8 +100,9 @@ credential stays on the server: the browser reaches those providers through
 ### 4. Run the playbook
 
 Fill in `inventory.yml` (the box's IP) and the two key lists in
-`group_vars/all/vars.yml` — your laptop's public key for staging, the CI deploy
-key for production.
+`group_vars/all/vars.yml`. Both are your laptop's public key: it needs to reach
+`shootismoke-staging` for VSCode Remote-SSH, and `shootismoke` to push a
+release.
 
 ```bash
 ansible-playbook site.yml --ask-vault-pass
@@ -115,38 +116,31 @@ clone, and it never touches production's `.next`.
 
 Production stays down until you push a build, which is expected on a fresh box.
 
-### 5. GitHub secrets
-
-Settings → Secrets and variables → Actions. Only SSH access is needed; the API
-keys live in the vault, not in CI.
-
-| Secret | What it is |
-| --- | --- |
-| `DEPLOY_HOST` | box IP or hostname |
-| `DEPLOY_USER` | `shootismoke` |
-| `DEPLOY_SSH_KEY` | private key whose public half is in `prod_ssh_keys` |
-
 ## Releasing production
 
-```bash
-git tag prod-v1
-git push origin prod-v1
-```
-
-The workflow builds on a runner, rsyncs `.next` to `.next-incoming` on the box,
-and runs `deploy/release.sh`, which moves the checkout to the tag, installs
-production dependencies, swaps the build in and waits for health. It rolls back
-to the previous build automatically if the new one does not come up.
-
-To build on your own machine instead:
+Releases go out from a laptop. There is no deploy workflow: GitHub holds no key
+to the box and never learns that a release happened.
 
 ```bash
-git checkout prod-v1
-DEPLOY_HOST=1.2.3.4 deploy/push-build.sh prod-v1
+git tag prod-v2
+git push origin prod-v2
+git checkout prod-v2
+DEPLOY_HOST=1.2.3.4 deploy/push-build.sh prod-v2
 ```
 
-That refuses to run against a dirty tree, or when `HEAD` is not the tag, or when
-the tag is not pushed — otherwise a tag stops describing what is actually live.
+`push-build.sh` builds into `.next-release`, rsyncs it to `.next-incoming` on
+the box, and runs `deploy/release.sh` there, which moves the checkout to the
+tag, installs production dependencies, swaps the build in and waits for health.
+It rolls back to the previous build automatically if the new one does not come
+up.
+
+It refuses to run against a dirty tree, when `HEAD` is not the tag, or when the
+tag is not pushed — otherwise a tag stops describing what is actually live. The
+tag still goes to GitHub for that reason; it just does not trigger anything.
+
+The end-to-end Cypress suite used to chain off the deploy workflow. Run it by
+hand from the Actions tab (`e2e` → Run workflow) after a release you want
+checked.
 
 To roll back, release the previous tag. To roll back right now, without waiting
 for a build:

@@ -1,16 +1,14 @@
 name: e2e
 
-# Used to run off Vercel's `deployment_status` event. Now that we deploy
-# ourselves, it runs after the deploy workflow succeeds, against the live site.
+# Used to run off Vercel's `deployment_status` event, and later off a deploy
+# workflow. Releases now happen from a laptop with `deploy/push-build.sh`, and
+# GitHub never learns about them, so there is nothing left to chain off: run
+# this by hand from the Actions tab after a release.
 on:
-    workflow_run:
-        workflows: [deploy]
-        types: [completed]
     workflow_dispatch:
 
 jobs:
     cypress:
-        if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
