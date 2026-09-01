@@ -16,7 +16,7 @@
  */
 
 import c from 'classnames';
-import Image from 'next/image';
+import Image, { ImageProps } from 'next/image';
 import React from 'react';
 
 export interface TipProps {
@@ -26,7 +26,7 @@ export interface TipProps {
 		| (React.ReactElement | undefined)[];
 	className?: string;
 	imgAlt: string;
-	imgSrc: string;
+	imgSrc: ImageProps['src'];
 }
 
 export function Tip({
@@ -43,8 +43,8 @@ export function Tip({
 			>
 				<Image
 					alt={imgAlt}
-					layout="fill"
-					objectFit="contain"
+					fill
+					style={{ objectFit: 'contain' }}
 					src={imgSrc}
 				/>
 			</div>

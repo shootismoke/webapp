@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { LatLng } from '@shootismoke/dataproviders';
-import type { Api } from '@shootismoke/ui';
+import { LatLng } from '@common/dataproviders';
+import type { Api } from '@common/ui';
 import axios from 'axios';
 import haversine from 'haversine';
 
@@ -46,6 +46,18 @@ export interface City {
 }
 
 let cachedCities: City[];
+
+/**
+ * The slugs of every city that has a dedicated page.
+ *
+ * The search bar only needs these to decide whether a result routes to
+ * `/city/[slug]`; handing it the full city objects costs megabytes per page.
+ */
+export function citySlugs(cities: City[]): string[] {
+	return cities
+		.map(({ slug }) => slug)
+		.filter((slug): slug is string => !!slug);
+}
 
 export async function getAllCities(): Promise<City[]> {
 	if (cachedCities) {

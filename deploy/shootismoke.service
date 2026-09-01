@@ -1,0 +1,34 @@
+# /etc/systemd/system/shootismoke.service
+#
+#   sudo systemctl enable --now shootismoke
+
+[Unit]
+Description=shootismoke.app (Next.js)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=shootismoke
+WorkingDirectory=/srv/shootismoke/webapp
+EnvironmentFile=/srv/shootismoke/webapp/.env
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOSTNAME=127.0.0.1
+ExecStart=/usr/bin/npm run start
+Restart=always
+RestartSec=5
+
+# Only Caddy talks to this; it never needs to be reachable from outside.
+# Hardening.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/shootismoke/webapp
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target

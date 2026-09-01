@@ -49,3 +49,8 @@ test/cypress/videos
 # Next.js dependencies
 /.pnp
 .pnp.js
+
+# Cloudflare Origin CA cert/key, if compose is run from a checkout
+certs/
+.next-staging/
+.next-previous/

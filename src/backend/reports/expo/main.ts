@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { fetchStationId, MongoPushTicket, MongoUser } from '@shootismoke/ui';
+import { fetchStationId, MongoPushTicket, MongoUser } from '@common/ui';
 import debug from 'debug';
 import { config } from 'dotenv';
 import { Expo, ExpoPushMessage, ExpoPushSuccessTicket } from 'expo-server-sdk';
@@ -78,12 +78,8 @@ export async function main(): Promise<void> {
 		users.map(expoPushMessageForUser)
 	);
 
-	const rejected = expoMessages.filter(
-		(p) => p.status === 'rejected'
-	) as PromiseRejectedResult[];
-	const successful = expoMessages.filter(
-		(p) => p.status === 'fulfilled'
-	) as PromiseFulfilledResult<ExpoPushMessageWithUser>[];
+	const rejected = expoMessages.filter((p) => p.status === 'rejected');
+	const successful = expoMessages.filter((p) => p.status === 'fulfilled');
 
 	const tickets = await sendBatchToExpo(
 		new Expo(),

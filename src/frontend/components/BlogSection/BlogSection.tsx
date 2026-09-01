@@ -16,7 +16,7 @@
  */
 
 import c from 'classnames';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import React from 'react';
 
 import blogfolha from '../../../../assets/images/blogs/blogfolha.jpg';
@@ -41,7 +41,7 @@ import { Carousel, CarouselCard } from '../Carousel';
 import { Section } from '../Section';
 
 interface Blog {
-	image: string;
+	image: StaticImageData;
 	slug: string;
 	subtitle: string;
 	title: string;
@@ -206,8 +206,8 @@ export function BlogSection(): React.ReactElement {
 							<div className="next-images relative | w-full h-40 md:h-50 object-cover">
 								<Image
 									alt={blog.title}
-									layout="fill"
-									objectFit="cover"
+									fill
+									style={{ objectFit: 'cover' }}
 									src={blog.image}
 								/>
 							</div>

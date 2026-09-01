@@ -38,9 +38,11 @@ export function AusAir(): React.ReactElement {
 				<div className="next-images relative w-full h-full">
 					<Image
 						alt="cigarettes-conversion"
-						layout="fill"
-						objectFit="cover"
-						objectPosition="center top"
+						fill
+						style={{
+							objectFit: 'cover',
+							objectPosition: 'center top',
+						}}
 						src={dreadsWide}
 					/>
 				</div>
@@ -54,9 +56,8 @@ export function AusAir(): React.ReactElement {
 				<div className="hidden md:block next-images relative w-32 h-24">
 					<Image
 						alt="cigarettes-conversion"
-						layout="fill"
-						objectFit="cover"
-						objectPosition="left"
+						fill
+						style={{ objectFit: 'cover', objectPosition: 'left' }}
 						src={product8}
 					/>
 				</div>

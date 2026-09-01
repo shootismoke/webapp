@@ -1,3 +1,3 @@
 module.exports = {
-	plugins: ['postcss-easy-import', 'tailwindcss', 'autoprefixer'],
+	plugins: ['postcss-import', 'tailwindcss', 'autoprefixer'],
 };

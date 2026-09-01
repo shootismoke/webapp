@@ -1,0 +1,37 @@
+name: deploy
+
+# The production branch is what Vercel used to deploy. Merging to it still
+# ships. The build happens on the server, so this workflow only triggers it.
+on:
+    push:
+        branches:
+            - production
+    workflow_dispatch:
+
+concurrency:
+    group: deploy
+    cancel-in-progress: false
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Build and release on the host
+              uses: appleboy/ssh-action@v1
+              with:
+                  host: ${{ secrets.DEPLOY_HOST }}
+                  username: ${{ secrets.DEPLOY_USER }}
+                  key: ${{ secrets.DEPLOY_SSH_KEY }}
+                  command_timeout: 30m
+                  script: |
+                      set -euo pipefail
+                      /srv/shootismoke/webapp/deploy/deploy.sh production
+
+            - name: Confirm the public site is answering
+              run: |
+                  for i in $(seq 1 30); do
+                    code=$(curl -s -o /dev/null -w '%{http_code}' https://shootismoke.app/api/health || true)
+                    if [ "$code" = "200" ]; then echo "healthy"; exit 0; fi
+                    echo "attempt $i: HTTP $code"; sleep 5
+                  done
+                  echo "site did not become healthy"; exit 1

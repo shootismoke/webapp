@@ -15,16 +15,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { StaticImageData } from 'next/image';
 import React from 'react';
 
-import cry from '../../../../../assets/images/health/cry.svg';
-import fitness from '../../../../../assets/images/health/fitness.svg';
-import happy from '../../../../../assets/images/health/happy.svg';
-import house from '../../../../../assets/images/health/house.svg';
-import mask from '../../../../../assets/images/health/mask.svg';
-import pause from '../../../../../assets/images/health/pause.svg';
-import warning from '../../../../../assets/images/health/warning.svg';
+import crySvg from '../../../../../assets/images/health/cry.svg';
+import fitnessSvg from '../../../../../assets/images/health/fitness.svg';
+import happySvg from '../../../../../assets/images/health/happy.svg';
+import houseSvg from '../../../../../assets/images/health/house.svg';
+import maskSvg from '../../../../../assets/images/health/mask.svg';
+import pauseSvg from '../../../../../assets/images/health/pause.svg';
+import warningSvg from '../../../../../assets/images/health/warning.svg';
 import { Tip, TipProps } from '../../Tip';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const cry = crySvg as StaticImageData;
+const fitness = fitnessSvg as StaticImageData;
+const happy = happySvg as StaticImageData;
+const house = houseSvg as StaticImageData;
+const mask = maskSvg as StaticImageData;
+const pause = pauseSvg as StaticImageData;
+const warning = warningSvg as StaticImageData;
 
 function HealthTip(props: TipProps): React.ReactElement {
 	const { children, ...rest } = props;

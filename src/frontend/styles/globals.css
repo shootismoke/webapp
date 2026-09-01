@@ -9,36 +9,36 @@ html {
 	font-family: Montserrat, Arial, sans-serif;
 }
 
+/* Tailwind v3 adds responsive variants to `@layer` utilities automatically, so
+ * the `@responsive` wrapper these used to need is gone. */
 @layer utilities {
-	@responsive {
-		.h-50 {
-			height: 12.5rem;
-		}
+	.h-50 {
+		height: 12.5rem;
+	}
 
-		.h-60 {
-			height: 15rem;
-		}
+	.h-60 {
+		height: 15rem;
+	}
 
-		.h-70 {
-			height: 17.5rem;
-		}
+	.h-70 {
+		height: 17.5rem;
+	}
 
-		.h-78 {
-			height: 19.5rem;
-		}
+	.h-78 {
+		height: 19.5rem;
+	}
 
-		.mb-9 {
-			margin-bottom: 2.25rem;
-		}
+	.mb-9 {
+		margin-bottom: 2.25rem;
+	}
 
-		.mt-9 {
-			margin-top: 2.25rem;
-		}
+	.mt-9 {
+		margin-top: 2.25rem;
+	}
 
-		.mx-9 {
-			margin-left: 2.25rem;
-			margin-right: 2.25rem;
-		}
+	.mx-9 {
+		margin-left: 2.25rem;
+		margin-right: 2.25rem;
 	}
 }
 

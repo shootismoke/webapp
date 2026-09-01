@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import sadFace from '@shootismoke/ui/assets/images/error@3x.png';
 import Image from 'next/image';
 import React from 'react';
 
+import sadFace from '../../../../assets/images/error.png';
 import { H1 } from '../H1';
 import { HeroLayout } from '../HeroLayout';
 
@@ -37,9 +37,11 @@ export function SadFace(props: SadFaceProps): React.ReactElement {
 					<div className="next-images relative | h-full">
 						<Image
 							alt="error"
-							layout="fill"
-							objectFit="contain"
-							objectPosition="left"
+							fill
+							style={{
+								objectFit: 'contain',
+								objectPosition: 'left',
+							}}
 							src={sadFace}
 						/>
 					</div>

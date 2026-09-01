@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { IUser } from '@shootismoke/ui';
+import type { IUser } from '@common/ui';
 import debug from 'debug';
 import createHttpError from 'http-errors';
 import { connect, connection } from 'mongoose';
@@ -52,11 +52,9 @@ export async function connectToDatabase(): Promise<void> {
 		);
 	}
 
-	await connect(process.env.BACKEND_MONGODB_ATLAS_URI, {
-		useCreateIndex: true,
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	});
+	// Mongoose 6 dropped `useCreateIndex`/`useNewUrlParser`/`useUnifiedTopology`;
+	// they are all the default behaviour now.
+	await connect(process.env.BACKEND_MONGODB_ATLAS_URI);
 
 	l('Connected to db.');
 }

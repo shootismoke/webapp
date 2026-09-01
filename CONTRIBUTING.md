@@ -49,7 +49,7 @@ People _love_ thorough bug reports. I'm not even kidding.
 
 We use an opiniated `eslint`, which is configured to behave like `prettier` + `@typescript-eslint/recommended`.
 
-Run `yarn lint` to make sure that your code passes linting. You can optionally add the `--fix` flag to let `eslint` automatically fix some errors.
+Run `npm run lint` to make sure that your code passes linting. You can optionally add the `--fix` flag (`npm run lint -- --fix`) to let `eslint` automatically fix some errors.
 
 There's two additional rule that are not (yet?) implemented in `eslint`: imports ordering & props/destructuring ordering. This is right now only enforced by PR reviewers.
 

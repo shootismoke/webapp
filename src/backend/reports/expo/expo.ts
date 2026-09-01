@@ -21,7 +21,7 @@ import {
 	IExpoReport,
 	MongoUser,
 	round,
-} from '@shootismoke/ui';
+} from '@common/ui';
 import {
 	Expo,
 	ExpoPushMessage,

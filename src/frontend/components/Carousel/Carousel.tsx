@@ -16,11 +16,16 @@
  */
 
 import c from 'classnames';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import React, { useRef } from 'react';
 
-import pageLeft from '../../../../assets/images/icons/pagination-left.svg';
-import pageRight from '../../../../assets/images/icons/pagination-right.svg';
+import pageLeftSvg from '../../../../assets/images/icons/pagination-left.svg';
+import pageRightSvg from '../../../../assets/images/icons/pagination-right.svg';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const pageLeft = pageLeftSvg as StaticImageData;
+const pageRight = pageRightSvg as StaticImageData;
 
 export * from './CarouselCard';
 
@@ -66,8 +71,8 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 			<div className="next-images w-12 h-12 | hidden md:block absolute -left-6 cursor-pointer z-10">
 				<Image
 					alt="page-left"
-					layout="fill"
-					objectFit="contain"
+					fill
+					style={{ objectFit: 'contain' }}
 					onClick={scrollLeft}
 					src={pageLeft}
 				/>
@@ -76,8 +81,8 @@ export function Carousel(props: CarouselProps): React.ReactElement {
 			<div className="next-images w-12 h-12 | hidden md:block absolute -right-6 cursor-pointer z-10">
 				<Image
 					alt="page-right"
-					layout="fill"
-					objectFit="contain"
+					fill
+					style={{ objectFit: 'contain' }}
 					onClick={scrollRight}
 					src={pageRight}
 				/>

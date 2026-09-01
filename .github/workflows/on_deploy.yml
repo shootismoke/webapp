@@ -1,21 +1,28 @@
-name: ci
+name: e2e
 
-# https://docs.github.com/en/actions/reference/events-that-trigger-workflows
-on: [deployment_status]
+# Used to run off Vercel's `deployment_status` event. Now that we deploy
+# ourselves, it runs after the deploy workflow succeeds, against the live site.
+on:
+    workflow_run:
+        workflows: [deploy]
+        types: [completed]
+    workflow_dispatch:
 
 jobs:
-    # Inspired from https://glebbahmutov.com/blog/develop-preview-test/
     cypress:
-        # only runs this job on successful deploy
-        if: github.event.deployment_status.state == 'success'
+        if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
 
             - name: Run Cypress
-              uses: cypress-io/github-action@v2
+              uses: cypress-io/github-action@v6
               env:
-                  CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+                  CYPRESS_BASE_URL: https://shootismoke.app
 
             # after the test run completes
             # store videos and any screenshots
@@ -23,13 +30,13 @@ jobs:
             # thus we store screenshots only on failures
             # Alternative: create and commit an empty cypress/screenshots folder
             # to always have something to upload
-            - uses: actions/upload-artifact@v1
+            - uses: actions/upload-artifact@v4
               if: failure()
               with:
                   name: cypress-screenshots
                   path: test/cypress/screenshots
             # Test run video was always captured, so this action uses "always()" condition
-            - uses: actions/upload-artifact@v1
+            - uses: actions/upload-artifact@v4
               if: always()
               with:
                   name: cypress-videos

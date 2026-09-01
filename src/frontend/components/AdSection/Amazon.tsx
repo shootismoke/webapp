@@ -121,8 +121,8 @@ export function Amazon(): React.ReactElement {
 						<div className="next-images relative w-full | px-2 h-36 object-cover">
 							<Image
 								alt={ad.title}
-								layout="fill"
-								objectFit="contain"
+								fill
+								style={{ objectFit: 'contain' }}
 								src={ad.image}
 							/>
 						</div>

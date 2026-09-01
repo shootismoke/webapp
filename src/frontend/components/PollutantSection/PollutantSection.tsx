@@ -15,14 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { Pollutant } from '@shootismoke/convert';
-import { getPollutantData } from '@shootismoke/ui';
+import type { Pollutant } from '@common/convert';
+import { getPollutantData } from '@common/ui';
+import type { StaticImageData } from 'next/image';
 import React from 'react';
 
-import skull from '../../../../assets/images/icons/skull.svg';
+import skullSvg from '../../../../assets/images/icons/skull.svg';
 import { Section } from '../Section';
 import { Tip } from '../Tip';
 import { HealthSection } from './HealthSection';
+
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const skull = skullSvg as StaticImageData;
 
 interface PollutantSectionProps {
 	aqi: number;

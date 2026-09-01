@@ -1,7 +1,20 @@
 {
 	"compilerOptions": {
+		"baseUrl": "..",
+		"esModuleInterop": true,
+		// @common/ui's barrel reaches .tsx files (the Frequency context), so the
+		// scripts have to be able to compile JSX even though they never emit any.
+		"jsx": "react-jsx",
 		"lib": ["es2020"],
-		"resolveJsonModule": true
+		"paths": {
+			"@common/*": ["src/common/*"]
+		},
+		"resolveJsonModule": true,
+		"strict": true,
+		// These run on Node, not in a browser, so there is no reason to downlevel.
+		"target": "es2020"
 	},
-	"extends": "../node_modules/@amaurym/tsconfig/tsconfig"
+	"ts-node": {
+		"require": ["tsconfig-paths/register"]
+	}
 }

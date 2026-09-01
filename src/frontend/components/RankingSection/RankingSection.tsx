@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { LatLng } from '@shootismoke/dataproviders';
-import { round } from '@shootismoke/ui';
+import { LatLng } from '@common/dataproviders';
+import { round } from '@common/ui';
 import axios from 'axios';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -50,7 +50,7 @@ interface RankingSectionProps {
 /**
  * Number of cities to show in the ranking.
  */
-const CITIES_TO_SHOW = 6;
+export const CITIES_TO_SHOW = 6;
 
 export function RankingSection(props: RankingSectionProps): React.ReactElement {
 	const { currentCity: currentCityFromProps, cities } = props;
@@ -130,41 +130,37 @@ export function RankingSection(props: RankingSectionProps): React.ReactElement {
 							// city.slug is always defined in `cities`
 							// eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
 							href={`/city/${city.slug!}`}
+							data-cy={`RankingSection-city-card-${index}`}
 						>
-							<a data-cy={`RankingSection-city-card-${index}`}>
-								<CityCard
-									description={
-										city.api?.shootismoke.dailyCigarettes
-											? `${round(
-													city.api.shootismoke
-														.dailyCigarettes
-											  )} cigarettes today`
-											: 'Loading cigarettes...'
-									}
-									onClick={(): void =>
-										logEvent(
-											'RankingSection.CityCard.Click',
-											{
-												rank: index + 1,
-												slug: city.slug,
-											}
-										)
-									}
-									photoUrl={city.photoUrl}
-									subtitle={
-										city.name
-											? [
-													city.name,
-													city.adminName,
-													city.country,
-											  ]
-													.filter((x) => !!x)
-													.join(', ')
-											: 'Loading city...'
-									}
-									title={`${numberToOrdinal(index + 1)}`}
-								/>
-							</a>
+							<CityCard
+								description={
+									city.api?.shootismoke.dailyCigarettes
+										? `${round(
+												city.api.shootismoke
+													.dailyCigarettes
+										  )} cigarettes today`
+										: 'Loading cigarettes...'
+								}
+								onClick={(): void =>
+									logEvent('RankingSection.CityCard.Click', {
+										rank: index + 1,
+										slug: city.slug,
+									})
+								}
+								photoUrl={city.photoUrl}
+								subtitle={
+									city.name
+										? [
+												city.name,
+												city.adminName,
+												city.country,
+										  ]
+												.filter((x) => !!x)
+												.join(', ')
+										: 'Loading city...'
+								}
+								title={`${numberToOrdinal(index + 1)}`}
+							/>
 						</Link>
 					))}
 				</div>

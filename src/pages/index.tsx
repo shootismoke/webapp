@@ -31,12 +31,24 @@ import {
 	Section,
 	Seo,
 } from '../frontend/components';
-import { City, getAllCities, logEvent } from '../frontend/util';
+import { City, citySlugs, getAllCities, logEvent } from '../frontend/util';
 
-export async function getStaticProps(): Promise<{ props: { cities: City[] } }> {
+/**
+ * How often, in seconds, Next regenerates these pages in the background.
+ *
+ * The city list is refreshed upstream every couple of hours. On Vercel a cron
+ * triggered a full rebuild of all ~1000 pages to pick that up; self-hosted we
+ * let ISR do it per page, on demand.
+ */
+export const REVALIDATE_SECONDS = 2 * 60 * 60;
+
+export async function getStaticProps(): Promise<{
+	props: { cities: City[] };
+	revalidate: number;
+}> {
 	const cities = await getAllCities();
 
-	return { props: { cities } };
+	return { props: { cities }, revalidate: REVALIDATE_SECONDS };
 }
 
 interface IndexProps {
@@ -64,7 +76,7 @@ export default function IndexPage(props: IndexProps): React.ReactElement {
 						urban air?
 					</>
 				</H1>
-				<SearchBar cities={cities} className="mt-6" />
+				<SearchBar citySlugs={citySlugs(cities)} className="mt-6" />
 			</Section>
 
 			<RankingSection cities={cities} />

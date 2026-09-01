@@ -27,8 +27,11 @@ Run the following commands:
 # Clone this repo
 git clone https://github.com/shootismoke/webapp && cd webapp
 
+# Use the Node version this project targets (see .nvmrc).
+nvm install && nvm use
+
 # Install dependencies.
-yarn install
+npm install
 
 # Fill in secret tokens.
 cp .env.example .env.development
@@ -37,12 +40,12 @@ cp .env.example .env.development
 mongod --dbpath /path/to/my/db
 
 # Run the app.
-yarn dev
+npm run dev
 ```
 
 The webapp will launch at http://localhost:3000. It uses [Next.js](https://nextjs.org/), you can check out [their docs](https://nextjs.org/docs/).
 
-> Note: A Docker images is [in the works](https://github.com/shootismoke/webapp/issues/115).
+> Deploying? See [DEPLOY.md](./DEPLOY.md).
 
 ### Use your own API tokens
 

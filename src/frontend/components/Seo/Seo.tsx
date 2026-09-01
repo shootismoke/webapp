@@ -15,9 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import favicon from '@shootismoke/ui/assets/logos/AppIcons/Assets.xcassets/AppIcon.appiconset/64.png';
 import Head from 'next/head';
 import React from 'react';
+
+import favicon from '../../../../assets/logos/favicon-64.png';
 
 interface SeoProps {
 	description?: string;
@@ -69,7 +70,7 @@ export function Seo(props: SeoProps): React.ReactElement {
 				href="https://fonts.googleapis.com/css?family=Montserrat:500,800&display=swap"
 			/>
 
-			<link rel="icon" href={favicon} />
+			<link rel="icon" href={favicon.src} />
 
 			<link
 				rel="canonical"

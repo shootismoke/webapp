@@ -24,8 +24,7 @@ import { logger } from './logger';
 export const allowedOrigins = [
 	'http://localhost:3000',
 	'https://shootismoke.app',
-	/\.vercel\.app$/,
-	/\.now\.sh$/,
+	'https://www.shootismoke.app',
 ];
 
 // Helper method to wait for a middleware to execute before continuing

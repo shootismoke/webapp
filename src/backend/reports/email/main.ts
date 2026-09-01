@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { getCountryFromCode } from '@shootismoke/dataproviders';
+import { getCountryFromCode } from '@common/dataproviders';
 import {
 	fetchStationId,
 	Frequency,
@@ -26,7 +26,7 @@ import {
 	MongoUser,
 	primaryPollutant,
 	round,
-} from '@shootismoke/ui';
+} from '@common/ui';
 import debug from 'debug';
 import { config } from 'dotenv';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

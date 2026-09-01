@@ -18,6 +18,7 @@
 export * from './AboutSection';
 export * from './AdSection';
 export * from './BlogSection';
+export * from './BoxButton';
 export * from './Button';
 export * from './Cigarettes';
 export * from './DownloadSection';

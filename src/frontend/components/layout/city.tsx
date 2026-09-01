@@ -24,13 +24,14 @@ import {
 	getSwearWord,
 	primaryPollutant,
 	round,
-} from '@shootismoke/ui';
-import { BoxButton } from '@shootismoke/ui/lib/components/BoxButton';
+} from '@common/ui';
+import axios from 'axios';
 import c from 'classnames';
+import type { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 
-import warning from '../../../../assets/images/icons/warning_red.svg';
+import warningSvg from '../../../../assets/images/icons/warning_red.svg';
 import { t } from '../../localization';
 import {
 	City,
@@ -43,6 +44,7 @@ import {
 	AboutSection,
 	AdSection,
 	BlogSection,
+	BoxButton,
 	Cigarettes,
 	DownloadSection,
 	FeaturedSection,
@@ -59,6 +61,10 @@ import {
 	Seo,
 } from '..';
 
+// Next types `*.svg` imports as `any` to leave room for SVGR; every other
+// image format comes back as `StaticImageData`. Restore that here.
+const warning = warningSvg as StaticImageData;
+
 /**
  * These are errors that we know are okay, so we don't log them on Sentry.
  */
@@ -73,12 +79,20 @@ function isKnownError(error: string): boolean {
 
 interface CityProps {
 	city: City;
-	cities: City[];
+	/** Slugs of every city with a dedicated page, for the search bar. */
+	citySlugs: string[];
+	/**
+	 * Candidates for the ranking section. On `/city/[slug]` this is already
+	 * narrowed to the handful that will be shown, since the city is known at
+	 * build time; on `/city` it is the full list, because the coordinates only
+	 * arrive in the query string.
+	 */
+	rankingCities: City[];
 }
 
 export default function CityTemplate(props: CityProps): React.ReactElement {
 	const { frequency, setFrequency } = useContext(FrequencyContext);
-	const { city, cities } = props;
+	const { city, citySlugs, rankingCities } = props;
 	const [api, setApi] = useState<Api | undefined>(city.api);
 	const [error, setError] = useState<Error>();
 	const [reverseGeoName, setReverseGeoName] = useState(city.name);
@@ -127,26 +141,17 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 
 		reverseGeocode(city.gps).then(setReverseGeoName).catch(sentryException);
 
-		// This `api` file imports a bunch of stuff, so we run it lazily.
-		import('@shootismoke/ui/lib/util/api')
-			.then(({ raceApiPromise }) => {
-				const sixHoursAgo = new Date();
-				sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
-
-				return raceApiPromise(city.gps, {
-					aqicn: {
-						token: process.env.NEXT_PUBLIC_AQICN_TOKEN as string,
-					},
-					openaq: {
-						dateFrom: sixHoursAgo,
-						// Limiting to only fetch pm25. Sometimes, when
-						// we search for all pollutants, the pm25 ones
-						// don't get returned within the result limits.
-						parameter: ['pm25'],
-					},
-				});
+		// Raced across our providers server-side, so their credentials never
+		// reach the browser. This also keeps the provider clients out of the
+		// client bundle entirely.
+		axios
+			.get<Api>('/api/aq', {
+				params: {
+					lat: city.gps.latitude,
+					lng: city.gps.longitude,
+				},
 			})
-			.then(setApi)
+			.then(({ data }) => setApi(data))
 			.catch(setError);
 	}, [city]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -193,7 +198,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 			<Section noPadding>
 				<div className="px-6 md:px-24">
 					<SearchBar
-						cities={cities}
+						citySlugs={citySlugs}
 						placeholder={
 							city.name
 								? [city.name, city.adminName, city.country]
@@ -205,15 +210,16 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 					<p className="mt-2 type-100 text-gray-600">
 						{distance !== undefined ? (
 							api?.shootismoke.isAccurate === false ? (
-								<Link href="/faq#station-so-far">
-									<a className="text-red hover:underline">
-										Air Quality Station: {distance}km away
-										<img
-											alt="warning"
-											className="ml-1 inline"
-											src={warning}
-										/>
-									</a>
+								<Link
+									href="/faq#station-so-far"
+									className="text-red hover:underline"
+								>
+									Air Quality Station: {distance}km away
+									<img
+										alt="warning"
+										className="ml-1 inline"
+										src={warning.src}
+									/>
 								</Link>
 							) : (
 								`Air Quality Station: ${distance}km away`
@@ -254,7 +260,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 										key={f}
 									>
 										<BoxButton
-											onPress={(): void => {
+											onClick={(): void => {
 												logEvent(
 													`City.FrequencyButton.${capitalize(
 														f
@@ -294,7 +300,7 @@ export default function CityTemplate(props: CityProps): React.ReactElement {
 				<PollutantSection aqi={aqi} pollutant={primaryPol.parameter} />
 			)}
 
-			<RankingSection cities={cities} currentCity={city} />
+			<RankingSection cities={rankingCities} currentCity={city} />
 			<AdSection />
 			<AboutSection />
 			<FeaturedSection />
