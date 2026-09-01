@@ -8,5 +8,6 @@ module.exports = {
 	moduleNameMapper: {
 		'^@common/(.*)$': '<rootDir>/../../../src/common/$1',
 	},
+	setupFilesAfterEnv: ['<rootDir>/util/jest.setup.ts'],
 	testEnvironment: 'node',
 };

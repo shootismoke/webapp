@@ -4,13 +4,13 @@ on:
     push:
         branches:
             - master
-    pull_request_target:
+    pull_request:
 
 jobs:
     lint:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
@@ -22,7 +22,7 @@ jobs:
     test-email:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
@@ -45,7 +45,7 @@ jobs:
     test-expo:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
@@ -65,7 +65,7 @@ jobs:
     test-unit:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
@@ -78,7 +78,7 @@ jobs:
     test-coverage:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
@@ -90,8 +90,13 @@ jobs:
             - name: Install Dependencies
               run: npm ci
             - name: Run server, test and generate coverage report
+              # The e2e specs read .env too (see test/e2e/backend/jest.config.js),
+              # so this one copy configures both the server and the tests.
               run: |
                   cp .env.example .env
                   npm run dev &
-                  sleep 10
+                  for i in $(seq 1 60); do
+                    curl -fsS --max-time 2 http://localhost:3000/api/health >/dev/null && break
+                    sleep 2
+                  done
                   npm test -- --coverage
