@@ -11,6 +11,8 @@
   when: prod_build.stat.exists | default(false)
 
 - name: Restart staging
+  # Same caveat as production: nothing to serve until a deployment lands.
   ansible.builtin.systemd:
       name: shootismoke-staging
       state: restarted
+  when: staging_build.stat.exists | default(false)

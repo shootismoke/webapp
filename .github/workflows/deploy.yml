@@ -18,12 +18,35 @@ jobs:
     staging:
         if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
-        timeout-minutes: 15
+        timeout-minutes: 30
         concurrency:
             group: deploy-staging
             cancel-in-progress: true
         steps:
             - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm ci --no-audit --no-fund
+              env:
+                  CYPRESS_INSTALL_BINARY: 0
+
+            # NEXT_PUBLIC_* values are inlined into the client bundle at
+            # build time, so they have to be here rather than in the box's
+            # .env, which is only read at runtime. Both are meant to reach
+            # browsers: a write-only Sentry ingestion DSN and an Amplitude
+            # write key. They are secrets so the values live in one place, not
+            # because publishing them would be a breach.
+            - name: Build
+              run: npm run build
+              env:
+                  NEXT_DIST_DIR: .next-release
+                  NEXT_PUBLIC_SENTRY_API_KEY: ${{ secrets.NEXT_PUBLIC_SENTRY_API_KEY }}
+                  NEXT_PUBLIC_AMPLITUDE_API_KEY: ${{ secrets.NEXT_PUBLIC_AMPLITUDE_API_KEY }}
 
             - name: Authorize against the box
               env:
@@ -33,6 +56,20 @@ jobs:
                   printf '%s\n' "$OVH_DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
                   chmod 600 ~/.ssh/id_ed25519
                   ssh-keyscan -H "$OVH_DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+            # Into a staging path, so a slow or half-finished transfer never
+            # becomes the live directory. stage.sh swaps once it has all landed.
+            #
+            # Under the same lock stage.sh takes: this job cancels itself when
+            # master moves, but a canceled runner's remote deployment keeps
+            # going for a moment, and an upload landing mid-swap would write
+            # into the directory being renamed onto the live one.
+            - name: Ship the build
+              run: |
+                  rsync -az --delete \
+                    --rsync-path="sudo -H -u shootismoke-staging flock -w 300 /srv/shootismoke/staging/.deploy-staging.lock rsync" \
+                    .next-release/ \
+                    "$OVH_DEPLOY_USER@$OVH_DEPLOY_HOST:/srv/shootismoke/staging/webapp/.next-incoming/"
 
             - name: Deploy to staging
               run: |
@@ -71,10 +108,13 @@ jobs:
               env:
                   CYPRESS_INSTALL_BINARY: 0
 
+            # Same reasoning as staging above.
             - name: Build
               run: npm run build
               env:
                   NEXT_DIST_DIR: .next-release
+                  NEXT_PUBLIC_SENTRY_API_KEY: ${{ secrets.NEXT_PUBLIC_SENTRY_API_KEY }}
+                  NEXT_PUBLIC_AMPLITUDE_API_KEY: ${{ secrets.NEXT_PUBLIC_AMPLITUDE_API_KEY }}
 
             - name: Authorize against the box
               env:

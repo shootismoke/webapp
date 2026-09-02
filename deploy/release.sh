@@ -45,7 +45,12 @@ CYPRESS_INSTALL_BINARY=0 npm ci --omit=dev --no-audit --no-fund
 echo "==> Swapping in the new build"
 sudo systemctl stop "$SERVICE"
 rm -rf .next-previous
-[ -d .next ] && mv .next .next-previous
+# `[ -d .next ] && mv ...` would be the last command of an AND-list, so under
+# `set -e` a missing .next -- a fresh box, mid-first-release -- would exit here
+# with the service already stopped.
+if [ -d .next ]; then
+	mv .next .next-previous
+fi
 mv "$INCOMING" .next
 sudo systemctl start "$SERVICE"
 

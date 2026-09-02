@@ -8,15 +8,17 @@ domain_production: shootismoke.app
 domain_staging: staging.shootismoke.app
 
 # --- Production -------------------------------------------------------------
-# Built on your laptop and pushed here; see deploy/push-build.sh.
+# Built in CI from a prod-v* tag and pushed here; deploy/push-build.sh does the
+# same from a laptop.
 prod_user: shootismoke
 prod_home: /srv/shootismoke/production
 prod_dir: /srv/shootismoke/production/webapp
 prod_port: 3000
 
 # --- Staging ----------------------------------------------------------------
-# A live `next dev`. Ansible creates the checkout once and then never touches
-# it again -- it is your working tree, edited over SSH from VSCode.
+# `next start` over a build CI made from the latest master commit, shipped here
+# by deploy/stage.sh. Ansible creates the checkout once and then never touches
+# it again; the deployment owns it, and resets it hard on every push.
 staging_user: shootismoke-staging
 staging_home: /srv/shootismoke/staging
 staging_dir: /srv/shootismoke/staging/webapp
@@ -26,16 +28,18 @@ staging_branch: master
 # --- Box ---------------------------------------------------------------------
 swap_size_mb: 2048
 
-# next dev plus a VSCode remote server watch a lot of files. Ubuntu's default
-# (8192 on older releases) is not enough and fails with ENOSPC.
+# A VSCode remote server watches a lot of files. Ubuntu's default (8192 on
+# older releases) is not enough and fails with ENOSPC.
 inotify_max_user_watches: 524288
 
 # Memory ceilings, so staging can never take production down with it. The box
-# has 4 GB; these leave headroom for npm ci during a release.
+# has 4 GB; these leave headroom for npm ci during a release. Staging used to
+# get more than double production's, because a dev server holds far more than
+# `next start` does. It runs the same server now, so it gets the same ceiling.
 prod_memory_high: 700M
 prod_memory_max: 1G
-staging_memory_high: 1200M
-staging_memory_max: 1600M
+staging_memory_high: 700M
+staging_memory_max: 1G
 
 # --- TLS ---------------------------------------------------------------------
 # Two ways to terminate TLS, and which one is correct depends entirely on

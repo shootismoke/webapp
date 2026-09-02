@@ -13,7 +13,7 @@
 {% endif %}
 #     |
 #     +-- {{ domain_production }} -> 127.0.0.1:{{ prod_port }} (next start, production)
-#     +-- {{ domain_staging }} -> 127.0.0.1:{{ staging_port }} (next dev, staging)
+#     +-- {{ domain_staging }} -> 127.0.0.1:{{ staging_port }} (next start, staging)
 
 {
 	admin off
@@ -75,6 +75,7 @@ www.{{ domain_production }} {
 	tls {{ caddy_cert }} {{ caddy_key }}
 {% endif %}
 	import hardening
+	encode zstd gzip
 
 	# Staging serves the same ~1000 city pages as production. Without this it
 	# competes with the real site in search results.
@@ -88,13 +89,11 @@ www.{{ domain_production }} {
 	# 	amaury <bcrypt-hash>
 	# }
 
-	# No health_uri and no compression. A dev server is often mid-compile, and
-	# an unhealthy upstream would take the site out exactly when you want to
-	# look at it. Websockets (hot reload) upgrade through here automatically.
+	# Staging runs the same server as production, so it gets the same health
+	# checking. The long response timeout this block used to carry was for a
+	# dev server's first compile after a restart; nothing compiles here now.
 	reverse_proxy 127.0.0.1:{{ staging_port }} {
-		# First compile after a restart can be slow.
-		transport http {
-			response_header_timeout 120s
-		}
+		health_uri /api/health
+		health_interval 30s
 	}
 }

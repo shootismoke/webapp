@@ -21,8 +21,8 @@
       cache_valid_time: 3600
 
 # --- Swap --------------------------------------------------------------------
-# Production no longer builds here, so this is headroom rather than a
-# necessity: npm ci during a release, and next dev on staging, both spike.
+# Neither environment builds here, so this is headroom rather than a necessity.
+# What is left that spikes is the npm ci each deployment runs.
 
 - name: Ensure the apt keyring directory exists
   ansible.builtin.file:
@@ -70,9 +70,8 @@
       content: |
           # Managed by Ansible.
 
-          # next dev's file watcher plus a VSCode remote server exhaust the
-          # default and fail with ENOSPC, which looks like "hot reload just
-          # stopped working".
+          # A VSCode remote server exhausts the default and fails with
+          # ENOSPC, which shows up as file watching silently giving up.
           fs.inotify.max_user_watches = {{ inotify_max_user_watches }}
 
           # 4 GB shared between two Node servers: reach for swap late.

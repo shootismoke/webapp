@@ -1,5 +1,16 @@
 ---
-- name: Reload Caddy
+# Restart rather than reload, because the Caddyfile sets `admin off`. The
+# package's ExecReload shells out to `caddy reload`, which talks to the admin
+# API over localhost:2019 -- with the endpoint disabled there is nothing
+# listening, so every reload fails. Leaving the API on would mean a full
+# remote-control surface for the server's config, which is not a trade worth
+# making for a config that changes on deploys only.
+#
+# The restart costs a sub-second blip and no certificate work: Caddy keeps
+# those in /var/lib/caddy and reuses them across restarts. The template task
+# runs `caddy validate` first, so a Caddyfile that cannot parse never gets
+# here in the first place.
+- name: Restart Caddy
   ansible.builtin.systemd:
       name: caddy
-      state: reloaded
+      state: restarted
