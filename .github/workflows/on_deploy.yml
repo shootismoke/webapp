@@ -1,9 +1,7 @@
 name: e2e
 
-# Used to run off Vercel's `deployment_status` event, and later off a deploy
-# workflow. Releases now happen from a laptop with `deploy/push-build.sh`, and
-# GitHub never learns about them, so there is nothing left to chain off: run
-# this by hand from the Actions tab after a release.
+# End-to-end checks remain opt-in after a production deployment. Run this by
+# hand from the Actions tab when a release needs browser-level verification.
 on:
     workflow_dispatch:
 

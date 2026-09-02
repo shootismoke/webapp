@@ -1,7 +1,4 @@
-# Managed by Ansible. Staging: a live `next dev` over a tree you edit yourself.
-#
-# There is no deploy for staging. Save a file over SSH and hot reload picks it
-# up; the unit only needs restarting if the dev server itself dies.
+# Managed by Ansible. Staging runs `next dev` over the latest deployed master.
 [Unit]
 Description=staging.shootismoke.app (next dev)
 After=network-online.target

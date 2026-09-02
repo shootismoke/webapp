@@ -14,6 +14,7 @@
           - ca-certificates
           - gnupg
           - rsync # push-build.sh ships .next over rsync
+          - util-linux # flock serializes staging deployments on the box
           - ufw
       state: present
       update_cache: true

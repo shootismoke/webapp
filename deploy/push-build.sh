@@ -16,8 +16,8 @@
 set -euo pipefail
 
 TAG="${1:-}"
-DEPLOY_HOST="${DEPLOY_HOST:?set DEPLOY_HOST to the box IP or hostname}"
-DEPLOY_USER="${DEPLOY_USER:-shootismoke}"
+OVH_DEPLOY_HOST="${OVH_DEPLOY_HOST:?set OVH_DEPLOY_HOST to the box IP or hostname}"
+OVH_DEPLOY_USER="${OVH_DEPLOY_USER:-shootismoke}"
 APP_DIR="${APP_DIR:-/srv/shootismoke/production/webapp}"
 BUILD_DIR=".next-release"
 
@@ -66,12 +66,12 @@ git checkout -- next-env.d.ts 2>/dev/null || true
 # Into a staging path, so a slow or half-finished transfer never becomes the
 # live directory. release.sh does the swap once the whole build has landed.
 
-echo "==> Shipping to $DEPLOY_USER@$DEPLOY_HOST"
+echo "==> Shipping to $OVH_DEPLOY_USER@$OVH_DEPLOY_HOST"
 rsync -az --delete --info=stats1 \
 	"$BUILD_DIR/" \
-	"$DEPLOY_USER@$DEPLOY_HOST:$APP_DIR/.next-incoming/"
+	"$OVH_DEPLOY_USER@$OVH_DEPLOY_HOST:$APP_DIR/.next-incoming/"
 
 echo "==> Releasing on the box"
-ssh "$DEPLOY_USER@$DEPLOY_HOST" "$APP_DIR/deploy/release.sh $TAG"
+ssh "$OVH_DEPLOY_USER@$OVH_DEPLOY_HOST" "$APP_DIR/deploy/release.sh $TAG"
 
 echo "==> $TAG is live"

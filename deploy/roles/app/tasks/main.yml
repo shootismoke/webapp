@@ -2,7 +2,7 @@
 # Two environments, deliberately kept apart:
 #
 #   production  built elsewhere, pushed here as an artifact, run by next start
-#   staging     a live next dev over a working tree you edit yourself
+#   staging     a live next dev checkout updated from master by GitHub Actions
 #
 # Separate users matter on a shared box: it is what stops a slip in the staging
 # tree from writing over production's files.
@@ -11,7 +11,7 @@
   ansible.builtin.user:
       name: "{{ item.user }}"
       home: "{{ item.home }}"
-      shell: /bin/bash # both are SSH targets: CI for prod, VSCode for staging
+      shell: /bin/bash # permits direct SSH access when a key is configured
       system: true
       create_home: true
       state: present
@@ -48,8 +48,8 @@
       label: "{{ item.user }}"
 
 # --- Checkouts ---------------------------------------------------------------
-# Both use `creates`, not the git module, so a re-run can never reset a tree.
-# Production's ref is owned by push-build.sh; staging's is owned by you.
+# Both use `creates`, not the git module, so a re-run cannot reset a deployed
+# ref. The deployment scripts own both checkouts after their first clone.
 
 - name: Clone production (first run only)
   ansible.builtin.command:
@@ -57,7 +57,7 @@
       creates: "{{ prod_dir }}/.git"
   become_user: "{{ prod_user }}"
 
-- name: Clone staging (first run only, never touched again)
+- name: Clone staging (first run only)
   ansible.builtin.command:
       cmd: "git clone --branch {{ staging_branch }} {{ repo_url }} {{ staging_dir }}"
       creates: "{{ staging_dir }}/.git"
@@ -99,7 +99,7 @@
       - Restart staging
 
 # --- Staging dependencies ----------------------------------------------------
-# Only on the first run; after that the tree is yours, npm included.
+# Only on the first run; the staging deployment updates dependencies afterward.
 
 - name: Check for staging node_modules
   ansible.builtin.stat:

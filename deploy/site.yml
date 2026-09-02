@@ -4,9 +4,8 @@
 #
 #   ansible-playbook site.yml --ask-vault-pass
 #
-# Safe to re-run. It never touches the staging working tree after the first
-# clone, and never touches production's .next -- releases are pushed by
-# deploy/push-build.sh, not by this playbook.
+# Safe to re-run. It does not update either deployed checkout after the first
+# clone and never touches production's .next; deployment workflows own those.
 
 - name: shootismoke.app
   hosts: all

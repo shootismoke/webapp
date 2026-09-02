@@ -58,10 +58,11 @@ caddy_key: /etc/caddy/certs/origin.key
 
 # --- SSH access --------------------------------------------------------------
 # Public keys, as strings. Put real values here (they are not secret).
-# staging: your laptop key, so VSCode Remote-SSH can connect as staging_user.
-# prod:    your laptop key too, so push-build.sh can rsync a release in.
-#          Nothing in CI holds a key to this box.
+# Optional direct access as the environment users. GitHub Actions connects as
+# the provisioner's ubuntu account and switches users with sudo instead.
 staging_ssh_keys:
     - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXhcVDwEf8m38ksinht4Y76Yv4TzztT7HI7n5Qg/YYr amori1729@protonmail.com'
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBXt0RCHyASjJCc6ez6GIwwW79RBhfLlZeUwRDwa1zq5 github-actions@shootismoke'
 prod_ssh_keys:
     - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXhcVDwEf8m38ksinht4Y76Yv4TzztT7HI7n5Qg/YYr amori1729@protonmail.com'
+    - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBXt0RCHyASjJCc6ez6GIwwW79RBhfLlZeUwRDwa1zq5 github-actions@shootismoke'

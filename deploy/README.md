@@ -23,18 +23,18 @@ Caddy   (apt, TLS via Cloudflare Origin CA)
 | Runs | `next start` | `next dev`, hot reload |
 | User | `shootismoke` | `shootismoke-staging` |
 | Path | `/srv/shootismoke/production/webapp` | `/srv/shootismoke/staging/webapp` |
-| Updated by | `deploy/push-build.sh prod-vN` | saving a file in VSCode |
+| Updated by | pushing a `prod-v*` tag | each commit pushed to `master` |
 | Database | its own Atlas cluster | its own Atlas cluster |
 
-The two run as different users on purpose. It is what stops a slip in the
-staging tree — the one you edit by hand, daily — from writing over production.
+The two run as different users on purpose. It prevents the staging deployment
+from writing over production.
 
 ## Why builds do not happen on the box
 
 The box has 4 GB and is running a dev server at the same time. Prerendering
 ~1000 city pages is the heaviest thing this project does, and it is the one
-step that does not need to be there. So it runs on your laptop and only the
-output travels.
+step that does not need to be there. So it runs on a CI runner (or your laptop)
+and only the output travels.
 
 Only `.next` travels. `node_modules` cannot: a checkout on a Mac carries
 `@next/swc-darwin-arm64` and a darwin `sharp` binary, neither of which runs on
@@ -54,9 +54,8 @@ OVH's Ubuntu image gives you a sudo-capable `ubuntu` user and disables root SSH
 login, which is what `inventory.yml` assumes. The playbook escalates with
 `become`, so that user is all it needs.
 
-The included one-day automated backup is a rollback for the *box*, not for your
-work: staging is a working tree you edit directly, and one day of retention is
-thin. Push branches to GitHub like you would from a laptop.
+The included one-day automated backup is a rollback for the *box*, not a
+replacement for source control. Keep work pushed to GitHub.
 
 ### 2. DNS and TLS
 
@@ -100,9 +99,9 @@ credential stays on the server: the browser reaches those providers through
 ### 4. Run the playbook
 
 Fill in `inventory.yml` (the box's IP) and the two key lists in
-`group_vars/all/vars.yml`. Both are your laptop's public key: it needs to reach
-`shootismoke-staging` for VSCode Remote-SSH, and `shootismoke` to push a
-release.
+`group_vars/all/vars.yml`. Those lists are only needed for direct access as the
+environment service users; the workflow logs in through the provisioner's
+`ubuntu` account instead.
 
 ```bash
 ansible-playbook site.yml --ask-vault-pass
@@ -111,32 +110,53 @@ ansible-playbook site.yml --ask-vault-pass
 The playbook uses only `ansible.builtin` modules, so there are no collections to
 install first -- `ansible-core` alone is enough.
 
-It is safe to re-run. It never resets the staging working tree after the first
-clone, and it never touches production's `.next`.
+It is safe to re-run. It only creates the checkouts on the first run, and it
+never touches production's `.next`.
 
 Production stays down until you push a build, which is expected on a fresh box.
 
-## Releasing production
+### 5. GitHub secrets
 
-Releases go out from a laptop. There is no deploy workflow: GitHub holds no key
-to the box and never learns that a release happened.
+Authorize the Actions key for the `ubuntu` account using an existing login:
+
+```bash
+ssh-copy-id -i ~/.ssh/shootismoke-github-actions.pub ubuntu@shootismoke.app
+```
+
+Then open Settings → Secrets and variables → Actions. The workflow needs one
+repository secret:
+
+| Secret | What it is |
+| --- | --- |
+| `OVH_DEPLOY_SSH_KEY` | private key whose public half is authorized for `ubuntu` |
+
+The host (`shootismoke.app`) and user (`ubuntu`) are public workflow settings.
+The workflow switches to `shootismoke-staging` or `shootismoke` before changing
+application files, so their ownership remains correct. Note that `ubuntu` has
+sudo access: this CI key is effectively an administrator credential for the VPS.
+
+## Releasing production
 
 ```bash
 git tag prod-v2
 git push origin prod-v2
-git checkout prod-v2
-DEPLOY_HOST=1.2.3.4 deploy/push-build.sh prod-v2
 ```
 
-`push-build.sh` builds into `.next-release`, rsyncs it to `.next-incoming` on
-the box, and runs `deploy/release.sh` there, which moves the checkout to the
-tag, installs production dependencies, swaps the build in and waits for health.
-It rolls back to the previous build automatically if the new one does not come
-up.
+The workflow builds into `.next-release`, rsyncs it to `.next-incoming` on the
+box, and runs `deploy/release.sh` there. That moves the checkout to the tag,
+installs production dependencies, swaps the build in and waits for health. It
+rolls back to the previous build automatically if the new one does not come up.
 
-It refuses to run against a dirty tree, when `HEAD` is not the tag, or when the
-tag is not pushed — otherwise a tag stops describing what is actually live. The
-tag still goes to GitHub for that reason; it just does not trigger anything.
+To release from a laptop instead, check out the pushed tag and run:
+
+```bash
+git checkout prod-v2
+OVH_DEPLOY_HOST=1.2.3.4 deploy/push-build.sh prod-v2
+```
+
+The laptop script refuses to run against a dirty tree, when `HEAD` is not the
+tag, or when the tag is not pushed — otherwise a tag stops describing what is
+actually live.
 
 The end-to-end Cypress suite used to chain off the deploy workflow. Run it by
 hand from the Actions tab (`e2e` → Run workflow) after a release you want
@@ -155,11 +175,10 @@ sudo systemctl start shootismoke
 
 ## Working on staging
 
-Point VSCode Remote-SSH at `shootismoke-staging@BOX` and open
-`/srv/shootismoke/staging/webapp`. Save a file, and hot reload puts it on
-staging.shootismoke.app. There is no deploy step, and nothing pulls from git
-behind your back — the tree is yours. Change branches with `git checkout` like
-any other working copy.
+Each push to `master` makes the workflow reset the staging checkout to that exact
+commit, run `npm ci`, restart the service, and wait for its health endpoint.
+Tracked edits made directly in `/srv/shootismoke/staging/webapp` are therefore
+discarded on the next deployment; use a separate checkout for remote editing.
 
 ```bash
 sudo systemctl restart shootismoke-staging   # if the dev server itself dies

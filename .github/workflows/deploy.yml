@@ -1,0 +1,107 @@
+name: deploy
+
+on:
+    push:
+        branches:
+            - master
+        tags:
+            - 'prod-v*'
+
+permissions:
+    contents: read
+
+env:
+    OVH_DEPLOY_HOST: shootismoke.app
+    OVH_DEPLOY_USER: ubuntu
+
+jobs:
+    staging:
+        if: github.ref == 'refs/heads/master'
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        concurrency:
+            group: deploy-staging
+            cancel-in-progress: true
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Authorize against the box
+              env:
+                  OVH_DEPLOY_SSH_KEY: ${{ secrets.OVH_DEPLOY_SSH_KEY }}
+              run: |
+                  install -m 700 -d ~/.ssh
+                  printf '%s\n' "$OVH_DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+                  chmod 600 ~/.ssh/id_ed25519
+                  ssh-keyscan -H "$OVH_DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+            - name: Deploy to staging
+              run: |
+                  ssh "$OVH_DEPLOY_USER@$OVH_DEPLOY_HOST" \
+                    sudo -H -u shootismoke-staging bash -s -- "$GITHUB_SHA" \
+                    < deploy/stage.sh
+
+    production:
+        if: startsWith(github.ref, 'refs/tags/prod-v')
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        concurrency:
+            group: deploy-production
+            cancel-in-progress: false
+        env:
+            TAG: ${{ github.ref_name }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
+
+            - name: Validate release tag
+              run: |
+                  if [[ ! "$TAG" =~ ^prod-v[0-9]+$ ]]; then
+                    echo "Release tags must use the form prod-vN (got $TAG)" >&2
+                    exit 1
+                  fi
+
+            - name: Install dependencies
+              run: npm ci --no-audit --no-fund
+              env:
+                  CYPRESS_INSTALL_BINARY: 0
+
+            - name: Build
+              run: npm run build
+              env:
+                  NEXT_DIST_DIR: .next-release
+
+            - name: Authorize against the box
+              env:
+                  OVH_DEPLOY_SSH_KEY: ${{ secrets.OVH_DEPLOY_SSH_KEY }}
+              run: |
+                  install -m 700 -d ~/.ssh
+                  printf '%s\n' "$OVH_DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+                  chmod 600 ~/.ssh/id_ed25519
+                  ssh-keyscan -H "$OVH_DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+            - name: Ship the build
+              run: |
+                  rsync -az --delete \
+                    --rsync-path="sudo -H -u shootismoke rsync" \
+                    .next-release/ \
+                    "$OVH_DEPLOY_USER@$OVH_DEPLOY_HOST:/srv/shootismoke/production/webapp/.next-incoming/"
+
+            - name: Release
+              run: |
+                  ssh "$OVH_DEPLOY_USER@$OVH_DEPLOY_HOST" \
+                    "sudo -H -u shootismoke /srv/shootismoke/production/webapp/deploy/release.sh '$TAG'"
+
+            - name: Confirm the public site is answering
+              run: |
+                  for i in $(seq 1 30); do
+                    code=$(curl -s -o /dev/null -w '%{http_code}' https://shootismoke.app/api/health || true)
+                    if [ "$code" = "200" ]; then echo "healthy"; exit 0; fi
+                    echo "attempt $i: HTTP $code"; sleep 5
+                  done
+                  echo "site did not become healthy"; exit 1
