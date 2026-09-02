@@ -53,7 +53,7 @@
       group: caddy
       mode: '0640'
       validate: 'caddy validate --adapter caddyfile --config %s'
-  notify: Reload Caddy
+  notify: Restart Caddy
 
 - name: Enable Caddy
   ansible.builtin.systemd:
