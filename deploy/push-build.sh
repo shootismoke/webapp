@@ -4,9 +4,12 @@
 #
 #   deploy/push-build.sh prod-v1
 #
-# The box has 4 GB and also runs the staging dev server. Prerendering ~1000 city
-# pages is by far the heaviest thing this project does, so it happens here and
-# only the output travels.
+# The box has 4 GB and runs both environments. Prerendering ~1000 city pages is
+# by far the heaviest thing this project does, so it happens here and only the
+# output travels.
+#
+# The deploy workflow does exactly this on a runner for every release. This
+# script is the escape hatch for when you need to ship without one.
 #
 # `.next` is portable across platforms -- it is plain JavaScript. `node_modules`
 # is NOT: this checkout carries @next/swc-darwin-arm64 and a darwin `sharp`

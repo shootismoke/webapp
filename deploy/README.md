@@ -1,8 +1,8 @@
 # Deploying shootismoke.app
 
 One OVH VPS runs both environments, with Caddy in front and Cloudflare in
-front of that. No containers. Ansible provisions the box; releases are built
-elsewhere and pushed as artifacts.
+front of that. No containers. Ansible provisions the box; nothing is built on
+it. Both environments are built in CI and pushed as artifacts.
 
 ```
 Cloudflare (proxy, edge cache, TLS to visitors)
@@ -11,7 +11,7 @@ Cloudflare (proxy, edge cache, TLS to visitors)
 Caddy   (apt, TLS via Cloudflare Origin CA)
         │
         ├── shootismoke.app          → 127.0.0.1:3000   next start   (production)
-        └── staging.shootismoke.app  → 127.0.0.1:3001   next dev     (staging)
+        └── staging.shootismoke.app  → 127.0.0.1:3001   next start   (staging)
                                                   │
                                      both → MongoDB Atlas (only /api/users/*)
                                           → aqicn / waqi / openaq
@@ -20,9 +20,10 @@ Caddy   (apt, TLS via Cloudflare Origin CA)
 |  | Production | Staging |
 | --- | --- | --- |
 | URL | shootismoke.app | staging.shootismoke.app |
-| Runs | `next start` | `next dev`, hot reload |
+| Runs | `next start` | `next start` |
 | User | `shootismoke` | `shootismoke-staging` |
 | Path | `/srv/shootismoke/production/webapp` | `/srv/shootismoke/staging/webapp` |
+| Built by | the `deploy` workflow, from the tag | the `deploy` workflow, from the commit |
 | Updated by | pushing a `prod-v*` tag | each commit pushed to `master` |
 | Database | its own Atlas cluster | its own Atlas cluster |
 
@@ -31,10 +32,16 @@ from writing over production.
 
 ## Why builds do not happen on the box
 
-The box has 4 GB and is running a dev server at the same time. Prerendering
-~1000 city pages is the heaviest thing this project does, and it is the one
-step that does not need to be there. So it runs on a CI runner (or your laptop)
-and only the output travels.
+The box has 4 GB and runs both environments on it. Prerendering ~1000 city
+pages is the heaviest thing this project does, and it is the one step that does
+not need to be there. So it runs on a CI runner (or your laptop) and only the
+output travels.
+
+Staging used to be the exception: a `next dev` that compiled on the box and hot
+reloaded. That put the heaviest workload on the same 4 GB as the live site, for
+a server that behaves differently from the one production runs. Both
+environments now take the same path -- runner builds, rsync, swap, restart --
+so what you see on staging is the same artifact shape that goes live.
 
 Only `.next` travels. `node_modules` cannot: a checkout on a Mac carries
 `@next/swc-darwin-arm64` and a darwin `sharp` binary, neither of which runs on
@@ -110,10 +117,16 @@ ansible-playbook site.yml --ask-vault-pass
 The playbook uses only `ansible.builtin` modules, so there are no collections to
 install first -- `ansible-core` alone is enough.
 
-It is safe to re-run. It only creates the checkouts on the first run, and it
-never touches production's `.next`.
+Re-run it after any change under `deploy/roles/`. The systemd units, the
+Caddyfile and the two `.env` files only reach the box through the playbook; the
+deploy workflow ships builds and never touches them.
 
-Production stays down until you push a build, which is expected on a fresh box.
+It is safe to re-run. It only creates the checkouts on the first run, and it
+never touches either environment's `.next`.
+
+Both environments stay down until a deployment ships them a build, which is
+expected on a fresh box: production until you push a `prod-v*` tag, staging
+until the next push to `master`.
 
 ### 5. GitHub secrets
 
@@ -175,13 +188,19 @@ sudo systemctl start shootismoke
 
 ## Working on staging
 
-Each push to `master` makes the workflow reset the staging checkout to that exact
-commit, run `npm ci`, restart the service, and wait for its health endpoint.
-Tracked edits made directly in `/srv/shootismoke/staging/webapp` are therefore
-discarded on the next deployment; use a separate checkout for remote editing.
+Each push to `master` makes the workflow build the commit, rsync the result to
+`.next-incoming` on the box, then reset the staging checkout to that exact
+commit, run `npm ci --omit=dev`, swap the build in and wait for its health
+endpoint. It rolls back to the previous build if the new one does not come up,
+exactly as production does.
+
+There is no hot reload and no compiler on the box: staging serves a build, so
+editing files in `/srv/shootismoke/staging/webapp` changes nothing until the
+next deployment, which resets the checkout anyway. Develop locally with
+`npm run dev`.
 
 ```bash
-sudo systemctl restart shootismoke-staging   # if the dev server itself dies
+sudo systemctl restart shootismoke-staging   # if the server itself dies
 journalctl -u shootismoke-staging -f
 ```
 
@@ -230,11 +249,12 @@ why the Caddyfile only forces `no-store` on `/api/users/*`.
 
 ## Memory
 
-4 GB, shared. The systemd units carry `MemoryMax` — production 1 GB, staging
-1.6 GB — so a dev server that balloons gets killed instead of taking the live
-site with it. There is 2 GB of swap for the `npm ci` spike during a release.
+4 GB, shared. The systemd units carry `MemoryMax` — 1 GB each — so neither
+environment can take the other down. Staging used to get 1.6 GB because a dev
+server holds far more than `next start` does; it runs the same server as
+production now, so it gets the same ceiling. There is 2 GB of swap for the
+`npm ci` spike during a deployment.
 
-If staging starts getting OOM-killed during normal work, raise
-`staging_memory_max` in `group_vars/all/vars.yml` and re-run the playbook. If
-both are under pressure at once, that is the signal to move up a VPS tier to
-8 GB.
+If staging starts getting OOM-killed, raise `staging_memory_max` in
+`group_vars/all/vars.yml` and re-run the playbook. If both are under pressure at
+once, that is the signal to move up a VPS tier to 8 GB.
