@@ -123,6 +123,16 @@ ansible-playbook site.yml --ask-vault-pass
 The playbook uses only `ansible.builtin` modules, so there are no collections to
 install first -- `ansible-core` alone is enough.
 
+Ansible dials `ansible_host` -- `shootismoke.app` -- and not the inventory
+alias, so an `~/.ssh/config` block has to be keyed on the domain to apply. If it
+cannot authenticate as `ubuntu`, the CI key already is: it is the one the deploy
+workflow logs in with, and passing it directly skips the question entirely.
+
+```bash
+ansible-playbook site.yml --ask-vault-pass \
+    --private-key ~/.ssh/shootismoke-github-actions
+```
+
 Re-run it after any change under `deploy/roles/`. The systemd units, the
 Caddyfile and the two `.env` files only reach the box through the playbook; the
 deploy workflow ships builds and never touches them.
