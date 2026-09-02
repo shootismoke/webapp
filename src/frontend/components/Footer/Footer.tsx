@@ -26,6 +26,11 @@ import { logEvent } from '../../util';
 // image format comes back as `StaticImageData`. Restore that here.
 const logo = logoSvg as StaticImageData;
 
+// Inlined at build time by next.config.js, so this names the commit the page
+// was built from rather than whatever the server happens to be running. Read
+// as a whole member expression: Next substitutes the literal, not the object.
+const buildCommit = process.env.BUILD_COMMIT;
+
 export function Footer(): React.ReactElement {
 	return (
 		<footer className="mt-20 md:mt-32 px-10 py-8 md:py-12 bg-gray-700 flex flex-col items-center">
@@ -138,6 +143,21 @@ export function Footer(): React.ReactElement {
 				</a>
 				.
 			</p>
+
+			{buildCommit ? (
+				<p className="mt-8 type-100 text-center text-gray-200">
+					Built from{' '}
+					<a
+						className="underline"
+						href={`https://github.com/shootismoke/webapp/commit/${buildCommit}`}
+						onClick={(): void => logEvent('Footer.Commit.Click')}
+						rel="noreferrer"
+						target="_blank"
+					>
+						{buildCommit}
+					</a>
+				</p>
+			) : null}
 		</footer>
 	);
 }
