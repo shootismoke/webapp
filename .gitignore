@@ -56,3 +56,6 @@ certs/
 
 # Ansible vault password (never commit)
 deploy/.vault-pass
+
+# Local tooling (mongosh, npm cache) — not part of the app
+.tools/
