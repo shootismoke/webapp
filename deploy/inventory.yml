@@ -3,8 +3,10 @@
 all:
   hosts:
     shootismoke:
-      # Replace with the VPS IP or its ovh.net hostname.
-      ansible_host: 164.132.198.175
+      # The domain, not the IP: DNS already points here, and an SSH config
+      # entry or a known_hosts line keyed on the name then matches what the
+      # deploy workflow connects to as well.
+      ansible_host: shootismoke.app
       # OVH's images ship a sudo-capable non-root user and disable root SSH
       # login. The name follows the image: `ubuntu` on Ubuntu, `debian` on
       # Debian. The play escalates with become, so this is all it needs.
