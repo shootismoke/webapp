@@ -103,6 +103,12 @@ write-only ingestion DSN) and `NEXT_PUBLIC_AMPLITUDE_API_KEY`. Every other
 credential stays on the server: the browser reaches those providers through
 `/api/aq` and `/api/geocode` instead.
 
+Those same two also have to exist as Actions secrets, because `NEXT_PUBLIC_*`
+values are compiled into the client bundle and the runner that builds it never
+sees the box's `.env`. The vault copy is what the server reads at runtime; the
+Actions copy is what ends up in the JavaScript. Keep them in step — see the
+next section for a command that copies one to the other.
+
 ### 4. Run the playbook
 
 Fill in `inventory.yml` (the box's IP) and the two key lists in
@@ -136,12 +142,28 @@ Authorize the Actions key for the `ubuntu` account using an existing login:
 ssh-copy-id -i ~/.ssh/shootismoke-github-actions.pub ubuntu@shootismoke.app
 ```
 
-Then open Settings → Secrets and variables → Actions. The workflow needs one
-repository secret:
+Then open Settings → Secrets and variables → Actions. The workflow needs three
+repository secrets:
 
 | Secret | What it is |
 | --- | --- |
 | `OVH_DEPLOY_SSH_KEY` | private key whose public half is authorized for `ubuntu` |
+| `NEXT_PUBLIC_SENTRY_API_KEY` | same value as the vault's; inlined into the bundle at build time |
+| `NEXT_PUBLIC_AMPLITUDE_API_KEY` | same, for Amplitude |
+
+The two `NEXT_PUBLIC_*` ones are already in the vault under
+`vault_next_public_sentry_api_key` and `vault_next_public_amplitude_api_key`.
+Read them out and set them:
+
+```bash
+ansible-vault view deploy/group_vars/all/vault.yml
+gh secret set NEXT_PUBLIC_SENTRY_API_KEY      # paste when prompted
+gh secret set NEXT_PUBLIC_AMPLITUDE_API_KEY
+```
+
+Do it again after rotating either value in the vault. Nothing checks that the
+two copies agree, and a stale Actions secret shows up as error reports or
+analytics going quiet rather than as a failed build.
 
 The host (`shootismoke.app`) and user (`ubuntu`) are public workflow settings.
 The workflow switches to `shootismoke-staging` or `shootismoke` before changing

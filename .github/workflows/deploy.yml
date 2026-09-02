@@ -35,10 +35,18 @@ jobs:
               env:
                   CYPRESS_INSTALL_BINARY: 0
 
+            # NEXT_PUBLIC_* values are inlined into the client bundle at
+            # build time, so they have to be here rather than in the box's
+            # .env, which is only read at runtime. Both are meant to reach
+            # browsers: a write-only Sentry ingestion DSN and an Amplitude
+            # write key. They are secrets so the values live in one place, not
+            # because publishing them would be a breach.
             - name: Build
               run: npm run build
               env:
                   NEXT_DIST_DIR: .next-release
+                  NEXT_PUBLIC_SENTRY_API_KEY: ${{ secrets.NEXT_PUBLIC_SENTRY_API_KEY }}
+                  NEXT_PUBLIC_AMPLITUDE_API_KEY: ${{ secrets.NEXT_PUBLIC_AMPLITUDE_API_KEY }}
 
             - name: Authorize against the box
               env:
@@ -100,10 +108,13 @@ jobs:
               env:
                   CYPRESS_INSTALL_BINARY: 0
 
+            # Same reasoning as staging above.
             - name: Build
               run: npm run build
               env:
                   NEXT_DIST_DIR: .next-release
+                  NEXT_PUBLIC_SENTRY_API_KEY: ${{ secrets.NEXT_PUBLIC_SENTRY_API_KEY }}
+                  NEXT_PUBLIC_AMPLITUDE_API_KEY: ${{ secrets.NEXT_PUBLIC_AMPLITUDE_API_KEY }}
 
             - name: Authorize against the box
               env:
