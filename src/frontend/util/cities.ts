@@ -17,6 +17,7 @@
 
 import { LatLng } from '@common/dataproviders';
 import type { Api } from '@common/ui';
+import retry from 'async-retry';
 import axios from 'axios';
 import haversine from 'haversine';
 
@@ -66,8 +67,25 @@ export async function getAllCities(): Promise<City[]> {
 
 	// Call an external API endpoint to get all cities. This is done in one of
 	// our repos too: shootbot/cities.
-	const { data: cities } = await axios.get<City[]>(
-		'https://gitlab.com/shootbot/cities/-/raw/master/all.json'
+	//
+	// The payload is ~2 MB, which is long enough on the wire that a flaky
+	// connection can drop it mid-stream ("stream has been aborted"). Every
+	// page goes through here, so an unretried blip renders a 500 instead of
+	// the site; retry rather than let one truncated response through.
+	const cities = await retry(
+		async () => {
+			const { data } = await axios.get<City[]>(
+				'https://gitlab.com/shootbot/cities/-/raw/master/all.json'
+			);
+
+			return data;
+		},
+		{
+			factor: 2,
+			maxTimeout: 2000,
+			minTimeout: 250,
+			retries: 5,
+		}
 	);
 
 	cachedCities = cities;

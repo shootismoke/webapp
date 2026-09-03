@@ -21,8 +21,6 @@
 
 ## :hammer: Build it yourself
 
-Run the following commands:
-
 ```bash
 # Clone this repo
 git clone https://github.com/shootismoke/webapp && cd webapp
@@ -31,13 +29,10 @@ git clone https://github.com/shootismoke/webapp && cd webapp
 nvm install && nvm use
 
 # Install dependencies.
-npm install
+npm ci
 
-# Fill in secret tokens.
-cp .env.example .env.development
-
-# Run the MongoDB daemon locally.
-mongod --dbpath /path/to/my/db
+# Fill in secret tokens (see below).
+cp .env.example .env
 
 # Run the app.
 npm run dev
@@ -45,20 +40,40 @@ npm run dev
 
 The webapp will launch at http://localhost:3000. It uses [Next.js](https://nextjs.org/), you can check out [their docs](https://nextjs.org/docs/).
 
+MongoDB is only used by `/api/users`. Every other page and API route works
+without it, so there is no need to run a database unless you are working on
+that route -- and then `mongod --dbpath /path/to/my/db` matches the default
+connection string.
+
 > Deploying? See [deploy/README.md](./deploy/README.md).
 
-### Use your own API tokens
+### API tokens
 
-For local development, all API secret tokens should live in the `.env.development` file for development, as described [in the Next.js docs](https://nextjs.org/docs/basic-features/environment-variables).
+Next.js loads `.env` automatically. Every key below has a free tier.
 
-| Env Variable                                           | Description                                                                                           | Url                                 | Comments                                                                                                  |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_AQICN_TOKEN`                              | World Air Quality Index, used in frontend.                                                            | http://aqicn.org/api                | Required. You can use the public one in `.env.example` for development.                                   |
-| `NEXT_PUBLIC_SENTRY_API_KEY`                           | Sentry bug tracking.                                                                                  | https://sentry.io                   | Optional.                                                                                                 |
-| `NEXT_PUBLIC_AMPLITUDE_API_KEY`                        | Amplitude analytics                                                                                   | https://amplitude.com               | Optional. Note: we respect [DNT](https://en.wikipedia.org/wiki/Do_Not_Track), and we **never** track PII. |
-| `BACKEND_SECRET`                                       | Secret used in headers between frontend and backend API calls. Please note that CORS is also enabled. | n/a                                 | Required. Defaults to `ssshhh!` .                                                                         |
-| `BACKEND_AQICN_TOKEN`                                  | World Air Quality Index, used in backend.                                                             | http://aqicn.org/api                | Required. You can use the public one in `.env.example` for development.                                   |
-| `BACKEND_MONGODB_ATLAS_URI`                            | Connection string to MongoDB.                                                                         | https://www.mongodb.com/cloud/atlas | Required. Defaults to `mongodb://localhost/shootismoke`.                                                  |
+| Env Variable | Description | Url | Comments |
+| --- | --- | --- | --- |
+| `BACKEND_AQICN_TOKEN` | World Air Quality Index, used by `/api/aq`. | http://aqicn.org/api | Required. You can use the public one in `.env.example` for development. |
+| `BACKEND_GEOAPIFY_API_KEY` | Geocoding for city search, used by `/api/geocode`. | https://www.geoapify.com | Required. |
+| `BACKEND_OPENAQ_API_KEY` | Air quality measurements, used by `/api/aq`. | https://openaq.org | Required. |
+| `BACKEND_SECRET` | Secret used in headers between frontend and backend API calls. Please note that CORS is also enabled. | n/a | Required. Defaults to `ssshhh!`. |
+| `BACKEND_MONGODB_ATLAS_URI` | Connection string to MongoDB. | https://www.mongodb.com/cloud/atlas | Only used by `/api/users`. Defaults to `mongodb://localhost/shootismoke`. |
+| `NEXT_PUBLIC_SENTRY_API_KEY` | Sentry bug tracking. | https://sentry.io | Optional. |
+| `NEXT_PUBLIC_AMPLITUDE_API_KEY` | Amplitude analytics. | https://amplitude.com | Optional. Note: we respect [DNT](https://en.wikipedia.org/wiki/Do_Not_Track), and we **never** track PII. |
+
+The two `NEXT_PUBLIC_*` values are compiled into the client bundle and are
+public by design. Everything else stays on the server, which is why the
+frontend reaches those providers through `/api/aq` and `/api/geocode` rather
+than calling them directly.
+
+Maintainers can skip the table. The same keys travel as one encrypted file:
+
+```bash
+node scripts/dev-secrets.js open   # dev.env.enc -> .env
+```
+
+The passphrase comes from the team password manager. Without it, use your own
+keys as above -- nothing in the build depends on the sealed file.
 
 ## :raising_hand: Contribute
 

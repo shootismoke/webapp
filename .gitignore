@@ -40,6 +40,9 @@ test/cypress/videos
 .env.staging
 .env.production
 .env.local
+# Written by scripts/dev-secrets.js before it overwrites .env. Plaintext, and
+# it can hold keys the sealed set never carried.
+.env.backup
 
 # Next.js
 /.next/*

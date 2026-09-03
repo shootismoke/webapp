@@ -39,6 +39,12 @@ module.exports = {
 			{ protocol: 'https', hostname: 'm.media-amazon.com' },
 			{ protocol: 'https', hostname: 'live.staticflickr.com' },
 		],
+		// Escape hatch for dev machines that can't reach the image hosts
+		// directly. The optimizer refetches every remote image server-side, so
+		// behind a proxy it 500s on all of them and the ranking cards render as
+		// bare alt text. Serving the URLs unoptimized hands that fetch to the
+		// browser instead. Off by default: production wants the optimizer.
+		unoptimized: process.env.NEXT_IMAGES_UNOPTIMIZED === 'true',
 	},
 	reactStrictMode: true,
 };

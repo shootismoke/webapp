@@ -19,8 +19,6 @@ vault_next_public_sentry_api_key: ''
 vault_backend_secret: ''
 vault_backend_aqicn_token: ''
 vault_backend_geoapify_api_key: ''
-vault_backend_mailgun_api_key: ''
-vault_backend_mailgun_domain: ''
 vault_backend_openaq_api_key: ''
 
 # Separate databases per environment. Only /api/users/* touches Mongo.

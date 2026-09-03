@@ -17,7 +17,12 @@
 
 import { secretHeader } from '../../../../src/backend/util';
 
-export const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000';
+/**
+ * These specs seed and delete fixtures through /api/users, so they only ever
+ * run against a local server -- pointing them at a deployed box would write
+ * test users into its database.
+ */
+export const BACKEND_URL = 'http://localhost:3000';
 
 export const axiosConfig = {
 	headers: {

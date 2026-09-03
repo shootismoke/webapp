@@ -1,5 +1,7 @@
 .eslintrc.js
 *.config.js
+# Plain Node scripts, outside the tsconfig the TS parser is configured with.
+scripts/*.js
 **/.cache/*
 **/.expo/*
 **/coverage/*
