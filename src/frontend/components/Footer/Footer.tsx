@@ -118,7 +118,24 @@ export function Footer(): React.ReactElement {
 				>
 					Github
 				</a>
-				.
+				.{' '}
+				{buildCommit ? (
+					<>
+						Build{' '}
+						<a
+							className="text-orange"
+							href={`https://github.com/shootismoke/webapp/commit/${buildCommit}`}
+							onClick={(): void =>
+								logEvent('Footer.Commit.Click')
+							}
+							rel="noreferrer"
+							target="_blank"
+						>
+							{buildCommit}
+						</a>
+						.
+					</>
+				) : null}
 				<br />
 				<br />
 				See{' '}
@@ -143,21 +160,6 @@ export function Footer(): React.ReactElement {
 				</a>
 				.
 			</p>
-
-			{buildCommit ? (
-				<p className="mt-8 type-100 text-center text-gray-200">
-					Built from{' '}
-					<a
-						className="underline"
-						href={`https://github.com/shootismoke/webapp/commit/${buildCommit}`}
-						onClick={(): void => logEvent('Footer.Commit.Click')}
-						rel="noreferrer"
-						target="_blank"
-					>
-						{buildCommit}
-					</a>
-				</p>
-			) : null}
 		</footer>
 	);
 }
