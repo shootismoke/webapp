@@ -16,7 +16,6 @@
  */
 
 import createHttpError, { HttpError } from 'http-errors';
-import { Error as MongooseError } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { logger } from './logger';
@@ -73,7 +72,7 @@ export function handlerError(err: unknown, res: NextApiResponse): void {
 
 	if (err instanceof HttpError) {
 		res.status(err.statusCode).json({ error: err.message });
-	} else if (err instanceof Error || err instanceof MongooseError) {
+	} else if (err instanceof Error) {
 		res.status(500).json({ error: err.message });
 	} else {
 		res.status(500).json({ error: err });

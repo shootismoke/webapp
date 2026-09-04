@@ -40,10 +40,10 @@ npm run dev
 
 The webapp will launch at http://localhost:3000. It uses [Next.js](https://nextjs.org/), you can check out [their docs](https://nextjs.org/docs/).
 
-MongoDB is only used by `/api/users`. Every other page and API route works
-without it, so there is no need to run a database unless you are working on
-that route -- and then `mongod --dbpath /path/to/my/db` matches the default
-connection string.
+`/api/users` keeps its data in a SQLite file, created on first use at
+`BACKEND_SQLITE_PATH` (`.data/shootismoke.db` by default). There is no database
+server to install or start: SQLite ships inside Node, and `rm -rf .data` is how
+you reset it.
 
 > Deploying? See [deploy/README.md](./deploy/README.md).
 
@@ -57,7 +57,7 @@ Next.js loads `.env` automatically. Every key below has a free tier.
 | `BACKEND_GEOAPIFY_API_KEY` | Geocoding for city search, used by `/api/geocode`. | https://www.geoapify.com | Required. |
 | `BACKEND_OPENAQ_API_KEY` | Air quality measurements, used by `/api/aq`. | https://openaq.org | Required. |
 | `BACKEND_SECRET` | Secret used in headers between frontend and backend API calls. Please note that CORS is also enabled. | n/a | Required. Defaults to `ssshhh!`. |
-| `BACKEND_MONGODB_ATLAS_URI` | Connection string to MongoDB. | https://www.mongodb.com/cloud/atlas | Only used by `/api/users`. Defaults to `mongodb://localhost/shootismoke`. |
+| `BACKEND_SQLITE_PATH` | Path to the SQLite file behind `/api/users`. | n/a | Optional. Created on first use, along with any missing parent directories. Defaults to `.data/shootismoke.db`. |
 | `NEXT_PUBLIC_SENTRY_API_KEY` | Sentry bug tracking. | https://sentry.io | Optional. |
 | `NEXT_PUBLIC_AMPLITUDE_API_KEY` | Amplitude analytics. | https://amplitude.com | Optional. Note: we respect [DNT](https://en.wikipedia.org/wiki/Do_Not_Track), and we **never** track PII. |
 

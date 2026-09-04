@@ -20,9 +20,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 /**
  * Liveness probe for the container and the reverse proxy.
  *
- * Deliberately does not touch MongoDB: the site is almost entirely static and
- * should stay up even if the database is unreachable. Only the four
- * `/api/users` routes need Mongo.
+ * Deliberately does not open the database: the site is almost entirely static
+ * and should stay up even if the SQLite file is missing or unreadable. Only
+ * the `/api/users` routes touch it.
  */
 export default function health(
 	_req: NextApiRequest,

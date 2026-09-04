@@ -60,5 +60,8 @@ certs/
 # Ansible vault password (never commit)
 deploy/.vault-pass
 
-# Local tooling (mongosh, npm cache) — not part of the app
+# Local tooling (npm cache) — not part of the app
 .tools/
+
+# Local SQLite database (BACKEND_SQLITE_PATH), plus its WAL sidecars
+.data/

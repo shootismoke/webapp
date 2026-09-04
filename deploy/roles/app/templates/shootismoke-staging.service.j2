@@ -24,7 +24,9 @@ PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
 # Writable: a deployment swaps .next in place under this tree.
-ReadWritePaths={{ staging_home }}
+# Two paths, because ProtectSystem=strict makes everything else
+# read-only: the checkout, and the SQLite database outside it.
+ReadWritePaths={{ staging_home }} {{ staging_data_dir }}
 ProtectKernelTunables=true
 ProtectControlGroups=true
 RestrictSUIDSGID=true

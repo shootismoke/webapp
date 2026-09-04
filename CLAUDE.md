@@ -10,8 +10,10 @@ WATCHPACK_POLLING=true NEXT_IMAGES_UNOPTIMIZED=true npm run dev   # http://local
 ```
 
 Next loads `.env` automatically. If you don't have one yet, see
-[Getting a `.env`](#getting-a-env). MongoDB is only used by `/api/users`;
-every other page and route works without it.
+[Getting a `.env`](#getting-a-env). `/api/users` keeps its data in a SQLite
+file (`BACKEND_SQLITE_PATH`, `.data/shootismoke.db` by default) that the app
+creates on first request; there is no database server to start, and
+`rm -rf .data` resets it.
 
 **`WATCHPACK_POLLING=true` is not optional here.** Without it the file watcher
 dies with `Watchpack Error (watcher): EMFILE: too many open files`, and since
@@ -53,8 +55,8 @@ WATCHPACK_POLLING=true npm run dev
 Only the fourth line needs something the clone does not already contain: the
 passphrase, which comes from the team password manager and nowhere else. Ask
 whoever last ran `seal` if it is not in there. Everything the app needs to
-serve a page is in `.env` after that — MongoDB included, in the sense that it
-is never started, because only `/api/users` touches it.
+serve a page is in `.env` after that — the database included, in the sense
+that there is nothing to start: SQLite ships inside Node.
 
 Someone without the passphrase is not blocked. `cp .env.example .env` and fill
 in your own AQICN, Geoapify and OpenAQ keys — all three have free tiers, and
@@ -82,12 +84,16 @@ plaintext does not.
 
 This is **not** the deploy vault and must not become it. It carries five keys:
 the two `NEXT_PUBLIC_*` (already compiled into the client bundle, so public
-either way) and the AQICN, Geoapify and OpenAQ keys. The prod and staging
-Mongo URIs stay in `deploy/group_vars/all/vault.yml` and never reach a
-contributor's laptop — `open` writes `mongodb://localhost/shootismoke` and
-`BACKEND_SECRET=ssshhh!` locally instead. So a leaked passphrase costs a rate
-limit, not the database. Adding a production credential to `SHARED_KEYS` would
+either way) and the AQICN, Geoapify and OpenAQ keys. Everything in
+`deploy/group_vars/all/vault.yml` stays there and never reaches a
+contributor's laptop — `open` writes `BACKEND_SQLITE_PATH=.data/shootismoke.db`
+and `BACKEND_SECRET=ssshhh!` locally instead. So a leaked passphrase costs a
+rate limit, nothing more. Adding a production credential to `SHARED_KEYS` would
 change that.
+
+The production database is a file on the deploy box, not a service with a
+connection string, so there is no longer a production database credential to
+leak in the first place. See [deploy/README.md](./deploy/README.md).
 
 The ciphertext is committed to a **public** repository, which gives an
 attacker unlimited offline guesses. scrypt at N=2¹⁷ is the only thing between

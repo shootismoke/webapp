@@ -15,17 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import assignDeep from 'assign-deep';
 import Cors from 'cors';
 import createHttpError from 'http-errors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { PushTicket, User } from '../../../backend/models';
+import { User } from '../../../backend/models';
 import {
 	allowedOrigins,
 	assertHeader,
 	assertUser,
-	connectToDatabase,
 	handlerError,
 	runMiddleware,
 } from '../../../backend/util';
@@ -51,9 +49,7 @@ export default async function apiUsersuserId(
 			 * Get a user by id.
 			 */
 			case 'GET': {
-				await connectToDatabase();
-
-				const user = await User.findById(req.query.userId).exec();
+				const user = User.findById(req.query.userId as string);
 				assertUser(user, req.query.userId as string);
 
 				res.status(200).json(user);
@@ -66,24 +62,12 @@ export default async function apiUsersuserId(
 			 * Patch a user by id.
 			 */
 			case 'PATCH': {
-				await connectToDatabase();
-
-				const user = await User.findById(req.query.userId).exec();
+				const user = User.findById(req.query.userId as string);
 				assertUser(user, req.query.userId as string);
 
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-				assignDeep(user, req.body);
-
-				const newUser = await user.save().catch((err: Error) => {
-					// Throw 400 on validation error.
-					throw createHttpError(400, err.message);
-				});
-
-				// Everytime we update user, we also delete all the pushTickets he/she
-				// might have.
-				await PushTicket.deleteMany({ userId: user._id }).exec();
-
-				res.status(200).json(newUser);
+				// `User.update` merges the body onto the stored user and
+				// throws a 400 if the result does not validate.
+				res.status(200).json(User.update(user, req.body));
 
 				break;
 			}
@@ -93,11 +77,7 @@ export default async function apiUsersuserId(
 			 * Delete a user by id.
 			 */
 			case 'DELETE': {
-				await connectToDatabase();
-
-				const user = await User.findOneAndDelete({
-					_id: req.query.userId as string,
-				}).exec();
+				const user = User.deleteById(req.query.userId as string);
 				assertUser(user, req.query.userId as string);
 
 				res.status(200).json(user);

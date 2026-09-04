@@ -15,25 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { BackendError, MongoUser } from '@common/ui';
+import type { BackendError, DbUser } from '@common/ui';
 import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import axios, { AxiosError } from 'axios';
-import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
-import { connectToDatabase } from '../../../src/backend/util';
+import { closeDb } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 
-let dbAlice: MongoUser;
+let dbAlice: DbUser;
 
 describe('users::getUserByExpoPushToken', () => {
 	beforeAll(async () => {
 		jest.setTimeout(30000);
 
-		await connectToDatabase();
-		await User.deleteMany();
+		User.deleteAll();
 
-		const { data } = await axios.post<MongoUser>(
+		const { data } = await axios.post<DbUser>(
 			`${BACKEND_URL}/api/users`,
 			alice,
 			axiosConfig
@@ -44,7 +42,7 @@ describe('users::getUserByExpoPushToken', () => {
 
 	it('should always require userId', async () => {
 		try {
-			await axios.get<MongoUser>(
+			await axios.get<DbUser>(
 				`${BACKEND_URL}/api/users/expoPushToken`,
 				axiosConfig
 			);
@@ -59,7 +57,7 @@ describe('users::getUserByExpoPushToken', () => {
 
 	it('should always fail if userId not found', async () => {
 		try {
-			await axios.get<MongoUser>(
+			await axios.get<DbUser>(
 				`${BACKEND_URL}/api/users/expoPushToken/foo`,
 				axiosConfig
 			);
@@ -73,7 +71,7 @@ describe('users::getUserByExpoPushToken', () => {
 	});
 
 	it('should fetch correct user', async () => {
-		const { data } = await axios.get<MongoUser>(
+		const { data } = await axios.get<DbUser>(
 			`${BACKEND_URL}/api/users/expoPushToken/${
 				dbAlice?.expoReport?.expoPushToken as string
 			}`,
@@ -86,7 +84,7 @@ describe('users::getUserByExpoPushToken', () => {
 		);
 	});
 
-	afterAll(() => connection.close());
+	afterAll(() => closeDb());
 	afterAll(() => {
 		jest.setTimeout(5000);
 	});

@@ -22,7 +22,9 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths={{ prod_home }}
+# Two paths, because ProtectSystem=strict makes everything else
+# read-only: the checkout, and the SQLite database outside it.
+ReadWritePaths={{ prod_home }} {{ prod_data_dir }}
 ProtectKernelTunables=true
 ProtectControlGroups=true
 RestrictSUIDSGID=true

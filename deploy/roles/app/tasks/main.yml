@@ -75,6 +75,34 @@
       - "{{ staging_dir }}"
   changed_when: false
 
+# --- Data directories --------------------------------------------------------
+# The SQLite database that replaced Atlas lives here rather than in the
+# checkout: a deployment resets its tree hard, and the one file that has to
+# survive that cannot sit inside it. Separate directories per environment, for
+# the same reason the users are separate -- staging must not be able to write
+# over production's data.
+
+- name: Create the state directory
+  ansible.builtin.file:
+      path: "{{ prod_data_dir | dirname }}"
+      state: directory
+      owner: root
+      group: root
+      mode: '0755'
+
+- name: Create the per-environment data directories
+  ansible.builtin.file:
+      path: "{{ item.dir }}"
+      state: directory
+      owner: "{{ item.user }}"
+      group: "{{ item.user }}"
+      mode: '0750'
+  loop:
+      - { dir: "{{ prod_data_dir }}", user: "{{ prod_user }}" }
+      - { dir: "{{ staging_data_dir }}", user: "{{ staging_user }}" }
+  loop_control:
+      label: "{{ item.dir }}"
+
 # --- Environment files -------------------------------------------------------
 
 - name: Write the environment files
@@ -87,11 +115,11 @@
   loop:
       - dir: "{{ prod_dir }}"
         user: "{{ prod_user }}"
-        mongodb_uri: "{{ vault_prod_mongodb_uri }}"
+        sqlite_path: "{{ prod_data_dir }}/shootismoke.db"
         port: "{{ prod_port }}"
       - dir: "{{ staging_dir }}"
         user: "{{ staging_user }}"
-        mongodb_uri: "{{ vault_staging_mongodb_uri }}"
+        sqlite_path: "{{ staging_data_dir }}/shootismoke.db"
         port: "{{ staging_port }}"
   loop_control:
       label: "{{ item.dir }}"

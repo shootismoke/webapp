@@ -18,9 +18,9 @@
 import { jest } from '@jest/globals';
 import { config } from 'dotenv';
 
-// The e2e specs talk to a running Next server and, for the fixtures, to Mongo
-// directly -- so they need the same BACKEND_* values the server was started
-// with. Next reads .env itself; jest does not, hence this.
+// The e2e specs talk to a running Next server and, to clear fixtures, open the
+// same SQLite file directly -- so they need the same BACKEND_* values the
+// server was started with. Next reads .env itself; jest does not, hence this.
 config({ path: '.env' });
 
 // Every spec sets this itself, but from inside `beforeAll`, which is too late

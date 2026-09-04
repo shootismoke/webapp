@@ -15,13 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { BackendError, MongoUser } from '@common/ui';
+import type { BackendError, DbUser } from '@common/ui';
 import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import axios, { AxiosError } from 'axios';
-import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
-import { connectToDatabase } from '../../../src/backend/util';
+import { closeDb } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL } from './util/testdata';
 
 function testBadInput<T>(name: string, input: T, expErr: string) {
@@ -38,11 +37,10 @@ function testBadInput<T>(name: string, input: T, expErr: string) {
 }
 
 describe('users::createUser', () => {
-	beforeAll(async () => {
+	beforeAll(() => {
 		jest.setTimeout(30000);
 
-		await connectToDatabase();
-		await User.deleteMany();
+		User.deleteAll();
 	});
 
 	testBadInput('empty input', {}, 'User validation failed');
@@ -96,7 +94,7 @@ describe('users::createUser', () => {
 	);
 
 	it('should successfully create a user', async () => {
-		const { data } = await axios.post<MongoUser>(
+		const { data } = await axios.post<DbUser>(
 			`${BACKEND_URL}/api/users`,
 			alice,
 			axiosConfig
@@ -105,19 +103,22 @@ describe('users::createUser', () => {
 		expect(data).toMatchObject(alice);
 	});
 
+	// A re-POST of alice collides on both unique indexes at once; SQLite
+	// reports the first one it hits, so drop the other field to reach the
+	// email index.
 	testBadInput(
 		'duplicate expoPushToken',
 		alice,
-		'E11000 duplicate key error collection: shootismoke.users index: expoReport.expoPushToken_1 dup key'
+		`duplicate key error: a user with expoPushToken "${alice.expoReport.expoPushToken}" already exists`
 	);
 
 	testBadInput(
 		'duplicate email',
 		{ ...alice, expoReport: undefined },
-		'E11000 duplicate key error collection: shootismoke.users index: emailReport.email_1 dup key'
+		`duplicate key error: a user with email "${alice.emailReport.email}" already exists`
 	);
 
-	afterAll(() => connection.close());
+	afterAll(() => closeDb());
 	afterAll(() => {
 		jest.setTimeout(5000);
 	});

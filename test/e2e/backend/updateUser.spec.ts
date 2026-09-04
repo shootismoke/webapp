@@ -15,16 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { BackendError, MongoUser } from '@common/ui';
+import type { BackendError, DbUser } from '@common/ui';
 import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import axios, { AxiosError } from 'axios';
-import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
-import { connectToDatabase } from '../../../src/backend/util';
+import { closeDb } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL, bob } from './util/testdata';
 
-let dbAlice: MongoUser;
+let dbAlice: DbUser;
 
 function testBadInput<T>(name: string, input: T, expErr: string) {
 	it(`should require correct input: ${name}`, async () => {
@@ -46,7 +45,7 @@ function testBadInput<T>(name: string, input: T, expErr: string) {
 // eslint-disable-next-line @typescript-eslint/ban-types
 function testGoodInput<T extends {}>(name: string, input: T) {
 	it(`should be successful: ${name}`, async () => {
-		const { data } = await axios.patch<MongoUser>(
+		const { data } = await axios.patch<DbUser>(
 			`${BACKEND_URL}/api/users/${dbAlice._id}`,
 			input,
 			axiosConfig
@@ -60,19 +59,14 @@ describe('users::updateUser', () => {
 	beforeAll(async () => {
 		jest.setTimeout(30000);
 
-		await connectToDatabase();
-		await User.deleteMany();
+		User.deleteAll();
 
-		const { data } = await axios.post<MongoUser>(
+		const { data } = await axios.post<DbUser>(
 			`${BACKEND_URL}/api/users`,
 			alice,
 			axiosConfig
 		);
-		await axios.post<MongoUser>(
-			`${BACKEND_URL}/api/users`,
-			bob,
-			axiosConfig
-		);
+		await axios.post<DbUser>(`${BACKEND_URL}/api/users`, bob, axiosConfig);
 
 		dbAlice = data;
 	});
@@ -147,7 +141,7 @@ describe('users::updateUser', () => {
 		{
 			expoReport: { expoPushToken: bob.expoReport.expoPushToken },
 		},
-		'E11000 duplicate key error collection: shootismoke.users index: expoReport.expoPushToken_1 dup key'
+		`duplicate key error: a user with expoPushToken "${bob.expoReport.expoPushToken}" already exists`
 	);
 
 	testBadInput(
@@ -155,10 +149,10 @@ describe('users::updateUser', () => {
 		{
 			emailReport: { email: bob.emailReport.email },
 		},
-		'E11000 duplicate key error collection: shootismoke.users index: emailReport.email_1 dup key'
+		`duplicate key error: a user with email "${bob.emailReport.email}" already exists`
 	);
 
-	afterAll(() => connection.close());
+	afterAll(() => closeDb());
 	afterAll(() => {
 		jest.setTimeout(5000);
 	});

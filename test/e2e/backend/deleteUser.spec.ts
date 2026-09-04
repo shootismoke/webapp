@@ -15,24 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { BackendError, MongoUser } from '@common/ui';
+import type { BackendError, DbUser } from '@common/ui';
 import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import axios, { AxiosError } from 'axios';
-import { connection } from 'mongoose';
 
 import { User } from '../../../src/backend/models';
-import { connectToDatabase } from '../../../src/backend/util';
+import { closeDb } from '../../../src/backend/util';
 import { alice, axiosConfig, BACKEND_URL, bob } from './util/testdata';
 
-let dbAlice: MongoUser;
-let dbBob: MongoUser;
+let dbAlice: DbUser;
+let dbBob: DbUser;
 
 /**
  * Make sure the user is deleted and does not exist in the DB anymore.
  */
 async function userNotExist(userId: string) {
 	try {
-		await axios.get<MongoUser>(
+		await axios.get<DbUser>(
 			`${BACKEND_URL}/api/users/${userId}`,
 			axiosConfig
 		);
@@ -48,15 +47,14 @@ describe('users::updateUser', () => {
 	beforeAll(async () => {
 		jest.setTimeout(30000);
 
-		await connectToDatabase();
-		await User.deleteMany();
+		User.deleteAll();
 
-		const { data: dataAlice } = await axios.post<MongoUser>(
+		const { data: dataAlice } = await axios.post<DbUser>(
 			`${BACKEND_URL}/api/users`,
 			alice,
 			axiosConfig
 		);
-		const { data: dataBob } = await axios.post<MongoUser>(
+		const { data: dataBob } = await axios.post<DbUser>(
 			`${BACKEND_URL}/api/users`,
 			bob,
 			axiosConfig
@@ -68,7 +66,7 @@ describe('users::updateUser', () => {
 
 	it('should require userId in DELETE /{userId}', async () => {
 		try {
-			await axios.delete<MongoUser>(
+			await axios.delete<DbUser>(
 				`${BACKEND_URL}/api/users/foo`,
 				axiosConfig
 			);
@@ -81,7 +79,7 @@ describe('users::updateUser', () => {
 	});
 
 	it('should delete user from DELETE /{userId}', async () => {
-		await axios.delete<MongoUser>(
+		await axios.delete<DbUser>(
 			`${BACKEND_URL}/api/users/${dbAlice._id}`,
 			axiosConfig
 		);
@@ -91,7 +89,7 @@ describe('users::updateUser', () => {
 
 	it('should require userId GET /email/unsubscribe/{userId}', async () => {
 		try {
-			await axios.get<MongoUser>(
+			await axios.get<DbUser>(
 				`${BACKEND_URL}/api/users/email/unsubscribe/foo`
 			);
 			expect(true).toBe(false);
@@ -104,14 +102,14 @@ describe('users::updateUser', () => {
 
 	it('should delete user from GET /email/unsubscribe/{userId}', async () => {
 		// Note: no axiosConfig here.
-		await axios.get<MongoUser>(
+		await axios.get<DbUser>(
 			`${BACKEND_URL}/api/users/email/unsubscribe/${dbBob._id}`
 		);
 
 		await userNotExist(dbBob._id);
 	});
 
-	afterAll(() => connection.close());
+	afterAll(() => closeDb());
 	afterAll(() => {
 		jest.setTimeout(5000);
 	});

@@ -24,7 +24,6 @@ import {
 	allowedOrigins,
 	assertHeader,
 	assertUser,
-	connectToDatabase,
 	handlerError,
 	runMiddleware,
 } from '../../../../backend/util';
@@ -50,11 +49,9 @@ export default async function apiUsersExpoPushTokenExpoPushToken(
 			 * Get a user by expoPushToken.
 			 */
 			case 'GET': {
-				await connectToDatabase();
-
-				const user = await User.findOne({
-					'expoReport.expoPushToken': req.query.expoPushToken,
-				}).exec();
+				const user = User.findByExpoPushToken(
+					req.query.expoPushToken as string
+				);
 				assertUser(user, req.query.expoPushToken as string);
 
 				res.status(200).json(user);

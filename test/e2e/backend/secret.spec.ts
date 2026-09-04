@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { BackendError, MongoUser } from '@common/ui';
+import type { BackendError, DbUser } from '@common/ui';
 import { afterAll, beforeAll, expect, jest } from '@jest/globals';
 import axios, { AxiosError } from 'axios';
 
@@ -29,7 +29,7 @@ describe('users::getUser', () => {
 
 	it('should disallow wrong secret header', async () => {
 		try {
-			await axios.get<MongoUser>(`${BACKEND_URL}/api/users`, {
+			await axios.get<DbUser>(`${BACKEND_URL}/api/users`, {
 				headers: {
 					[secretHeader]: 'foo',
 				},
@@ -45,7 +45,7 @@ describe('users::getUser', () => {
 
 	it('should disallow GET on /api/users', async () => {
 		try {
-			await axios.get<MongoUser>(`${BACKEND_URL}/api/users`, axiosConfig);
+			await axios.get<DbUser>(`${BACKEND_URL}/api/users`, axiosConfig);
 		} catch (err) {
 			const e = err as AxiosError<BackendError>;
 			expect(e.response?.status).toBe(405);

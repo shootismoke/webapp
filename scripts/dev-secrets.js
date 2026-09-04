@@ -28,10 +28,10 @@
  * installed on a stock macOS or Windows machine.
  *
  * This is NOT the deploy vault, and must never grow into it. Ansible's
- * vault.yml holds production credentials -- the prod and staging Mongo URIs
- * -- and a contributor running the site locally has no use for any of them.
- * Only SHARED_KEYS below travels, so the blast radius of a leaked passphrase
- * is a rate limit, not the database. See deploy/README.md for the real vault.
+ * vault.yml holds production credentials, and a contributor running the site
+ * locally has no use for any of them. Only SHARED_KEYS below travels, so the
+ * blast radius of a leaked passphrase is a rate limit, not a credential. See
+ * deploy/README.md for the real vault.
  */
 
 const crypto = require('crypto');
@@ -67,7 +67,7 @@ const SHARED_KEYS = [
  * frontend and its own /api routes.
  */
 const LOCAL_DEFAULTS = {
-	BACKEND_MONGODB_ATLAS_URI: 'mongodb://localhost/shootismoke',
+	BACKEND_SQLITE_PATH: '.data/shootismoke.db',
 	BACKEND_SECRET: 'ssshhh!',
 };
 

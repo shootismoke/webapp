@@ -23,7 +23,6 @@ import { User } from '../../../backend/models';
 import {
 	allowedOrigins,
 	assertHeader,
-	connectToDatabase,
 	handlerError,
 	runMiddleware,
 } from '../../../backend/util';
@@ -49,15 +48,9 @@ export default async function apiUsers(
 			 * Create a new user.
 			 */
 			case 'POST': {
-				await connectToDatabase();
-
-				const user = new User(req.body);
-				await user.save().catch((err: Error) => {
-					// Throw 400 on validation error.
-					throw createHttpError(400, err.message);
-				});
-
-				res.status(201).json(user);
+				// `User.create` throws a 400 itself on a validation or
+				// uniqueness failure.
+				res.status(201).json(User.create(req.body));
 
 				break;
 			}

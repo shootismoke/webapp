@@ -13,7 +13,9 @@ Caddy   (apt, TLS via Cloudflare Origin CA)
         ├── shootismoke.app          → 127.0.0.1:3000   next start   (production)
         └── staging.shootismoke.app  → 127.0.0.1:3001   next start   (staging)
                                                   │
-                                     both → MongoDB Atlas (only /api/users/*)
+                                     each → its own SQLite file under
+                                            /var/lib/shootismoke/
+                                            (only /api/users/*)
                                           → aqicn / waqi / openaq
 ```
 
@@ -25,7 +27,7 @@ Caddy   (apt, TLS via Cloudflare Origin CA)
 | Path | `/srv/shootismoke/production/webapp` | `/srv/shootismoke/staging/webapp` |
 | Built by | the `deploy` workflow, from the tag | the `deploy` workflow, from the commit |
 | Updated by | pushing a `prod-v*` tag | each commit pushed to `master` |
-| Database | its own Atlas cluster | its own Atlas cluster |
+| Database | `/var/lib/shootismoke/prod/shootismoke.db` | `/var/lib/shootismoke/staging/shootismoke.db` |
 
 The two run as different users on purpose. It prevents the staging deployment
 from writing over production.
@@ -252,6 +254,83 @@ rather than needing a release.
 The list itself comes from `gitlab.com/shootbot/cities`, fetched at build time.
 A build with no route to gitlab.com fails at "Collecting page data".
 
+## The database
+
+`/api/users/*` reads and writes one SQLite file per environment, created on
+first request by the app itself:
+
+| | Path |
+| --- | --- |
+| Production | `/var/lib/shootismoke/prod/shootismoke.db` |
+| Staging | `/var/lib/shootismoke/staging/shootismoke.db` |
+
+Set by `BACKEND_SQLITE_PATH` in each `.env`, from `prod_data_dir` /
+`staging_data_dir` in `group_vars/all/vars.yml`. Three things about that
+location are deliberate:
+
+- **Outside the checkouts.** A deployment resets its tree hard, so the one file
+  that has to survive a release cannot live inside it.
+- **One directory per environment**, owned by that environment's user, `0750`.
+  Same reason the users are separate: staging must not be able to write over
+  production's data.
+- **Named in `ReadWritePaths`** in both systemd units. They run with
+  `ProtectSystem=strict`, which makes the rest of the filesystem read-only, so
+  a path that is not listed there is not writable no matter what the file
+  permissions say.
+
+There is no credential involved any more, and nothing in `vault.yml` refers to
+the database. Backups are a file copy:
+
+```bash
+sudo -u shootismoke sqlite3 /var/lib/shootismoke/prod/shootismoke.db \
+    ".backup '/tmp/shootismoke-$(date +%F).db'"
+```
+
+Use `.backup` rather than `cp`: the app runs SQLite in WAL mode, so a plain
+copy taken mid-write can miss whatever is still in `shootismoke.db-wal`.
+
+### Migrating from MongoDB Atlas
+
+One-shot, per environment, run from a laptop rather than from the box — the
+Atlas connection string is a production credential, and getting it off the box
+is the point of the exercise.
+
+```bash
+npm install --no-save mongodb          # not a dependency of the app
+
+# Read vault_prod_mongodb_uri out of the vault and paste it, rather than
+# piping it through a shell: it lands in history otherwise.
+ansible-vault view group_vars/all/vault.yml
+
+node scripts/migrate-mongo-to-sqlite.js --uri "mongodb+srv://..." --out prod.db
+```
+
+It prints how many documents it read, how many rows it wrote, and every
+document it had to skip — then exits non-zero if anything was skipped, so a
+partial copy cannot be mistaken for a clean one. Read that output before
+continuing.
+
+Then, with the site briefly stopped so nothing writes to a file you are about
+to replace:
+
+```bash
+sudo systemctl stop shootismoke
+scp prod.db ubuntu@shootismoke.app:/tmp/shootismoke.db
+sudo install -o shootismoke -g shootismoke -m 0600 \
+    /tmp/shootismoke.db /var/lib/shootismoke/prod/shootismoke.db
+sudo systemctl start shootismoke
+
+curl -s https://shootismoke.app/api/health
+curl -s -H "x-shootismoke-secret: $SECRET" https://shootismoke.app/api/users/<a-known-id>
+```
+
+Keep the Atlas cluster around, read-only, until the app has served real traffic
+for a while: the migration is one-way, and nothing writes back to Mongo.
+
+`pushTickets` is not carried over. Nothing in this repo ever created one — push
+and email delivery were retired along with Mongo — so the collection is dropped
+rather than ported.
+
 ## Health and logs
 
 ```bash
@@ -263,7 +342,7 @@ sudo journalctl -u caddy -f
 git -C /srv/shootismoke/production/webapp describe --tags   # what is live
 ```
 
-`/api/health` deliberately does not touch MongoDB: only the four `/api/users/*`
+`/api/health` deliberately does not touch the database: only the `/api/users/*`
 routes need it, and the rest of the site should stay up without it.
 
 ## API routes
@@ -273,7 +352,7 @@ routes need it, and the rest of the site should stay up without it.
 | `/api/health` | no | liveness; no database |
 | `/api/aq?lat=&lng=` | `s-maxage=300` | air quality, raced across providers |
 | `/api/geocode?q=` | `s-maxage=3600` | place search for the search bar |
-| `/api/users/*` | `no-store` | the mobile app's subscriptions; needs Mongo |
+| `/api/users/*` | `no-store` | the mobile app's subscriptions; reads and writes SQLite |
 
 `/api/aq` and `/api/geocode` exist so the provider credentials stay on the
 server. Their `Cache-Control` lets Cloudflare absorb repeat lookups, which is

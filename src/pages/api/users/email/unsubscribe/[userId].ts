@@ -22,7 +22,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { User } from '../../../../../backend/models';
 import {
 	assertUser,
-	connectToDatabase,
 	handlerError,
 	runMiddleware,
 } from '../../../../../backend/util';
@@ -48,12 +47,8 @@ export default async function apiUsersEmailUnsubscribe(
 			 * Delete a user by userId.
 			 */
 			case 'GET': {
-				await connectToDatabase();
-
 				// We unsubscribe the email notification by deleting the user.
-				const user = await User.findOneAndDelete({
-					_id: req.query.userId as string,
-				}).exec();
+				const user = User.deleteById(req.query.userId as string);
 				assertUser(user, req.query.userId as string);
 
 				res.status(200).send(

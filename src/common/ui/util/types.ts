@@ -15,10 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { ExpoPushTicket } from 'expo-server-sdk';
-import type { Document } from 'mongoose';
-
-export type Frequency = 'daily' | 'weekly' | 'monthly';
+export type Frequency = 'never' | 'daily' | 'weekly' | 'monthly';
 
 export interface BackendError {
 	error: string;
@@ -35,24 +32,23 @@ export interface IExpoReport {
 }
 
 export interface IUser {
-	emailReport?: IEmailReport;
-	expoReport?: IExpoReport;
+	/** `null` rather than absent when the user has no email subscription. */
+	emailReport: IEmailReport | null;
+	/** `null` rather than absent when the user has no push subscription. */
+	expoReport: IExpoReport | null;
 	lastStationId: string;
 	timezone: string;
 }
 
-export interface MongoUser extends IUser, Document {
+/**
+ * A user as `/api/users` stores and returns it.
+ *
+ * `_id` keeps its underscore, and the timestamps are ISO 8601 strings rather
+ * than dates, because the mobile app reads both straight off the response.
+ * Renaming either is a breaking API change, not a rename.
+ */
+export interface DbUser extends IUser {
 	_id: string;
-}
-
-export type IPushTicket = Omit<
-	ExpoPushTicket & {
-		receiptId?: string;
-		userId: string;
-	},
-	'id'
->;
-
-export interface MongoPushTicket extends IPushTicket, Document {
-	_id: string;
+	createdAt: string;
+	updatedAt: string;
 }

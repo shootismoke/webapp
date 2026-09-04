@@ -2,7 +2,7 @@
 # Non-secret configuration. Secrets live in vault.yml (encrypted).
 
 repo_url: https://github.com/shootismoke/webapp.git
-node_major: 22
+node_major: 24
 
 domain_production: shootismoke.app
 domain_staging: staging.shootismoke.app
@@ -14,6 +14,7 @@ prod_user: shootismoke
 prod_home: /srv/shootismoke/production
 prod_dir: /srv/shootismoke/production/webapp
 prod_port: 3000
+prod_data_dir: /var/lib/shootismoke/prod
 
 # --- Staging ----------------------------------------------------------------
 # `next start` over a build CI made from the latest master commit, shipped here
@@ -24,6 +25,7 @@ staging_home: /srv/shootismoke/staging
 staging_dir: /srv/shootismoke/staging/webapp
 staging_port: 3001
 staging_branch: master
+staging_data_dir: /var/lib/shootismoke/staging
 
 # --- Box ---------------------------------------------------------------------
 swap_size_mb: 2048

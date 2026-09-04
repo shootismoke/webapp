@@ -21,6 +21,5 @@ vault_backend_aqicn_token: ''
 vault_backend_geoapify_api_key: ''
 vault_backend_openaq_api_key: ''
 
-# Separate databases per environment. Only /api/users/* touches Mongo.
-vault_prod_mongodb_uri: ''
-vault_staging_mongodb_uri: ''
+# No database credential any more: /api/users/* reads a SQLite file on the box
+# (BACKEND_SQLITE_PATH, set from vars.yml). Nothing about the store is secret.
