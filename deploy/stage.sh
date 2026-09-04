@@ -43,6 +43,26 @@ echo "==> Moving staging to $COMMIT"
 git checkout --force -B master "$COMMIT"
 git reset --hard --quiet "$COMMIT"
 
+echo "==> Checking the box's Node version"
+# Ansible owns the Node major on this box (node_major in
+# deploy/group_vars/all/vars.yml); a deployment never changes it. So a release
+# that raises .nvmrc has to be preceded by a playbook run, and this is where
+# that ordering gets enforced -- cheaply, and before anything is stopped or
+# overwritten.
+#
+# Without it the failure surfaces as an obscure `npm ci` error (an older npm
+# resolves optional peer dependencies differently and calls the lockfile out of
+# sync), or worse, as a build that installs cleanly and then crashes at runtime
+# on an API the older Node does not have.
+want_node="$(tr -d 'v \t\r\n' < .nvmrc | cut -d. -f1)"
+have_node="$(node -v | tr -d 'v' | cut -d. -f1)"
+if [ "$want_node" != "$have_node" ]; then
+	echo "!! This release wants Node $want_node; the box has Node $have_node." >&2
+	echo "   Provision it first, then deploy again:" >&2
+	echo "     cd deploy && ansible-playbook site.yml --ask-vault-pass" >&2
+	exit 1
+fi
+
 echo "==> Installing production dependencies"
 # Built elsewhere, installed here: this is where sharp and friends get binaries
 # that match this machine rather than the runner that produced the build.

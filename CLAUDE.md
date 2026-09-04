@@ -116,6 +116,76 @@ curl -so /dev/null -w '%{http_code}\n' localhost:3000/city/kashgar
 Valid `/city/<slug>` slugs come from the upstream city list
 (`kashgar`, `kota`, `cawnpore`, …) — an unknown slug is a legitimate 404.
 
+## Before you push
+
+`master` is the deploy branch: a push runs `ci` **and** `deploy`, which builds
+staging on a runner and ships it to the box. So a green `ci` is not the whole
+bar — `deploy` can fail on its own.
+
+Run what `ci` runs. Both need a dev server up for the `test/e2e` specs:
+
+```bash
+npm run lint      # tsc --noEmit + eslint, the `lint` job
+npm test          # the `test-unit` and `test-coverage` jobs
+```
+
+Two things that pass in CI but fail here, and are not worth "fixing":
+
+- `src/common/dataproviders/providers/openaq/openaq.spec.ts` calls the live
+  OpenAQ API. Offline or behind a filtering proxy it fails; on a runner it
+  passes.
+- `npm ci` and `npm install` want a writable npm cache. If `~/.npm` is not,
+  pass `--cache "$TMPDIR/npm-cache"`.
+
+### Changing dependencies
+
+Regenerate the lockfile with **`npm install --package-lock-only`**, on the Node
+version in `.nvmrc`, and commit it with `package.json`.
+
+Not plain `npm install`: it reconciles against whatever is already in
+`node_modules`, and after a removal that big it prunes entries a clean resolve
+would keep. Verify the result the way CI and the box do, in a scratch directory
+so a bad lockfile cannot be masked by the tree you already have:
+
+```bash
+d="$(mktemp -d)"
+cp package.json package-lock.json "$d"
+(
+	cd "$d" || exit 1
+	npm ci                        # what `ci` does
+	rm -rf node_modules
+	npm ci --omit=dev             # what the box does
+)
+```
+
+Keep the `cd` inside the subshell and keep the `|| exit 1`. `npm ci` **deletes
+`node_modules` before it installs**, so if the `cd` silently fails you have
+pointed a destructive command at the repo instead of the scratch copy.
+
+npm majors resolve optional peer dependencies differently — npm 10 installs
+`postcss-load-config`'s optional `yaml`, npm 11 omits it — so a lockfile
+written by one and consumed by the other fails with `npm ci can only install
+packages when your package.json and package-lock.json are in sync`. If you see
+that, the two ends are on different Node majors; fix the version skew, not the
+lockfile.
+
+### Changing the Node version
+
+`.nvmrc` drives every CI job and `engines`; `node_major` in
+`deploy/group_vars/all/vars.yml` drives what Ansible installs on the box. Both
+have to move together, and **the box has to be provisioned before the push**:
+
+```bash
+cd deploy && ansible-playbook site.yml --ask-vault-pass
+```
+
+A deployment never changes the box's Node. Push first and the `deploy` job
+fails at `npm ci` on the box, with an error about the lockfile that has nothing
+to do with the lockfile. `stage.sh` and `release.sh` check for this up front now
+and say so plainly, before anything is stopped or overwritten — but the check
+only turns a confusing failure into a clear one. The playbook run is still
+yours to make.
+
 ## The gitlab.com city list
 
 `getAllCities()` fetches a ~2 MB JSON blob from gitlab.com on every cold start
