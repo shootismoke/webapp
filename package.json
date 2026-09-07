@@ -33,7 +33,7 @@
 		"classnames": "^2.3.2",
 		"cors": "^2.8.5",
 		"date-fns": "^2.30.0",
-		"date-fns-tz": "^2.0.1",
+		"date-fns-tz": "^3.2.0",
 		"debug": "^4.4.3",
 		"haversine": "^1.1.1",
 		"http-errors": "^2.0.1",
